@@ -155,6 +155,9 @@
         .privacy-terms-links p {
             margin: 0 3px;
         }
+        #verify-checkbox:checked + #captcha-label {
+            display: none;
+        }
     `;
 
     // JavaScript logic
