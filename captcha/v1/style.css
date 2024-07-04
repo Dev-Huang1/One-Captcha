@@ -141,3 +141,6 @@
     display: none;
     margin-top: 10px;
       }
+#math-captcha-question {
+    font-family: Arial, sans-serif;
+}
