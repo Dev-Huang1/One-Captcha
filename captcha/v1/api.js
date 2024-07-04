@@ -182,7 +182,7 @@
             </div>
             <div id="brand">
                 <a href="https://github.com/Dev-Huang1/Air-Captcha"><img src="https://captcha.xyehr.cn/assets/logo.svg" alt="AIR Captcha Logo"></a>
-                AIR Captcha
+                Air Captcha
                 <div class="privacy-terms-links">
                     <a href="#" id="privacy-link"></a><p>·</p><a href="#" id="docs-link"></a>
                 </div>
