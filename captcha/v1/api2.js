@@ -301,12 +301,20 @@
         }
 
         // Event listener for the verify checkbox
-        verifyCheckbox.addEventListener('change', () => {
-            if (verifyCheckbox.checked) {
-                showMathCaptcha();
-                verifyCheckbox.checked = false;
-            }
-        });
+        verifyCheckbox.addEventListener('change', function() {
+    if (verifyCheckbox.checked) {
+        captchaLabel.style.display = 'none'; // 隐藏标签
+        verifyCheckbox.style.display = 'none'; // 隐藏复选框
+        loadingText.style.display = 'inline'; // 显示加载文本
+
+        // 模拟异步请求 (你可以在这里添加实际的验证逻辑)
+        setTimeout(function() {
+            loadingText.style.display = 'none'; // 隐藏加载文本
+
+            // 生成并显示验证成功的 SVG 图标
+            const successIcon = document.createElement('img');
+            successIcon.id = 'success-icon';
+            successIcon.src = 'https://captcha.xyehr.cn/assets/check-mark.svg'
 
         // Add mouse movement listener if not a touch device
         if (!isTouchDevice) {
