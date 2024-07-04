@@ -242,3 +242,96 @@
 
         function detectLanguage() {
             const userLang = navigator.language || navigator.userLanguage;
+            if (userLang.startsWith('zh')) return 'zh';
+            else return userLang.includes('zh') ? 'zh' : 'en';
+        }
+
+        function applyTranslations(language) {
+            captchaLabel.textContent = translations[language].captchaLabel;
+            loadingText.textContent = translations[language].verifyingText;
+            verificationText.textContent = translations[language].verificationSuccess;
+            errorMessage.textContent = translations[language].verificationError;
+            mathCaptchaButton.textContent = translations[language].verifyButtonText;
+            mathCaptchaTitle.textContent = translations[language].mathCaptchaTitle;
+            mathCaptchaError.textContent = translations[language].mathCaptchaError;
+            privacyLink.textContent = translations[language].privacyLink;
+            docsLink.textContent = translations[language].docsLink;
+        }
+
+        // Function to generate a simple math problem
+        function generateMathCaptcha() {
+            const num1 = Math.floor(Math.random() * 10) + 1;
+            const num2 = Math.floor(Math.random() * 10) + 1;
+            mathAnswer = num1 + num2;
+            mathCaptchaQuestion.textContent = `${num1} + ${num2} = ?`;
+        }
+
+        // Show the math captcha modal
+        function showMathCaptcha() {
+            generateMathCaptcha();
+            mathCaptchaModal.style.display = 'block';
+        }
+
+        // Hide the math captcha modal
+        function hideMathCaptcha() {
+            mathCaptchaModal.style.display = 'none';
+        }
+
+        // Handle math captcha verification
+        mathCaptchaButton.addEventListener('click', () => {
+            if (parseInt(mathCaptchaInput.value, 10) === mathAnswer) {
+                hideMathCaptcha();
+                completeVerification();
+            } else {
+                mathCaptchaError.style.display = 'block';
+            }
+        });
+
+        // Complete the verification process
+        function completeVerification() {
+            verifyCheckbox.checked = true;
+            checkMark.style.display = 'inline';
+            verificationText.style.display = 'inline';
+            loadingText.style.display = 'none';
+            errorMessage.style.display = 'none';
+            // Enable the submit button if it exists
+            if (submitButton) {
+                submitButton.disabled = false;
+            }
+        }
+
+        // Event listener for the verify checkbox
+        verifyCheckbox.addEventListener('change', () => {
+            if (verifyCheckbox.checked) {
+                showMathCaptcha();
+                verifyCheckbox.checked = false;
+            }
+        });
+
+        // Add mouse movement listener if not a touch device
+        if (!isTouchDevice) {
+            document.addEventListener('mousemove', (event) => {
+                mouseMovements.push({ x: event.clientX, y: event.clientY });
+                if (mouseMovements.length > 100) {
+                    mouseMovements.shift();
+                }
+            });
+        }
+
+        // Track tab visibility changes
+        document.addEventListener('visibilitychange', () => {
+            isTabActive = !document.hidden;
+        });
+
+        // Apply translations based on detected language
+        applyTranslations(detectLanguage());
+    }
+
+    // Initialize the CAPTCHA when the script loads
+    global.addEventListener('DOMContentLoaded', () => {
+        const captchaElement = document.getElementById('air-captcha');
+        if (captchaElement) {
+            AIRCaptcha();
+        }
+    });
+})(window);
