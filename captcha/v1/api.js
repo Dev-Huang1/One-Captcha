@@ -16,6 +16,7 @@
         let mouseMovements = [];
         let isTouchDevice = 'ontouchstart' in document.documentElement;
         let mathAnswer;
+        let isTabActive = true; // Track if tab is active
 
         const translations = {
             en: {
@@ -127,6 +128,30 @@
             }
         }
 
+        function clearCookies() {
+            var cookies = document.cookie.split(";");
+
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i];
+                var eqPos = cookie.indexOf("=");
+                var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+            }
+        }
+
+        window.onload = function() {
+            clearCookies();
+        }
+
+        // Check if tab is active
+        document.addEventListener('visibilitychange', function() {
+            if (document.visibilityState === 'hidden') {
+                isTabActive = false;
+            } else {
+                isTabActive = true;
+            }
+        });
+
         document.addEventListener('mousemove', recordMouseMovement);
 
         verifyCheckbox.addEventListener('change', () => {
@@ -138,7 +163,7 @@
                 } else {
                     loadingText.style.display = 'block';
                     setTimeout(() => {
-                        if (isValidMovement(mouseMovements)) {
+                        if (isValidMovement(mouseMovements) && isTabActive) {
                             loadingText.style.display = 'none';
                             checkMark.style.display = 'block';
                             verificationText.style.display = 'block';
