@@ -6,12 +6,11 @@
     <title></title>
     <link rel="stylesheet" type="text/css" href="">
     <style>
-    body {
-            font-family: Arial, sans-serif;
-            transition: background-color 0.3s, color 0.3s;
-    }
-        
-    #captcha-container {
+       body {
+    font-family: Arial, sans-serif;
+}
+
+#captcha-container {
         width: 260px;
         height: 40px;
         border: 1px solid #ccc;
@@ -124,6 +123,7 @@
     font-size: 14px;
     color: #000000; /* Default text color */
     background-color: #ffffff; /* Default background */
+    text-align: center; /* Center align text */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -146,14 +146,17 @@
 }
 
 #math-captcha-button:hover {
-    background-color: #0066ff; /* Darker green background on hover */
+    background-color: #0066ff; /* Darker blue background on hover */
 }
 
 #math-captcha-error {
     color: red;
     display: none;
     margin-top: 10px;
-}
+      }
+#math-captcha-question {
+    font-family: Arial, sans-serif;
+        }
     </style>
 </head>
 <body>
