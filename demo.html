@@ -81,107 +81,121 @@
         margin-right: 20px;
         font-size: 16px;
     }
-        
+
     /* Styles for the math captcha modal */
-#math-captcha-modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 300px;
-    padding: 20px;
-    background-color: #ffffff; /* White background */
-    border: 1px solid #ccc;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    text-align: center;
-}
-
-/* Dark mode styles for math captcha modal */
-@media (prefers-color-scheme: dark) {
     #math-captcha-modal {
-        background-color: #333333; /* Dark background */
-        color: #ffffff; /* White text */
-        border-color: #555555;
-        box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 300px;
+        padding: 20px;
+        background-color: #ffffff; /* White background */
+        border: 1px solid #ccc;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        text-align: center;
     }
-}
 
-#math-captcha-modal h3 {
-    margin-bottom: 10px;
-}
-
-#math-captcha-input {
-    margin-bottom: 10px;
-    padding: 8px;
-    width: 100%;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    color: #000000; /* Default text color */
-    background-color: #ffffff; /* Default background */
-    text-align: center; /* Center align text */
-}
-
-@media (prefers-color-scheme: dark) {
-    #math-captcha-input {
-        background-color: #444444; /* Darker background */
-        color: #ffffff; /* White text */
-        border-color: #555555;
-    }
-}
-
-#math-captcha-button {
-    margin-top: 10px;
-    padding: 8px 16px;
-    background-color: #0066ff; /* Blue background */
-    color: #ffffff; /* White text */
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-#math-captcha-button:hover {
-    background-color: #0066ff; /* Darker blue background on hover */
-}
-
-#math-captcha-error {
-    color: red;
-    display: none;
-    margin-top: 10px;
-      }
-#math-captcha-question {
-    font-family: Arial, sans-serif;
+    /* Dark mode styles for math captcha modal */
+    @media (prefers-color-scheme: dark) {
+        #math-captcha-modal {
+            background-color: #333333; /* Dark background */
+            color: #ffffff; /* White text */
+            border-color: #555555;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
         }
+    }
+
+    #math-captcha-modal h3 {
+        margin-bottom: 10px;
+    }
+
+    #math-captcha-input {
+        margin-bottom: 10px;
+        padding: 8px;
+        width: 100%;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+        color: #000000; /* Default text color */
+        background-color: #ffffff; /* Default background */
+        text-align: center; /* Center align text */
+    }
+
+    @media (prefers-color-scheme: dark) {
+        #math-captcha-input {
+            background-color: #444444; /* Darker background */
+            color: #ffffff; /* White text */
+            border-color: #555555;
+        }
+    }
+
+    #math-captcha-button {
+        margin-top: 10px;
+        padding: 8px 16px;
+        background-color: #0066ff; /* Blue background */
+        color: #ffffff; /* White text */
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    #math-captcha-button:hover {
+        background-color: #0066ff; /* Darker blue background on hover */
+    }
+
+    #math-captcha-error {
+        color: red;
+        display: none;
+        margin-top: 10px;
+    }
+    #math-captcha-question {
+        font-family: Arial, sans-serif;
+    }
+
+    /* Styles for privacy and terms links */
+    .privacy-terms-links a {
+        text-decoration: none;
+        color: #666666; /* Dark grey color */
+        margin-left: 10px;
+    }
+    .privacy-terms-links a:hover {
+        color: #333333; /* Darker grey color on hover */
+    }
     </style>
 </head>
 <body>
     <div id="captcha-container">
-    <div id="verify-section">
-        <input type="checkbox" id="verify-checkbox">
-        <label for="verify-checkbox" id="captcha-label">I'm not a robot</label>
-        <span id="loading-text">Verifying...</span>
-        <img id="check-mark" src="/assets/check-mark.svg" style="display: none; width: 30px; height: 30px;">
-        <p id="verification-text" style="display: none;">Verification successful</p>
-        <p id="error-message" style="color: red; display: none;">Please re-verify</p>
+        <div id="verify-section">
+            <input type="checkbox" id="verify-checkbox">
+            <label for="verify-checkbox" id="captcha-label">I'm not a robot</label>
+            <span id="loading-text">Verifying...</span>
+            <img id="check-mark" src="/assets/check-mark.svg" style="display: none; width: 30px; height: 30px;">
+            <p id="verification-text" style="display: none;">Verification successful</p>
+            <p id="error-message" style="color: red; display: none;">Please re-verify</p>
+        </div>
+        <div id="brand">
+            <a href="https://github.com/Dev-Huang1/Air-Captcha"><img src="/assets/logo.svg" alt="AIR Captcha Logo"></a>
+            AIR Captcha v1
+            <div class="privacy-terms-links">
+                <a href="#">隐私</a>
+                <a href="#">文档</a>
+            </div>
+        </div>
     </div>
-    <div id="brand">
-        <a href="https://github.com/Dev-Huang1/Air-Captcha"><img src="/assets/logo.svg" alt="AIR Captcha Logo"></a>
-        AIR Captcha v1
-    </div>
-</div>
 
-<div id="math-captcha-modal">
-    <h3 id="math-captcha-title">Solve the Math Problem</h3>
-    <div id="math-captcha-question"></div>
-    <input type="number" id="math-captcha-input" min="0" max="99">
-    <button id="math-captcha-button">Verify</button>
-    <p id="math-captcha-error">Incorrect answer, please try again.</p>
-</div>
+    <div id="math-captcha-modal">
+        <h3 id="math-captcha-title">Solve the Math Problem</h3>
+        <div id="math-captcha-question"></div>
+        <input type="number" id="math-captcha-input" min="0" max="99">
+        <button id="math-captcha-button">Verify</button>
+        <p id="math-captcha-error">Incorrect answer, please try again.</p>
+    </div>
     
     <noscript>
         <style>
@@ -396,4 +410,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
     </script>
 </body>
-      </html>
+</html>
