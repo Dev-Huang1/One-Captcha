@@ -42,14 +42,6 @@
         function detectLanguage() {
             const userLang = navigator.language || navigator.userLanguage;
             if (userLang.startsWith('zh')) return 'zh';
-            else if (userLang.startsWith('ja')) return 'ja';
-            else if (userLang.startsWith('ko')) return 'ko';
-            else if (userLang.startsWith('ru')) return 'ru';
-            else if (userLang.startsWith('fr')) return 'fr';
-            else if (userLang.startsWith('es')) return 'es';
-            else if (userLang.startsWith('pt')) return 'pt';
-            else if (userLang.startsWith('it')) return 'it';
-            else if (userLang.startsWith('de')) return 'de';
             else return 'en'; // Default to English if language not supported
         }
 
