@@ -159,13 +159,23 @@
     }
 
     /* Styles for privacy and terms links */
+    .privacy-terms-links {
+        display: flex;
+        align-items: center;
+    }
+
     .privacy-terms-links a {
         text-decoration: none;
         color: #666666; /* Dark grey color */
-        margin-left: 10px;
+        margin: 0 5px; /* Add margin to space out the links */
     }
+
     .privacy-terms-links a:hover {
         color: #333333; /* Darker grey color on hover */
+    }
+
+    .privacy-terms-links p {
+        margin: 0 5px; /* Add margin to space out the separator */
     }
     </style>
 </head>
@@ -183,7 +193,7 @@
             <a href="https://github.com/Dev-Huang1/Air-Captcha"><img src="/assets/logo.svg" alt="AIR Captcha Logo"></a>
             AIR Captcha v1
             <div class="privacy-terms-links">
-                <a href="#">隐私</a><p> · </p><a href="#">文档</a>
+                <a href="#">隐私</a><p>·</p><a href="#">文档</a>
             </div>
         </div>
     </div>
