@@ -146,11 +146,11 @@
             text-decoration: none;
             align-items: flex-end;
             font-size: 11px;
-            color: #666666;
+            color: #aaaaaa;
             margin: 0 0px;
         }
         .privacy-terms-links a:hover {
-            color: #333333;
+            color: #a9a9a9;
         }
         .privacy-terms-links p {
             margin: 0 3px;
