@@ -111,6 +111,7 @@
     font-size: 14px;
     color: #000000; /* Default text color */
     background-color: #ffffff; /* Default background */
+    text-align: center; /* Center align text */
 }
 
 @media (prefers-color-scheme: dark) {
