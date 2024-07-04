@@ -176,12 +176,12 @@
                 <input type="checkbox" id="verify-checkbox">
                 <label for="verify-checkbox" id="captcha-label">I'm not a robot</label>
                 <span id="loading-text">Verifying...</span>
-                <img id="check-mark" src="/assets/check-mark.svg" style="display: none; width: 30px; height: 30px;">
+                <img id="check-mark" src="https://captcha.xyehr.cn/assets/check-mark.svg" style="display: none; width: 30px; height: 30px;">
                 <p id="verification-text" style="display: none;">Verification successful</p>
                 <p id="error-message" style="color: red; display: none;">Please re-verify</p>
             </div>
             <div id="brand">
-                <a href="https://github.com/Dev-Huang1/Air-Captcha"><img src="/assets/logo.svg" alt="AIR Captcha Logo"></a>
+                <a href="https://github.com/Dev-Huang1/Air-Captcha"><img src="https://captcha.xyehr.cn/assets/logo.svg" alt="AIR Captcha Logo"></a>
                 AIR Captcha
                 <div class="privacy-terms-links">
                     <a href="#" id="privacy-link"></a><p>·</p><a href="#" id="docs-link"></a>
