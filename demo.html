@@ -195,7 +195,7 @@
             <a href="https://github.com/Dev-Huang1/Air-Captcha"><img src="/assets/logo.svg" alt="AIR Captcha Logo"></a>
             AIR Captcha
             <div class="privacy-terms-links">
-                <a href="#">隐私</a><p>·</p><a href="#">文档</a>
+                <a href="#" id="privacy-link"></a><p>·</p><a href="#" id="docs-link"></a>
             </div>
         </div>
     </div>
@@ -240,6 +240,8 @@
         const mathCaptchaButton = document.getElementById('math-captcha-button');
         const mathCaptchaError = document.getElementById('math-captcha-error');
         const mathCaptchaTitle = document.getElementById('math-captcha-title');
+        const privacyLink = document.getElementById('privacy-link');
+        const docsLink = document.getElementById('docs-link');
         let mouseMovements = [];
         let isTouchDevice = 'ontouchstart' in document.documentElement;
         let mathAnswer;
@@ -253,7 +255,9 @@
                 verificationError: "Please re-verify",
                 verifyButtonText: "Verify",
                 mathCaptchaTitle: "Solve the Math Problem",
-                mathCaptchaError: "Incorrect answer, please try again."
+                mathCaptchaError: "Incorrect answer, please try again.",
+                privacyLink: "Privacy",
+                docsLink: "Documentation"
             },
             zh: {
                 captchaLabel: "我不是机器人",
@@ -262,7 +266,9 @@
                 verificationError: "请重新验证",
                 verifyButtonText: "验证",
                 mathCaptchaTitle: "请完成此验证",
-                mathCaptchaError: "回答错误，请重试"
+                mathCaptchaError: "回答错误，请重试",
+                privacyLink: "隐私",
+                docsLink: "文档"
             },
             // Other translations...
         };
@@ -282,6 +288,8 @@
             mathCaptchaButton.textContent = translation.verifyButtonText;
             mathCaptchaTitle.textContent = translation.mathCaptchaTitle;
             mathCaptchaError.textContent = translation.mathCaptchaError;
+            privacyLink.textContent = translation.privacyLink;
+            docsLink.textContent = translation.docsLink;
         }
 
         const userLang = detectLanguage();
