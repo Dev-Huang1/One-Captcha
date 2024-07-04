@@ -1,1 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="">
+    <style>
+    #captcha-container {
+        width: 260px;
+        height: 40px;
+        border: 1px solid #ccc;
+        padding: 20px;
+        margin: 50px auto;
+        text-align: left;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-family: Arial, sans-serif;
+        background-color: #ffffff; /* Default light background */
+        color: #000000; /* Default light text color */
+    }
 
+    /* Dark mode styles */
+    @media (prefers-color-scheme: dark) {
+        #captcha-container {
+            background-color: #333333;
+            color: #ffffff;
+            border-color: #555555;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+        #verify-checkbox {
+            border-color: #555555;
+        }
+    }
+
+    #verify-section {
+        display: flex;
+        align-items: center;
+    }
+    #verify-checkbox {
+        margin-right: 10px;
+    }
+    #captcha-label {
+        margin-right: 20px;
+    }
+    #brand {
+        font-weight: bold;
+        font-size: 13px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        position: relative;
+        margin-top: 23.5px;
+    }
+    #brand img {
+        width: 35px;
+        position: absolute;
+        right: 0;
+        top: -30px;
+    }
+    #success-icon, #failure-icon {
+        width: 35px;
+        height: 35px;
+        margin-left: 5px;
+    }
+    #verification-text {
+        margin-left: 10px;
+        color: green;
+        font-weight: bold;
+        font-size: 16px;
+    }
+    #loading-text {
+        display: none;
+        margin-right: 20px;
+        font-size: 16px;
+    }
+        
+    /* Styles for the math captcha modal */
+#math-captcha-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    padding: 20px;
+    background-color: #ffffff; /* White background */
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* Dark mode styles for math captcha modal */
+@media (prefers-color-scheme: dark) {
+    #math-captcha-modal {
+        background-color: #333333; /* Dark background */
+        color: #ffffff; /* White text */
+        border-color: #555555;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+}
+
+#math-captcha-modal h3 {
+    margin-bottom: 10px;
+}
+
+#math-captcha-input {
+    margin-bottom: 10px;
+    padding: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #000000; /* Default text color */
+    background-color: #ffffff; /* Default background */
+}
+
+@media (prefers-color-scheme: dark) {
+    #math-captcha-input {
+        background-color: #444444; /* Darker background */
+        color: #ffffff; /* White text */
+        border-color: #555555;
+    }
+}
+
+#math-captcha-button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #4CAF50; /* Green background */
+    color: #ffffff; /* White text */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#math-captcha-button:hover {
+    background-color: #45a049; /* Darker green background on hover */
+}
+
+#math-captcha-error {
+    color: red;
+    display: none;
+    margin-top: 10px;
+}
+    </style>
+</head>
+<body>
+    <div id="captcha-container">
+        <div id="verify-section">
+            <input type="checkbox" id="verify-checkbox">
+            <label for="verify-checkbox" id="captcha-label">I'm not a robot.</label>
+            <span id="loading-text">Verifying...</span>
+            <img id="check-mark" src="https://captcha.xyehr.cn/check-mark.svg" style="display: none; width: 30px; height: 30px;">
+            <p id="verification-text" style="display: none;">Verification successful</p>
+            <p id="error-message" style="color: red; display: none;">Please re-verify</p>
+        </div>
+        <div id="brand">
+            <img src="https://captcha.xyehr.cn/assets/logo.svg" alt="AIR Captcha Logo">
+            AIR Captcha
+        </div>
+    </div>
+
+    <div id="math-captcha-modal">
+        <h3 id="math-captcha-title">Solve the Math Problem</h3>
+        <div id="math-captcha-question"></div>
+        <input type="text" id="math-captcha-input">
+        <button id="math-captcha-button">Verify</button>
+        <p id="math-captcha-error">Incorrect answer, please try again.</p>
+    </div>
+    
+    <noscript>
+        <style>
+            #captcha-label, #verify-checkbox {
+                display: none;
+            }
+            #noscript-message {
+                display: block;
+                color: green;
+            }
+        </style>
+        <p id="noscript-message">Verification Passed (No JavaScript)</p>
+        <script>
+            document.getElementById('submit-button').disabled = false;
+        </script>
+    </noscript>
+
+    <script>
+        (function() {
+    const verifyCheckbox = document.getElementById('verify-checkbox');
+    const captchaLabel = document.getElementById('captcha-label');
+    const checkMark = document.getElementById('check-mark');
+    const verificationText = document.getElementById('verification-text');
+    const errorMessage = document.getElementById('error-message');
+    const submitButton = document.getElementById('submit-button');
+    const loadingText = document.getElementById('loading-text');
+    const mathCaptchaModal = document.getElementById('math-captcha-modal');
+    const mathCaptchaQuestion = document.getElementById('math-captcha-question');
+    const mathCaptchaInput = document.getElementById('math-captcha-input');
+    const mathCaptchaButton = document.getElementById('math-captcha-button');
+    const mathCaptchaError = document.getElementById('math-captcha-error');
+    const mathCaptchaTitle = document.getElementById('math-captcha-title');
+    let mouseMovements = [];
+    let isTouchDevice = 'ontouchstart' in document.documentElement;
+    let mathAnswer;
+
+    const translations = {
+        en: {
+            captchaLabel: "I'm not a robot",
+            verifyingText: "Verifying...",
+            verificationSuccess: "Verification successful",
+            verificationError: "Please re-verify",
+            verifyButtonText: "Verify",
+            mathCaptchaTitle: "Solve the Math Problem",
+            mathCaptchaError: "Incorrect answer, please try again."
+        },
+        zh: {
+            captchaLabel: "我不是人",
+            verifyingText: "验证中...",
+            verificationSuccess: "验证成功",
+            verificationError: "请重新验证",
+            verifyButtonText: "验证",
+            mathCaptchaTitle: "请完成此验证",
+            mathCaptchaError: "回答错误，请重试"
+        },
+        ja: {
+            captchaLabel: "私はロボットではありません",
+            verifyingText: "確認中...",
+            verificationSuccess: "確認が成功しました",
+            verificationError: "もう一度確認してください",
+            verifyButtonText: "確認",
+            mathCaptchaTitle: "数学問題を解いてください",
+            mathCaptchaError: "回答が間違っています。もう一度お試しください。"
+        },
+        ko: {
+            captchaLabel: "로봇이 아닙니다",
+            verifyingText: "확인 중...",
+            verificationSuccess: "확인 성공",
+            verificationError: "다시 확인하세요",
+            verifyButtonText: "확인",
+            mathCaptchaTitle: "수학 문제 풀기",
+            mathCaptchaError: "잘못된 답변입니다. 다시 시도하세요."
+        },
+        ru: {
+            captchaLabel: "Я не робот",
+            verifyingText: "Проверка...",
+            verificationSuccess: "Проверка успешна",
+            verificationError: "Пожалуйста, повторите проверку",
+            verifyButtonText: "Проверить",
+            mathCaptchaTitle: "Решите математическую задачу",
+            mathCaptchaError: "Неправильный ответ, попробуйте снова."
+        },
+        fr: {
+            captchaLabel: "Je ne suis pas un robot",
+            verifyingText: "Vérification en cours...",
+            verificationSuccess: "Vérification réussie",
+            verificationError: "Veuillez réessayer",
+            verifyButtonText: "Vérifier",
+            mathCaptchaTitle: "Résolvez le problème mathématique",
+            mathCaptchaError: "Réponse incorrecte, veuillez réessayer."
+        },
+        es: {
+            captchaLabel: "No soy un robot",
+            verifyingText: "Verificando...",
+            verificationSuccess: "Verificación exitosa",
+            verificationError: "Por favor, vuelva a verificar",
+            verifyButtonText: "Verificar",
+            mathCaptchaTitle: "Resuelve el problema matemático",
+            mathCaptchaError: "Respuesta incorrecta, por favor inténtalo de nuevo."
+        },
+        pt: {
+            captchaLabel: "Não sou um robô",
+            verifyingText: "Verificando...",
+            verificationSuccess: "Verificação bem-sucedida",
+            verificationError: "Por favor, verifique novamente",
+            verifyButtonText: "Verificar",
+            mathCaptchaTitle: "Resolva o problema matemático",
+            mathCaptchaError: "Resposta incorreta, por favor tente novamente."
+        },
+        it: {
+            captchaLabel: "Non sono un robot",
+            verifyingText: "Verifica in corso...",
+            verificationSuccess: "Verifica riuscita",
+            verificationError: "Si prega di riprovare",
+            verifyButtonText: "Verifica",
+            mathCaptchaTitle: "Risolvi il problema matematico",
+            mathCaptchaError: "Risposta sbagliata, riprova."
+        },
+        de: {
+            captchaLabel: "Ich bin kein Roboter",
+            verifyingText: "Überprüfung läuft...",
+            verificationSuccess: "Überprüfung erfolgreich",
+            verificationError: "Bitte erneut überprüfen",
+            verifyButtonText: "Überprüfen",
+            mathCaptchaTitle: "Löse das Matheproblem",
+            mathCaptchaError: "Falsche Antwort, bitte versuche es erneut."
+        }
+    };
+
+    function detectLanguage() {
+        const userLang = navigator.language || navigator.userLanguage;
+        if (userLang.startsWith('zh')) return 'zh';
+        else if (userLang.startsWith('ja')) return 'ja';
+        else if (userLang.startsWith('ko')) return 'ko';
+        else if (userLang.startsWith('ru')) return 'ru';
+        else if (userLang.startsWith('fr')) return 'fr';
+        else if (userLang.startsWith('es')) return 'es';
+        else if (userLang.startsWith('pt')) return 'pt';
+        else if (userLang.startsWith('it')) return 'it';
+        else if (userLang.startsWith('de')) return 'de';
+        else return 'en'; // Default to English if language not supported
+    }
+
+    function setLanguage(lang) {
+        const translation = translations[lang];
+        captchaLabel.textContent = translation.captchaLabel;
+        loadingText.textContent = translation.verifyingText;
+        verificationText.textContent = translation.verificationSuccess;
+        errorMessage.textContent = translation.verificationError;
+        mathCaptchaButton.textContent = translation.verifyButtonText;
+        mathCaptchaTitle.textContent = translation.mathCaptchaTitle;
+        mathCaptchaError.textContent = translation.mathCaptchaError;
+    }
+
+    const userLang = detectLanguage();
+    setLanguage(userLang);
+
+    function recordMouseMovement(event) {
+        const position = { x: event.clientX, y: event.clientY, time: Date.now() };
+        mouseMovements.push(position);
+    }
+
+    function calculateSpeed(movements) {
+        let totalSpeed = 0;
+        for (let i = 1; i < movements.length; i++) {
+            const dx = movements[i].x - movements[i - 1].x;
+            const dy = movements[i].y - movements[i - 1].y;
+            const dt = movements[i].time - movements[i - 1].time;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            const speed = distance / dt;
+            totalSpeed += speed;
+        }
+        return totalSpeed / (movements.length - 1);
+    }
+
+    function isValidMovement(movements) {
+        if (movements.length < 5) return false;
+        const averageSpeed = calculateSpeed(movements);
+        let deviations = 0;
+        for (let i = 1; i < movements.length; i++) {
+            const dx = movements[i].x - movements[i - 1].x;
+            const dy = movements[i].y - movements[i - 1].y;
+            const dt = movements[i].time - movements[i - 1].time;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            const speed = distance / dt;
+            if (Math.abs(speed - averageSpeed) > averageSpeed * 0.5) {
+                deviations++;
+            }
+        }
+        return deviations > (movements.length * 0.3);
+    }
+
+    function generateMathCaptcha() {
+        let num1, num2, operator;
+        do {
+            num1 = Math.floor(Math.random() * 10);
+            num2 = Math.floor(Math.random() * 10);
+            operator = Math.random() > 0.5 ? '+' : '-';
+        } while (operator === '-' && num1 < num2);
+        
+        mathAnswer = operator === '+' ? num1 + num2 : num1 - num2;
+        mathCaptchaQuestion.textContent = `${num1} ${operator} ${num2} = ?`;
+    }
+
+    function showMathCaptcha() {
+        mathCaptchaInput.value = '';
+        mathCaptchaError.style.display = 'none';
+        generateMathCaptcha();
+        mathCaptchaModal.style.display = 'block';
+    }
+
+    function verifyMathCaptcha() {
+        const userAnswer = parseInt(mathCaptchaInput.value, 10);
+        if (userAnswer === mathAnswer) {
+            mathCaptchaModal.style.display = 'none';
+            checkMark.style.display = 'block';
+            verificationText.style.display = 'block';
+            submitButton.disabled = false;
+            errorMessage.style.display = 'none';
+        } else {
+            mathCaptchaError.style.display = 'block';
+            generateMathCaptcha();
+        }
+    }
+
+    document.addEventListener('mousemove', recordMouseMovement);
+
+    verifyCheckbox.addEventListener('change', () => {
+        if (verifyCheckbox.checked) {
+            captchaLabel.style.display = 'none';
+            verifyCheckbox.style.display = 'none';
+            if (isTouchDevice) {
+                showMathCaptcha();
+            } else {
+                loadingText.style.display = 'block';
+                setTimeout(() => {
+                    if (isValidMovement(mouseMovements)) {
+                        loadingText.style.display = 'none';
+                        checkMark.style.display = 'block';
+                        verificationText.style.display = 'block';
+                        submitButton.disabled = false;
+                        errorMessage.style.display = 'none';
+                    } else {
+                        loadingText.style.display = 'none';
+                        errorMessage.style.display = 'block';
+                        verifyCheckbox.checked = false;
+                        captchaLabel.style.display = 'inline';
+                        verifyCheckbox.style.display = 'inline';
+                    }
+                }, 2000);
+            }
+        }
+    });
+
+    mathCaptchaButton.addEventListener('click', verifyMathCaptcha);
+})();
+    </script>
+</body>
+      </html>
