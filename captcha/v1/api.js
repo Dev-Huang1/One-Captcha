@@ -304,6 +304,15 @@ function completeVerification() {
     }
 }
 
+        function mathCaptchaButton.addEventListener('click', () => {
+    if (parseInt(mathCaptchaInput.value, 10) === mathAnswer) {
+        hideMathCaptcha();
+        completeVerification();
+    } else {
+        mathCaptchaError.style.display = 'block';
+        generateMathCaptcha();  
+    }
+        
         // Event listener for the verify checkbox
         verifyCheckbox.addEventListener('change', () => {
             if (verifyCheckbox.checked) {
