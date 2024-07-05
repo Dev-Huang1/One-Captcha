@@ -228,7 +228,7 @@
                 mathCaptchaTitle: "Solve the Math Problem",
                 mathCaptchaError: "Incorrect answer, please try again.",
                 privacyLink: "Privacy",
-                docsLink: "Documentation"
+                docsLink: "Docs"
             },
             zh: {
                 captchaLabel: "我不是机器人",
