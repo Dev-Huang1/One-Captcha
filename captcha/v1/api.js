@@ -184,7 +184,7 @@
                 <a href="https://github.com/Dev-Huang1/Air-Captcha"><img src="https://captcha.xyehr.cn/assets/logo.svg" alt="AIR Captcha Logo"></a>
                 Air Captcha
                 <div class="privacy-terms-links">
-                    <a href="#" id="privacy-link"></a><p>·</p><a href="#" id="docs-link"></a>
+                    <a href="#" id="privacy-link">Privacy</a><p>·</p><a href="#" id="docs-link">Docs</a>
                 </div>
             </div>
             <div id="math-captcha-modal">
