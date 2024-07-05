@@ -12,7 +12,6 @@
             border-radius: 8px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
             font-family: Arial, sans-serif;
             background-color: #ffffff;
             color: #000000;
