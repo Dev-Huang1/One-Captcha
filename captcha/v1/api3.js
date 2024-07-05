@@ -6,7 +6,7 @@
             height: 40px;
             border: 1px solid #ccc;
             padding: 20px;
-            margin: 50px auto;
+            margin: 50px 0;
             text-align: left;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
