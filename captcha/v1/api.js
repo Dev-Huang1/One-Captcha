@@ -14,7 +14,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
             display: flex;
-            align-items: left;
+            align-items: center;
             justify-content: space-between;
             font-family: Arial, sans-serif;
             background-color: #ffffff;
