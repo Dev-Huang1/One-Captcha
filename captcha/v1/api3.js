@@ -1,9 +1,6 @@
 (function(global) {
     // CSS Styles
     const styles = `
-        body {
-            font-family: Arial, sans-serif;
-        }
         #captcha-container {
             width: 260px;
             height: 40px;
