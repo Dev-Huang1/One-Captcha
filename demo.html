@@ -38,6 +38,9 @@
         }
         #verify-checkbox {
             margin-right: 10px;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
         }
         #captcha-label {
             margin-right: 20px;
@@ -98,13 +101,30 @@
             border: 2px solid #4285f4;
             border-radius: 50%;
             animation: ripple 1s linear infinite;
-            display: none;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 30px;
+            height: 30px;
         }
         @keyframes ripple {
             to {
-                transform: scale(2);
+                transform: translate(-50%, -50%) scale(2);
                 opacity: 0;
             }
+        }
+        #checkbox-container {
+            position: relative;
+            width: 24px;
+            height: 24px;
+        }
+        #error-message {
+            color: red;
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
         }
     </style>
 </head>
@@ -118,7 +138,7 @@
                 captchaContainer.id = 'captcha-container';
                 captchaContainer.innerHTML = `
                     <div id="verify-section">
-                        <div id="checkbox-container" style="position: relative;">
+                        <div id="checkbox-container">
                             <input type="checkbox" id="verify-checkbox">
                             <div id="ripple"></div>
                         </div>
@@ -126,7 +146,7 @@
                         <span id="loading-text">验证中...</span>
                         <img id="check-mark" src="https://captcha.xyehr.cn/assets/check-mark.svg" style="display: none; width: 30px; height: 30px;">
                         <p id="verification-text" style="display: none;">验证成功</p>
-                        <p id="error-message" style="color: red; display: none;">请重新验证</p>
+                        <p id="error-message">请重新验证</p>
                     </div>
                     <div id="brand">
                         <a href="https://github.com/Dev-Huang1/Air-Captcha"><img src="https://captcha.xyehr.cn/assets/logo.svg" alt="AIR Captcha Logo"></a>
@@ -151,13 +171,6 @@
                 let clickCount = 0;
                 const requiredClicks = 8;
                 let lastClickTime = 0;
-
-                function showRipple() {
-                    ripple.style.display = 'block';
-                    setTimeout(() => {
-                        ripple.style.display = 'none';
-                    }, 1000);
-                }
 
                 function recordClick(event) {
                     const currentTime = Date.now();
@@ -204,9 +217,10 @@
                 }
 
                 function showError(message) {
+                    verifyCheckbox.style.display = 'none';
+                    captchaLabel.style.display = 'none';
                     errorMessage.textContent = message;
                     errorMessage.style.display = 'block';
-                    verifyCheckbox.checked = false;
                     clickData = [];
                     clickCount = 0;
                     lastClickTime = 0;
@@ -214,7 +228,6 @@
 
                 verifyCheckbox.addEventListener('click', function(event) {
                     event.preventDefault();
-                    showRipple();
                     recordClick(event);
                 });
             }
