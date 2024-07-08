@@ -48,7 +48,7 @@
             margin: 0;
             cursor: pointer;
             position: relative;
-            z-index: 2;
+            z-index: 1;
         }
         #captcha-label {
             margin-right: 20px;
@@ -114,6 +114,8 @@
             border-radius: 50%;
             background-color: rgba(66, 133, 244, 0.4);
             animation: ripple 1.5s linear infinite;
+            z-index: 2;
+            pointer-events: none;
         }
         @keyframes ripple {
             0% {
@@ -171,6 +173,7 @@
                 const verificationText = document.getElementById('verification-text');
                 const errorMessage = document.getElementById('error-message');
                 const loadingText = document.getElementById('loading-text');
+                const ripple = document.getElementById('ripple');
                 let clickData = [];
                 let clickCount = 0;
                 const requiredClicks = 8;
@@ -215,6 +218,7 @@
                     verificationText.style.display = 'inline';
                     loadingText.style.display = 'none';
                     errorMessage.style.display = 'none';
+                    ripple.style.display = 'none';
                 }
 
                 function showError(message) {
@@ -222,6 +226,7 @@
                     captchaLabel.style.display = 'none';
                     errorMessage.textContent = message;
                     errorMessage.style.display = 'block';
+                    ripple.style.display = 'none';
                     clickData = [];
                     clickCount = 0;
                     lastClickTime = 0;
