@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>v2 Captcha</title>
     <style>
-        /* 插入CSS样式 */
         #captcha-container {
             width: 260px;
             height: 40px;
@@ -21,7 +20,6 @@
             font-family: Arial, sans-serif;
             background-color: #ffffff;
             color: #000000;
-            position: relative;
         }
         @media (prefers-color-scheme: dark) {
             #captcha-container {
@@ -37,12 +35,9 @@
         #verify-section {
             display: flex;
             align-items: center;
-            position: relative;
         }
         #verify-checkbox {
             margin-right: 10px;
-            position: relative;
-            overflow: hidden;
         }
         #captcha-label {
             margin-right: 20px;
@@ -98,16 +93,16 @@
         #verify-checkbox:checked + #captcha-label {
             display: none;
         }
-        .ripple {
+        #ripple {
             position: absolute;
+            border: 2px solid #4285f4;
             border-radius: 50%;
-            transform: scale(0);
-            animation: ripple 0.6s linear;
-            background-color: rgba(0, 0, 0, 0.3);
+            animation: ripple 1s linear infinite;
+            display: none;
         }
         @keyframes ripple {
             to {
-                transform: scale(4);
+                transform: scale(2);
                 opacity: 0;
             }
         }
@@ -118,21 +113,15 @@
 
     <script>
         (function(global) {
-            const styles = `
-                /* CSS 代码省略，保持与之前相同 */
-            `;
-
             function AIRCaptcha() {
-                const styleSheet = document.createElement("style");
-                styleSheet.type = "text/css";
-                styleSheet.innerText = styles;
-                document.head.appendChild(styleSheet);
-
                 const captchaContainer = document.createElement('div');
                 captchaContainer.id = 'captcha-container';
                 captchaContainer.innerHTML = `
                     <div id="verify-section">
-                        <input type="checkbox" id="verify-checkbox">
+                        <div id="checkbox-container" style="position: relative;">
+                            <input type="checkbox" id="verify-checkbox">
+                            <div id="ripple"></div>
+                        </div>
                         <label for="verify-checkbox" id="captcha-label">我不是机器人</label>
                         <span id="loading-text">验证中...</span>
                         <img id="check-mark" src="https://captcha.xyehr.cn/assets/check-mark.svg" style="display: none; width: 30px; height: 30px;">
@@ -157,70 +146,51 @@
                 const errorMessage = document.getElementById('error-message');
                 const submitButton = document.getElementById('submit-button');
                 const loadingText = document.getElementById('loading-text');
+                const ripple = document.getElementById('ripple');
                 let clickData = [];
                 let clickCount = 0;
                 const requiredClicks = 8;
+                let lastClickTime = 0;
 
-                // 记录点击位置和时间
+                function showRipple() {
+                    ripple.style.display = 'block';
+                    setTimeout(() => {
+                        ripple.style.display = 'none';
+                    }, 1000);
+                }
+
                 function recordClick(event) {
-                    const now = Date.now();
-                    if (clickData.length > 0 && (now - clickData[clickData.length - 1].time) > 5000) {
-                        showError();
+                    const currentTime = Date.now();
+                    if (lastClickTime !== 0 && currentTime - lastClickTime > 5000) {
+                        showError("点击速度过慢，请重新验证");
                         return;
                     }
 
                     clickData.push({
                         x: event.clientX,
                         y: event.clientY,
-                        time: now
+                        time: currentTime
                     });
-
-                    // 显示扩散圆圈
-                    createRipple(event);
-
+                    lastClickTime = currentTime;
                     clickCount++;
+
                     if (clickCount >= requiredClicks) {
                         verifyClicks();
                     }
                 }
 
-                // 创建扩散圆圈效果
-                function createRipple(event) {
-                    const circle = document.createElement("span");
-                    const diameter = Math.max(verifyCheckbox.clientWidth, verifyCheckbox.clientHeight);
-                    const radius = diameter / 2;
-
-                    circle.style.width = circle.style.height = `${diameter}px`;
-                    circle.style.left = `${verifyCheckbox.clientWidth / 2 - radius}px`;
-                    circle.style.top = `${verifyCheckbox.clientHeight / 2 - radius}px`;
-                    circle.classList.add("ripple");
-
-                    const ripple = verifyCheckbox.getElementsByClassName("ripple")[0];
-
-                    if (ripple) {
-                        ripple.remove();
-                    }
-
-                    verifyCheckbox.appendChild(circle);
-                }
-
-                // 验证点击是否为真人
                 function verifyClicks() {
-                    // 这里添加实际的验证逻辑
                     if (isValidClickData(clickData)) {
                         completeVerification();
                     } else {
-                        showError();
+                        showError("验证失败，请重新尝试");
                     }
                 }
 
-                // 示例函数：检查点击数据是否有效
                 function isValidClickData(data) {
-                    // 简单示例：检查点击次数是否达到要求
                     return data.length >= requiredClicks;
                 }
 
-                // 完成验证过程
                 function completeVerification() {
                     verifyCheckbox.style.display = 'none';
                     captchaLabel.style.display = 'none';
@@ -233,16 +203,20 @@
                     }
                 }
 
-                // 显示错误信息
-                function showError() {
+                function showError(message) {
+                    errorMessage.textContent = message;
                     errorMessage.style.display = 'block';
                     verifyCheckbox.checked = false;
                     clickData = [];
                     clickCount = 0;
+                    lastClickTime = 0;
                 }
 
-                // 监听复选框点击事件
-                verifyCheckbox.addEventListener('click', recordClick);
+                verifyCheckbox.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    showRipple();
+                    recordClick(event);
+                });
             }
 
             global.addEventListener('DOMContentLoaded', () => {
