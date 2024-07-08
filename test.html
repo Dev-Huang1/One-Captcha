@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v2 Captcha</title>
+    <style>
+ #captcha-container {
+            width: 260px;
+            height: 40px;
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin: 50px 0;
+            text-align: left;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            color: #000000;
+        }
+        @media (prefers-color-scheme: dark) {
+            #captcha-container {
+                background-color: #333333;
+                color: #ffffff;
+                border-color: #555555;
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            }
+            #verify-checkbox {
+                border-color: #555555;
+            }
+        }
+        #verify-section {
+            display: flex;
+            align-items: center;
+        }
+        #verify-checkbox {
+            margin-right: 10px;
+        }
+        #captcha-label {
+            margin-right: 20px;
+        }
+        #brand {
+            font-weight: bold;
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            position: relative;
+            margin-top: 23.5px;
+        }
+        #brand img {
+            width: 35px;
+            position: absolute;
+            right: 0;
+            top: -30px;
+        }
+        #success-icon, #failure-icon {
+            width: 35px;
+            height: 35px;
+            margin-left: 5px;
+        }
+        #verification-text {
+            margin-left: 10px;
+            color: green;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        #loading-text {
+            display: none;
+            margin-right: 20px;
+            font-size: 16px;
+        }
+        #math-captcha-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            padding: 20px;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: center;
+        }
+        @media (prefers-color-scheme: dark) {
+            #math-captcha-modal {
+                background-color: #333333;
+                color: #ffffff;
+                border-color: #555555;
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            }
+        }
+        #math-captcha-modal h3 {
+            margin-bottom: 10px;
+        }
+        #math-captcha-input {
+            margin-bottom: 10px;
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #000000;
+            background-color: #ffffff;
+            text-align: center;
+        }
+        @media (prefers-color-scheme: dark) {
+            #math-captcha-input {
+                background-color: #444444;
+                color: #ffffff;
+                border-color: #555555;
+            }
+        }
+        #math-captcha-button {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background-color: #0066ff;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        #math-captcha-button:hover {
+            background-color: #0066ff;
+        }
+        #math-captcha-error {
+            color: red;
+            display: none;
+            margin-top: 10px;
+        }
+        #math-captcha-question {
+            font-family: Arial, sans-serif;
+        }
+        .privacy-terms-links {
+            display: flex;
+            align-items: center;
+        }
+        .privacy-terms-links a {
+            text-decoration: none;
+            align-items: flex-end;
+            font-size: 11px;
+            color: #aaaaaa;
+            margin: 0 0px;
+        }
+        .privacy-terms-links a:hover {
+            color: #a9a9a9;
+        }
+        .privacy-terms-links p {
+            margin: 0 3px;
+        }
+        #verify-checkbox:checked + #captcha-label {
+            display: none;
+        }
+        #ripple {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background-color: rgba(66, 133, 244, 0.4);
+            animation: ripple 1.5s linear infinite;
+            z-index: 2;
+            pointer-events: none;
+        }
+        @keyframes ripple {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 0.5;
+            }
+            100% {
+                width: 28px;
+                height: 28px;
+                opacity: 0;
+            }
+        }
+        #error-message {
+            color: red;
+            display: none; /* 初始隐藏 */
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="air-captcha"></div>
+
+    <script>
+        (function(global) {
+            function AIRCaptcha() {
+                const captchaContainer = document.createElement('div');
+                captchaContainer.id = 'captcha-container';
+                captchaContainer.innerHTML = `
+                    <div id="verify-section">
+                        <div id="checkbox-container">
+                            <input type="checkbox" id="verify-checkbox">
+                            <img id="check-mark" src="https://captcha.xyehr.cn/assets/check-mark.svg">
+                            <div id="ripple"></div>
+                        </div>
+                        <label for="verify-checkbox" id="captcha-label">我不是机器人</label>
+                        <span id="loading-text">验证中...</span>
+                        <p id="verification-text">验证成功</p> <!-- 调整到v1的位置 -->
+                        <p id="error-message">请重新验证</p> <!-- 调整到v1的位置 -->
+                    </div>
+                    <div id="brand">
+                        <a href="https://github.com/Dev-Huang1/Air-Captcha"><img src="https://captcha.xyehr.cn/assets/logo.svg" alt="AIR Captcha Logo"></a>
+                        Air Captcha
+                        <div class="privacy-terms-links">
+                            <a href="#" id="privacy-link">隐私</a><p>·</p><a href="https://help.xyehr.cn/jekyll/2024-07-05-air-captcha.html" id="docs-link">文档</a>
+                        </div>
+                    </div>
+                `;
+
+                document.getElementById('air-captcha').appendChild(captchaContainer);
+
+                const verifyCheckbox = document.getElementById('verify-checkbox');
+                const captchaLabel = document.getElementById('captcha-label');
+                const checkMark = document.getElementById('check-mark');
+                const verificationText = document.getElementById('verification-text');
+                const errorMessage = document.getElementById('error-message');
+                const loadingText = document.getElementById('loading-text');
+                const ripple = document.getElementById('ripple');
+                let clickData = [];
+                let clickCount = 0;
+                const requiredClicks = 8;
+                let lastClickTime = 0;
+
+                function recordClick(event) {
+                    const currentTime = Date.now();
+                    if (lastClickTime !== 0 && currentTime - lastClickTime > 5000) {
+                        showError("请重新验证");
+                        return;
+                    }
+
+                    clickData.push({
+                        x: event.clientX,
+                        y: event.clientY,
+                        time: currentTime
+                    });
+                    lastClickTime = currentTime;
+                    clickCount++;
+
+                    if (clickCount >= requiredClicks) {
+                        verifyClicks();
+                    }
+                }
+
+                function verifyClicks() {
+                    if (isValidClickData(clickData)) {
+                        completeVerification();
+                    } else {
+                        showError("验证失败，请重新尝试");
+                    }
+                }
+
+                function isValidClickData(data) {
+                    return data.length >= requiredClicks;
+                }
+
+                function completeVerification() {
+    verifyCheckbox.style.display = 'none';
+    captchaLabel.style.display = 'none';
+    checkMark.style.display = 'block';
+    verificationText.style.display = 'inline'; // 显示验证成功文本
+    loadingText.style.display = 'none';
+    errorMessage.style.display = 'none';
+    ripple.style.display = 'none';
+}
+
+function showError(message) {
+    captchaLabel.style.display = 'none';
+    errorMessage.textContent = message; // 设置错误信息文本为传入的消息
+    errorMessage.style.display = 'block'; // 显示错误信息
+    ripple.style.display = 'none';
+    clickData = [];
+    clickCount = 0;
+    lastClickTime = 0;
+}
+
+                verifyCheckbox.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    recordClick(event);
+                });
+            }
+
+            global.addEventListener('DOMContentLoaded', () => {
+                const captchaElement = document.getElementById('air-captcha');
+                if (captchaElement) {
+                    AIRCaptcha();
+                }
+            });
+        })(window);
+    </script>
+</body>
+</html>
