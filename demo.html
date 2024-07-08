@@ -3,128 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>v2 Captcha</title>
+    <title>Air Captcha</title>
     <style>
         #captcha-container {
-            width: 260px;
-            height: 40px;
-            border: 1px solid #ccc;
-            padding: 20px;
-            margin: 50px 0;
-            text-align: left;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
+            width: 300px;
+            height: 74px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            padding: 0 16px;
             font-family: Arial, sans-serif;
             background-color: #ffffff;
-            color: #000000;
-        }
-        @media (prefers-color-scheme: dark) {
-            #captcha-container {
-                background-color: #333333;
-                color: #ffffff;
-                border-color: #555555;
-                box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-            }
-            #verify-checkbox {
-                border-color: #555555;
-            }
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
         }
         #verify-section {
             display: flex;
             align-items: center;
         }
-        #verify-checkbox {
-            margin-right: 10px;
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-        }
-        #captcha-label {
-            margin-right: 20px;
-        }
-        #brand {
-            font-weight: bold;
-            font-size: 14px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            position: relative;
-            margin-top: 23.5px;
-        }
-        #brand img {
-            width: 35px;
-            position: absolute;
-            right: 0;
-            top: -30px;
-        }
-        #success-icon, #failure-icon {
-            width: 35px;
-            height: 35px;
-            margin-left: 5px;
-        }
-        #verification-text {
-            margin-left: 10px;
-            color: green;
-            font-weight: bold;
-            font-size: 16px;
-        }
-        #loading-text {
-            display: none;
-            margin-right: 20px;
-            font-size: 16px;
-        }
-        .privacy-terms-links {
-            display: flex;
-            align-items: center;
-        }
-        .privacy-terms-links a {
-            text-decoration: none;
-            align-items: flex-end;
-            font-size: 11px;
-            color: #aaaaaa;
-            margin: 0 0px;
-        }
-        .privacy-terms-links a:hover {
-            color: #a9a9a9;
-        }
-        .privacy-terms-links p {
-            margin: 0 3px;
-        }
-        #verify-checkbox:checked + #captcha-label {
-            display: none;
-        }
-        #ripple {
-            position: absolute;
-            border: 2px solid #4285f4;
-            border-radius: 50%;
-            animation: ripple 1s linear infinite;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            width: 30px;
-            height: 30px;
-        }
-        @keyframes ripple {
-            to {
-                transform: translate(-50%, -50%) scale(2);
-                opacity: 0;
-            }
-        }
         #checkbox-container {
             position: relative;
             width: 24px;
             height: 24px;
+            overflow: hidden;
+        }
+        #verify-checkbox {
+            width: 24px;
+            height: 24px;
+            margin: 0;
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
+        }
+        #captcha-label {
+            margin-left: 12px;
+            font-size: 14px;
+            color: #5f6368;
+        }
+        #brand {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+        #brand-name {
+            font-weight: bold;
+            font-size: 14px;
+            color: #5f6368;
+        }
+        .privacy-terms-links {
+            font-size: 8px;
+            color: #5f6368;
+        }
+        .privacy-terms-links a {
+            text-decoration: none;
+            color: #5f6368;
+        }
+        #ripple {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background-color: rgba(66, 133, 244, 0.4);
+            animation: ripple 1.5s linear infinite;
+        }
+        @keyframes ripple {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 0.5;
+            }
+            100% {
+                width: 24px;
+                height: 24px;
+                opacity: 0;
+            }
+        }
+        #loading-text, #verification-text, #error-message {
+            margin-left: 12px;
+            font-size: 14px;
+        }
+        #loading-text {
+            display: none;
+            color: #5f6368;
+        }
+        #verification-text {
+            display: none;
+            color: #4CAF50;
         }
         #error-message {
-            color: red;
             display: none;
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
+            color: #F44336;
+        }
+        #check-mark {
+            display: none;
+            width: 24px;
+            height: 24px;
+            margin-left: 12px;
         }
     </style>
 </head>
@@ -144,15 +122,14 @@
                         </div>
                         <label for="verify-checkbox" id="captcha-label">我不是机器人</label>
                         <span id="loading-text">验证中...</span>
-                        <img id="check-mark" src="https://captcha.xyehr.cn/assets/check-mark.svg" style="display: none; width: 30px; height: 30px;">
-                        <p id="verification-text" style="display: none;">验证成功</p>
+                        <img id="check-mark" src="https://captcha.xyehr.cn/assets/check-mark.svg" alt="Check Mark">
+                        <p id="verification-text">验证成功</p>
                         <p id="error-message">请重新验证</p>
                     </div>
                     <div id="brand">
-                        <a href="https://github.com/Dev-Huang1/Air-Captcha"><img src="https://captcha.xyehr.cn/assets/logo.svg" alt="AIR Captcha Logo"></a>
-                        Air Captcha
+                        <span id="brand-name">Air Captcha</span>
                         <div class="privacy-terms-links">
-                            <a href="#" id="privacy-link">隐私</a><p>·</p><a href="https://help.xyehr.cn/jekyll/2024-07-05-air-captcha.html" id="docs-link">文档</a>
+                            <a href="#" id="privacy-link">隐私</a> · <a href="https://help.xyehr.cn/jekyll/2024-07-05-air-captcha.html" id="docs-link">文档</a>
                         </div>
                     </div>
                 `;
@@ -164,7 +141,6 @@
                 const checkMark = document.getElementById('check-mark');
                 const verificationText = document.getElementById('verification-text');
                 const errorMessage = document.getElementById('error-message');
-                const submitButton = document.getElementById('submit-button');
                 const loadingText = document.getElementById('loading-text');
                 const ripple = document.getElementById('ripple');
                 let clickData = [];
@@ -211,9 +187,6 @@
                     verificationText.style.display = 'inline';
                     loadingText.style.display = 'none';
                     errorMessage.style.display = 'none';
-                    if (submitButton) {
-                        submitButton.disabled = false;
-                    }
                 }
 
                 function showError(message) {
