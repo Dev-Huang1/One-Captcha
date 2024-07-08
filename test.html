@@ -36,10 +36,16 @@
             display: flex;
             align-items: center;
         }
-        #verify-checkbox {
-            margin-right: 10px;
+        #checkbox-container {
+            position: relative;
             width: 28px;
             height: 28px;
+            margin-right: 10px;
+        }
+        #verify-checkbox {
+            width: 28px;
+            height: 28px;
+            margin: 0;
             cursor: pointer;
             position: relative;
             z-index: 1;
@@ -73,6 +79,7 @@
             font-weight: bold;
             font-size: 16px;
             display: none;
+            text-align: left;
         }
         #loading-text {
             display: none;
@@ -143,13 +150,13 @@
                     <div id="verify-section">
                         <div id="checkbox-container">
                             <input type="checkbox" id="verify-checkbox">
-                            <label for="verify-checkbox" id="captcha-label">I'm not a robot</label>
-                            <img id="check-mark" src="https://captcha.xyehr.cn/assets/check-mark.svg" style="display: none;">
+                            <img id="check-mark" src="https://captcha.xyehr.cn/assets/check-mark.svg">
                             <div id="ripple"></div>
                         </div>
+                        <label for="verify-checkbox" id="captcha-label">I'm not a robot</label>
                         <span id="loading-text">Verifying...</span>
-                        <p id="verification-text" style="display: none;">Verification successful</p>
-                        <p id="error-message" style="color: red; display: none;">Please re-verify</p>
+                        <p id="verification-text">Verification successful</p>
+                        <p id="error-message">Please re-verify</p>
                     </div>
                     <div id="brand">
                         <a href="https://github.com/Dev-Huang1/Air-Captcha"><img src="https://captcha.xyehr.cn/assets/logo.svg" alt="AIR Captcha Logo"></a>
@@ -177,7 +184,7 @@
                 function recordClick(event) {
                     const currentTime = Date.now();
                     if (lastClickTime !== 0 && currentTime - lastClickTime > 5000) {
-                        errorMessage.style.display = 'inline';
+                        showError("请重新验证");
                         return;
                     }
 
@@ -198,7 +205,7 @@
                     if (isValidClickData(clickData)) {
                         completeVerification();
                     } else {
-                        showError("Verification failed. Please try again.");
+                        showError("验证失败，请重新尝试");
                     }
                 }
 
