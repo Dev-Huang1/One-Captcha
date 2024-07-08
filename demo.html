@@ -217,16 +217,16 @@
                 }
 
                 function completeVerification() {
-                    verifyCheckbox.style.display = 'none';
-                    captchaLabel.style.display = 'none';
-                    checkMark.style.display = 'block';
-                    verificationText.style.display = 'inline'; // 显示验证成功文本
-                    loadingText.style.display = 'none';
-                    errorMessage.style.display = 'none';
-                    ripple.style.display = 'none';
-                }
+    verifyCheckbox.style.display = 'none';
+    captchaLabel.style.display = 'none';
+    checkMark.style.display = 'block';
+    verificationText.style.display = 'inline'; // 显示验证成功文本
+    loadingText.style.display = 'none';
+    errorMessage.style.display = 'none';
+    ripple.style.display = 'none';
+}
 
-                function showError(message) {
+function showError(message) {
     captchaLabel.style.display = 'none';
     errorMessage.textContent = message; // 设置错误信息文本为传入的消息
     errorMessage.style.display = 'block'; // 显示错误信息
@@ -234,7 +234,7 @@
     clickData = [];
     clickCount = 0;
     lastClickTime = 0;
-                }
+}
 
                 verifyCheckbox.addEventListener('click', function(event) {
                     event.preventDefault();
