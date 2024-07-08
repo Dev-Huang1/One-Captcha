@@ -68,10 +68,14 @@
             right: 0;
             top: -30px;
         }
-        #success-icon, #failure-icon {
-            width: 35px;
-            height: 35px;
-            margin-left: 5px;
+        #check-mark {
+            width: 28px;
+            height: 28px;
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
         #verification-text {
             margin-left: 10px;
@@ -148,11 +152,11 @@
                     <div id="verify-section">
                         <div id="checkbox-container">
                             <input type="checkbox" id="verify-checkbox">
+                            <img id="check-mark" src="https://captcha.xyehr.cn/assets/check-mark.svg">
                             <div id="ripple"></div>
                         </div>
                         <label for="verify-checkbox" id="captcha-label">我不是机器人</label>
                         <span id="loading-text">验证中...</span>
-                        <img id="check-mark" src="https://captcha.xyehr.cn/assets/check-mark.svg" style="display: none; width: 30px; height: 30px;">
                         <p id="verification-text" style="display: none;">验证成功</p>
                         <p id="error-message">请重新验证</p>
                     </div>
@@ -214,7 +218,7 @@
                 function completeVerification() {
                     verifyCheckbox.style.display = 'none';
                     captchaLabel.style.display = 'none';
-                    checkMark.style.display = 'inline';
+                    checkMark.style.display = 'block';
                     verificationText.style.display = 'inline';
                     loadingText.style.display = 'none';
                     errorMessage.style.display = 'none';
