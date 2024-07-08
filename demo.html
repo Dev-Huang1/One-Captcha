@@ -1,432 +1,210 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-    <link rel="stylesheet" type="text/css" href="">
+    <title>v2 Captcha</title>
     <style>
-       body {
-          font-family: Arial, sans-serif;
-       }
-
-    #captcha-container {
-        width: 260px;
-        height: 40px;
-        border: 1px solid #ccc;
-        padding: 20px;
-        margin: 50px auto;
-        text-align: left;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        font-family: Arial, sans-serif;
-        background-color: #ffffff; /* Default light background */
-        color: #000000; /* Default light text color */
-    }
-
-    /* Dark mode styles */
-    @media (prefers-color-scheme: dark) {
+        /* 插入CSS样式 */
         #captcha-container {
-            background-color: #333333;
-            color: #ffffff;
-            border-color: #555555;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            width: 260px;
+            height: 40px;
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin: 50px 0;
+            text-align: left;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            color: #000000;
+        }
+        @media (prefers-color-scheme: dark) {
+            #captcha-container {
+                background-color: #333333;
+                color: #ffffff;
+                border-color: #555555;
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            }
+            #verify-checkbox {
+                border-color: #555555;
+            }
+        }
+        #verify-section {
+            display: flex;
+            align-items: center;
         }
         #verify-checkbox {
-            border-color: #555555;
+            margin-right: 10px;
         }
-    }
-
-    #verify-section {
-        display: flex;
-        align-items: center;
-    }
-    #verify-checkbox {
-        margin-right: 10px;
-    }
-    #captcha-label {
-        margin-right: 20px;
-    }
-    #brand {
-        font-weight: bold;
-        font-size: 14px;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        position: relative;
-        margin-top: 23.5px;
-    }
-    #brand img {
-        width: 35px;
-        position: absolute;
-        right: 0;
-        top: -30px;
-    }
-    #success-icon, #failure-icon {
-        width: 35px;
-        height: 35px;
-        margin-left: 5px;
-    }
-    #verification-text {
-        margin-left: 10px;
-        color: green;
-        font-weight: bold;
-        font-size: 16px;
-    }
-    #loading-text {
-        display: none;
-        margin-right: 20px;
-        font-size: 16px;
-    }
-
-    /* Styles for the math captcha modal */
-    #math-captcha-modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        width: 300px;
-        padding: 20px;
-        background-color: #ffffff; /* White background */
-        border: 1px solid #ccc;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        border-radius: 8px;
-        text-align: center;
-    }
-
-    /* Dark mode styles for math captcha modal */
-    @media (prefers-color-scheme: dark) {
-        #math-captcha-modal {
-            background-color: #333333; /* Dark background */
-            color: #ffffff; /* White text */
-            border-color: #555555;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        #captcha-label {
+            margin-right: 20px;
         }
-    }
-
-    #math-captcha-modal h3 {
-        margin-bottom: 10px;
-    }
-
-    #math-captcha-input {
-        margin-bottom: 10px;
-        padding: 8px;
-        width: 100%;
-        box-sizing: border-box;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        font-size: 14px;
-        color: #000000; /* Default text color */
-        background-color: #ffffff; /* Default background */
-        text-align: center; /* Center align text */
-    }
-
-    @media (prefers-color-scheme: dark) {
-        #math-captcha-input {
-            background-color: #444444; /* Darker background */
-            color: #ffffff; /* White text */
-            border-color: #555555;
+        #brand {
+            font-weight: bold;
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            position: relative;
+            margin-top: 23.5px;
         }
-    }
-
-    #math-captcha-button {
-        margin-top: 10px;
-        padding: 8px 16px;
-        background-color: #0066ff; /* Blue background */
-        color: #ffffff; /* White text */
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 14px;
-    }
-
-    #math-captcha-button:hover {
-        background-color: #0066ff; /* Darker blue background on hover */
-    }
-
-    #math-captcha-error {
-        color: red;
-        display: none;
-        margin-top: 10px;
-    }
-    #math-captcha-question {
-        font-family: Arial, sans-serif;
-    }
-
-    /* Styles for privacy and terms links */
-    .privacy-terms-links {
-        display: flex;
-        align-items: center;
-    }
-
-    .privacy-terms-links a {
-        text-decoration: none;
-        align-items: flex-end;
-        font-size: 11px;
-        color: #666666; /* Dark grey color */
-        margin: 0 0px; /* Add margin to space out the links */
-    }
-
-    .privacy-terms-links a:hover {
-        color: #333333; /* Darker grey color on hover */
-    }
-
-    .privacy-terms-links p {
-        margin: 0 3px; /* Add margin to space out the separator */
-    }
+        #brand img {
+            width: 35px;
+            position: absolute;
+            right: 0;
+            top: -30px;
+        }
+        #success-icon, #failure-icon {
+            width: 35px;
+            height: 35px;
+            margin-left: 5px;
+        }
+        #verification-text {
+            margin-left: 10px;
+            color: green;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        #loading-text {
+            display: none;
+            margin-right: 20px;
+            font-size: 16px;
+        }
+        .privacy-terms-links {
+            display: flex;
+            align-items: center;
+        }
+        .privacy-terms-links a {
+            text-decoration: none;
+            align-items: flex-end;
+            font-size: 11px;
+            color: #aaaaaa;
+            margin: 0 0px;
+        }
+        .privacy-terms-links a:hover {
+            color: #a9a9a9;
+        }
+        .privacy-terms-links p {
+            margin: 0 3px;
+        }
+        #verify-checkbox:checked + #captcha-label {
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <div id="captcha-container">
-        <div id="verify-section">
-            <input type="checkbox" id="verify-checkbox">
-            <label for="verify-checkbox" id="captcha-label">I'm not a robot</label>
-            <span id="loading-text">Verifying...</span>
-            <img id="check-mark" src="/assets/check-mark.svg" style="display: none; width: 30px; height: 30px;">
-            <p id="verification-text" style="display: none;">Verification successful</p>
-            <p id="error-message" style="color: red; display: none;">Please re-verify</p>
-        </div>
-        <div id="brand">
-            <a href="https://github.com/Dev-Huang1/Air-Captcha"><img src="/assets/logo.svg" alt="AIR Captcha Logo"></a>
-            AIR Captcha
-            <div class="privacy-terms-links">
-                <a href="#" id="privacy-link"></a><p>·</p><a href="#" id="docs-link"></a>
-            </div>
-        </div>
-    </div>
-
-    <div id="math-captcha-modal">
-        <h3 id="math-captcha-title">Solve the Math Problem</h3>
-        <div id="math-captcha-question"></div>
-        <input type="number" id="math-captcha-input" min="0" max="99">
-        <button id="math-captcha-button">Verify</button>
-        <p id="math-captcha-error">Incorrect answer, please try again.</p>
-    </div>
-    
-    <noscript>
-        <style>
-            #captcha-label, #verify-checkbox {
-                display: none;
-            }
-            #noscript-message {
-                display: block;
-                color: green;
-            }
-        </style>
-        <p id="noscript-message">Verification Passed (No JavaScript)</p>
-        <script>
-            document.getElementById('submit-button').disabled = false;
-        </script>
-    </noscript>
+    <div id="air-captcha"></div>
 
     <script>
         (function(global) {
-    function AIRCaptcha() {
-        const verifyCheckbox = document.getElementById('verify-checkbox');
-        const captchaLabel = document.getElementById('captcha-label');
-        const checkMark = document.getElementById('check-mark');
-        const verificationText = document.getElementById('verification-text');
-        const errorMessage = document.getElementById('error-message');
-        const submitButton = document.getElementById('submit-button');
-        const loadingText = document.getElementById('loading-text');
-        const mathCaptchaModal = document.getElementById('math-captcha-modal');
-        const mathCaptchaQuestion = document.getElementById('math-captcha-question');
-        const mathCaptchaInput = document.getElementById('math-captcha-input');
-        const mathCaptchaButton = document.getElementById('math-captcha-button');
-        const mathCaptchaError = document.getElementById('math-captcha-error');
-        const mathCaptchaTitle = document.getElementById('math-captcha-title');
-        const privacyLink = document.getElementById('privacy-link');
-        const docsLink = document.getElementById('docs-link');
-        let mouseMovements = [];
-        let isTouchDevice = 'ontouchstart' in document.documentElement;
-        let mathAnswer;
-        let isTabActive = true; // Track if tab is active
+            const styles = `
+                /* CSS 代码省略，保持与之前相同 */
+            `;
 
-        const translations = {
-            en: {
-                captchaLabel: "I'm not a robot",
-                verifyingText: "Verifying...",
-                verificationSuccess: "Verification successful",
-                verificationError: "Please re-verify",
-                verifyButtonText: "Verify",
-                mathCaptchaTitle: "Solve the Math Problem",
-                mathCaptchaError: "Incorrect answer, please try again.",
-                privacyLink: "Privacy",
-                docsLink: "Documentation"
-            },
-            zh: {
-                captchaLabel: "我不是机器人",
-                verifyingText: "验证中...",
-                verificationSuccess: "验证成功",
-                verificationError: "请重新验证",
-                verifyButtonText: "验证",
-                mathCaptchaTitle: "请完成此验证",
-                mathCaptchaError: "回答错误，请重试",
-                privacyLink: "隐私",
-                docsLink: "文档"
-            },
-            // Other translations...
-        };
+            function AIRCaptcha() {
+                const styleSheet = document.createElement("style");
+                styleSheet.type = "text/css";
+                styleSheet.innerText = styles;
+                document.head.appendChild(styleSheet);
 
-        function detectLanguage() {
-            const userLang = navigator.language || navigator.userLanguage;
-            if (userLang.startsWith('zh')) return 'zh';
-            else return 'en'; // Default to English if language not supported
-        }
+                const captchaContainer = document.createElement('div');
+                captchaContainer.id = 'captcha-container';
+                captchaContainer.innerHTML = `
+                    <div id="verify-section">
+                        <input type="checkbox" id="verify-checkbox">
+                        <label for="verify-checkbox" id="captcha-label">我不是机器人</label>
+                        <span id="loading-text">验证中...</span>
+                        <img id="check-mark" src="https://captcha.xyehr.cn/assets/check-mark.svg" style="display: none; width: 30px; height: 30px;">
+                        <p id="verification-text" style="display: none;">验证成功</p>
+                        <p id="error-message" style="color: red; display: none;">请重新验证</p>
+                    </div>
+                    <div id="brand">
+                        <a href="https://github.com/Dev-Huang1/Air-Captcha"><img src="https://captcha.xyehr.cn/assets/logo.svg" alt="AIR Captcha Logo"></a>
+                        Air Captcha
+                        <div class="privacy-terms-links">
+                            <a href="#" id="privacy-link">隐私</a><p>·</p><a href="https://help.xyehr.cn/jekyll/2024-07-05-air-captcha.html" id="docs-link">文档</a>
+                        </div>
+                    </div>
+                `;
 
-        function setLanguage(lang) {
-            const translation = translations[lang];
-            captchaLabel.textContent = translation.captchaLabel;
-            loadingText.textContent = translation.verifyingText;
-            verificationText.textContent = translation.verificationSuccess;
-            errorMessage.textContent = translation.verificationError;
-            mathCaptchaButton.textContent = translation.verifyButtonText;
-            mathCaptchaTitle.textContent = translation.mathCaptchaTitle;
-            mathCaptchaError.textContent = translation.mathCaptchaError;
-            privacyLink.textContent = translation.privacyLink;
-            docsLink.textContent = translation.docsLink;
-        }
+                document.getElementById('air-captcha').appendChild(captchaContainer);
 
-        const userLang = detectLanguage();
-        setLanguage(userLang);
+                const verifyCheckbox = document.getElementById('verify-checkbox');
+                const captchaLabel = document.getElementById('captcha-label');
+                const checkMark = document.getElementById('check-mark');
+                const verificationText = document.getElementById('verification-text');
+                const errorMessage = document.getElementById('error-message');
+                const submitButton = document.getElementById('submit-button');
+                const loadingText = document.getElementById('loading-text');
+                let clickData = [];
+                let clickCount = 0;
+                const requiredClicks = 8;
 
-        function recordMouseMovement(event) {
-            const position = { x: event.clientX, y: event.clientY, time: Date.now() };
-            mouseMovements.push(position);
-        }
-
-        function calculateSpeed(movements) {
-            let totalSpeed = 0;
-            for (let i = 1; i < movements.length; i++) {
-                const dx = movements[i].x - movements[i - 1].x;
-                const dy = movements[i].y - movements[i - 1].y;
-                const dt = movements[i].time - movements[i - 1].time;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                const speed = distance / dt;
-                totalSpeed += speed;
-            }
-            return totalSpeed / (movements.length - 1);
-        }
-
-        function isValidMovement(movements) {
-            if (movements.length < 5) return false;
-            const averageSpeed = calculateSpeed(movements);
-            let deviations = 0;
-            for (let i = 1; i < movements.length; i++) {
-                const dx = movements[i].x - movements[i - 1].x;
-                const dy = movements[i].y - movements[i - 1].y;
-                const dt = movements[i].time - movements[i - 1].time;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                const speed = distance / dt;
-                if (Math.abs(speed - averageSpeed) > averageSpeed * 0.5) {
-                    deviations++;
+                // 记录点击位置和时间
+                function recordClick(event) {
+                    clickData.push({
+                        x: event.clientX,
+                        y: event.clientY,
+                        time: Date.now()
+                    });
+                    clickCount++;
+                    if (clickCount >= requiredClicks) {
+                        verifyClicks();
+                    }
                 }
-            }
-            return deviations > (movements.length * 0.3);
-        }
 
-        function generateMathCaptcha() {
-            let num1, num2, operator;
-            do {
-                num1 = Math.floor(Math.random() * 10);
-                num2 = Math.floor(Math.random() * 10);
-                operator = Math.random() > 0.5 ? '+' : '-';
-            } while (operator === '-' && num1 < num2);
-            
-            mathAnswer = operator === '+' ? num1 + num2 : num1 - num2;
-            mathCaptchaQuestion.textContent = `${num1} ${operator} ${num2} = ?`;
-        }
-
-        function showMathCaptcha() {
-            mathCaptchaInput.value = '';
-            mathCaptchaError.style.display = 'none';
-            generateMathCaptcha();
-            mathCaptchaModal.style.display = 'block';
-        }
-
-        function verifyMathCaptcha() {
-            const userAnswer = parseInt(mathCaptchaInput.value, 10);
-            if (userAnswer === mathAnswer) {
-                mathCaptchaModal.style.display = 'none';
-                checkMark.style.display = 'block';
-                verificationText.style.display = 'block';
-                submitButton.disabled = false;
-                errorMessage.style.display = 'none';
-            } else {
-                mathCaptchaError.style.display = 'block';
-                generateMathCaptcha();
-            }
-        }
-
-        function clearCookies() {
-            var cookies = document.cookie.split(";");
-
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = cookies[i];
-                var eqPos = cookie.indexOf("=");
-                var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-                document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
-            }
-        }
-
-        window.onload = function() {
-            clearCookies();
-        }
-
-        // Check if tab is active
-        document.addEventListener('visibilitychange', function() {
-            if (document.visibilityState === 'hidden') {
-                isTabActive = false;
-            } else {
-                isTabActive = true;
-            }
-        });
-
-        document.addEventListener('mousemove', recordMouseMovement);
-
-        verifyCheckbox.addEventListener('change', () => {
-            if (verifyCheckbox.checked) {
-                captchaLabel.style.display = 'none';
-                verifyCheckbox.style.display = 'none';
-                if (isTouchDevice) {
-                    showMathCaptcha();
-                } else {
-                    loadingText.style.display = 'block';
-                    setTimeout(() => {
-                        if (isValidMovement(mouseMovements) && isTabActive) {
-                            loadingText.style.display = 'none';
-                            checkMark.style.display = 'block';
-                            verificationText.style.display = 'block';
-                            submitButton.disabled = false;
-                            errorMessage.style.display = 'none';
-                        } else {
-                            loadingText.style.display = 'none';
-                            errorMessage.style.display = 'block';
-                            verifyCheckbox.checked = false;
-                            captchaLabel.style.display = 'inline';
-                            verifyCheckbox.style.display = 'inline';
-                        }
-                    }, 2000);
+                // 验证点击是否为真人
+                function verifyClicks() {
+                    // 这里添加实际的验证逻辑
+                    if (isValidClickData(clickData)) {
+                        completeVerification();
+                    } else {
+                        showError();
+                    }
                 }
+
+                // 示例函数：检查点击数据是否有效
+                function isValidClickData(data) {
+                    // 简单示例：检查点击次数是否达到要求
+                    return data.length >= requiredClicks;
+                }
+
+                // 完成验证过程
+                function completeVerification() {
+                    verifyCheckbox.style.display = 'none';
+                    captchaLabel.style.display = 'none';
+                    checkMark.style.display = 'inline';
+                    verificationText.style.display = 'inline';
+                    loadingText.style.display = 'none';
+                    errorMessage.style.display = 'none';
+                    if (submitButton) {
+                        submitButton.disabled = false;
+                    }
+                }
+
+                // 显示错误信息
+                function showError() {
+                    errorMessage.style.display = 'block';
+                    verifyCheckbox.checked = false;
+                    clickData = [];
+                    clickCount = 0;
+                }
+
+                // 监听复选框点击事件
+                verifyCheckbox.addEventListener('click', recordClick);
             }
-        });
 
-        mathCaptchaButton.addEventListener('click', verifyMathCaptcha);
-    }
-
-    global.AIRCaptcha = AIRCaptcha;
-})(window);
-
-// Usage example:
-// Make sure to call AIRCaptcha() after the DOM is fully loaded
-document.addEventListener('DOMContentLoaded', function() {
-    AIRCaptcha();
-});
+            global.addEventListener('DOMContentLoaded', () => {
+                const captchaElement = document.getElementById('air-captcha');
+                if (captchaElement) {
+                    AIRCaptcha();
+                }
+            });
+        })(window);
     </script>
 </body>
 </html>
