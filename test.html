@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title>v2 Captcha</title>
     <style>
         #captcha-container {
             width: 260px;
@@ -136,6 +136,21 @@
             display: none;
             margin-left: 10px;
         }
+        #submit-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #0066FF;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        #submit-button:enabled {
+            cursor: pointer;
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -177,46 +192,47 @@
                 const errorMessage = document.getElementById('error-message');
                 const loadingText = document.getElementById('loading-text');
                 const ripple = document.getElementById('ripple');
+                const submitButton = document.getElementById('submit-button');
                 let clickData = [];
                 let clickCount = 0;
                 const requiredClicks = 8;
                 let lastClickTime = 0;
 
                 const translations = {
-    en: {
-        captchaLabel: "I'm not a robot",
-        verifyingText: "Verifying...",
-        verificationSuccess: "Success",
-        errorMessage: "Please re-verify",
-        privacyLink: "Privacy",
-        docsLink: "Docs"
-    },
-    zh: {
-        captchaLabel: "我不是机器人",
-        verifyingText: "验证中...",
-        verificationSuccess: "验证成功",
-        errorMessage: "请重新验证",
-        privacyLink: "隐私",
-        docsLink: "文档"
-    },
-};
+                    en: {
+                        captchaLabel: "I'm not a robot",
+                        verifyingText: "Verifying...",
+                        verificationSuccess: "Success",
+                        errorMessage: "Please re-verify",
+                        privacyLink: "Privacy",
+                        docsLink: "Docs"
+                    },
+                    zh: {
+                        captchaLabel: "我不是机器人",
+                        verifyingText: "验证中...",
+                        verificationSuccess: "验证成功",
+                        errorMessage: "请重新验证",
+                        privacyLink: "隐私",
+                        docsLink: "文档"
+                    },
+                };
 
-function detectLanguage() {
-    const userLang = navigator.language || navigator.userLanguage;
-    return userLang.startsWith('zh') ? 'zh' : 'en';
-}
+                function detectLanguage() {
+                    const userLang = navigator.language || navigator.userLanguage;
+                    return userLang.startsWith('zh') ? 'zh' : 'en';
+                }
 
-function applyTranslations(language) {
-    document.getElementById('captcha-label').textContent = translations[language].captchaLabel;
-    document.getElementById('loading-text').textContent = translations[language].verifyingText;
-    document.getElementById('verification-text').textContent = translations[language].verificationSuccess;
-    document.getElementById('error-message').textContent = translations[language].verificationError;
-    document.getElementById('privacy-link').textContent = translations[language].privacyLink;
-    document.getElementById('docs-link').textContent = translations[language].docsLink;
-}
+                function applyTranslations(language) {
+                    document.getElementById('captcha-label').textContent = translations[language].captchaLabel;
+                    document.getElementById('loading-text').textContent = translations[language].verifyingText;
+                    document.getElementById('verification-text').textContent = translations[language].verificationSuccess;
+                    document.getElementById('error-message').textContent = translations[language].verificationError;
+                    document.getElementById('privacy-link').textContent = translations[language].privacyLink;
+                    document.getElementById('docs-link').textContent = translations[language].docsLink;
+                }
 
-const language = detectLanguage();
-applyTranslations(language);
+                const language = detectLanguage();
+                applyTranslations(language);
 
                 function recordClick(event) {
                     const currentTime = Date.now();
@@ -258,6 +274,7 @@ applyTranslations(language);
                     loadingText.style.display = 'none';
                     errorMessage.style.display = 'none';
                     ripple.style.display = 'none';
+                    submitButton.disabled = false;
                 }
 
                 function showError(message) {
@@ -277,12 +294,12 @@ applyTranslations(language);
             }
 
             global.addEventListener('DOMContentLoaded', () => {
-    const captchaElement = document.getElementById('air-captcha');
-    if (captchaElement) {
-        AIRCaptcha();
-        const language = detectLanguage();
-        applyTranslations(language);
-    }
+                const captchaElement = document.getElementById('air-captcha');
+                if (captchaElement) {
+                    AIRCaptcha();
+                    const language = detectLanguage();
+                    applyTranslations(language);
+                }
             });
         })(window);
     </script>
