@@ -184,15 +184,12 @@
                 const requiredClicks = 8;
                 let lastClickTime = 0;
 
-                function showError(message) {
-                    captchaLabel.style.display = 'none';
-                    errorMessage.textContent = message; // 设置错误信息文本为传入的消息
-                    errorMessage.style.display = 'block'; // 显示错误信息
-                    ripple.style.display = 'none';
-                    clickData = [];
-                    clickCount = 0;
-                    lastClickTime = 0;
-                }
+                function recordClick(event) {
+                    const currentTime = Date.now();
+                    if (lastClickTime !== 0 && currentTime - lastClickTime > 5000) {
+                        showError("点击速度过慢，请重新验证");
+                        return;
+                    }
 
                     clickData.push({
                         x: event.clientX,
@@ -230,14 +227,13 @@
                 }
 
                 function showError(message) {
-                    verifyCheckbox.style.display = 'none';
-                    captchaLabel.style.display = 'none';
-                    errorMessage.textContent = message; // 设置错误信息文本
-                    errorMessage.style.display = 'block'; // 显示错误信息
-                    ripple.style.display = 'none';
-                    clickData = [];
-                    clickCount = 0;
-                    lastClickTime = 0;
+    captchaLabel.style.display = 'none';
+    errorMessage.textContent = message; // 设置错误信息文本为传入的消息
+    errorMessage.style.display = 'block'; // 显示错误信息
+    ripple.style.display = 'none';
+    clickData = [];
+    clickCount = 0;
+    lastClickTime = 0;
                 }
 
                 verifyCheckbox.addEventListener('click', function(event) {
