@@ -181,6 +181,42 @@
                 const requiredClicks = 8;
                 let lastClickTime = 0;
 
+                const translations = {
+    en: {
+        captchaLabel: "I'm not a robot",
+        verifyingText: "Verifying...",
+        verificationSuccess: "Success",
+        errorMessage: "Please re-verify",
+        privacyLink: "Privacy",
+        docsLink: "Docs"
+    },
+    zh: {
+        captchaLabel: "我不是机器人",
+        verifyingText: "验证中...",
+        verificationSuccess: "验证成功",
+        errorMessage: "请重新验证",
+        privacyLink: "隐私",
+        docsLink: "文档"
+    },
+};
+
+function detectLanguage() {
+    const userLang = navigator.language || navigator.userLanguage;
+    return userLang.startsWith('zh') ? 'zh' : 'en';
+}
+
+function applyTranslations(language) {
+    document.getElementById('captcha-label').textContent = translations[language].captchaLabel;
+    document.getElementById('loading-text').textContent = translations[language].verifyingText;
+    document.getElementById('verification-text').textContent = translations[language].verificationSuccess;
+    document.getElementById('error-message').textContent = translations[language].verificationError;
+    document.getElementById('privacy-link').textContent = translations[language].privacyLink;
+    document.getElementById('docs-link').textContent = translations[language].docsLink;
+}
+
+const language = detectLanguage();
+applyTranslations(language);
+
                 function recordClick(event) {
                     const currentTime = Date.now();
                     if (lastClickTime !== 0 && currentTime - lastClickTime > 5000) {
@@ -240,10 +276,12 @@
             }
 
             global.addEventListener('DOMContentLoaded', () => {
-                const captchaElement = document.getElementById('air-captcha');
-                if (captchaElement) {
-                    AIRCaptcha();
-                }
+    const captchaElement = document.getElementById('air-captcha');
+    if (captchaElement) {
+        AIRCaptcha();
+        const language = detectLanguage();
+        applyTranslations(language);
+    }
             });
         })(window);
     </script>
