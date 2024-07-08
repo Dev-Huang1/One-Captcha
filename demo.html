@@ -187,7 +187,7 @@
                 function recordClick(event) {
                     const currentTime = Date.now();
                     if (lastClickTime !== 0 && currentTime - lastClickTime > 5000) {
-                        showError("点击速度过慢，请重新验证");
+                        showError("请重新验证");
                         return;
                     }
 
