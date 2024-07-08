@@ -1,4 +1,4 @@
-![Banner](/assets/)
+![Banner](assets/FwpOq01NQ1nwXje91Kwm_20240708_113148_0000.png)
 
 # Air-Captcha
 
