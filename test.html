@@ -234,7 +234,7 @@
                 function recordClick(event) {
                     const currentTime = Date.now();
                     if (lastClickTime !== 0 && currentTime - lastClickTime > 5000) {
-                        showError("请重新验证");
+                        verificationText.style.display = 'inline';
                         return;
                     }
 
