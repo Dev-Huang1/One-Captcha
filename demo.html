@@ -37,14 +37,15 @@
         #verify-section {
             display: flex;
             align-items: center;
+            position: relative;
         }
         #verify-checkbox {
             margin-right: 10px;
+            position: relative;
+            overflow: hidden;
         }
         #captcha-label {
             margin-right: 20px;
-            position: relative;
-            overflow: hidden;
         }
         #brand {
             font-weight: bold;
@@ -186,21 +187,21 @@
                 // 创建扩散圆圈效果
                 function createRipple(event) {
                     const circle = document.createElement("span");
-                    const diameter = Math.max(captchaLabel.clientWidth, captchaLabel.clientHeight);
+                    const diameter = Math.max(verifyCheckbox.clientWidth, verifyCheckbox.clientHeight);
                     const radius = diameter / 2;
 
                     circle.style.width = circle.style.height = `${diameter}px`;
-                    circle.style.left = `${event.clientX - captchaLabel.getBoundingClientRect().left - radius}px`;
-                    circle.style.top = `${event.clientY - captchaLabel.getBoundingClientRect().top - radius}px`;
+                    circle.style.left = `${verifyCheckbox.clientWidth / 2 - radius}px`;
+                    circle.style.top = `${verifyCheckbox.clientHeight / 2 - radius}px`;
                     circle.classList.add("ripple");
 
-                    const ripple = captchaLabel.getElementsByClassName("ripple")[0];
+                    const ripple = verifyCheckbox.getElementsByClassName("ripple")[0];
 
                     if (ripple) {
                         ripple.remove();
                     }
 
-                    captchaLabel.appendChild(circle);
+                    verifyCheckbox.appendChild(circle);
                 }
 
                 // 验证点击是否为真人
