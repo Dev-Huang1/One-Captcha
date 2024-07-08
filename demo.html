@@ -82,6 +82,7 @@
             color: green;
             font-weight: bold;
             font-size: 16px;
+            display: none; /* 初始隐藏 */
         }
         #loading-text {
             display: none;
@@ -135,7 +136,7 @@
         }
         #error-message {
             color: red;
-            display: none;
+            display: none; /* 初始隐藏 */
             margin-left: 10px;
         }
     </style>
@@ -157,8 +158,8 @@
                         </div>
                         <label for="verify-checkbox" id="captcha-label">我不是机器人</label>
                         <span id="loading-text">验证中...</span>
-                        <p id="verification-text" style="display: none;">验证成功</p>
-                        <p id="error-message">请重新验证</p>
+                        <p id="verification-text">验证成功</p> <!-- 调整到v1的位置 -->
+                        <p id="error-message">请重新验证</p> <!-- 调整到v1的位置 -->
                     </div>
                     <div id="brand">
                         <a href="https://github.com/Dev-Huang1/Air-Captcha"><img src="https://captcha.xyehr.cn/assets/logo.svg" alt="AIR Captcha Logo"></a>
@@ -219,7 +220,7 @@
                     verifyCheckbox.style.display = 'none';
                     captchaLabel.style.display = 'none';
                     checkMark.style.display = 'block';
-                    verificationText.style.display = 'inline';
+                    verificationText.style.display = 'inline'; // 显示验证成功文本
                     loadingText.style.display = 'none';
                     errorMessage.style.display = 'none';
                     ripple.style.display = 'none';
@@ -228,8 +229,8 @@
                 function showError(message) {
                     verifyCheckbox.style.display = 'none';
                     captchaLabel.style.display = 'none';
-                    errorMessage.textContent = message;
-                    errorMessage.style.display = 'block';
+                    errorMessage.textContent = message; // 设置错误信息文本
+                    errorMessage.style.display = 'block'; // 显示错误信息
                     ripple.style.display = 'none';
                     clickData = [];
                     clickCount = 0;
