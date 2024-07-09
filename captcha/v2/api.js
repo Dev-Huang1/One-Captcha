@@ -240,25 +240,26 @@
         }
 
         function completeVerification() {
-            verifyCheckbox.style.display = 'none';
-            captchaLabel.style.display = 'none';
-            checkMark.style.display = 'block';
-            verificationText.style.display = 'inline';
-            loadingText.style.display = 'none';
-            errorMessage.style.display = 'none';
-            ripple.style.display = 'none';
-            clearTimeout(resetTimeout);
+    verifyCheckbox.style.display = 'none';
+    captchaLabel.style.display = 'none';
+    checkMark.style.display = 'block';
+    verificationText.style.display = 'inline';
+    loadingText.style.display = 'none';
+    errorMessage.style.display = 'none';
+    ripple.style.display = 'none';
+    clearTimeout(resetTimeout);
 
-            const submitButton = document.getElementById('submit-button');
-            if (submitButton) {
-                console.log('Enabling submit button'); // 调试信息
-                submitButton.disabled = false;
-            } else {
-                console.log('Submit button not found'); // 调试信息
-            }
+    const submitButton = document.getElementById('submit-button');
+    if (submitButton) {
+        console.log('Enabling submit button'); // 调试信息
+        submitButton.disabled = false;
+        console.log('Submit button enabled:', submitButton.disabled); // 确认按钮状态
+    } else {
+        console.log('Submit button not found'); // 调试信息
+    }
 
-            startResetTimer();
-        }
+    startResetTimer();
+}
 
         function showError(message) {
             captchaLabel.style.display = 'none';
