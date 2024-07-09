@@ -251,11 +251,11 @@
 
     const submitButton = document.getElementById('submit-button');
     if (submitButton) {
-        console.log('Enabling submit button'); // 调试信息
+        console.log('Enabling submit button');
         submitButton.disabled = false;
         console.log('Submit button enabled:', submitButton.disabled); // 确认按钮状态
     } else {
-        console.log('Submit button not found'); // 调试信息
+        console.log('Submit button not found');
     }
 
     startResetTimer();
