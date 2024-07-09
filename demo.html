@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>v2 Captcha</title>
+    <title></title>
     <style>
         #captcha-container {
             width: 260px;
@@ -72,10 +72,6 @@
             width: 30px;
             height: 30px;
             display: none;
-            /* position: absolute;
-            /* top: 50%;
-            /* left: 50%;
-            /* transform: translate(-50%, -50%); */
         }
         #verification-text {
             margin-left: 10px;
@@ -137,7 +133,7 @@
         }
         #error-message {
             color: red;
-            display: none; /* 初始隐藏 */
+            display: none;
             margin-left: 10px;
         }
     </style>
@@ -184,11 +180,48 @@
                 let clickCount = 0;
                 const requiredClicks = 8;
                 let lastClickTime = 0;
+                let resetTimeout;
+
+                const translations = {
+                    en: {
+                        captchaLabel: "I'm not a robot",
+                        verifyingText: "Verifying...",
+                        verificationSuccess: "Success",
+                        errorMessage: "Please re-verify",
+                        privacyLink: "Privacy",
+                        docsLink: "Docs"
+                    },
+                    zh: {
+                        captchaLabel: "我不是机器人",
+                        verifyingText: "验证中...",
+                        verificationSuccess: "验证成功",
+                        errorMessage: "请重新验证",
+                        privacyLink: "隐私",
+                        docsLink: "文档"
+                    },
+                };
+
+                function detectLanguage() {
+                    const userLang = navigator.language || navigator.userLanguage;
+                    return userLang.startsWith('zh') ? 'zh' : 'en';
+                }
+
+                function applyTranslations(language) {
+                    document.getElementById('captcha-label').textContent = translations[language].captchaLabel;
+                    document.getElementById('loading-text').textContent = translations[language].verifyingText;
+                    document.getElementById('verification-text').textContent = translations[language].verificationSuccess;
+                    document.getElementById('error-message').textContent = translations[language].errorMessage;
+                    document.getElementById('privacy-link').textContent = translations[language].privacyLink;
+                    document.getElementById('docs-link').textContent = translations[language].docsLink;
+                }
+
+                const language = detectLanguage();
+                applyTranslations(language);
 
                 function recordClick(event) {
                     const currentTime = Date.now();
                     if (lastClickTime !== 0 && currentTime - lastClickTime > 5000) {
-                        showError("请重新验证");
+                        showError(translations[language].errorMessage);
                         return;
                     }
 
@@ -209,7 +242,7 @@
                     if (isValidClickData(clickData)) {
                         completeVerification();
                     } else {
-                        showError("验证失败，请重新尝试");
+                        showError(translations[language].errorMessage);
                     }
                 }
 
@@ -218,36 +251,71 @@
                 }
 
                 function completeVerification() {
-    verifyCheckbox.style.display = 'none';
-    captchaLabel.style.display = 'none';
-    checkMark.style.display = 'block';
-    verificationText.style.display = 'inline'; // 显示验证成功文本
-    loadingText.style.display = 'none';
-    errorMessage.style.display = 'none';
-    ripple.style.display = 'none';
-}
+                    verifyCheckbox.style.display = 'none';
+                    captchaLabel.style.display = 'none';
+                    checkMark.style.display = 'block';
+                    verificationText.style.display = 'inline';
+                    loadingText.style.display = 'none';
+                    errorMessage.style.display = 'none';
+                    ripple.style.display = 'none';
+                    clearTimeout(resetTimeout);
 
-function showError(message) {
-    captchaLabel.style.display = 'none';
-    errorMessage.textContent = message; // 设置错误信息文本为传入的消息
-    errorMessage.style.display = 'block'; // 显示错误信息
-    ripple.style.display = 'none';
-    clickData = [];
-    clickCount = 0;
-    lastClickTime = 0;
-}
+                    startResetTimer();
+                }
+
+                function showError(message) {
+                    captchaLabel.style.display = 'none';
+                    errorMessage.textContent = message;
+                    errorMessage.style.display = 'block';
+                    ripple.style.display = 'none';
+                    clickData = [];
+                    clickCount = 0;
+                    lastClickTime = 0;
+                }
+
+                function resetCaptcha() {
+                    verifyCheckbox.checked = false;
+                    verifyCheckbox.style.display = 'block';
+                    captchaLabel.style.display = 'block';
+                    checkMark.style.display = 'none';
+                    verificationText.style.display = 'none';
+                    loadingText.style.display = 'none';
+                    errorMessage.style.display = 'none';
+                    ripple.style.display = 'none';
+                    clickData = [];
+                    clickCount = 0;
+                    lastClickTime = 0;
+                }
+
+                function startResetTimer() {
+                    if (resetTimeout) {
+                        clearTimeout(resetTimeout);
+                    }
+                    resetTimeout = setTimeout(() => {
+                        resetCaptcha();
+                    }, 30000);
+                }
 
                 verifyCheckbox.addEventListener('click', function(event) {
                     event.preventDefault();
                     recordClick(event);
                 });
+
+                window.addEventListener('blur', function() {
+                    if (verifyCheckbox.checked) {
+                        startResetTimer();
+                    }
+                });
+
+                window.addEventListener('focus', function() {
+                    if (resetTimeout) {
+                        clearTimeout(resetTimeout);
+                    }
+                });
             }
 
             global.addEventListener('DOMContentLoaded', () => {
-                const captchaElement = document.getElementById('air-captcha');
-                if (captchaElement) {
-                    AIRCaptcha();
-                }
+                AIRCaptcha();
             });
         })(window);
     </script>
