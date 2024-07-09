@@ -249,6 +249,11 @@
             ripple.style.display = 'none';
             clearTimeout(resetTimeout);
 
+            const submitButton = document.getElementById('submit-button');
+            if (submitButton) {
+                submitButton.disabled = false;
+            }
+
             startResetTimer();
         }
 
@@ -274,6 +279,11 @@
             clickData = [];
             clickCount = 0;
             lastClickTime = 0;
+            
+            const submitButton = document.getElementById('submit-button');
+            if (submitButton) {
+                submitButton.disabled = true;
+            }
         }
 
         function startResetTimer() {
@@ -282,7 +292,7 @@
             }
             resetTimeout = setTimeout(() => {
                 resetCaptcha();
-            },30000);
+            }, 30000);
         }
 
         verifyCheckbox.addEventListener('click', function(event) {
