@@ -151,7 +151,7 @@
                 <a href="https://github.com/Dev-Huang1/Air-Captcha"><img src="https://captcha.xyehr.cn/assets/logo.svg" alt="AIR Captcha Logo"></a>
                 Air Captcha
                 <div class="privacy-terms-links">
-                    <a href="#" id="privacy-link">Privacy</a><p>·</p><a href="https://help.xyehr.cn/jekyll/2024-07-05-air-captcha.html" id="docs-link">Docs</a>
+                    <a href="https://www.xyehr.cn/air-captcha-privacy-policy" id="privacy-link">Privacy</a><p>·</p><a href="https://help.xyehr.cn/jekyll/2024-07-05-air-captcha.html" id="docs-link">Docs</a>
                 </div>
             </div>
         `;
