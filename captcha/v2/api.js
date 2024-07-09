@@ -251,7 +251,10 @@
 
             const submitButton = document.getElementById('submit-button');
             if (submitButton) {
+                console.log('Enabling submit button'); // 调试信息
                 submitButton.disabled = false;
+            } else {
+                console.log('Submit button not found'); // 调试信息
             }
 
             startResetTimer();
@@ -279,10 +282,13 @@
             clickData = [];
             clickCount = 0;
             lastClickTime = 0;
-            
+
             const submitButton = document.getElementById('submit-button');
             if (submitButton) {
+                console.log('Disabling submit button'); // 调试信息
                 submitButton.disabled = true;
+            } else {
+                console.log('Submit button not found'); // 调试信息
             }
         }
 
