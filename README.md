@@ -2,11 +2,17 @@
 
 # Air-Captcha
 
-🎉**A free human-machine verification product project that is secure and privacy-protecting.**
+![GitHub stars](https://img.shields.io/github/stars/Dev-Huang1/Air-Captcha.svg?style=for-the-badge)
 
-[Captcha demo](https://captcha.xyehr.cn) [Wiki](https://help.xyehr.cn/jekyll/2024-07-05-air-captcha.html) [Github Wiki](https://github.com/Dev-Huang1/Air-Captcha/wiki)
-[Report problem](mailto:devhuang000@outlook.com)
+![License](https://img.shields.io/github/license/Dev-Huang1/Air-Captcha.svg?style=for-the-badge)
+
+🎉**A free human-machine verification product project that is secure and privacy-protecting.**
 
 ## Contributors
 
 ![Contributors](https://opencollective.com/Air-Captcha/contributors.svg?width=890&button=false)
+
+## Help
+
+[Captcha demo](https://captcha.xyehr.cn) [Wiki](https://help.xyehr.cn/jekyll/2024-07-05-air-captcha.html) [Github Wiki](https://github.com/Dev-Huang1/Air-Captcha/wiki)
+[Report problem](mailto:devhuang000@outlook.com)
