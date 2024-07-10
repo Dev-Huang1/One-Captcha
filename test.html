@@ -191,7 +191,7 @@
 
     <div id="slider-captcha">
         <div id="puzzle-container">
-            <img id="puzzle-image" src="" alt="拼图图片">
+            <img id="puzzle-image" src="" alt="img">
             <div id="puzzle-piece"></div>
         </div>
         <div id="slider">
@@ -209,6 +209,7 @@
         const sliderHandle = document.getElementById('slider-handle');
         const sliderTrack = document.getElementById('slider-track');
         const retryButton = document.getElementById('retry-button');
+        const successMessage = document.getElementById('success-message')
 
         const images = ['image1.jpeg', 'image2.jpeg', 'image3.jpg']; // 请添加您的图片文件名
         let currentImage;
@@ -227,7 +228,8 @@
             verificationError: "Please re-verify",
             retryButton: "Retry",
             privacyLink: "Privacy",
-            docsLink: "Docs"
+            docsLink: "Docs",
+            successMessage: "Success"
         },
         zh: {
             captchaLabel: "我不是机器人",
@@ -236,7 +238,8 @@
             verificationError: "请重新验证",
             retryButton: "重试",
             privacyLink: "隐私",
-            docsLink: "文档"
+            docsLink: "文档",
+            successMessage: "验证成功"
         }
     };
 
