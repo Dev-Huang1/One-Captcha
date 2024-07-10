@@ -141,7 +141,7 @@
             cursor: pointer;
         }
         #retry-button:hover {
-            background-color: #0066ff;
+            background-color: #0055cc;
         }
         #puzzle-piece {
             position: absolute;
@@ -155,7 +155,7 @@
             position: absolute;
             width: 50px;
             height: 50px;
-            background-color: rgba(0, 0, 0, 0.1);
+            background-color: rgba(0, 0, 0, 0.2);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3) inset;
             border-radius: 10px;
         }
@@ -271,33 +271,32 @@
             currentImage = images[Math.floor(Math.random() * images.length)];
             puzzleImage.src = `assets/v3/${currentImage}`;
             
-            // 生成拼图块的位置
-            const pieceSize = 50;
-            const maxX = 300 - pieceSize;
-            const maxY = 200 - pieceSize;
-            const pieceX = Math.floor(Math.random() * (maxX - 50) + 50); // 确保不太靠近左边界
-            const pieceY = Math.floor(Math.random() * maxY);
+            puzzleImage.onload = () => {
+                const pieceSize = 50;
+                const maxX = 300 - pieceSize;
+                const maxY = 200 - pieceSize;
+                const pieceX = Math.floor(Math.random() * (maxX - 50) + 50); 
+                const pieceY = Math.floor(Math.random() * maxY);
 
-            // 创建拼图块
-            puzzlePiece.style.left = '0px';
-            puzzlePiece.style.top = `${pieceY}px`;
-            puzzlePiece.style.backgroundImage = `url(assets/${currentImage})`;
-            puzzlePiece.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
+                puzzlePiece.style.left = '0px';
+                puzzlePiece.style.top = `${pieceY}px`;
+                puzzlePiece.style.backgroundImage = `url(assets/v3/${currentImage})`;
+                puzzlePiece.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
 
-            // 创建拼图空缺
-            const puzzleHole = document.createElement('div');
-            puzzleHole.id = 'puzzle-hole';
-            puzzleHole.style.left = `${pieceX}px`;
-            puzzleHole.style.top = `${pieceY}px`;
-            document.getElementById('puzzle-container').appendChild(puzzleHole);
+                const puzzleHole = document.createElement('div');
+                puzzleHole.id = 'puzzle-hole';
+                puzzleHole.style.left = `${pieceX}px`;
+                puzzleHole.style.top = `${pieceY}px`;
+                document.getElementById('puzzle-container').appendChild(puzzleHole);
 
-            piecePosition = pieceX;
-            sliderCaptcha.style.display = 'block';
-            resetSlider();
+                piecePosition = pieceX;
+                sliderCaptcha.style.display = 'block';
+                resetSlider();
+            };
         }
 
         function startDragging(e) {
-            e.preventDefault(); // 防止触摸设备上的滚动
+            e.preventDefault();
             isDragging = true;
             startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
             startLeft = sliderHandle.offsetLeft;
@@ -307,7 +306,7 @@
 
         function drag(e) {
             if (!isDragging) return;
-            e.preventDefault(); // 防止触摸设备上的滚动
+            e.preventDefault();
 
             const currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
             let newLeft = startLeft + currentX - startX;
@@ -333,12 +332,12 @@
                     showSuccessMessage();
                     sliderCaptcha.style.display = 'none';
                 } else {
-                    alert('验证失败，请重试。');
-                    resetSlider();
+                    alert('Verification failed. Please try again.');
+                    changeImageAndPosition();
                 }
             } else {
-                alert('验证失败，请重试。');
-                resetSlider();
+                alert('Verification failed. Please try again.');
+                changeImageAndPosition();
             }
         }
 
@@ -379,12 +378,16 @@
             return isUneven;
         }
 
-        retryButton.addEventListener('click', function() {
+        function changeImageAndPosition() {
             const puzzleHole = document.getElementById('puzzle-hole');
             if (puzzleHole) {
                 puzzleHole.remove();
             }
             showSliderCaptcha();
+        }
+
+        retryButton.addEventListener('click', function() {
+            changeImageAndPosition();
         });
 
         sliderHandle.addEventListener('mousedown', startDragging);
