@@ -243,8 +243,18 @@
             resetSlider();
         }
 
+        function startDragging(e) {
+            e.preventDefault(); // 防止触摸设备上的滚动
+            isDragging = true;
+            startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
+            startLeft = sliderHandle.offsetLeft;
+            startTime = Date.now();
+            movements = [];
+        }
+
         function drag(e) {
             if (!isDragging) return;
+            e.preventDefault(); // 防止触摸设备上的滚动
 
             const currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
             let newLeft = startLeft + currentX - startX;
@@ -317,6 +327,15 @@
             }
             showSliderCaptcha();
         });
+
+        sliderHandle.addEventListener('mousedown', startDragging);
+        sliderHandle.addEventListener('touchstart', startDragging);
+
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('touchmove', drag);
+
+        document.addEventListener('mouseup', stopDragging);
+        document.addEventListener('touchend', stopDragging);
     </script>
 </body>
 </html>
