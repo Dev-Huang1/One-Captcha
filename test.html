@@ -211,16 +211,7 @@
         const retryButton = document.getElementById('retry-button');
         const successMessage = document.getElementById('success-message');
 
-        const images = [];
-
-// 获取目录下所有文件名
-const fs = require('fs');
-const path = 'assets/v3/';
-
-fs.readdirSync(path).forEach(file => {
-    images.push(file);
-});
-        
+        const images = ['image1.jpeg', 'image2.jpeg', 'image3.jpg']; // 请添加您的图片文件名
         let currentImage;
         let piecePosition;
         let isDragging = false;
