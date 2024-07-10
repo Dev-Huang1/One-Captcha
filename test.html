@@ -197,7 +197,7 @@
         const sliderTrack = document.getElementById('slider-track');
         const retryButton = document.getElementById('retry-button');
 
-        const images = ['image1.jpeg', 'image1.jpeg', 'image1.jpeg']; // 请添加您的图片文件名
+        const images = ['image1.jpeg', 'image2.jpeg', 'image3.jpg']; // 请添加您的图片文件名
         let currentImage;
         let piecePosition;
         let isDragging = false;
@@ -253,7 +253,7 @@
 
         function showSliderCaptcha() {
             currentImage = images[Math.floor(Math.random() * images.length)];
-            puzzleImage.src = `assets/${currentImage}`;
+            puzzleImage.src = `assets/v3/${currentImage}`;
             
             // 生成拼图块的位置
             const pieceSize = 50;
