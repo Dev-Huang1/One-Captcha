@@ -208,6 +208,45 @@
         let movements = [];
         let startTime;
 
+        const translations = {
+        en: {
+            captchaLabel: "I'm not a robot",
+            verifyingText: "Verifying...",
+            verificationSuccess: "Verification successful",
+            verificationError: "Please re-verify",
+            retryButton: "Retry",
+            privacyLink: "Privacy",
+            docsLink: "Docs"
+        },
+        zh: {
+            captchaLabel: "我不是机器人",
+            verifyingText: "验证中...",
+            verificationSuccess: "验证成功",
+            verificationError: "请重新验证",
+            retryButton: "重试",
+            privacyLink: "隐私",
+            docsLink: "文档"
+        }
+    };
+
+    function detectLanguage() {
+        const userLang = navigator.language || navigator.userLanguage;
+        if (userLang.startsWith('zh')) return 'zh';
+        else return userLang.includes('zh') ? 'zh' : 'en';
+    }
+
+    function applyTranslations(language) {
+        document.getElementById('captcha-label').textContent = translations[language].captchaLabel;
+        document.getElementById('retry-button').textContent = translations[language].retryButton;
+        document.getElementById('privacy-link').textContent = translations[language].privacyLink;
+        document.getElementById('docs-link').textContent = translations[language].docsLink;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const userLang = detectLanguage();
+        applyTranslations(userLang);
+    });
+        
         verifyCheckbox.addEventListener('change', function() {
             if (this.checked) {
                 showSliderCaptcha();
