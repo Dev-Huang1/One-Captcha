@@ -240,26 +240,24 @@
         }
 
         function completeVerification() {
-    verifyCheckbox.style.display = 'none';
-    captchaLabel.style.display = 'none';
-    checkMark.style.display = 'block';
-    verificationText.style.display = 'inline';
-    loadingText.style.display = 'none';
-    errorMessage.style.display = 'none';
-    ripple.style.display = 'none';
-    clearTimeout(resetTimeout);
+            verifyCheckbox.style.display = 'none';
+            captchaLabel.style.display = 'none';
+            checkMark.style.display = 'block';
+            verificationText.style.display = 'inline';
+            loadingText.style.display = 'none';
+            errorMessage.style.display = 'none';
+            ripple.style.display = 'none';
+            clearTimeout(resetTimeout);
 
-    const submitButton = document.getElementById('submit-button');
-    if (submitButton) {
-        console.log('Enabling submit button');
-        submitButton.disabled = false;
-        console.log('Submit button enabled:', submitButton.disabled); // 确认按钮状态
-    } else {
-        console.log('Submit button not found');
-    }
-
-    startResetTimer();
-}
+            const submitButton = document.getElementById('submit-button');
+            if (submitButton) {
+                console.log('Enabling submit button');
+                submitButton.disabled = false;
+                console.log('Submit button enabled:', submitButton.disabled);
+            } else {
+                console.log('Submit button not found');
+            }
+        }
 
         function showError(message) {
             captchaLabel.style.display = 'none';
@@ -286,10 +284,10 @@
 
             const submitButton = document.getElementById('submit-button');
             if (submitButton) {
-                console.log('Disabling submit button'); // 调试信息
+                console.log('Disabling submit button');
                 submitButton.disabled = true;
             } else {
-                console.log('Submit button not found'); // 调试信息
+                console.log('Submit button not found');
             }
         }
 
@@ -308,9 +306,9 @@
         });
 
         window.addEventListener('blur', function() {
-            if (verifyCheckbox.checked) {
-                startResetTimer();
-            }
+            resetTimeout = setTimeout(() => {
+                resetCaptcha();
+            }, 3000);
         });
 
         window.addEventListener('focus', function() {
