@@ -299,7 +299,7 @@
             }
             resetTimeout = setTimeout(() => {
                 resetCaptcha();
-            }, 30000);
+            }, 3000);
         }
 
         verifyCheckbox.addEventListener('click', function(event) {
