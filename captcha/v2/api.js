@@ -297,7 +297,7 @@
             }
             resetTimeout = setTimeout(() => {
                 resetCaptcha();
-            }, 3000);
+            }, 30000);
         }
 
         verifyCheckbox.addEventListener('click', function(event) {
@@ -308,7 +308,7 @@
         window.addEventListener('blur', function() {
             resetTimeout = setTimeout(() => {
                 resetCaptcha();
-            }, 3000);
+            }, 30000);
         });
 
         window.addEventListener('focus', function() {
