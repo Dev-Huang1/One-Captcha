@@ -178,7 +178,7 @@
                 <p id="error-message" style="color: red; display: none;">Please re-verify</p>
             </div>
             <div id="brand">
-                <a href="https://github.com/Dev-Huang1/Air-Captcha"><img src="https://captcha.xyehr.cn/assets/logo.svg" alt="AIR Captcha Logo"></a>
+                <a href="https://github.com/Dev-Huang1/Air-Captcha"><img src="https://captcha.xyehr.cn/assets/logo/logo.svg" alt="AIR Captcha Logo"></a>
                 Air Captcha
                 <div class="privacy-terms-links">
                     <a href="https://www.xyehr.cn/air-captcha-privacy-policy" id="privacy-link">Privacy</a><p>·</p><a href="https://help.xyehr.cn/jekyll/2024-07-05-air-captcha.html" id="docs-link">Docs</a>
