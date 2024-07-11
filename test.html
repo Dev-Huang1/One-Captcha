@@ -412,7 +412,7 @@
         if (document.visibilityState === 'hidden') {
             leaveTimer = setTimeout(() => {
                 resetCaptcha();
-            }, 3000); // 3秒后重置Captcha
+            }, 30000); // 3秒后重置Captcha
         } else {
             clearTimeout(leaveTimer);
         }
