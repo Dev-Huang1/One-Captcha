@@ -222,6 +222,7 @@
         let startLeft;
         let movements = [];
         let startTime;
+        let leaveTimer;
 
         const translations = {
         en: {
@@ -338,6 +339,8 @@
                 showSuccessMessage();
                 sliderCaptcha.style.display = 'none';
                 submitButton.disabled = false; // 启用按钮
+                // 启动离开标签页检测
+                document.addEventListener('visibilitychange', handleVisibilityChange);
             } else {
                 alert('Verification failed. Please try again.');
                 changeImageAndPosition();
@@ -406,6 +409,30 @@
 
     document.addEventListener('mouseup', stopDragging);
     document.addEventListener('touchend', stopDragging);
+
+    function handleVisibilityChange() {
+        if (document.visibilityState === 'hidden') {
+            leaveTimer = setTimeout(() => {
+                resetCaptcha();
+            }, 3000); // 3秒后重置Captcha
+        } else {
+            clearTimeout(leaveTimer);
+        }
+    }
+
+    function resetCaptcha() {
+        // 重置Captcha逻辑
+        verifyCheckbox.checked = false;
+        verifyCheckbox.style.display = 'inline-block';
+        document.getElementById('captcha-label').style.display = 'inline-block';
+        document.getElementById('check-mark').style.display = 'none';
+        document.getElementById('success-message').style.display = 'none';
+        submitButton.disabled = true;
+        sliderCaptcha.style.display = 'none';
+        resetSlider();
+        changeImageAndPosition();
+        document.removeEventListener('visibilitychange', handleVisibilityChange);
+    }
     </script>
 </body>
 </html>
