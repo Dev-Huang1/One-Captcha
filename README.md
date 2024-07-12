@@ -1,3 +1,5 @@
+<div align="center">
+
 ![Banner](assets/FwpOq01NQ1nwXje91Kwm_20240708_114552_0000.png)
 
 # Air-Captcha
@@ -5,6 +7,8 @@
 ![GitHub stars](https://img.shields.io/github/stars/Dev-Huang1/Air-Captcha.svg?style=for-the-badge)
 
 ![License](https://img.shields.io/github/license/Dev-Huang1/Air-Captcha.svg?style=for-the-badge)
+
+</div>
 
 🎉**A free human-machine verification product project that is secure and privacy-protecting.**
 
