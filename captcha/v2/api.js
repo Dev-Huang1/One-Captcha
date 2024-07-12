@@ -1,7 +1,7 @@
 (function(global) {
     function AIRCaptcha() {
         const captchaContainer = document.createElement('div');
-        captchaContainer.id = 'verify-section';
+        captchaContainer.id = 'captcha-container';
         captchaContainer.innerHTML = `
             <style>
                 #captcha-container {
