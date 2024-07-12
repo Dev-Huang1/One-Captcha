@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
     <style>
+        /*body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            margin: 0;
+        }*/
         #captcha-container {
             width: 260px;
             height: 40px;
@@ -261,123 +267,207 @@
             verificationError: "Please re-verify",
             retryButton: "Retry",
             privacyLink: "Privacy",
-            docsLink: "Docs"
+            docsLink: "Docs",
+            successMessage: "Success",
+            submitButton: "Submit"
         },
         zh: {
             captchaLabel: "我不是机器人",
-            verifyingText: "正在验证...",
+            verifyingText: "验证中...",
             verificationSuccess: "验证成功",
             verificationError: "请重新验证",
             retryButton: "重试",
             privacyLink: "隐私",
-            docsLink: "文档"
+            docsLink: "文档",
+            successMessage: "验证成功",
+            submitButton: "提交"
         }
     };
 
-        const language = 'zh'; // 设置语言，可以改为 'en' 或 'zh'
-        const text = translations[language];
+    function detectLanguage() {
+        const userLang = navigator.language || navigator.userLanguage;
+        if (userLang.startsWith('zh')) return 'zh';
+        else return userLang.includes('zh') ? 'zh' : 'en';
+    }
 
-        document.getElementById('captcha-label').textContent = text.captchaLabel;
-        document.getElementById('retry-button').textContent = text.retryButton;
-        document.getElementById('privacy-link').textContent = text.privacyLink;
-        document.getElementById('docs-link').textContent = text.docsLink;
+    function applyTranslations(language) {
+        document.getElementById('captcha-label').textContent = translations[language].captchaLabel;
+        document.getElementById('retry-button').textContent = translations[language].retryButton;
+        document.getElementById('privacy-link').textContent = translations[language].privacyLink;
+        document.getElementById('docs-link').textContent = translations[language].docsLink;
+        document.getElementById('submit-button').textContent = translations[language].submitButton;
+    }
 
-        function getRandomImage() {
-            return images[Math.floor(Math.random() * images.length)];
+    document.addEventListener('DOMContentLoaded', () => {
+        const userLang = detectLanguage();
+        applyTranslations(userLang);
+    });
+
+    verifyCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            showSliderCaptcha();
         }
+    });
 
-        function loadImage() {
-            currentImage = getRandomImage();
-            puzzleImage.src = `assets/${currentImage}`;
-            puzzlePiece.style.backgroundImage = `url(assets/${currentImage})`;
+    function showSliderCaptcha() {
+        currentImage = images[Math.floor(Math.random() * images.length)];
+        puzzleImage.src = `assets/v3/${currentImage}`;
+
+        puzzleImage.onload = () => {
+            const pieceSize = 50;
+            const maxX = 300 - pieceSize;
+            const maxY = 200 - pieceSize;
+            const pieceX = Math.floor(Math.random() * (maxX - 50) + 50); 
+            const pieceY = Math.floor(Math.random() * maxY);
+
+            puzzlePiece.style.left = '0px';
+            puzzlePiece.style.top = `${pieceY}px`;
+            puzzlePiece.style.backgroundImage = `url(assets/v3/${currentImage})`;
+            puzzlePiece.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
 
             const puzzleHole = document.createElement('div');
             puzzleHole.id = 'puzzle-hole';
+            puzzleHole.style.left = `${pieceX}px`;
+            puzzleHole.style.top = `${pieceY}px`;
             document.getElementById('puzzle-container').appendChild(puzzleHole);
 
-            piecePosition = Math.floor(Math.random() * (puzzleContainer.offsetWidth - puzzlePiece.offsetWidth));
-            puzzleHole.style.left = `${piecePosition}px`;
-            puzzleHole.style.top = `${Math.floor(Math.random() * (puzzleContainer.offsetHeight - puzzlePiece.offsetHeight))}px`;
+            piecePosition = pieceX;
+            sliderCaptcha.style.display = 'block';
+            resetSlider();
+        };
+    }
 
-            puzzlePiece.style.backgroundPosition = `-${piecePosition}px -${puzzleHole.style.top}`;
-        }
+    function startDragging(e) {
+        e.preventDefault();
+        isDragging = true;
+        startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
+        startLeft = sliderHandle.offsetLeft;
+        startTime = Date.now();
+        movements = [];
+    }
 
-        function resetCaptcha() {
-            isDragging = false;
-            startX = 0;
-            startLeft = 0;
-            movements = [];
-            puzzlePiece.style.left = '0';
-            sliderTrack.style.width = '0';
-            sliderHandle.style.left = '0';
-            successMessage.style.display = 'none';
-            puzzlePiece.style.display = 'block';
-            document.getElementById('puzzle-hole').remove();
-            loadImage();
-        }
+    function drag(e) {
+        if (!isDragging) return;
+        e.preventDefault();
 
-        verifyCheckbox.addEventListener('change', function () {
-            if (this.checked) {
-                sliderCaptcha.style.display = 'block';
-            } else {
+        const currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
+        let newLeft = startLeft + currentX - startX;
+        newLeft = Math.max(0, Math.min(newLeft, 260));
+
+        sliderHandle.style.left = `${newLeft}px`;
+        sliderTrack.style.width = `${newLeft}px`;
+        puzzlePiece.style.left = `${newLeft}px`;
+
+        movements.push({
+            x: newLeft,
+            time: Date.now() - startTime
+        });
+    }
+
+    function stopDragging() {
+        if (!isDragging) return;
+        isDragging = false;
+
+        const finalPosition = sliderHandle.offsetLeft;
+        if (Math.abs(finalPosition - piecePosition) < 5) {
+            if (isHumanLikeMovement()) {
+                showSuccessMessage();
                 sliderCaptcha.style.display = 'none';
-                successMessage.style.display = 'none';
-                document.getElementById('check-mark').style.display = 'none';
+                submitButton.disabled = false; // 启用按钮
+                // 启动离开标签页检测
+                document.addEventListener('visibilitychange', handleVisibilityChange);
+            } else {
+                alert('Verification failed. Please try again.');
+                changeImageAndPosition();
             }
-        });
+        } else {
+            alert('Verification failed. Please try again.');
+            changeImageAndPosition();
+        }
+    }
 
-        sliderHandle.addEventListener('mousedown', function (e) {
-            isDragging = true;
-            startX = e.clientX;
-            startLeft = parseInt(window.getComputedStyle(sliderHandle).left, 10);
-            startTime = new Date().getTime();
-        });
+    function showSuccessMessage() {
+        verifyCheckbox.style.display = 'none';
+        document.getElementById('captcha-label').style.display = 'none';
+        document.getElementById('check-mark').style.display = 'inline-block';
+        document.getElementById('success-message').textContent = translations[detectLanguage()].successMessage;
+        document.getElementById('success-message').style.display = 'inline-block';
+    }
 
-        document.addEventListener('mousemove', function (e) {
-            if (isDragging) {
-                const dx = e.clientX - startX;
-                let newLeft = startLeft + dx;
+    function resetSlider() {
+        sliderHandle.style.left = '0';
+        sliderTrack.style.width = '0';
+        puzzlePiece.style.left = '0';
+    }
 
-                if (newLeft < 0) newLeft = 0;
-                if (newLeft > slider.offsetWidth - sliderHandle.offsetWidth) {
-                    newLeft = slider.offsetWidth - sliderHandle.offsetWidth;
+    function isHumanLikeMovement() {
+        if (movements.length < 5) return false;
+
+        let isUneven = false;
+        let prevSpeed = null;
+
+        for (let i = 1; i < movements.length; i++) {
+            const dx = movements[i].x - movements[i-1].x;
+            const dt = movements[i].time - movements[i-1].time;
+            const speed = Math.abs(dx / dt);
+
+            if (prevSpeed !== null) {
+                if (Math.abs(speed - prevSpeed) > 0.1) {
+                    isUneven = true;
+                    break;
                 }
-
-                sliderHandle.style.left = `${newLeft}px`;
-                sliderTrack.style.width = `${newLeft + sliderHandle.offsetWidth / 2}px`;
-
-                movements.push({ time: new Date().getTime(), position: newLeft });
             }
-        });
 
-        document.addEventListener('mouseup', function () {
-            if (isDragging) {
-                isDragging = false;
-                const endTime = new Date().getTime();
-                const duration = endTime - startTime;
+            prevSpeed = speed;
+        }
 
-                if (Math.abs(parseInt(sliderHandle.style.left, 10) - piecePosition) < 10) {
-                    successMessage.textContent = text.verificationSuccess;
-                    successMessage.style.display = 'block';
-                    document.getElementById('check-mark').style.display = 'block';
-                    verifyCheckbox.checked = true;
-                    puzzlePiece.style.display = 'none';
-                } else {
-                    successMessage.textContent = text.verificationError;
-                    successMessage.style.display = 'block';
-                    verifyCheckbox.checked = false;
-                }
+        return isUneven;
+    }
 
-                if (leaveTimer) clearTimeout(leaveTimer);
-                leaveTimer = setTimeout(resetCaptcha, 3000);
-            }
-        });
+    function changeImageAndPosition() {
+        const puzzleHole = document.getElementById('puzzle-hole');
+        if (puzzleHole) {
+            puzzleHole.remove();
+        }
+        showSliderCaptcha();
+    }
 
-        retryButton.addEventListener('click', function () {
-            resetCaptcha();
-        });
+    retryButton.addEventListener('click', function() {
+        changeImageAndPosition();
+    });
 
-        resetCaptcha();
+    sliderHandle.addEventListener('mousedown', startDragging);
+    sliderHandle.addEventListener('touchstart', startDragging);
+
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('touchmove', drag);
+
+    document.addEventListener('mouseup', stopDragging);
+    document.addEventListener('touchend', stopDragging);
+
+    function handleVisibilityChange() {
+        if (document.visibilityState === 'hidden') {
+            leaveTimer = setTimeout(() => {
+                resetCaptcha();
+            }, 3000); // 3秒后重置Captcha
+        } else {
+            clearTimeout(leaveTimer);
+        }
+    }
+
+    function resetCaptcha() {
+        // 重置Captcha逻辑
+        verifyCheckbox.checked = false;
+        verifyCheckbox.style.display = 'inline-block';
+        document.getElementById('captcha-label').style.display = 'inline-block';
+        document.getElementById('check-mark').style.display = 'none';
+        document.getElementById('success-message').style.display = 'none';
+        submitButton.disabled = true;
+        sliderCaptcha.style.display = 'none';
+        resetSlider();
+        changeImageAndPosition();
+        document.removeEventListener('visibilitychange', handleVisibilityChange);
+    }
     </script>
 </body>
 </html>
