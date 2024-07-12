@@ -235,164 +235,233 @@
         document.getElementById('air-captcha').appendChild(captchaContainer);
 
         const verifyCheckbox = document.getElementById('verify-checkbox');
-        const captchaLabel = document.getElementById('captcha-label');
-        const checkMark = document.getElementById('check-mark');
-        const verificationText = document.getElementById('verification-text');
-        const errorMessage = document.getElementById('error-message');
-        const loadingText = document.getElementById('loading-text');
-        const ripple = document.getElementById('ripple');
-        let clickData = [];
-        let clickCount = 0;
-        const requiredClicks = 8;
-        let lastClickTime = 0;
-        let resetTimeout;
+    const sliderCaptcha = document.getElementById('slider-captcha');
+    const puzzleImage = document.getElementById('puzzle-image');
+    const puzzlePiece = document.getElementById('puzzle-piece');
+    const sliderHandle = document.getElementById('slider-handle');
+    const sliderTrack = document.getElementById('slider-track');
+    const retryButton = document.getElementById('retry-button');
+    const successMessage = document.getElementById('success-message');
+    const submitButton = document.getElementById('submit-button');
 
-        const translations = {
-            en: {
-                captchaLabel: "I'm not a robot",
-                verifyingText: "Verifying...",
-                verificationSuccess: "Success",
-                errorMessage: "Please re-verify",
-                privacyLink: "Privacy",
-                docsLink: "Docs"
-            },
-            zh: {
-                captchaLabel: "我不是机器人",
-                verifyingText: "验证中...",
-                verificationSuccess: "验证成功",
-                errorMessage: "请重新验证",
-                privacyLink: "隐私",
-                docsLink: "文档"
-            },
+    const images = ['image1.jpeg', 'image2.jpeg', 'image3.jpg', 'img018.png', 'img072.jpg', 'img102.jpeg', 'img181.jpeg', 'img193.jpeg', 'img249.jpg', 'img273.jpeg', 'img372.jpeg', 'img392.jpeg', 'img396.jpeg', 'img398.jpeg', 'img462.jpg', 'img482.jpeg', 'img492.jpeg', 'img592.jpg', 'img638.jpg', 'img639.jpeg', 'img639.jpg', 'img648.jpg', 'img657.jpeg', 'img857.jpeg', 'img928.jpeg'];
+    let currentImage;
+    let piecePosition;
+    let isDragging = false;
+    let startX;
+    let startLeft;
+    let movements = [];
+    let startTime;
+    let leaveTimer;
+
+    const translations = {
+        en: {
+            captchaLabel: "I'm not a robot",
+            verifyingText: "Verifying...",
+            verificationSuccess: "Verification successful",
+            verificationError: "Please re-verify",
+            retryButton: "Retry",
+            privacyLink: "Privacy",
+            docsLink: "Docs",
+            successMessage: "Success",
+            submitButton: "Submit"
+        },
+        zh: {
+            captchaLabel: "我不是机器人",
+            verifyingText: "验证中...",
+            verificationSuccess: "验证成功",
+            verificationError: "请重新验证",
+            retryButton: "重试",
+            privacyLink: "隐私",
+            docsLink: "文档",
+            successMessage: "验证成功",
+            submitButton: "提交"
+        }
+    };
+
+    function detectLanguage() {
+        const userLang = navigator.language || navigator.userLanguage;
+        if (userLang.startsWith('zh')) return 'zh';
+        else return userLang.includes('zh') ? 'zh' : 'en';
+    }
+
+    function applyTranslations(language) {
+        document.getElementById('captcha-label').textContent = translations[language].captchaLabel;
+        document.getElementById('retry-button').textContent = translations[language].retryButton;
+        document.getElementById('privacy-link').textContent = translations[language].privacyLink;
+        document.getElementById('docs-link').textContent = translations[language].docsLink;
+        document.getElementById('submit-button').textContent = translations[language].submitButton;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const userLang = detectLanguage();
+        applyTranslations(userLang);
+    });
+
+    verifyCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            showSliderCaptcha();
+        }
+    });
+
+    function showSliderCaptcha() {
+        currentImage = images[Math.floor(Math.random() * images.length)];
+        puzzleImage.src = `assets/v3/${currentImage}`;
+
+        puzzleImage.onload = () => {
+            const pieceSize = 50;
+            const maxX = 300 - pieceSize;
+            const maxY = 200 - pieceSize;
+            const pieceX = Math.floor(Math.random() * (maxX - 50) + 50); 
+            const pieceY = Math.floor(Math.random() * maxY);
+
+            puzzlePiece.style.left = '0px';
+            puzzlePiece.style.top = `${pieceY}px`;
+            puzzlePiece.style.backgroundImage = `url(assets/v3/${currentImage})`;
+            puzzlePiece.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
+
+            const puzzleHole = document.createElement('div');
+            puzzleHole.id = 'puzzle-hole';
+            puzzleHole.style.left = `${pieceX}px`;
+            puzzleHole.style.top = `${pieceY}px`;
+            document.getElementById('puzzle-container').appendChild(puzzleHole);
+
+            piecePosition = pieceX;
+            sliderCaptcha.style.display = 'block';
+            resetSlider();
         };
+    }
 
-        function detectLanguage() {
-            const userLang = navigator.language || navigator.userLanguage;
-            return userLang.startsWith('zh') ? 'zh' : 'en';
-        }
+    function startDragging(e) {
+        e.preventDefault();
+        isDragging = true;
+        startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
+        startLeft = sliderHandle.offsetLeft;
+        startTime = Date.now();
+        movements = [];
+    }
 
-        function applyTranslations(language) {
-            document.getElementById('captcha-label').textContent = translations[language].captchaLabel;
-            document.getElementById('loading-text').textContent = translations[language].verifyingText;
-            document.getElementById('verification-text').textContent = translations[language].verificationSuccess;
-            document.getElementById('error-message').textContent = translations[language].errorMessage;
-            document.getElementById('privacy-link').textContent = translations[language].privacyLink;
-            document.getElementById('docs-link').textContent = translations[language].docsLink;
-        }
+    function drag(e) {
+        if (!isDragging) return;
+        e.preventDefault();
 
-        const language = detectLanguage();
-        applyTranslations(language);
+        const currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
+        let newLeft = startLeft + currentX - startX;
+        newLeft = Math.max(0, Math.min(newLeft, 260));
 
-        function recordClick(event) {
-            const currentTime = Date.now();
-            if (lastClickTime !== 0 && currentTime - lastClickTime > 5000) {
-                showError(translations[language].errorMessage);
-                return;
-            }
+        sliderHandle.style.left = `${newLeft}px`;
+        sliderTrack.style.width = `${newLeft}px`;
+        puzzlePiece.style.left = `${newLeft}px`;
 
-            clickData.push({
-                x: event.clientX,
-                y: event.clientY,
-                time: currentTime
-            });
-            lastClickTime = currentTime;
-            clickCount++;
-
-            if (clickCount >= requiredClicks) {
-                verifyClicks();
-            }
-        }
-
-        function verifyClicks() {
-            if (isValidClickData(clickData)) {
-                completeVerification();
-            } else {
-                showError(translations[language].errorMessage);
-            }
-        }
-
-        function isValidClickData(data) {
-            return data.length >= requiredClicks;
-        }
-
-        function completeVerification() {
-            verifyCheckbox.style.display = 'none';
-            captchaLabel.style.display = 'none';
-            checkMark.style.display = 'block';
-            verificationText.style.display = 'inline';
-            loadingText.style.display = 'none';
-            errorMessage.style.display = 'none';
-            ripple.style.display = 'none';
-            clearTimeout(resetTimeout);
-
-            const submitButton = document.getElementById('submit-button');
-            if (submitButton) {
-                console.log('Enabling submit button');
-                submitButton.disabled = false;
-                console.log('Submit button enabled:', submitButton.disabled);
-            } else {
-                console.log('Submit button not found');
-            }
-        }
-
-        function showError(message) {
-            captchaLabel.style.display = 'none';
-            errorMessage.textContent = message;
-            errorMessage.style.display = 'block';
-            ripple.style.display = 'none';
-            clickData = [];
-            clickCount = 0;
-            lastClickTime = 0;
-        }
-
-        function resetCaptcha() {
-            verifyCheckbox.checked = false;
-            verifyCheckbox.style.display = 'block';
-            captchaLabel.style.display = 'block';
-            checkMark.style.display = 'none';
-            verificationText.style.display = 'none';
-            loadingText.style.display = 'none';
-            errorMessage.style.display = 'none';
-            ripple.style.display = 'none';
-            clickData = [];
-            clickCount = 0;
-            lastClickTime = 0;
-
-            const submitButton = document.getElementById('submit-button');
-            if (submitButton) {
-                console.log('Disabling submit button');
-                submitButton.disabled = true;
-            } else {
-                console.log('Submit button not found');
-            }
-        }
-
-        function startResetTimer() {
-            if (resetTimeout) {
-                clearTimeout(resetTimeout);
-            }
-            resetTimeout = setTimeout(() => {
-                resetCaptcha();
-            }, 30000);
-        }
-
-        verifyCheckbox.addEventListener('click', function(event) {
-            event.preventDefault();
-            recordClick(event);
-        });
-
-        window.addEventListener('blur', function() {
-            resetTimeout = setTimeout(() => {
-                resetCaptcha();
-            }, 30000);
-        });
-
-        window.addEventListener('focus', function() {
-            if (resetTimeout) {
-                clearTimeout(resetTimeout);
-            }
+        movements.push({
+            x: newLeft,
+            time: Date.now() - startTime
         });
     }
+
+    function stopDragging() {
+        if (!isDragging) return;
+        isDragging = false;
+
+        const finalPosition = sliderHandle.offsetLeft;
+        if (Math.abs(finalPosition - piecePosition) < 5) {
+            if (isHumanLikeMovement()) {
+                showSuccessMessage();
+                sliderCaptcha.style.display = 'none';
+                submitButton.disabled = false;
+                // 启动离开标签页检测
+                document.addEventListener('visibilitychange', handleVisibilityChange);
+            } else {
+                alert('Verification failed. Please try again.');
+                changeImageAndPosition();
+            }
+        } else {
+            alert('Verification failed. Please try again.');
+            changeImageAndPosition();
+        }
+    }
+
+    function showSuccessMessage() {
+        verifyCheckbox.style.display = 'none';
+        document.getElementById('captcha-label').style.display = 'none';
+        document.getElementById('check-mark').style.display = 'inline-block';
+        document.getElementById('success-message').textContent = translations[detectLanguage()].successMessage;
+        document.getElementById('success-message').style.display = 'inline-block';
+    }
+
+    function resetSlider() {
+        sliderHandle.style.left = '0';
+        sliderTrack.style.width = '0';
+        puzzlePiece.style.left = '0';
+    }
+
+    function isHumanLikeMovement() {
+        if (movements.length < 5) return false;
+
+        let isUneven = false;
+        let prevSpeed = null;
+
+        for (let i = 1; i < movements.length; i++) {
+            const dx = movements[i].x - movements[i-1].x;
+            const dt = movements[i].time - movements[i-1].time;
+            const speed = Math.abs(dx / dt);
+
+            if (prevSpeed !== null) {
+                if (Math.abs(speed - prevSpeed) > 0.1) {
+                    isUneven = true;
+                    break;
+                }
+            }
+
+            prevSpeed = speed;
+        }
+
+        return isUneven;
+    }
+
+    function changeImageAndPosition() {
+        const puzzleHole = document.getElementById('puzzle-hole');
+        if (puzzleHole) {
+            puzzleHole.remove();
+        }
+        showSliderCaptcha();
+    }
+
+    retryButton.addEventListener('click', function() {
+        changeImageAndPosition();
+    });
+
+    sliderHandle.addEventListener('mousedown', startDragging);
+    sliderHandle.addEventListener('touchstart', startDragging);
+
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('touchmove', drag);
+
+    document.addEventListener('mouseup', stopDragging);
+    document.addEventListener('touchend', stopDragging);
+
+    function handleVisibilityChange() {
+        if (document.visibilityState === 'hidden') {
+            leaveTimer = setTimeout(() => {
+                resetCaptcha();
+            }, 2000); // 2秒后重置Captcha
+        } else {
+            clearTimeout(leaveTimer);
+        }
+    }
+
+    function resetCaptcha() {
+        verifyCheckbox.checked = false;
+        verifyCheckbox.style.display = 'inline-block';
+        document.getElementById('captcha-label').style.display = 'inline-block';
+        document.getElementById('check-mark').style.display = 'none';
+        document.getElementById('success-message').style.display = 'none';
+        submitButton.disabled = true;
+        sliderCaptcha.style.display = 'none';
+        resetSlider();
+        changeImageAndPosition();
+        document.removeEventListener('visibilitychange', handleVisibilityChange);
+            }
 
     global.addEventListener('DOMContentLoaded', () => {
         AIRCaptcha();
