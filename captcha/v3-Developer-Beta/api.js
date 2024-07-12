@@ -465,7 +465,7 @@ styleTag.textContent = cssStyles;
 document.head.appendChild(styleTag);
 
 const divTag = document.createElement('div');
-divTag.textContent = cssStyles;
+divTag.textContent = AirCaptcha;
 document.head.appendChild(divTag);
 
 // 创建一个script标签并将JavaScript代码添加进去
