@@ -239,27 +239,27 @@
     </div>
 
     <script>
-        const verifyCheckbox = document.getElementById('verify-checkbox');
-        const sliderCaptcha = document.getElementById('slider-captcha');
-        const puzzleImage = document.getElementById('puzzle-image');
-        const puzzlePiece = document.getElementById('puzzle-piece');
-        const sliderHandle = document.getElementById('slider-handle');
-        const sliderTrack = document.getElementById('slider-track');
-        const retryButton = document.getElementById('retry-button');
-        const successMessage = document.getElementById('success-message');
-        const submitButton = document.getElementById('submit-button');
+    const verifyCheckbox = document.getElementById('verify-checkbox');
+    const sliderCaptcha = document.getElementById('slider-captcha');
+    const puzzleImage = document.getElementById('puzzle-image');
+    const puzzlePiece = document.getElementById('puzzle-piece');
+    const sliderHandle = document.getElementById('slider-handle');
+    const sliderTrack = document.getElementById('slider-track');
+    const retryButton = document.getElementById('retry-button');
+    const successMessage = document.getElementById('success-message');
+    const submitButton = document.getElementById('submit-button');
 
-        const images = ['image1.jpeg', 'image2.jpeg', 'image3.jpg', 'img018.png', 'img072.jpg', 'img102.jpeg', 'img181.jpeg', 'img193.jpeg', 'img249.jpg', 'img273.jpeg', 'img372.jpeg', 'img392.jpeg', 'img396.jpeg', 'img398.jpeg', 'img462.jpg', 'img482.jpeg', 'img492.jpeg', 'img592.jpg', 'img638.jpg', 'img639.jpeg', 'img639.jpg', 'img648.jpg', 'img657.jpeg', 'img857.jpeg', 'img928.jpeg'];
-        let currentImage;
-        let piecePosition;
-        let isDragging = false;
-        let startX;
-        let startLeft;
-        let movements = [];
-        let startTime;
-        let leaveTimer;
+    const images = ['image1.jpeg', 'image2.jpeg', 'image3.jpg', 'img018.png', 'img072.jpg', 'img102.jpeg', 'img181.jpeg', 'img193.jpeg', 'img249.jpg', 'img273.jpeg', 'img372.jpeg', 'img392.jpeg', 'img396.jpeg', 'img398.jpeg', 'img462.jpg', 'img482.jpeg', 'img492.jpeg', 'img592.jpg', 'img638.jpg', 'img639.jpeg', 'img639.jpg', 'img648.jpg', 'img657.jpeg', 'img857.jpeg', 'img928.jpeg'];
+    let currentImage;
+    let piecePosition;
+    let isDragging = false;
+    let startX;
+    let startLeft;
+    let movements = [];
+    let startTime;
+    let leaveTimer;
 
-        const translations = {
+    const translations = {
         en: {
             captchaLabel: "I'm not a robot",
             verifyingText: "Verifying...",
@@ -373,7 +373,7 @@
             if (isHumanLikeMovement()) {
                 showSuccessMessage();
                 sliderCaptcha.style.display = 'none';
-                submitButton.disabled = false; // 启用按钮
+                submitButton.disabled = false;
                 // 启动离开标签页检测
                 document.addEventListener('visibilitychange', handleVisibilityChange);
             } else {
@@ -449,14 +449,13 @@
         if (document.visibilityState === 'hidden') {
             leaveTimer = setTimeout(() => {
                 resetCaptcha();
-            }, 3000); // 3秒后重置Captcha
+            }, 2000); // 2秒后重置Captcha
         } else {
             clearTimeout(leaveTimer);
         }
     }
 
     function resetCaptcha() {
-        // 重置Captcha逻辑
         verifyCheckbox.checked = false;
         verifyCheckbox.style.display = 'inline-block';
         document.getElementById('captcha-label').style.display = 'inline-block';
@@ -468,6 +467,4 @@
         changeImageAndPosition();
         document.removeEventListener('visibilitychange', handleVisibilityChange);
     }
-    </script>
-</body>
-</html>
+        </script>
