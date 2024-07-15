@@ -1,5 +1,5 @@
 (function(global) {
-    function AIRCaptcha() {
+    function ONECaptcha() {
         const captchaContainer = document.createElement('div');
         captchaContainer.id = 'captcha-container';
         captchaContainer.innerHTML = `
@@ -149,14 +149,14 @@
             </div>
             <div id="brand">
                 <a href="https://github.com/Dev-Huang1/Air-Captcha"><img src="https://captcha.xyehr.cn/assets/logo/logo.svg" alt="AIR Captcha Logo"></a>
-                Air Captcha
+                One Captcha
                 <div class="privacy-terms-links">
                     <a href="https://www.xyehr.cn/air-captcha-privacy-policy" id="privacy-link">Privacy</a><p>·</p><a href="https://help.xyehr.cn/jekyll/2024-07-05-air-captcha.html" id="docs-link">Docs</a>
                 </div>
             </div>
         `;
 
-        document.getElementById('air-captcha').appendChild(captchaContainer);
+        document.getElementById('one-captcha').appendChild(captchaContainer);
 
         const verifyCheckbox = document.getElementById('verify-checkbox');
         const captchaLabel = document.getElementById('captcha-label');
@@ -319,6 +319,6 @@
     }
 
     global.addEventListener('DOMContentLoaded', () => {
-        AIRCaptcha();
+        ONECaptcha();
     });
 })(window);
