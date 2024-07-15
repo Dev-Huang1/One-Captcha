@@ -193,7 +193,7 @@
             </div>
         `;
 
-        document.getElementById('air-captcha').appendChild(captchaContainer);
+        document.getElementById('one-captcha').appendChild(captchaContainer);
 
         const verifyCheckbox = document.getElementById('verify-checkbox');
         const captchaLabel = document.getElementById('captcha-label');
