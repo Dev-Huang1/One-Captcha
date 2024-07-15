@@ -1,4 +1,4 @@
-(function(global) {
+/* (function(global) {
     // CSS Styles
     const styles = `
         #captcha-container {
@@ -337,3 +337,4 @@ function completeVerification() {
         }
     });
 })(window);
+*/
