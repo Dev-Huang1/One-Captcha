@@ -158,7 +158,7 @@
     `;
 
     // JavaScript logic
-    function AIRCaptcha() {
+    function ONECaptcha() {
         // Dynamically create CSS
         const styleSheet = document.createElement("style");
         styleSheet.type = "text/css";
@@ -179,7 +179,7 @@
             </div>
             <div id="brand">
                 <a href="https://github.com/Dev-Huang1/Air-Captcha"><img src="https://captcha.xyehr.cn/assets/logo/logo.svg" alt="AIR Captcha Logo"></a>
-                Air Captcha
+                One Captcha
                 <div class="privacy-terms-links">
                     <a href="https://www.xyehr.cn/air-captcha-privacy-policy" id="privacy-link">Privacy</a><p>·</p><a href="https://help.xyehr.cn/jekyll/2024-07-05-air-captcha.html" id="docs-link">Docs</a>
                 </div>
@@ -331,9 +331,9 @@ function completeVerification() {
 
     // Initialize the CAPTCHA when the script loads
     global.addEventListener('DOMContentLoaded', () => {
-        const captchaElement = document.getElementById('air-captcha');
+        const captchaElement = document.getElementById('one-captcha');
         if (captchaElement) {
-            AIRCaptcha();
+            ONECaptcha();
         }
     });
 })(window);
