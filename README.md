@@ -19,7 +19,7 @@
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=Dev-Huang1/Air-Captcha&type=Date)](https://star-history.com/#Dev-Huang1/Air-Captcha&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=Dev-Huang1/One-Captcha&type=Date)](https://star-history.com/#Dev-Huang1/Air-Captcha&Date)
 
 ## Help
 
