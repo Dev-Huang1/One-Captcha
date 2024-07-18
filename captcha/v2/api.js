@@ -62,7 +62,7 @@
                     margin-top: 23.5px;
                 }
                 #brand img {
-                    width: 35px;
+                    width: 20px;
                     position: absolute;
                     right: 0;
                     top: -30px;
