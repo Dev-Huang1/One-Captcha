@@ -59,7 +59,7 @@
                     flex-direction: column;
                     align-items: flex-end;
                     position: relative;
-                    margin-top: 26.5px;
+                    margin-top: 36.5px;
                 }
                 #brand img {
                     width: 25px;
