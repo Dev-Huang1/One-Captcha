@@ -65,7 +65,7 @@
                     width: 25px;
                     position: absolute;
                     right: 0;
-                    top: -30px;
+                    top: -35px;
                 }
                 #check-mark {
                     width: 30px;
