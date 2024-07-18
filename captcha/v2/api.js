@@ -59,10 +59,10 @@
                     flex-direction: column;
                     align-items: flex-end;
                     position: relative;
-                    margin-top: 36.5px;
+                    margin-top: 23.5px;
                 }
                 #brand img {
-                    width: 25px;
+                    width: 27px;
                     position: absolute;
                     right: 0;
                     top: -30px;
