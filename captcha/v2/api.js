@@ -59,13 +59,13 @@
                     flex-direction: column;
                     align-items: flex-end;
                     position: relative;
-                    margin-top: 23.5px;
+                    margin-top: 26.5px;
                 }
                 #brand img {
                     width: 25px;
                     position: absolute;
                     right: 0;
-                    top: -50px;
+                    top: -30px;
                 }
                 #check-mark {
                     width: 30px;
