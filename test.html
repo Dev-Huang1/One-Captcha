@@ -463,7 +463,7 @@
         if (document.visibilityState === 'hidden') {
             leaveTimer = setTimeout(() => {
                 resetCaptcha();
-            }, 2000);
+            }, 15000);
         } else {
             clearTimeout(leaveTimer);
         }
