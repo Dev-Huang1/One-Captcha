@@ -315,7 +315,10 @@
 
     verifyCheckbox.addEventListener('change', function() {
         if (this.checked) {
-            showSliderCaptcha();
+            this.style.display = 'none'; // Hide the checkbox
+            document.getElementById('loading-spinner').style.display = 'inline-block'; // Show the spinner
+    
+            showSliderCaptcha(); // Existing function to show the slider captcha
         }
     });
 
@@ -384,7 +387,6 @@
                 showSuccessMessage();
                 sliderCaptcha.style.display = 'none';
                 submitButton.disabled = false;
-                // 启动离开标签页检测
                 document.addEventListener('visibilitychange', handleVisibilityChange);
             } else {
                 alert('Verification failed. Please try again.');
@@ -397,9 +399,9 @@
     }
 
     function showSuccessMessage() {
-        verifyCheckbox.style.display = 'none';
+        document.getElementById('loading-spinner').style.display = 'none'; // Hide the spinner
+        document.getElementById('check-mark').style.display = 'inline-block'; // Show the check mark
         document.getElementById('captcha-label').style.display = 'none';
-        document.getElementById('check-mark').style.display = 'inline-block';
         document.getElementById('success-message').textContent = translations[detectLanguage()].successMessage;
         document.getElementById('success-message').style.display = 'inline-block';
     }
