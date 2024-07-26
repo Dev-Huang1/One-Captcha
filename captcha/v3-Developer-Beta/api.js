@@ -268,7 +268,7 @@
         const successMessage = document.getElementById('success-message');
         const submitButton = document.getElementById('submit-button');
 
-        const images = ['https://captcha.xyehr.cn/assets/images/pic1.jpg', 'https://captcha.xyehr.cn/assets/images/pic2.jpg', 'https://captcha.xyehr.cn/assets/images/pic3.jpg'];
+        const images = ['.../assets/images/image1.jpeg'];
 
         let startPos = 0;
         let piecePos = 0;
