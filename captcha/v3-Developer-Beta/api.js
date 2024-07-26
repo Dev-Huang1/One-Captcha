@@ -1,5 +1,4 @@
 (function() {
-    // CSS styles
     const styles = `
     #captcha-container {
         width: 260px;
@@ -153,12 +152,14 @@
         display: none;
         color: green;
     }
+    
     #check-mark {
         display: none;
         width: 30px;
         height: 30px;
         margin-right: 10px;
     }
+
     #loading-spinner {
         display: none;
         border: 4px solid #f3f3f3;
@@ -168,6 +169,7 @@
         height: 20px;
         animation: spin 1s linear infinite;
     }
+    
     @keyframes spin {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
@@ -208,57 +210,54 @@
         #success-message {
             color: #38127;
         }
-     }`;
-
-    // Inject styles into the document
+    }
+    `;
+    
     const styleSheet = document.createElement("style");
     styleSheet.type = "text/css";
     styleSheet.innerText = styles;
     document.head.appendChild(styleSheet);
 
-    // Main CAPTCHA script
-    window.OneCaptcha = function(containerSelector, callback) {
-        const container = document.querySelector(containerSelector);
-        if (!container) {
-            console.error(`Container ${containerSelector} not found.`);
-            return;
-        }
-
-        // HTML structure for the CAPTCHA
-        const captchaHTML = `
-        <div id="captcha-container">
-            <div id="verify-section">
-                <input type="checkbox" id="verify-checkbox">
-                <div id="loading-spinner"></div>
-                <img id="check-mark" src="assets/check-mark.svg" alt="Check Mark" style="display: none;">
-                <label for="verify-checkbox" id="captcha-label">I'm not a robot.</label>
-                <span id="success-message" style="display: none; font-weight: bold;">Success</span>
-            </div>
-            <div id="brand">
-                <a href="https://github.com/Dev-Huang1/One-Captcha"><img src="https://captcha.xyehr.cn/assets/logo/logo.svg" alt="One Captcha Logo"></a>
-                One Captcha
-                <div class="privacy-terms-links">
-                    <a href="https://www.xyehr.cn/one-captcha-privacy-policy" id="privacy-link">Privacy</a><p>·</p><a href="https://help.xyehr.cn/jekyll/2024-07-05-one-captcha.html" id="docs-link">Docs</a>
-                </div>
+    const captchaHTML = `
+    <div id="captcha-container">
+        <div id="verify-section">
+            <input type="checkbox" id="verify-checkbox">
+            <div id="loading-spinner"></div>
+            <img id="check-mark" src="assets/check-mark.svg" alt="Check Mark" style="display: none;">
+            <label for="verify-checkbox" id="captcha-label">I'm not a robot.</label>
+            <span id="success-message" style="display: none; font-weight: bold;">Success</span>
+        </div>
+        <div id="brand">
+            <a href="https://github.com/Dev-Huang1/One-Captcha"><img src="https://captcha.xyehr.cn/assets/logo/logo.svg" alt="One Captcha Logo"></a>
+            One Captcha
+            <div class="privacy-terms-links">
+                <a href="https://www.xyehr.cn/one-captcha-privacy-policy" id="privacy-link">Privacy</a><p>·</p><a href="https://help.xyehr.cn/jekyll/2024-07-05-one-captcha.html" id="docs-link">Docs</a>
             </div>
         </div>
-        <div id="slider-captcha">
-            <div id="puzzle-container">
-                <img id="puzzle-image" src="" alt="img">
-                <div id="puzzle-piece"></div>
-            </div>
-            <div id="slider">
-                <div id="slider-track"></div>
-                <div id="slider-handle">→</div>
-            </div>
-            <button id="retry-button">Retry</button>
-        </div>`;
+    </div>
+    <div id="slider-captcha">
+        <div id="puzzle-container">
+            <img id="puzzle-image" src="" alt="img">
+            <div id="puzzle-piece"></div>
+        </div>
+        <div id="slider">
+            <div id="slider-track"></div>
+            <div id="slider-handle">→</div>
+        </div>
+        <button id="retry-button">Retry</button>
+    </div>
+    <button id="submit-button" disabled>Submit</button>
+    `;
 
-        container.innerHTML = captchaHTML;
-        setupCaptcha(callback);
-    };
+    document.addEventListener('DOMContentLoaded', () => {
+        const captchaDiv = document.querySelector('.one-captcha');
+        if (captchaDiv) {
+            captchaDiv.innerHTML = captchaHTML;
+            initCaptcha(captchaDiv.dataset.callback);
+        }
+    });
 
-    function setupCaptcha(callback) {
+    function initCaptcha(callbackFunction) {
         const verifyCheckbox = document.getElementById('verify-checkbox');
         const sliderCaptcha = document.getElementById('slider-captcha');
         const puzzleImage = document.getElementById('puzzle-image');
@@ -267,97 +266,106 @@
         const sliderTrack = document.getElementById('slider-track');
         const retryButton = document.getElementById('retry-button');
         const successMessage = document.getElementById('success-message');
-        const submitButton = document.createElement('button');
+        const submitButton = document.getElementById('submit-button');
 
-        submitButton.textContent = 'Submit';
-        submitButton.style.display = 'none';
-        submitButton.addEventListener('click', function() {
-            if (typeof callback === 'function') {
-                callback(true);
-            }
-        });
+        const images = ['https://captcha.xyehr.cn/assets/images/pic1.jpg', 'https://captcha.xyehr.cn/assets/images/pic2.jpg', 'https://captcha.xyehr.cn/assets/images/pic3.jpg'];
 
-        document.body.appendChild(submitButton);
+        let startPos = 0;
+        let piecePos = 0;
+        let dragging = false;
 
         verifyCheckbox.addEventListener('change', () => {
             if (verifyCheckbox.checked) {
-                showSliderCaptcha();
+                sliderCaptcha.style.display = 'block';
+                loadNewPuzzle();
             } else {
                 sliderCaptcha.style.display = 'none';
-                resetSliderCaptcha();
             }
         });
 
-        retryButton.addEventListener('click', resetSliderCaptcha);
+        function loadNewPuzzle() {
+            const randomIndex = Math.floor(Math.random() * images.length);
+            puzzleImage.src = images[randomIndex];
 
-        let startX, startY, initialLeft;
-        let isDragging = false;
-        let puzzleHoleLeft, puzzleHoleTop;
+            puzzleImage.onload = () => {
+                const puzzleWidth = puzzleImage.offsetWidth;
+                const puzzleHeight = puzzleImage.offsetHeight;
+                const pieceWidth = puzzlePiece.offsetWidth;
+                const pieceHeight = puzzlePiece.offsetHeight;
 
-        sliderHandle.addEventListener('mousedown', startDragging);
-        sliderHandle.addEventListener('touchstart', startDragging);
+                const pieceX = Math.random() * (puzzleWidth - pieceWidth);
+                const pieceY = Math.random() * (puzzleHeight - pieceHeight);
+                const holeX = Math.random() * (puzzleWidth - pieceWidth);
+                const holeY = Math.random() * (puzzleHeight - pieceHeight);
 
-        function startDragging(event) {
-            isDragging = true;
-            const e = event.type === 'mousedown' ? event : event.touches[0];
-            startX = e.clientX;
-            startY = e.clientY;
-            initialLeft = sliderHandle.offsetLeft;
-            document.addEventListener('mousemove', dragSliderHandle);
-            document.addEventListener('mouseup', stopDragging);
-            document.addEventListener('touchmove', dragSliderHandle);
-            document.addEventListener('touchend', stopDragging);
+                puzzlePiece.style.backgroundImage = `url(${puzzleImage.src})`;
+                puzzlePiece.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
+                puzzlePiece.style.left = `${pieceX}px`;
+                puzzlePiece.style.top = `${pieceY}px`;
+
+                const puzzleHole = document.createElement('div');
+                puzzleHole.id = 'puzzle-hole';
+                puzzleHole.style.left = `${holeX}px`;
+                puzzleHole.style.top = `${holeY}px`;
+                puzzleHole.style.width = `${pieceWidth}px`;
+                puzzleHole.style.height = `${pieceHeight}px`;
+                document.getElementById('puzzle-container').appendChild(puzzleHole);
+
+                piecePos = pieceX - holeX;
+            };
         }
 
-        function dragSliderHandle(event) {
-            if (!isDragging) return;
-            const e = event.type === 'mousemove' ? event : event.touches[0];
-            const deltaX = e.clientX - startX;
-            const newLeft = initialLeft + deltaX;
-            const maxLeft = sliderHandle.parentNode.offsetWidth - sliderHandle.offsetWidth;
-            if (newLeft < 0 || newLeft > maxLeft) return;
-            sliderHandle.style.left = newLeft + 'px';
-            sliderTrack.style.width = (newLeft + sliderHandle.offsetWidth / 2) + 'px';
-        }
+        sliderHandle.addEventListener('mousedown', (event) => {
+            startPos = event.clientX;
+            dragging = true;
+            sliderHandle.style.cursor = 'grabbing';
+        });
 
-        function stopDragging() {
-            if (!isDragging) return;
-            isDragging = false;
-            document.removeEventListener('mousemove', dragSliderHandle);
-            document.removeEventListener('mouseup', stopDragging);
-            document.removeEventListener('touchmove', dragSliderHandle);
-            document.removeEventListener('touchend', stopDragging);
+        document.addEventListener('mousemove', (event) => {
+            if (dragging) {
+                const offset = event.clientX - startPos;
+                const sliderWidth = document.getElementById('slider').offsetWidth;
+                const handleWidth = sliderHandle.offsetWidth;
 
-            const pieceRect = puzzlePiece.getBoundingClientRect();
-            const holeRect = puzzleHole.getBoundingClientRect();
+                let newLeft = offset;
+                if (newLeft < 0) newLeft = 0;
+                if (newLeft > sliderWidth - handleWidth) newLeft = sliderWidth - handleWidth;
 
-            if (Math.abs(pieceRect.left - holeRect.left) < 5 && Math.abs(pieceRect.top - holeRect.top) < 5) {
-                successMessage.style.display = 'block';
-                sliderCaptcha.style.display = 'none';
-                submitButton.click();
-                verifyCheckbox.disabled = true;
-                sliderHandle.removeEventListener('mousedown', startDragging);
-                sliderHandle.removeEventListener('touchstart', startDragging);
-            } else {
-                resetSliderCaptcha();
+                sliderHandle.style.left = `${newLeft}px`;
+                sliderTrack.style.width = `${newLeft + handleWidth / 2}px`;
+
+                puzzlePiece.style.left = `${piecePos + newLeft}px`;
             }
-        }
+        });
 
-        function resetSliderCaptcha() {
-            sliderHandle.style.left = '0px';
-            sliderTrack.style.width = '0px';
-            successMessage.style.display = 'none';
-            isDragging = false;
-        }
+        document.addEventListener('mouseup', () => {
+            if (dragging) {
+                dragging = false;
+                sliderHandle.style.cursor = 'grab';
 
-        function showSliderCaptcha() {
-            sliderCaptcha.style.display = 'block';
-            puzzleImage.src = 'https://captcha.xyehr.cn/assets/images/puzzle-image.jpg';
-            puzzlePiece.style.backgroundImage = `url(${puzzleImage.src})`;
-            puzzleHoleLeft = Math.random() * (puzzleImage.clientWidth - puzzlePiece.clientWidth);
-            puzzleHoleTop = Math.random() * (puzzleImage.clientHeight - puzzlePiece.clientHeight);
-            puzzlePiece.style.left = `${puzzleHoleLeft}px`;
-            puzzlePiece.style.top = `${puzzleHoleTop}px`;
-        }
+                const offset = parseInt(sliderHandle.style.left);
+                if (Math.abs(offset - piecePos) < 10) {
+                    successMessage.style.display = 'block';
+                    sliderCaptcha.style.display = 'none';
+                    document.getElementById('loading-spinner').style.display = 'inline-block';
+                    setTimeout(() => {
+                        document.getElementById('loading-spinner').style.display = 'none';
+                        document.getElementById('check-mark').style.display = 'inline-block';
+                        submitButton.disabled = false;
+                        if (typeof window[callbackFunction] === 'function') {
+                            window[callbackFunction]();
+                        }
+                    }, 15000);
+                } else {
+                    alert('Verification failed, please try again.');
+                }
+            }
+        });
+
+        retryButton.addEventListener('click', () => {
+            loadNewPuzzle();
+            sliderHandle.style.left = '0';
+            sliderTrack.style.width = '0';
+        });
     }
 })();
