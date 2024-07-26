@@ -41,7 +41,7 @@
             margin-top: 23.5px;
         }
         #brand img {
-            width: 35px;
+            width: 30px;
             position: absolute;
             right: 0;
             top: -30px;
@@ -165,42 +165,42 @@
             margin-right: 10px;
         }
         @media (prefers-color-scheme: dark) {
-    #captcha-container {
-        border-color: #444;
-        background-color: #2c2c2c;
-        color: #ffffff;
-    }
+            #captcha-container {
+                border-color: #444;
+                background-color: #2c2c2c;
+                color: #ffffff;
+            }
+        
+            #slider-captcha {
+                background-color: #2c2c2c;
+                border-color: #444;
+            }
+        
+            #slider {
+                background-color: #444;
+            }
+        
+            #slider-handle {
+                background-color: #0066ff;
+            }
 
-    #slider-captcha {
-        background-color: #2c2c2c;
-        border-color: #444;
-    }
-
-    #slider {
-        background-color: #444;
-    }
-
-    #slider-handle {
-        background-color: #0066ff;
-    }
-
-    #retry-button {
-        background-color: #0066ff;
-        color: white;
-    }
-
-    .privacy-terms-links a {
-        color: #888;
-    }
-
-    .privacy-terms-links a:hover {
-        color: #bbb;
-    }
-
-    #success-message {
-        color: #38127;
-    }
-        }
+            #retry-button {
+                background-color: #0066ff;
+                color: white;
+            }
+        
+            .privacy-terms-links a {
+                color: #888;
+            }
+        
+            .privacy-terms-links a:hover {
+                color: #bbb;
+            }
+        
+            #success-message {
+                color: #38127;
+            }
+         }
     </style>
 </head>
 <body>
@@ -212,8 +212,8 @@
             <span id="success-message" style="display: none; font-weight: bold;">Success</span>
         </div>
         <div id="brand">
-            <a href="https://github.com/Dev-Huang1/Air-Captcha"><img src="https://captcha.xyehr.cn/assets/logo/logo.svg" alt="AIR Captcha Logo"></a>
-            Air Captcha
+            <a href="https://github.com/Dev-Huang1/One-Captcha"><img src="https://captcha.xyehr.cn/assets/logo/logo.svg" alt="One Captcha Logo"></a>
+            One Captcha
             <div class="privacy-terms-links">
                 <a href="https://www.xyehr.cn/air-captcha-privacy-policy" id="privacy-link">Privacy</a><p>·</p><a href="https://help.xyehr.cn/jekyll/2024-07-05-air-captcha.html" id="docs-link">Docs</a>
             </div>
@@ -443,7 +443,7 @@
         if (document.visibilityState === 'hidden') {
             leaveTimer = setTimeout(() => {
                 resetCaptcha();
-            }, 2000); // 2秒后重置Captcha
+            }, 2000);
         } else {
             clearTimeout(leaveTimer);
         }
@@ -461,4 +461,6 @@
         changeImageAndPosition();
         document.removeEventListener('visibilitychange', handleVisibilityChange);
     }
-        </script>
+    </script>
+</body>
+</html>
