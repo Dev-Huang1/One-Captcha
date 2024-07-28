@@ -1,7 +1,5 @@
 <div align="center">
 
-![Banner](/assets/FwpOq01NQ1nwXje91Kwm_20240708_114552_0000.png)
-
 # One Captcha
 
 ![GitHub stars](https://img.shields.io/github/stars/Dev-Huang1/Air-Captcha.svg?style=for-the-badge)
