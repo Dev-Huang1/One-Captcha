@@ -1,1 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One Captcha Example</title>
+    <script src="https://captcha.xyehr.cn/test.js"></script>
+</head>
+<body>
+    <div class="one-captcha" data-callback="onCaptchaSuccess"></div>
+    <script>
+        function onCaptchaSuccess() {
+            console.log('CAPTCHA verified successfully!');
+            // Your logic here
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const captchaElements = document.querySelectorAll('.one-captcha');
+            captchaElements.forEach(el => {
+                OneCaptcha.init(el, { callback: onCaptchaSuccess, language: 'en' });
+            });
+        });
+    </script>
+</body>
+</html>
 
