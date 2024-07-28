@@ -1,6 +1,5 @@
 (function() {
-    // CSS styles
-    const styles = `
+    const style = `
         #captcha-container {
             width: 260px;
             height: 40px;
@@ -211,299 +210,159 @@
             #success-message {
                 color: #38127;
             }
-         }
+        }
     `;
 
-    // Create and append style element
-    const styleElement = document.createElement('style');
-    styleElement.textContent = styles;
-    document.head.appendChild(styleElement);
-
-    // HTML template
     const template = `
-        <div id="verify-section">
-            <input type="checkbox" id="verify-checkbox">
-            <div id="loading-spinner"></div>
-            <img id="check-mark" src="assets/check-mark.svg" alt="Check Mark" style="display: none;">
-            <label for="verify-checkbox" id="captcha-label">I'm not a robot.</label>
-            <span id="success-message" style="display: none; font-weight: bold;">Success</span>
-        </div>
-        <div id="brand">
-            <a href="https://github.com/Dev-Huang1/One-Captcha"><img src="https://captcha.xyehr.cn/assets/logo/logo.svg" alt="One Captcha Logo"></a>
-            One Captcha
-            <div class="privacy-terms-links">
-                <a href="https://www.xyehr.cn/one-captcha-privacy-policy" id="privacy-link">Privacy</a><p>·</p><a href="https://help.xyehr.cn/jekyll/2024-07-05-one-captcha.html" id="docs-link">Docs</a>
+        <div id="captcha-container">
+            <div id="verify-section">
+                <input type="checkbox" id="verify-checkbox">
+                <div id="loading-spinner"></div>
+                <img id="check-mark" src="assets/check-mark.svg" alt="Check Mark" style="display: none;">
+                <label for="verify-checkbox" id="captcha-label">I'm not a robot.</label>
+                <span id="success-message" style="display: none; font-weight: bold;">Success</span>
+            </div>
+            <div id="brand">
+                <a href="https://github.com/Dev-Huang1/One-Captcha"><img src="https://captcha.xyehr.cn/assets/logo/logo.svg" alt="One Captcha Logo"></a>
+                One Captcha
+                <div class="privacy-terms-links">
+                    <a href="https://www.xyehr.cn/one-captcha-privacy-policy" id="privacy-link">Privacy</a><p>·</p><a href="https://help.xyehr.cn/jekyll/2024-07-05-one-captcha.html" id="docs-link">Docs</a>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div id="slider-captcha">
-        <div id="puzzle-container">
-            <img id="puzzle-image" src="" alt="img">
-            <div id="puzzle-piece"></div>
+        <div id="slider-captcha">
+            <div id="puzzle-container">
+                <img id="puzzle-image" src="" alt="img">
+                <div id="puzzle-piece"></div>
+            </div>
+            <div id="slider">
+                <div id="slider-track"></div>
+                <div id="slider-handle">→</div>
+            </div>
+            <button id="retry-button">Retry</button>
         </div>
-        <div id="slider">
-            <div id="slider-track"></div>
-            <div id="slider-handle">→</div>
-        </div>
-        <button id="retry-button">Retry</button>
-    </div>
+
+        <button id="submit-button" disabled>Submit</button>
     `;
 
-    // Translations
-    const translations = {
-        en: {
-            captchaLabel: "I'm not a robot",
-            verifyingText: "Verifying...",
-            verificationSuccess: "Verification successful",
-            verificationError: "Please re-verify",
-            retryButton: "Retry",
-            privacyLink: "Privacy",
-            docsLink: "Docs",
-            successMessage: "Success",
-            submitButton: "Submit"
-        },
-        zh: {
-            captchaLabel: "我不是机器人",
-            verifyingText: "验证中...",
-            verificationSuccess: "验证成功",
-            verificationError: "请重新验证",
-            retryButton: "重试",
-            privacyLink: "隐私",
-            docsLink: "文档",
-            successMessage: "验证成功",
-            submitButton: "提交"
-        }
-    };
-
-    // Image list
-    const images = ['image1.jpeg', 'image2.jpeg', 'image3.jpg', 'img018.png', 'img072.jpg', 'img102.jpeg', 'img181.jpeg', 'img193.jpeg', 'img249.jpg', 'img273.jpeg', 'img372.jpeg', 'img392.jpeg', 'img396.jpeg', 'img398.jpeg', 'img462.jpg', 'img482.jpeg', 'img492.jpeg', 'img592.jpg', 'img638.jpg', 'img639.jpeg', 'img639.jpg', 'img648.jpg', 'img657.jpeg', 'img857.jpeg', 'img928.jpeg'];
-
-    // Variables
-    let currentImage;
-    let piecePosition;
-    let isDragging = false;
-    let startX;
-    let startLeft;
-    let movements = [];
-    let startTime;
-    let leaveTimer;
-
-    // Functions
-    function detectLanguage() {
-        const userLang = navigator.language || navigator.userLanguage;
-        return userLang.startsWith('zh') ? 'zh' : 'en';
-    }
-
-    function applyTranslations(container, language) {
-        container.querySelector('#captcha-label').textContent = translations[language].captchaLabel;
-        container.querySelector('#retry-button').textContent = translations[language].retryButton;
-        container.querySelector('#privacy-link').textContent = translations[language].privacyLink;
-        container.querySelector('#docs-link').textContent = translations[language].docsLink;
-        container.querySelector('#success-message').textContent = translations[language].successMessage;
-    }
-
-    function showSliderCaptcha(container) {
-        const puzzleImage = container.querySelector('#puzzle-image');
-        const puzzlePiece = container.querySelector('#puzzle-piece');
-        const sliderCaptcha = container.querySelector('#slider-captcha');
-
-        currentImage = images[Math.floor(Math.random() * images.length)];
-        puzzleImage.src = `assets/v3/${currentImage}`;
-
-        puzzleImage.onload = () => {
-            const pieceSize = 50;
-            const maxX = 300 - pieceSize;
-            const maxY = 200 - pieceSize;
-            const pieceX = Math.floor(Math.random() * (maxX - 50) + 50); 
-            const pieceY = Math.floor(Math.random() * maxY);
-
-            puzzlePiece.style.left = '0px';
-            puzzlePiece.style.top = `${pieceY}px`;
-            puzzlePiece.style.backgroundImage = `url(assets/v3/${currentImage})`;
-            puzzlePiece.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
-
-            const puzzleHole = document.createElement('div');
-            puzzleHole.id = 'puzzle-hole';
-            puzzleHole.style.left = `${pieceX}px`;
-            puzzleHole.style.top = `${pieceY}px`;
-            container.querySelector('#puzzle-container').appendChild(puzzleHole);
-
-            piecePosition = pieceX;
-            sliderCaptcha.style.display = 'block';
-            resetSlider(container);
-        };
-    }
-
-    function startDragging(e, container) {
-        e.preventDefault();
-        isDragging = true;
-        startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
-        startLeft = container.querySelector('#slider-handle').offsetLeft;
-        startTime = Date.now();
-        movements = [];
-    }
-
-    function drag(e, container) {
-        if (!isDragging) return;
-        e.preventDefault();
-
-        const sliderHandle = container.querySelector('#slider-handle');
-        const sliderTrack = container.querySelector('#slider-track');
-        const puzzlePiece = container.querySelector('#puzzle-piece');
-
-        const currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
-        let newLeft = startLeft + currentX - startX;
-        newLeft = Math.max(0, Math.min(newLeft, 260));
-
-        sliderHandle.style.left = `${newLeft}px`;
-        sliderTrack.style.width = `${newLeft}px`;
-        puzzlePiece.style.left = `${newLeft}px`;
-
-        movements.push({
-            x: newLeft,
-            time: Date.now() - startTime
-        });
-    }
-
-    function stopDragging(container) {
-        if (!isDragging) return;
-        isDragging = false;
-
-        const sliderHandle = container.querySelector('#slider-handle');
-        const finalPosition = sliderHandle.offsetLeft;
-        if (Math.abs(finalPosition - piecePosition) < 5) {
-            if (isHumanLikeMovement()) {
-                showSuccessMessage(container);
-                container.querySelector('#slider-captcha').style.display = 'none';
-                const callback = container.dataset.callback;
-                if (callback && typeof window[callback] === 'function') {
-                    window[callback]();
-                }
-                document.addEventListener('visibilitychange', () => handleVisibilityChange(container));
-            } else {
-                alert('Verification failed. Please try again.');
-                changeImageAndPosition(container);
-            }
-        } else {
-            alert('Verification failed. Please try again.');
-            changeImageAndPosition(container);
-        }
-    }
-
-    function showSuccessMessage(container) {
-        container.querySelector('#loading-spinner').style.display = 'none';
-        container.querySelector('#check-mark').style.display = 'inline-block';
-        container.querySelector('#captcha-label').style.display = 'none';
-        const successMessage = container.querySelector('#success-message');
-        successMessage.textContent = translations[detectLanguage()].successMessage;
-        successMessage.style.display = 'inline-block';
-    }
-
-    function resetSlider(container) {
-        const sliderHandle = container.querySelector('#slider-handle');
-        const sliderTrack = container.querySelector('#slider-track');
-        const puzzlePiece = container.querySelector('#puzzle-piece');
-
-        sliderHandle.style.left = '0';
-        sliderTrack.style.width = '0';
-        puzzlePiece.style.left = '0';
-    }
-
-    function isHumanLikeMovement() {
-        if (movements.length < 5) return false;
-
-        let isUneven = false;
-        let prevSpeed = null;
-
-        for (let i = 1; i < movements.length; i++) {
-            const dx = movements[i].x - movements[i-1].x;
-            const dt = movements[i].time - movements[i-1].time;
-            const speed = Math.abs(dx / dt);
-
-            if (prevSpeed !== null) {
-                if (Math.abs(speed - prevSpeed) > 0.1) {
-                    isUneven = true;
-                    break;
-                }
-            }
-
-            prevSpeed = speed;
-        }
-
-        return isUneven;
-    }
-
-    function changeImageAndPosition(container) {
-        const puzzleHole = container.querySelector('#puzzle-hole');
-        if (puzzleHole) {
-            puzzleHole.remove();
-        }
-        showSliderCaptcha(container);
-    }
-
-    function handleVisibilityChange(container) {
-        if (document.visibilityState === 'hidden') {
-            leaveTimer = setTimeout(() => {
-                resetCaptcha(container);
-            }, 15000);
-        } else {
-            clearTimeout(leaveTimer);
-        }
-    }
-
-    function resetCaptcha(container) {
-        const verifyCheckbox = container.querySelector('#verify-checkbox');
-        verifyCheckbox.checked = false;
-        verifyCheckbox.style.display = 'inline-block';
-        container.querySelector('#captcha-label').style.display = 'inline-block';
-        container.querySelector('#check-mark').style.display = 'none';
-        container.querySelector('#success-message').style.display = 'none';
-        container.querySelector('#slider-captcha').style.display = 'none';
-        resetSlider(container);
-        changeImageAndPosition(container);
-        document.removeEventListener('visibilitychange', () => handleVisibilityChange(container));
-    }
-
-    // Main initialization function
-    function initOneCaptcha(container) {
-        // Insert HTML template
-        container.innerHTML = template;
-
-        // Apply translations
-        const userLang = detectLanguage();
-        applyTranslations(container, userLang);
-
-        // Event listeners
-        const verifyCheckbox = container.querySelector('#verify-checkbox');
-        const retryButton = container.querySelector('#retry-button');
-        const sliderHandle = container.querySelector('#slider-handle');
-
-        verifyCheckbox.addEventListener('change', function() {
-            if (this.checked) {
-                this.style.display = 'none';
-                container.querySelector('#loading-spinner').style.display = 'inline-block';
-                showSliderCaptcha(container);
-            }
-        });
-
-        retryButton.addEventListener('click', function() {
-            changeImageAndPosition(container);
-        });
-
-        sliderHandle.addEventListener('mousedown', (e) => startDragging(e, container));
-        sliderHandle.addEventListener('touchstart', (e) => startDragging(e, container));
-
-        document.addEventListener('mousemove', (e) => drag(e, container));
-        document.addEventListener('touchmove', (e) => drag(e, container));
-
-        document.addEventListener('mouseup', () => stopDragging(container));
-        document.addEventListener('touchend', () => stopDragging(container));
-    }
-
-    // Initialize all One Captcha instances
     document.addEventListener('DOMContentLoaded', () => {
-        const captchaContainers = document.querySelectorAll('.one-captcha');
-        captchaContainers.forEach(initOneCaptcha);
+        const captchaElements = document.getElementsByClassName('one-captcha');
+        if (captchaElements.length > 0) {
+            const captchaElement = captchaElements[0];
+            const callback = captchaElement.getAttribute('data-callback');
+            if (callback && typeof window[callback] === 'function') {
+                initializeCaptcha(window[callback]);
+            } else {
+                console.error('Callback function is not defined or not a function');
+            }
+        }
     });
+
+    function initializeCaptcha(callback) {
+        const container = document.createElement('div');
+        container.innerHTML = template;
+        document.body.appendChild(container);
+
+        const styleElement = document.createElement('style');
+        styleElement.innerHTML = style;
+        document.head.appendChild(styleElement);
+
+        const verifyCheckbox = document.getElementById('verify-checkbox');
+        const sliderCaptcha = document.getElementById('slider-captcha');
+        const puzzleImage = document.getElementById('puzzle-image');
+        const puzzlePiece = document.getElementById('puzzle-piece');
+        const sliderHandle = document.getElementById('slider-handle');
+        const sliderTrack = document.getElementById('slider-track');
+        const retryButton = document.getElementById('retry-button');
+        const submitButton = document.getElementById('submit-button');
+        const successMessage = document.getElementById('success-message');
+        const loadingSpinner = document.getElementById('loading-spinner');
+        const checkMark = document.getElementById('check-mark');
+
+        let startX, offsetX, isSliding = false;
+        const pieceSize = 50;
+        const puzzleWidth = 300;
+        const puzzleHeight = 200;
+        let puzzlePosition = { x: 0, y: 0 };
+        let slideStartTime, slideEndTime;
+
+        verifyCheckbox.addEventListener('change', () => {
+            if (verifyCheckbox.checked) {
+                loadingSpinner.style.display = 'block';
+                setTimeout(() => {
+                    loadingSpinner.style.display = 'none';
+                    sliderCaptcha.style.display = 'block';
+                    loadCaptchaImage();
+                }, 1000);
+            } else {
+                sliderCaptcha.style.display = 'none';
+            }
+        });
+
+        sliderHandle.addEventListener('mousedown', (e) => {
+            isSliding = true;
+            startX = e.clientX;
+            slideStartTime = new Date();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isSliding) {
+                offsetX = e.clientX - startX;
+                if (offsetX < 0) offsetX = 0;
+                if (offsetX > puzzleWidth - pieceSize) offsetX = puzzleWidth - pieceSize;
+                sliderHandle.style.left = offsetX + 'px';
+                sliderTrack.style.width = offsetX + pieceSize / 2 + 'px';
+                puzzlePiece.style.left = puzzlePosition.x + offsetX + 'px';
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isSliding) {
+                isSliding = false;
+                slideEndTime = new Date();
+                const slideDuration = (slideEndTime - slideStartTime) / 1000;
+                if (Math.abs(offsetX - puzzlePosition.x) < 10) {
+                    successMessage.style.display = 'block';
+                    checkMark.style.display = 'block';
+                    loadingSpinner.style.display = 'none';
+                    verifyCheckbox.disabled = true;
+                    sliderCaptcha.style.display = 'none';
+                    submitButton.disabled = false;
+                    callback();
+                } else {
+                    alert('Verification failed. Please try again.');
+                    resetCaptcha();
+                }
+            }
+        });
+
+        retryButton.addEventListener('click', () => {
+            resetCaptcha();
+        });
+
+        function loadCaptchaImage() {
+            puzzleImage.src = 'https://source.unsplash.com/random/300x200';
+            puzzleImage.onload = () => {
+                const ctx = document.createElement('canvas').getContext('2d');
+                ctx.drawImage(puzzleImage, 0, 0, puzzleWidth, puzzleHeight);
+                const pieceX = Math.floor(Math.random() * (puzzleWidth - pieceSize));
+                const pieceY = Math.floor(Math.random() * (puzzleHeight - pieceSize));
+                puzzlePosition = { x: pieceX, y: pieceY };
+                puzzlePiece.style.backgroundImage = `url(${puzzleImage.src})`;
+                puzzlePiece.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
+                puzzlePiece.style.left = `${pieceX}px`;
+                puzzlePiece.style.top = `${pieceY}px`;
+            };
+        }
+
+        function resetCaptcha() {
+            sliderHandle.style.left = '0px';
+            sliderTrack.style.width = '0px';
+            puzzlePiece.style.left = `${puzzlePosition.x}px`;
+            loadCaptchaImage();
+        }
+
+        resetCaptcha();
+    }
 })();
