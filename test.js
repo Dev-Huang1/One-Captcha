@@ -291,10 +291,31 @@
 
     function getRandomPuzzleImage() {
         const images = [
-            'https://captcha.xyehr.cn/assets/slider/1.jpg',
-            'https://captcha.xyehr.cn/assets/slider/2.jpg',
-            'https://captcha.xyehr.cn/assets/slider/3.jpg',
-            'https://captcha.xyehr.cn/assets/slider/4.jpg'
+            '/assets/v3/image1.jpeg',
+            '/assets/v3/image2.jpeg',
+            '/assets/v3/image3.jpg',
+            '/assets/v3/img018.png',
+            '/assets/v3/img072.jpg',
+            '/assets/v3/img102.jpeg',
+            '/assets/v3/img181.jpeg',
+            '/assets/v3/img193.jpeg',
+            '/assets/v3/img249.jpg',
+            '/assets/v3/img273.jpeg',
+            '/assets/v3/img372.jpeg',
+            '/assets/v3/img392.jpeg',
+            '/assets/v3/img396.jpeg',
+            '/assets/v3/img398.jpeg',
+            '/assets/v3/img462.jpg',
+            '/assets/v3/img482.jpeg',
+            '/assets/v3/img492.jpeg',
+            '/assets/v3/img592.jpg',
+            '/assets/v3/img638.jpg',
+            '/assets/v3/img639.jpeg',
+            '/assets/v3/img639.jpg',
+            '/assets/v3/img648.jpg',
+            '/assets/v3/img657.jpeg',
+            '/assets/v3/img857.jpeg',
+            '/assets/v3/img928.jpeg'
         ];
         return images[Math.floor(Math.random() * images.length)];
     }
