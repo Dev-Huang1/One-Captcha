@@ -1,7 +1,6 @@
 (function() {
     // CSS styles
     const styles = `
-    <style>
         #captcha-container {
             width: 260px;
             height: 40px;
@@ -213,7 +212,6 @@
                 color: #38127;
             }
          }
-    </style>
     `;
 
     // Create and append style element
