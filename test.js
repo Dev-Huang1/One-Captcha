@@ -325,17 +325,20 @@
         const puzzleImage = document.getElementById('puzzle-image');
         const puzzlePiece = document.getElementById('puzzle-piece');
         const puzzleHole = document.getElementById('puzzle-hole');
-
+    
         const puzzleImageUrl = getRandomPuzzleImage();
         puzzleImage.src = puzzleImageUrl;
         puzzlePiece.style.backgroundImage = `url(${puzzleImageUrl})`;
-
-        puzzlePiece.style.top = `${Math.random() * (200 - 50)}px`;
-        puzzlePiece.style.left = '0px';
-        puzzleHole.style.top = puzzlePiece.style.top;
-        puzzleHole.style.left = `${Math.random() * (300 - 50)}px`;
-
-        sliderCaptcha.style.display = 'block';
+    
+        puzzleImage.onload = () => {
+            puzzlePiece.style.top = `${Math.random() * (200 - 50)}px`;
+            puzzlePiece.style.left = '0px';
+            puzzleHole.style.top = puzzlePiece.style.top;
+            puzzleHole.style.left = `${Math.random() * (300 - 50)}px`;
+    
+            document.getElementById('loading-spinner').style.display = 'none';
+            sliderCaptcha.style.display = 'block';
+        };
     }
 
     function hideSliderCaptcha() {
@@ -348,6 +351,7 @@
         const puzzleHole = document.getElementById('puzzle-hole');
         const pieceLeft = parseFloat(puzzlePiece.style.left);
         const holeLeft = parseFloat(puzzleHole.style.left);
+    
         if (Math.abs(pieceLeft - holeLeft) < 5) {
             document.getElementById('check-mark').style.display = 'inline';
             document.getElementById('loading-spinner').style.display = 'none';
@@ -380,6 +384,7 @@
                 showSliderCaptcha();
             }
         });
+
 
         sliderHandle.addEventListener('mousedown', (e) => {
             isDragging = true;
