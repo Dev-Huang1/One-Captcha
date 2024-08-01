@@ -255,15 +255,17 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function initCaptcha(element) {
-    const verifyCheckbox = document.getElementById('verify-checkbox');
-    const sliderCaptcha = document.getElementById('slider-captcha');
-    const puzzleImage = document.getElementById('puzzle-image');
-    const puzzlePiece = document.getElementById('puzzle-piece');
-    const sliderHandle = document.getElementById('slider-handle');
-    const sliderTrack = document.getElementById('slider-track');
-    const retryButton = document.getElementById('retry-button');
-    const successMessage = document.getElementById('success-message');
-    const submitButton = document.getElementById('submit-button');
+    const verifyCheckbox = element.querySelector('#verify-checkbox');
+    const sliderCaptcha = element.querySelector('#slider-captcha');
+    const puzzleImage = element.querySelector('#puzzle-image');
+    const puzzlePiece = element.querySelector('#puzzle-piece');
+    const sliderHandle = element.querySelector('#slider-handle');
+    const sliderTrack = element.querySelector('#slider-track');
+    const retryButton = element.querySelector('#retry-button');
+    const successMessage = element.querySelector('#success-message');
+    const checkMark = element.querySelector('#check-mark');
+    const loadingSpinner = element.querySelector('#loading-spinner');
+    const captchaLabel = element.querySelector('#captcha-label');
 
     const images = ['image1.jpeg', 'image2.jpeg', 'image3.jpg', 'img018.png', 'img072.jpg', 'img102.jpeg', 'img181.jpeg', 'img193.jpeg', 'img249.jpg', 'img273.jpeg', 'img372.jpeg', 'img392.jpeg', 'img396.jpeg', 'img398.jpeg', 'img462.jpg', 'img482.jpeg', 'img492.jpeg', 'img592.jpg', 'img638.jpg', 'img639.jpeg', 'img639.jpg', 'img648.jpg', 'img657.jpeg', 'img857.jpeg', 'img928.jpeg'];
     let currentImage;
@@ -273,62 +275,19 @@ function initCaptcha(element) {
     let startLeft;
     let movements = [];
     let startTime;
-    let leaveTimer;
-
-    const translations = {
-        en: {
-            captchaLabel: "I'm not a robot",
-            verifyingText: "Verifying...",
-            verificationSuccess: "Verification successful",
-            verificationError: "Please re-verify",
-            retryButton: "Retry",
-            privacyLink: "Privacy",
-            docsLink: "Docs",
-            successMessage: "Success",
-            submitButton: "Submit"
-        },
-        zh: {
-            captchaLabel: "我不是机器人",
-            verifyingText: "验证中...",
-            verificationSuccess: "验证成功",
-            verificationError: "请重新验证",
-            retryButton: "重试",
-            privacyLink: "隐私",
-            docsLink: "文档",
-            successMessage: "验证成功",
-            submitButton: "提交"
-        }
-    };
-
-    function detectLanguage() {
-        const userLang = navigator.language || navigator.userLanguage;
-        if (userLang.startsWith('zh')) return 'zh';
-        else return userLang.includes('zh') ? 'zh' : 'en';
-    }
-
-    function applyTranslations(language) {
-        document.getElementById('captcha-label').textContent = translations[language].captchaLabel;
-        document.getElementById('retry-button').textContent = translations[language].retryButton;
-        document.getElementById('privacy-link').textContent = translations[language].privacyLink;
-        document.getElementById('docs-link').textContent = translations[language].docsLink;
-        document.getElementById('submit-button').textContent = translations[language].submitButton;
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const userLang = detectLanguage();
-        applyTranslations(userLang);
-    });
 
     verifyCheckbox.addEventListener('change', function() {
         if (this.checked) {
-            this.style.display = 'none'; // Hide the checkbox
-            document.getElementById('loading-spinner').style.display = 'inline-block'; // Show the spinner
-    
-            showSliderCaptcha(); // Existing function to show the slider captcha
+            loadingSpinner.style.display = 'inline-block';
+            setTimeout(() => {
+                loadingSpinner.style.display = 'none';
+                showSliderCaptcha();
+            }, 1000); // 模拟加载延迟
         }
     });
 
     function showSliderCaptcha() {
+        sliderCaptcha.style.display = 'block';
         currentImage = images[Math.floor(Math.random() * images.length)];
         puzzleImage.src = `assets/v3/${currentImage}`;
 
@@ -348,10 +307,9 @@ function initCaptcha(element) {
             puzzleHole.id = 'puzzle-hole';
             puzzleHole.style.left = `${pieceX}px`;
             puzzleHole.style.top = `${pieceY}px`;
-            document.getElementById('puzzle-container').appendChild(puzzleHole);
+            element.querySelector('#puzzle-container').appendChild(puzzleHole);
 
             piecePosition = pieceX;
-            sliderCaptcha.style.display = 'block';
             resetSlider();
         };
     }
@@ -392,8 +350,9 @@ function initCaptcha(element) {
             if (isHumanLikeMovement()) {
                 showSuccessMessage();
                 sliderCaptcha.style.display = 'none';
-                submitButton.disabled = false;
-                document.addEventListener('visibilitychange', handleVisibilityChange);
+                if (typeof window[element.dataset.callback] === 'function') {
+                    window[element.dataset.callback]();
+                }
             } else {
                 alert('Verification failed. Please try again.');
                 changeImageAndPosition();
@@ -405,11 +364,10 @@ function initCaptcha(element) {
     }
 
     function showSuccessMessage() {
-        document.getElementById('loading-spinner').style.display = 'none'; // Hide the spinner
-        document.getElementById('check-mark').style.display = 'inline-block'; // Show the check mark
-        document.getElementById('captcha-label').style.display = 'none';
-        document.getElementById('success-message').textContent = translations[detectLanguage()].successMessage;
-        document.getElementById('success-message').style.display = 'inline-block';
+        loadingSpinner.style.display = 'none';
+        checkMark.style.display = 'inline-block';
+        captchaLabel.style.display = 'none';
+        successMessage.style.display = 'inline-block';
     }
 
     function resetSlider() {
@@ -443,7 +401,7 @@ function initCaptcha(element) {
     }
 
     function changeImageAndPosition() {
-        const puzzleHole = document.getElementById('puzzle-hole');
+        const puzzleHole = element.querySelector('#puzzle-hole');
         if (puzzleHole) {
             puzzleHole.remove();
         }
@@ -462,27 +420,4 @@ function initCaptcha(element) {
 
     document.addEventListener('mouseup', stopDragging);
     document.addEventListener('touchend', stopDragging);
-
-    function handleVisibilityChange() {
-        if (document.visibilityState === 'hidden') {
-            leaveTimer = setTimeout(() => {
-                resetCaptcha();
-            }, 15000);
-        } else {
-            clearTimeout(leaveTimer);
-        }
-    }
-
-    function resetCaptcha() {
-        verifyCheckbox.checked = false;
-        verifyCheckbox.style.display = 'inline-block';
-        document.getElementById('captcha-label').style.display = 'inline-block';
-        document.getElementById('check-mark').style.display = 'none';
-        document.getElementById('success-message').style.display = 'none';
-        submitButton.disabled = true;
-        sliderCaptcha.style.display = 'none';
-        resetSlider();
-        changeImageAndPosition();
-        document.removeEventListener('visibilitychange', handleVisibilityChange);
-    }
 }
