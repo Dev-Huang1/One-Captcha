@@ -278,7 +278,9 @@ function initCaptcha(element) {
 
     verifyCheckbox.addEventListener('change', function() {
         if (this.checked) {
+            verifyCheckbox.style.display = 'none';
             loadingSpinner.style.display = 'inline-block';
+            captchaLabel.style.display = 'none';
             setTimeout(() => {
                 loadingSpinner.style.display = 'none';
                 showSliderCaptcha();
@@ -295,7 +297,7 @@ function initCaptcha(element) {
             const pieceSize = 50;
             const maxX = 300 - pieceSize;
             const maxY = 200 - pieceSize;
-            const pieceX = Math.floor(Math.random() * (maxX - 50) + 50); 
+            const pieceX = Math.floor(Math.random() * (maxX - 50) + 50);
             const pieceY = Math.floor(Math.random() * maxY);
 
             puzzlePiece.style.left = '0px';
@@ -354,11 +356,11 @@ function initCaptcha(element) {
                     window[element.dataset.callback]();
                 }
             } else {
-                alert('Verification failed. Please try again.');
+                alert('验证失败。请重试。');
                 changeImageAndPosition();
             }
         } else {
-            alert('Verification failed. Please try again.');
+            alert('验证失败。请重试。');
             changeImageAndPosition();
         }
     }
@@ -366,7 +368,6 @@ function initCaptcha(element) {
     function showSuccessMessage() {
         loadingSpinner.style.display = 'none';
         checkMark.style.display = 'inline-block';
-        captchaLabel.style.display = 'none';
         successMessage.style.display = 'inline-block';
     }
 
