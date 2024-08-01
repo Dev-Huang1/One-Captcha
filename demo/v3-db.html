@@ -3,23 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>One Captcha Demo</title>
-    <script src="https://captcha.xyehr.cn/test.js"></script>
+    <title>CAPTCHA Demo</title>
+    <script src="../test.js"></script>
+    <link rel="stylesheet" href="one-captcha.css">
 </head>
 <body>
     <div class="one-captcha" data-callback="onCaptchaSuccess"></div>
+
     <script>
         function onCaptchaSuccess() {
-            console.log('CAPTCHA verified successfully!');
-            // Your logic here
+            alert('CAPTCHA verification successful!');
         }
-        document.addEventListener('DOMContentLoaded', () => {
-            const captchaElements = document.querySelectorAll('.one-captcha');
-            captchaElements.forEach(el => {
-                OneCaptcha.init(el, { callback: onCaptchaSuccess, language: 'en' });
-            });
-        });
     </script>
 </body>
 </html>
-
