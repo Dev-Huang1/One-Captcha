@@ -6,7 +6,7 @@ At Tech-Art, we take security seriously. If you discover a security vulnerabilit
 
 ### How to Report
 
-- **GitHub Issues:** Open a new issue on our [GitHub repository](https://github.com/Tech-Art/One-Captcha) and mark it as "security."
+- **GitHub Issues:** Open a new issue on our [GitHub repository](https://github.com/Tech-Art/One-Captcha) and mark it as "bug"
 - **Email:** Send an email to [www@xyehr.cn](mailto:www@xyehr.cn) with the details of the vulnerability.
 
 ### Responsible Disclosure
