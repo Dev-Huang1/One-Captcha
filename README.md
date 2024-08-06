@@ -19,7 +19,7 @@
 
 ## Contributors
 
-![Contributors](https://opencollective.com/Air-Captcha/contributors.svg?width=890&button=false)
+![Contributors](https://opencollective.com/One-Captcha/contributors.svg?width=890&button=false)
 
 ## Star History
 
