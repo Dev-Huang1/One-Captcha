@@ -246,7 +246,10 @@
     </div>
         `;
 
-        document.getElementById('one-captcha').appendChild(captchaContainer);
+        const targetElement = document.querySelector('.one-captcha');
+        if (targetElement) {
+            targetElement.appendChild(captchaContainer);
+        }
 
         const verifyCheckbox = document.getElementById('verify-checkbox');
     const sliderCaptcha = document.getElementById('slider-captcha');
