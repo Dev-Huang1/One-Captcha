@@ -26,8 +26,25 @@
             align-items: center;
         }
         #verify-checkbox {
-            margin-right: 10px;
-        }
+    margin-right: 10px;
+    background: #fff;
+    width: 24px;
+    height: 24px;
+    outline: 2px solid rgb(193, 193, 193);
+    border-radius: 2px;
+    display: inline-block;
+    vertical-align: middle;
+    transition-property: border-radius, transform;
+    transition-duration: 0.5s;
+    -webkit-appearance: none; /* This is necessary to remove the default checkbox appearance in some browsers */
+    cursor: pointer;
+}
+
+#verify-checkbox:checked {
+    background-color: #0066ff; /* Change color when checked */
+    border-radius: 50%; /* Example of transition effect on check */
+    transform: scale(1.1); /* Slightly enlarge when checked */
+}
         #captcha-label {
             margin-right: 20px;
         }
