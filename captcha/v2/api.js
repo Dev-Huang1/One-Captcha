@@ -42,16 +42,12 @@
                     margin-right: 10px;
                 }
                 #verify-checkbox {
-                    background: #fff;
-    width: 24px;
-    height: 24px;
-    border-radius: 2px;
-    display: inline-block;
-    vertical-align: middle;
-    transition-property: border-radius, transform;
-    transition-duration: 0.5s;
-    box-shadow: 0 0 0 2px rgb(193, 193, 193);
-                }
+                    width: 28px;
+                    height: 28px;
+                    margin: 0;
+                    cursor: pointer;
+                    position: relative;
+                    z-index: 1;
                 #captcha-label {
                     margin-right: 20px;
                 }
