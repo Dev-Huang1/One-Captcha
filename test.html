@@ -37,6 +37,43 @@
     transition-property: border-radius, transform;
     transition-duration: 0.5s
         }
+        .custom-checkbox {
+    display: none; /* 隐藏默认的checkbox */
+}
+
+.custom-checkbox + label {
+    margin-right: 10px;
+    background: #fff;
+    width: 24px;
+    height: 24px;
+    border-radius: 2px;
+    display: inline-block;
+    vertical-align: middle;
+    transition: border-radius 0.5s, transform 0.5s;
+    box-shadow: 0 0 0 2px rgb(193, 193, 193);
+    cursor: pointer;
+}
+
+.custom-checkbox:checked + label {
+    background-color: #007BFF; /* 选中后的背景色 */
+    box-shadow: 0 0 0 2px #007BFF;
+    transform: scale(1.1); /* 选中后的放大效果 */
+}
+
+.custom-checkbox + label::after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    top: 6px;
+    left: 6px;
+    background-color: transparent;
+    transition: background-color 0.3s ease;
+}
+
+.custom-checkbox:checked + label::after {
+    background-color: #fff; /* 选中后勾选的颜色 */
+}
         #captcha-label {
             margin-right: 20px;
         }
@@ -230,7 +267,8 @@
 <body>
     <div id="captcha-container">
         <div id="verify-section">
-            <input type="checkbox" id="verify-checkbox">
+            <input type="checkbox" id="verify-checkbox" class="custom-checkbox">
+            <label for="verify-checkbox"></label>
             <div id="loading-spinner"></div>
             <img id="check-mark" src="assets/check-mark.svg" alt="Check Mark" style="display: none;">
             <label for="verify-checkbox" id="captcha-label">I'm not a robot.</label>
