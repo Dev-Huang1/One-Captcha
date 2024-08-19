@@ -26,17 +26,17 @@
             align-items: center;
         }
         #verify-checkbox {
-            margin-right: 10px;
-            background: #fff;
+    margin-right: 10px;
+    background: #fff;
     width: 24px;
     height: 24px;
-    outline: 2px solid rgb(193, 193, 193);
     border-radius: 2px;
     display: inline-block;
     vertical-align: middle;
     transition-property: border-radius, transform;
     transition-duration: 0.5s;
-        }
+    box-shadow: 0 0 0 2px rgb(193, 193, 193);
+}
         #captcha-label {
             margin-right: 20px;
         }
@@ -175,6 +175,7 @@
         }
 
         #loading-spinner {
+            margin-right: 10px;
             display: none;
             border: 4px solid #f3f3f3;
             border-top: 4px solid #0066ff;
