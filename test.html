@@ -192,6 +192,15 @@
             height: 20px;
             animation: spin 1s linear infinite;
         }
+
+        .captcha-spinner {
+    opacity: 0;
+    transition: 0.3s;
+    animation-name: spin;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-duration: 1s;
+        }
         
         @keyframes spin {
             0% { transform: rotate(0deg); }
@@ -241,7 +250,7 @@
         <div id="verify-section">
             <input type="checkbox" id="verify-checkbox">
             <label for="verify-checkbox" class="custom-checkbox"></label>
-            <div id="loading-spinner"></div>
+            <div id="captcha-spinner"></div>
             <img id="check-mark" src="assets/check-mark.svg" alt="Check Mark" style="display: none;">
             <label for="verify-checkbox" id="captcha-label">I'm not a robot.</label>
             <span id="success-message" style="display: none; font-weight: bold;">Success</span>
