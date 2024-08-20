@@ -446,6 +446,8 @@
     const spinner = document.getElementById('loading-spinner');
     const checkMark = document.getElementById('check-mark');
     spinner.style.opacity = '0'; // Fade out the spinner
+    document.getElementById('success-message').textContent = translations[detectLanguage()].successMessage;
+    document.getElementById('success-message').style.display = 'inline-block';
 
     setTimeout(() => {
         spinner.style.display = 'none'; // Hide the spinner
