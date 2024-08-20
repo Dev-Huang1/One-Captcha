@@ -181,22 +181,27 @@
         }
         
         #check-mark {
-            display: none;
-            width: 35px;
-            height: 35px;
-            margin-right: 10px;
-        }
+    display: none;
+    width: 35px;
+    height: 35px;
+    margin-right: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    transform: scale(0.8);
+}
 
-        #loading-spinner {
-            margin-right: 15px;
-            display: none;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #0066ff;
-            border-radius: 50%;
-            width: 17px;
-            height: 17px;
-            animation: spin 1s linear infinite;
-        }
+#loading-spinner {
+    margin-right: 15px;
+    display: none;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #0066ff;
+    border-radius: 50%;
+    width: 17px;
+    height: 17px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    animation: spin 1s linear infinite;
+}
         
         @keyframes spin {
             0% { transform: rotate(0deg); }
@@ -351,12 +356,15 @@
 
         setTimeout(() => {
             this.style.display = 'none';
-            document.getElementById('loading-spinner').style.display = 'inline-block';
-            showSliderCaptcha();
+            const spinner = document.getElementById('loading-spinner');
+            spinner.style.display = 'inline-block';
+            setTimeout(() => {
+                spinner.style.opacity = '1';
+                showSliderCaptcha();
+            }, 50);  // Slight delay to trigger the transition
         }, 300);
     }
 });
-
 
     function showSliderCaptcha() {
         currentImage = images[Math.floor(Math.random() * images.length)];
@@ -435,12 +443,19 @@
 }
 
     function showSuccessMessage() {
-        document.getElementById('loading-spinner').style.display = 'none'; // Hide the spinner
-        document.getElementById('check-mark').style.display = 'inline-block'; // Show the check mark
-        document.getElementById('captcha-label').style.display = 'none';
-        document.getElementById('success-message').textContent = translations[detectLanguage()].successMessage;
-        document.getElementById('success-message').style.display = 'inline-block';
-    }
+    const spinner = document.getElementById('loading-spinner');
+    const checkMark = document.getElementById('check-mark');
+    spinner.style.opacity = '0'; // Fade out the spinner
+
+    setTimeout(() => {
+        spinner.style.display = 'none'; // Hide the spinner
+        checkMark.style.display = 'inline-block'; // Show the check mark
+        setTimeout(() => {
+            checkMark.style.opacity = '1'; // Fade in the check mark
+            checkMark.style.transform = 'scale(1)'; // Scale up the check mark
+        }, 50);  // Slight delay to trigger the transition
+    }, 300);  // Match the transition duration
+}
 
     function resetSlider() {
         sliderHandle.style.left = '0';
