@@ -335,13 +335,19 @@
     });
 
     verifyCheckbox.addEventListener('change', function() {
-        if (this.checked) {
-            this.style.display = 'none'; // Hide the checkbox
-            document.getElementById('loading-spinner').style.display = 'inline-block'; // Show the spinner
-    
-            showSliderCaptcha(); // Existing function to show the slider captcha
-        }
-    });
+    if (this.checked) {
+        this.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+        this.style.transform = 'scale(0)';
+        this.style.opacity = '0';
+
+        setTimeout(() => {
+            this.style.display = 'none';
+            document.getElementById('loading-spinner').style.display = 'inline-block';
+            showSliderCaptcha();
+        }, 300);
+    }
+});
+
 
     function showSliderCaptcha() {
         currentImage = images[Math.floor(Math.random() * images.length)];
