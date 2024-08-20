@@ -334,8 +334,11 @@
         applyTranslations(userLang);
     });
 
-    verifyCheckbox.addEventListener('change', function() {
-    if (this.checked) {
+    verifyCheckbox.addEventListener('click', function(event) {
+    event.preventDefault();
+
+    if (!this.checked) {
+        this.checked = true;
         this.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
         this.style.transform = 'scale(0)';
         this.style.opacity = '0';
@@ -347,7 +350,6 @@
         }, 300);
     }
 });
-
 
     function showSliderCaptcha() {
         currentImage = images[Math.floor(Math.random() * images.length)];
