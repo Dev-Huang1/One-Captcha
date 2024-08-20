@@ -261,6 +261,7 @@
             <img id="puzzle-image" src="" alt="img">
             <div id="puzzle-piece"></div>
         </div>
+        <p id="error-message" style="color: red; display: none;">Verification failed. Please try again.</p>
         <div id="slider">
             <div id="slider-track"></div>
             <div id="slider-handle">→</div>
@@ -404,25 +405,25 @@
     }
 
     function stopDragging() {
-        if (!isDragging) return;
-        isDragging = false;
+    if (!isDragging) return;
+    isDragging = false;
 
-        const finalPosition = sliderHandle.offsetLeft;
-        if (Math.abs(finalPosition - piecePosition) < 5) {
-            if (isHumanLikeMovement()) {
-                showSuccessMessage();
-                sliderCaptcha.style.display = 'none';
-                submitButton.disabled = false;
-                document.addEventListener('visibilitychange', handleVisibilityChange);
-            } else {
-                alert('Verification failed. Please try again.');
-                changeImageAndPosition();
-            }
+    const finalPosition = sliderHandle.offsetLeft;
+    if (Math.abs(finalPosition - piecePosition) < 5) {
+        if (isHumanLikeMovement()) {
+            showSuccessMessage();
+            sliderCaptcha.style.display = 'none';
+            submitButton.disabled = false;
+            document.addEventListener('visibilitychange', handleVisibilityChange);
         } else {
-            alert('Verification failed. Please try again.');
+            document.getElementById('error-message').style.display = 'block';
             changeImageAndPosition();
         }
+    } else {
+        document.getElementById('error-message').style.display = 'block';
+        changeImageAndPosition();
     }
+}
 
     function showSuccessMessage() {
         document.getElementById('loading-spinner').style.display = 'none'; // Hide the spinner
