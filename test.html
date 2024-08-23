@@ -82,84 +82,100 @@
             margin: 0 3px;
         }
         #slider-captcha {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 300px;
-    background-color: #ffffff;
-    border: 1px solid #cccccc;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 0;
-    overflow: hidden;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-}
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 320px;
+        background-color: #f9f9f9;
+        border: 1px solid #d1d1d1;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        border-radius: 6px;
+        overflow: hidden;
+        padding: 24px;
+        font-family: Arial, sans-serif;
+    }
 
-#puzzle-container {
-    width: 100%;
-    height: 200px;
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 20px;
-}
+    #puzzle-container {
+        width: 100%;
+        height: 180px;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 16px;
+        border-radius: 4px;
+        background-color: #eaeaea;
+    }
 
-#puzzle-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+    #puzzle-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 4px;
+    }
 
-#puzzle-piece {
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    background-size: 300px 200px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-}
+    #puzzle-piece {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        background-size: 320px 180px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        border-radius: 4px;
+        background-color: white;
+    }
 
-#slider {
-    width: 100%;
-    height: 40px;
-    background-color: #f0f0f0;
-    position: relative;
-    cursor: pointer;
-}
+    #slider {
+        width: 100%;
+        height: 44px;
+        background-color: #e0e0e0;
+        position: relative;
+        cursor: pointer;
+        border-radius: 22px;
+    }
 
-#slider-handle {
-    width: 40px;
-    height: 40px;
-    background-color: #0066ff;
-    position: absolute;
-    left: 0;
-    top: 0;
-    cursor: grab;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-}
+    #slider-handle {
+        width: 44px;
+        height: 44px;
+        background-color: #4a90e2;
+        position: absolute;
+        left: 0;
+        top: 0;
+        cursor: grab;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s ease;
+    }
 
-#slider-track {
-    width: 0;
-    height: 100%;
-    background-color: #e0e0e0;
-}
+    #slider-handle:hover {
+        background-color: #357abd;
+    }
 
-#retry-button {
-    margin-top: 10px;
-    padding: 8px 16px;
-    background-color: #0066ff;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
+    #slider-track {
+        width: 0;
+        height: 100%;
+        background-color: #c0c0c0;
+        border-radius: 22px;
+    }
 
-#retry-button:hover {
-    background-color: #0055cc;
-}
+    #retry-button {
+        margin-top: 20px;
+        padding: 10px 18px;
+        background-color: #4a90e2;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+    }
 
+    #retry-button:hover {
+        background-color: #357abd;
+    }
 #puzzle-hole {
     position: absolute;
     width: 50px;
@@ -168,12 +184,18 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3) inset;
 }
         #success-message {
-            display: none;
-            color: #000;
-        }
-        #error-message {
-            font-family: 
-        }
+        display: none;
+        color: #4caf50;
+        text-align: center;
+        margin-top: 16px;
+    }
+
+    #error-message {
+        display: none;
+        color: #e74c3c;
+        text-align: center;
+        margin-top: 16px;
+    }
         
         #check-mark {
     display: none;
