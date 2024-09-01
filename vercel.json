@@ -1,7 +1,12 @@
 {
   "rewrites": [
     {
+      "source": "/:path*/",
+      "destination": "/:path*/index.html"
+    },
+    {
       "source": "/:path*",
+      "has": [{ "type": "file", "value": ":path*.html" }],
       "destination": "/:path*.html"
     }
   ]
