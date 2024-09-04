@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/:path*",
-      "destination": "/:path*.html"
+      "destination": "/:path.html"
     }
   ]
 }
