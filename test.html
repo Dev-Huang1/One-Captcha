@@ -26,26 +26,26 @@
             align-items: center;
         }
         #verify-checkbox {
-    margin-right: 14px;
-    width: 20px;
-    height: 20px;
-    outline: 2px solid rgb(193, 193, 193);
-    border-radius: 2px;
-    display: inline-block;
-    vertical-align: middle;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-    -webkit-appearance: none;
-    appearance: none;
-    cursor: pointer;
-    background: #fff;
-    position: relative;
-}
-#verify-checkbox:checked {
-    background-color: #fff;
-}
-#verify-checkbox:checked::before {
-    transform: translate(-50%, -50%) scale(1.2);
-}
+            margin-right: 14px;
+            width: 20px;
+            height: 20px;
+            outline: 2px solid rgb(193, 193, 193);
+            border-radius: 2px;
+            display: inline-block;
+            vertical-align: middle;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+            background: #fff;
+            position: relative;
+        }
+        #verify-checkbox:checked {
+            background-color: #fff;
+        }
+        #verify-checkbox:checked::before {
+            transform: translate(-50%, -50%) scale(1.2);
+        }
         #captcha-label {
             margin-right: 20px;
         }
@@ -173,40 +173,40 @@
             border-radius: 10px;
         }
         #success-message {
-        display: none;
-        color: #000000;
-        text-align: center;
-    }
+            display: none;
+            color: #000000;
+            text-align: center;
+        }
 
-    #error-message {
-        display: none;
-        color: red;
-        text-align: center;
-        margin-top: 16px;
-    }
+        #error-message {
+            display: none;
+            color: red;
+            text-align: center;
+            margin-top: 16px;
+        }
         
         #check-mark {
-    display: none;
-    width: 35px;
-    height: 35px;
-    margin-right: 10px;
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-    transform: scale(0.8);
-}
+            display: none;
+            width: 35px;
+            height: 35px;
+            margin-right: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            transform: scale(0.8);
+        }
 
-#loading-spinner {
-    margin-right: 15px;
-    display: none;
-    border: 3px solid #f3f3f3;
-    border-top: 3px solid #0066ff;
-    border-radius: 50%;
-    width: 17px;
-    height: 17px;
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-    animation: spin 1s linear infinite;
-}
+        #loading-spinner {
+            margin-right: 15px;
+            display: none;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #0066ff;
+            border-radius: 50%;
+            width: 17px;
+            height: 17px;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            animation: spin 1s linear infinite;
+        }
         
         @keyframes spin {
             0% { transform: rotate(0deg); }
@@ -354,22 +354,22 @@
     });
 
     verifyCheckbox.addEventListener('change', function() {
-    if (this.checked) {
-        this.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
-        this.style.transform = 'scale(0)';
-        this.style.opacity = '0';
-
-        setTimeout(() => {
-            this.style.display = 'none';
-            const spinner = document.getElementById('loading-spinner');
-            spinner.style.display = 'inline-block';
+        if (this.checked) {
+            this.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+            this.style.transform = 'scale(0)';
+            this.style.opacity = '0';
+    
             setTimeout(() => {
-                spinner.style.opacity = '1';
-                showSliderCaptcha();
-            }, 50);  // Slight delay to trigger the transition
-        }, 300);
-    }
-});
+                this.style.display = 'none';
+                const spinner = document.getElementById('loading-spinner');
+                spinner.style.display = 'inline-block';
+                setTimeout(() => {
+                    spinner.style.opacity = '1';
+                    showSliderCaptcha();
+                }, 50);  // Slight delay to trigger the transition
+            }, 300);
+        }
+    });
 
     function showSliderCaptcha() {
         currentImage = images[Math.floor(Math.random() * images.length)];
@@ -427,43 +427,43 @@
     }
 
     function stopDragging() {
-    if (!isDragging) return;
-    isDragging = false;
-
-    const finalPosition = sliderHandle.offsetLeft;
-    if (Math.abs(finalPosition - piecePosition) < 5) {
-        if (isHumanLikeMovement()) {
-            showSuccessMessage();
-            sliderCaptcha.style.display = 'none';
-            submitButton.disabled = false;
-            document.addEventListener('visibilitychange', handleVisibilityChange);
+        if (!isDragging) return;
+        isDragging = false;
+    
+        const finalPosition = sliderHandle.offsetLeft;
+        if (Math.abs(finalPosition - piecePosition) < 5) {
+            if (isHumanLikeMovement()) {
+                showSuccessMessage();
+                sliderCaptcha.style.display = 'none';
+                submitButton.disabled = false;
+                document.addEventListener('visibilitychange', handleVisibilityChange);
+            } else {
+                document.getElementById('error-message').style.display = 'block';
+                changeImageAndPosition();
+            }
         } else {
             document.getElementById('error-message').style.display = 'block';
             changeImageAndPosition();
         }
-    } else {
-        document.getElementById('error-message').style.display = 'block';
-        changeImageAndPosition();
     }
-}
 
     function showSuccessMessage() {
-    const spinner = document.getElementById('loading-spinner');
-    const checkMark = document.getElementById('check-mark');
-    spinner.style.opacity = '0'; // Fade out the spinner
-    document.getElementById('captcha-label').style.display = 'none';
-    document.getElementById('success-message').textContent = translations[detectLanguage()].successMessage;
-    document.getElementById('success-message').style.display = 'inline-block';
-
-    setTimeout(() => {
-        spinner.style.display = 'none'; // Hide the spinner
-        checkMark.style.display = 'inline-block'; // Show the check mark
+        const spinner = document.getElementById('loading-spinner');
+        const checkMark = document.getElementById('check-mark');
+        spinner.style.opacity = '0'; // Fade out the spinner
+        document.getElementById('captcha-label').style.display = 'none';
+        document.getElementById('success-message').textContent = translations[detectLanguage()].successMessage;
+        document.getElementById('success-message').style.display = 'inline-block';
+    
         setTimeout(() => {
-            checkMark.style.opacity = '1'; // Fade in the check mark
-            checkMark.style.transform = 'scale(1)'; // Scale up the check mark
-        }, 50);  // Slight delay to trigger the transition
-    }, 300);  // Match the transition duration
-}
+            spinner.style.display = 'none'; // Hide the spinner
+            checkMark.style.display = 'inline-block'; // Show the check mark
+            setTimeout(() => {
+                checkMark.style.opacity = '1'; // Fade in the check mark
+                checkMark.style.transform = 'scale(1)'; // Scale up the check mark
+            }, 50);  
+        }, 300);
+    }
 
     function resetSlider() {
         sliderHandle.style.left = '0';
