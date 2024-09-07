@@ -125,6 +125,13 @@
             .hero-content, .hero-image {
                 max-width: 100%;
             }
+            .hero {
+                display: flex;
+                flex-direction: column-reverse;
+            }
+            .hero-image {
+                margin-bottom: 30px;
+            }
             .features {
                 position: static;
                 transform: none;
