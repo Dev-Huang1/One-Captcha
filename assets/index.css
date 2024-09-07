@@ -123,6 +123,18 @@
     margin-top: 2rem;
 }
 
+.content-section-grey {
+    background-color: #F6F8FC;
+    padding: 0 30px;
+    margin-top: 2rem;
+}
+
+.content-section-blue {
+    background-color: #2962FF;
+    padding: 0 30px;
+    margin-top: 2rem;
+}
+
 .section-title {
     font-size: 37px;
     color: #333;
