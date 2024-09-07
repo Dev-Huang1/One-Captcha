@@ -132,9 +132,17 @@ body {
 @media (max-width: 1024px) {
     .hero {
         display: flex;
-        flex-direction: column-reverse;
+        flex-direction: column;
     }
     .hero-image {
         order: -1;
+        margin-bottom: 15px;
+    }
+    .hero img {
+        margin-bottom: 15px;
+    }
+    .hero-content {
+        display: flex;
+        flex-direction: column;
     }
 }
