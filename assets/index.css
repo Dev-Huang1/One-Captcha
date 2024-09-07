@@ -36,7 +36,7 @@
             text-align: left;
         }
         .hero img {
-            box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 2 8px 1px rgba(0, 0, 0, 0.08);
             max-width: 100%;
             height: auto;
             margin-bottom: 35px;
