@@ -138,9 +138,6 @@ body {
         order: -1;
         margin-bottom: 15px;
     }
-    .hero img {
-        margin-bottom: 15px;
-    }
     .hero-content {
         display: flex;
         flex-direction: column;
