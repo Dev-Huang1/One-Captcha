@@ -3,14 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>One Captcha Demo</title>
-    <link rel="stylesheet" type="text/css" href="/assets/index.css">
-    <link rel="icon" href="/assets/logo/favicon.ico" type="image/x-icon">
+    <title>One Captcha</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #f0f0f0;
+        }
+        .header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        .logo img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+        .logo span {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+        .hero {
+            padding: 3rem 5%;
+            text-align: left;
+        }
+        .hero img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 1rem;
+        }
+        .hero h1 {
+            font-size: 30px;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        .hero h2 {
+            font-size: 20px;
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background-color: #0066ff;
+            color: white;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #0052cc;
+        }
+        .btn-secondary {
+            background-color: white;
+            color: #0066ff;
+            border: 2px solid #0066ff;
+        }
+        .btn-secondary:hover {
+            background-color: #f0f8ff;
+        }
+        .features {
+            display: flex;
+            gap: 2rem;
+        }
+        .feature {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #0066ff;
+        }
+        .feature i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .feature span {
+            font-size: 0.9rem;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h2>One Captcha Demo</h2>
-        <a href="test.html">One Captcha v3 Developer Beta</a>
-    </div>
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">
+                <img src="logo.png" alt="One Captcha Logo">
+                <span>One Captcha</span>
+            </div>
+        </nav>
+        <div class="hero">
+            <img src="your-product-image.png" alt="One Captcha Product">
+            <h1>Secure Your Website with One Captcha</h1>
+            <h2>Advanced protection against bots and spam</h2>
+            <div class="buttons">
+                <a href="#" class="btn btn-primary">Get Started</a>
+                <a href="#" class="btn btn-secondary">Try Demo</a>
+            </div>
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>GDPR Compliant</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-universal-access"></i>
+                    <span>Verified Accessibility</span>
+                </div>
+            </div>
+        </div>
+    </header>
 </body>
 </html>
