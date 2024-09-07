@@ -32,15 +32,22 @@
             color: #333;
         }
         .hero {
-            padding: 0 30px;
-            text-align: left;
+            padding: 0 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .hero-content {
+            max-width: 50%;
+        }
+        .hero-image {
+            position: relative;
+            max-width: 45%;
         }
         .hero img {
             box-shadow: 0 2px 8px 1px rgba(0, 0, 0, 0.08);
             max-width: 100%;
             height: auto;
-            margin-bottom: 35px;
-            margin-top: 15px;
         }
         .hero h1 {
             font-size: 37px;
@@ -85,6 +92,14 @@
         .features {
             display: flex;
             gap: 2rem;
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px 1px rgba(0, 0, 0, 0.08);
         }
         .feature {
             display: flex;
@@ -100,28 +115,17 @@
             font-size: 12.5px;
             text-align: center;
         }
-
-        @media (min-width: 1024px) {
+        @media (max-width: 768px) {
             .hero {
-                display: flex;
-                align-items: center;
-                padding: 0 5%;
-            }
-            .hero-content {
-                flex: 1;
-                padding-right: 5%;
-            }
-            .hero-image {
-                flex: 1;
-                display: flex;
                 flex-direction: column;
-                align-items: center;
+                padding: 0 30px;
             }
-            .hero img {
-                max-width: 80%;
-                margin: 0;
+            .hero-content, .hero-image {
+                max-width: 100%;
             }
             .features {
-                margin-top: 20px;
+                position: static;
+                transform: none;
+                margin-top: 30px;
             }
         }
