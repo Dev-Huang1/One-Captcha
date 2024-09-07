@@ -124,15 +124,16 @@
 }
 
 .section-title {
-    font-size: 2rem;
+    font-size: 37px;
     color: #333;
     margin-bottom: 1rem;
 }
 
 .section-article {
-    font-size: 1rem;
+    font-size: 18px;
     color: #666;
     margin-bottom: 1.5rem;
+    font-weight: 350;
 }
 
 .content-section .buttons {
