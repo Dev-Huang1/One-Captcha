@@ -43,7 +43,7 @@
             margin-top: 15px;
         }
         .hero h1 {
-            font-size: 30px;
+            font-size: 37px;
             color: #333;
             margin-bottom: 25px;
             max-width: 75%
@@ -52,7 +52,7 @@
             font-size: 18px;
             color: #666;
             margin-bottom: 1.5rem;
-            font-weight: 270;
+            font-weight: 350;
         }
         .buttons {
             display: flex;
