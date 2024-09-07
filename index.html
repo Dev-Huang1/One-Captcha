@@ -5,6 +5,148 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>One Captcha</title>
     <link rel="stylesheet" href="assets/index.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #f0f0f0;
+        }
+        .header {
+            background-color: white;
+            height: 100%;
+        }
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        .logo img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+        .logo span {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+        .hero {
+            padding: 0 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .hero-content {
+            max-width: 50%;
+        }
+        .hero-image {
+            position: relative;
+            max-width: 45%;
+        }
+        .hero img {
+            box-shadow: 0 2px 8px 1px rgba(0, 0, 0, 0.08);
+            max-width: 100%;
+            height: auto;
+        }
+        .hero h1 {
+            font-size: 37px;
+            color: #333;
+            margin-bottom: 25px;
+        }
+        .hero h2 {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 1.5rem;
+            font-weight: 350;
+        }
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 30px;
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background-color: #0066ff;
+            color: white;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #0052cc;
+        }
+        .btn-secondary {
+            background-color: white;
+            color: #0066ff;
+            border: 2px solid #0066ff;
+        }
+        .btn-secondary:hover {
+            background-color: #f0f8ff;
+        }
+        .features {
+            display: flex;
+            gap: 2rem;
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px 1px rgba(0, 0, 0, 0.08);
+        }
+        .feature {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #0066ff;
+        }
+        .feature svg {
+            width: 22px;
+            height: 22px;
+            margin-bottom: 0.5rem;
+            fill: currentColor;
+        }
+        .feature span {
+            font-size: 12.5px;
+            text-align: center;
+        }
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                padding: 0 30px;
+            }
+            .hero-content, .hero-image {
+                max-width: 100%;
+            }
+            .hero {
+                display: flex;
+                flex-direction: column-reverse;
+            }
+            .hero-image {
+                margin-bottom: 30px;
+            }
+            .features {
+                position: static;
+                transform: none;
+                margin-top: 30px;
+            }
+        }
+    </style>
 </head>
 <body>
     <header class="header">
@@ -34,13 +176,13 @@
                         <span>Compliant</span>
                     </div>
                     <div class="feature">
-    <svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M13.5 6.50024C13.5 7.32867 12.8284 8.00024 12 8.00024C11.1716 8.00024 10.5 7.32867 10.5 6.50024C10.5 5.67182 11.1716 5.00024 12 5.00024C12.8284 5.00024 13.5 5.67182 13.5 6.50024Z" fill="#0066ff"/>
-<path d="M6.05132 8.68402C5.87667 9.20796 6.15983 9.77428 6.68377 9.94893C6.85906 10.0071 7.03576 10.0613 7.21265 10.1143C7.5363 10.2114 7.98911 10.3408 8.50746 10.4704C9.08908 10.6158 9.78094 10.7687 10.4783 10.8727C10.4323 11.7654 10.3205 12.4059 10.2166 12.8309L8.10557 17.053C7.85858 17.547 8.05881 18.1477 8.55279 18.3947C9.04677 18.6417 9.64744 18.4414 9.89443 17.9475L12 13.7363L14.1056 17.9475C14.3526 18.4414 14.9532 18.6417 15.4472 18.3947C15.9412 18.1477 16.1414 17.547 15.8944 17.053L13.7834 12.8309C13.6795 12.4059 13.5677 11.7654 13.5217 10.8727C14.2191 10.7687 14.9109 10.6158 15.4925 10.4704C16.0109 10.3408 16.4637 10.2114 16.7873 10.1143C16.963 10.0616 17.1384 10.0077 17.3125 9.95015C17.8261 9.77972 18.1201 9.19822 17.9487 8.68402C17.7741 8.16012 17.2078 7.87697 16.6839 8.05151C16.5277 8.10318 16.3703 8.15138 16.2127 8.19867C15.9113 8.28907 15.4891 8.40969 15.0075 8.5301C14.0216 8.77657 12.8709 9.00024 12 9.00024C11.1291 9.00024 9.97843 8.77657 8.99254 8.5301C8.51089 8.40969 8.0887 8.28907 7.78735 8.19867C7.63167 8.15196 7.47632 8.10404 7.32186 8.05342C6.80235 7.88161 6.22544 8.16164 6.05132 8.68402Z" fill="#0066ff"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M23 12.0002C23 18.0754 18.0751 23.0002 12 23.0002C5.92487 23.0002 1 18.0754 1 12.0002C1 5.92511 5.92487 1.00024 12 1.00024C18.0751 1.00024 23 5.92511 23 12.0002ZM3.00683 12.0002C3.00683 16.967 7.03321 20.9934 12 20.9934C16.9668 20.9934 20.9932 16.967 20.9932 12.0002C20.9932 7.03345 16.9668 3.00707 12 3.00707C7.03321 3.00707 3.00683 7.03345 3.00683 12.0002Z" fill="#0066ff"/>
-    </svg>
-    <span>Verified</span>
-    <span>Accessibility</span>
+                        <svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M13.5 6.50024C13.5 7.32867 12.8284 8.00024 12 8.00024C11.1716 8.00024 10.5 7.32867 10.5 6.50024C10.5 5.67182 11.1716 5.00024 12 5.00024C12.8284 5.00024 13.5 5.67182 13.5 6.50024Z" fill="#0066ff"/>
+                            <path d="M6.05132 8.68402C5.87667 9.20796 6.15983 9.77428 6.68377 9.94893C6.85906 10.0071 7.03576 10.0613 7.21265 10.1143C7.5363 10.2114 7.98911 10.3408 8.50746 10.4704C9.08908 10.6158 9.78094 10.7687 10.4783 10.8727C10.4323 11.7654 10.3205 12.4059 10.2166 12.8309L8.10557 17.053C7.85858 17.547 8.05881 18.1477 8.55279 18.3947C9.04677 18.6417 9.64744 18.4414 9.89443 17.9475L12 13.7363L14.1056 17.9475C14.3526 18.4414 14.9532 18.6417 15.4472 18.3947C15.9412 18.1477 16.1414 17.547 15.8944 17.053L13.7834 12.8309C13.6795 12.4059 13.5677 11.7654 13.5217 10.8727C14.2191 10.7687 14.9109 10.6158 15.4925 10.4704C16.0109 10.3408 16.4637 10.2114 16.7873 10.1143C16.963 10.0616 17.1384 10.0077 17.3125 9.95015C17.8261 9.77972 18.1201 9.19822 17.9487 8.68402C17.7741 8.16012 17.2078 7.87697 16.6839 8.05151C16.5277 8.10318 16.3703 8.15138 16.2127 8.19867C15.9113 8.28907 15.4891 8.40969 15.0075 8.5301C14.0216 8.77657 12.8709 9.00024 12 9.00024C11.1291 9.00024 9.97843 8.77657 8.99254 8.5301C8.51089 8.40969 8.0887 8.28907 7.78735 8.19867C7.63167 8.15196 7.47632 8.10404 7.32186 8.05342C6.80235 7.88161 6.22544 8.16164 6.05132 8.68402Z" fill="#0066ff"/>
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M23 12.0002C23 18.0754 18.0751 23.0002 12 23.0002C5.92487 23.0002 1 18.0754 1 12.0002C1 5.92511 5.92487 1.00024 12 1.00024C18.0751 1.00024 23 5.92511 23 12.0002ZM3.00683 12.0002C3.00683 16.967 7.03321 20.9934 12 20.9934C16.9668 20.9934 20.9932 16.967 20.9932 12.0002C20.9932 7.03345 16.9668 3.00707 12 3.00707C7.03321 3.00707 3.00683 7.03345 3.00683 12.0002Z" fill="#0066ff"/>
+                        </svg>
+                        <span>Verified</span>
+                        <span>Accessibility</span>
                     </div>
                 </div>
             </div>
