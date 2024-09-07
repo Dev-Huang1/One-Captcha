@@ -117,6 +117,30 @@
             font-size: 12.5px;
             text-align: center;
         }
+.content-section {
+    background-color: white;
+    padding: 2rem 5%;
+    margin-top: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px 1px rgba(0, 0, 0, 0.08);
+}
+
+.section-title {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.section-article {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.content-section .buttons {
+    display: flex;
+    gap: 1rem;
+}
         @media (max-width: 768px) {
             .hero {
                 flex-direction: column;
