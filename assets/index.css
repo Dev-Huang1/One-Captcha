@@ -166,10 +166,10 @@
 }
 
 .feature-container {
-  background-color: #4285f4;
+  background-color: #2962FF;
   color: white;
   margin: 0;
-  padding: 20px;
+  padding: 0 30px;
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
