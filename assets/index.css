@@ -131,7 +131,7 @@
 .content-section-blue {
     background-color: #2962FF;
     padding: 25px 30px;
-    margin-top: 2rem;
+    /* margin-top: 2rem; */
     color: white;
 }
 
