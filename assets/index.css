@@ -124,17 +124,15 @@
 
 .content-section-grey {
     background-color: #F6F8FC;
-    padding: 0 30px;
+    padding: 25px 30px;
     margin-top: 2rem;
-    border: 1px solid #E0E0E0;
 }
 
 .content-section-blue {
     background-color: #2962FF;
-    padding: 0 30px;
+    padding: 25px 30px;
     margin-top: 2rem;
     color: white;
-    border: 1px solid #0039CB;
 }
 
 .section-title {
