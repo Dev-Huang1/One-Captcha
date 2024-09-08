@@ -53,10 +53,11 @@
             color: #333;
             margin-bottom: 25px;
         }
-        .hero p {
+        .hero h2 {
             font-size: 18px;
             color: #666;
             margin-bottom: 1.5rem;
+            font-weight: 380;
         }
         .buttons {
             display: flex;
