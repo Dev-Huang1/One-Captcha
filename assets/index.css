@@ -203,13 +203,6 @@
 }
 
 @media (max-width: 768px) {
-  .feature-feature {
-    flex-basis: 100%;
-  }
-}
-
-
-@media (max-width: 768px) {
     .hero {
         flex-direction: column;
         padding: 0 30px;
@@ -228,5 +221,8 @@
         position: static;
         transform: none;
         margin-top: 30px;
+    }
+    .feature-feature {
+        flex-basis: 100%;
     }
 }
