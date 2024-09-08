@@ -57,7 +57,6 @@
             font-size: 18px;
             color: #666;
             margin-bottom: 1.5rem;
-            font-weight: 350;
         }
         .buttons {
             display: flex;
@@ -150,14 +149,12 @@
     font-size: 18px;
     color: #666;
     margin-bottom: 1.5rem;
-    font-weight: 350;
 }
 
 .blue-section-article {
     font-size: 18px;
     color: #fff;
     margin-bottom: 1.5rem;
-    font-weight: 350;
 }
 
 .content-section .buttons {
