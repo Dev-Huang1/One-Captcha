@@ -141,9 +141,22 @@
     margin-bottom: 25px;
 }
 
+.blue-section-title {
+    font-size: 37px;
+    color: #fff;
+    margin-bottom: 25px;
+}
+
 .section-article {
     font-size: 18px;
     color: #666;
+    margin-bottom: 1.5rem;
+    font-weight: 350;
+}
+
+.blue-section-article {
+    font-size: 18px;
+    color: #fff;
     margin-bottom: 1.5rem;
     font-weight: 350;
 }
