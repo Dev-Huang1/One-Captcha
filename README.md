@@ -1,5 +1,6 @@
 <div align="center">
 
+![Banner](assets/One-Captcha-Banner.png)
 # One Captcha
 
 <p>
