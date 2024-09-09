@@ -1,6 +1,7 @@
 <div align="center">
 
 ![Banner](assets/One-Captcha-Banner.png)
+
 # One Captcha
 
 <p>
@@ -22,15 +23,19 @@
 ## Preview
 
 **Light Mode**
+
 ![Light](assets/One-Captcha-Preview.png)
 
 **Dark Mode**
+
 ![Dark](assets/One-Captcha-Preview-Dark.png)
 
 **Loading**
+
 ![Loading](assets/Preview-Loading.png)
 
 **Success**
+
 ![Success](assets/Preview-Success.png)
 
 ## Contributors
