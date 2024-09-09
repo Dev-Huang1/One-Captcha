@@ -22,16 +22,16 @@
 ## Preview
 
 **Light Mode**
-![]()
+![Light](assets/One-Captcha-Preview.png)
 
 **Dark Mode**
-![]()
-
-**Success**
-![]()
+![Dark](assets/One-Captcha-Preview-Dark.png)
 
 **Loading**
-![]()
+![Loading](assets/Preview-Loading.png)
+
+**Success**
+![Success](assets/Preview-Success.png)
 
 ## Contributors
 
