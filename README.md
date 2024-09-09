@@ -19,6 +19,20 @@
 
 🤖 **A free human-machine verification product project that is secure and privacy-protecting.**
 
+## Preview
+
+**Light Mode**
+![]()
+
+**Dark Mode**
+![]()
+
+**Success**
+![]()
+
+**Loading**
+![]()
+
 ## Contributors
 
 ![Contributors](https://opencollective.com/One-Captcha/contributors.svg?width=890&button=false)
