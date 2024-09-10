@@ -237,13 +237,14 @@
   height: 150px;
   position: relative;
   margin-bottom: 20px;
+  overflow: hidden;
+  border-radius: 10px;
 }
 
 .alp-map {
-  background: linear-gradient(135deg, #40e0d0, #6495ed);
+  width: 100%;
   height: 100%;
-  border-radius: 10px;
-  position: relative;
+  object-fit: cover;
 }
 
 .edelweiss-emblem {
