@@ -207,6 +207,7 @@
   margin: 0 auto;
   padding: 36px 30px;
   color: #333;
+  background-color: #F6F8FC;
 }
 
 .shield-features {
@@ -215,7 +216,7 @@
 }
 
 .shield-title {
-  color: #5e4bd6;
+  color: #fff;
   font-size: 28px;
   margin-bottom: 20px;
 }
@@ -227,7 +228,7 @@
 }
 
 .helvetia-safeguard {
-  background-color: #f8f8f8;
+  background-color: #ffffff;
   border-radius: 15px;
   padding: 20px;
   position: relative;
