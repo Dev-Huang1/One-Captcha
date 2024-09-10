@@ -216,7 +216,7 @@
 }
 
 .shield-title {
-  color: #fff;
+  color: #000;
   font-size: 28px;
   margin-bottom: 20px;
 }
@@ -287,8 +287,8 @@
 
 .safeguard-tag {
   display: inline-block;
-  background-color: #e6e6fa;
-  color: #5e4bd6;
+  background-color: #cce0ff;
+  color: #0055cc;
   padding: 5px 10px;
   border-radius: 5px;
   font-size: 12px;
@@ -296,7 +296,7 @@
 }
 
 .safeguard-title {
-  color: #5e4bd6;
+  color: #0055cc;
   font-size: 24px;
   margin-bottom: 10px;
 }
