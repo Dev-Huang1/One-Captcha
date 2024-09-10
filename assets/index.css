@@ -202,6 +202,146 @@
   font-weight: bold;
 }
 
+.feature-showcase {
+  font-family: Arial, sans-serif;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  color: #333;
+}
+
+.shield-features {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.shield-title {
+  color: #5e4bd6;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.shield-intro {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 30px;
+}
+
+.shield-benefits {
+  list-style-type: none;
+  padding: 0;
+  text-align: left;
+  margin-bottom: 30px;
+}
+
+.shield-benefits li {
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.shield-benefits li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #5e4bd6;
+  font-weight: bold;
+}
+
+.shield-cta {
+  background: linear-gradient(to right, #40c8e0, #6d5ae8);
+  border: none;
+  color: white;
+  padding: 12px 30px;
+  border-radius: 25px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.shield-cta:hover {
+  opacity: 0.9;
+}
+
+.helvetia-safeguard {
+  background-color: #f8f8f8;
+  border-radius: 15px;
+  padding: 20px;
+  position: relative;
+}
+
+.alp-visual {
+  height: 150px;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.alp-map {
+  background: linear-gradient(135deg, #40e0d0, #6495ed);
+  height: 100%;
+  border-radius: 10px;
+  position: relative;
+}
+
+.edelweiss-emblem {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background-color: #ff0000;
+  border-radius: 50%;
+  left: 10px;
+  top: 10px;
+}
+
+.edelweiss-emblem::after {
+  content: "+";
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.secret-code {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  background-color: #1a1a4d;
+  color: white;
+  padding: 5px 15px;
+  border-radius: 15px;
+}
+
+.secret-code::after {
+  content: "• • •";
+  font-size: 20px;
+  letter-spacing: 2px;
+}
+
+.safeguard-tag {
+  display: inline-block;
+  background-color: #e6e6fa;
+  color: #5e4bd6;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+.safeguard-title {
+  color: #5e4bd6;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.safeguard-description {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
 @media (max-width: 768px) {
     .hero {
         flex-direction: column;
