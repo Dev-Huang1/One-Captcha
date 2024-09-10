@@ -203,10 +203,9 @@
 }
 
 .feature-showcase {
-  font-family: Arial, sans-serif;
   max-width: 600px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 36px 30px;
   color: #333;
 }
 
@@ -225,43 +224,6 @@
   font-size: 16px;
   line-height: 1.5;
   margin-bottom: 30px;
-}
-
-.shield-benefits {
-  list-style-type: none;
-  padding: 0;
-  text-align: left;
-  margin-bottom: 30px;
-}
-
-.shield-benefits li {
-  position: relative;
-  padding-left: 30px;
-  margin-bottom: 15px;
-  font-size: 16px;
-}
-
-.shield-benefits li::before {
-  content: "✓";
-  position: absolute;
-  left: 0;
-  color: #5e4bd6;
-  font-weight: bold;
-}
-
-.shield-cta {
-  background: linear-gradient(to right, #40c8e0, #6d5ae8);
-  border: none;
-  color: white;
-  padding: 12px 30px;
-  border-radius: 25px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: opacity 0.3s;
-}
-
-.shield-cta:hover {
-  opacity: 0.9;
 }
 
 .helvetia-safeguard {
