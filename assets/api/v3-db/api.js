@@ -291,53 +291,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('one-captcha').innerHTML = captchaHTML
 
-
-    function initializeCaptcha(callback) {
-        const verifyCheckbox = document.getElementById('verify-checkbox');
-        const sliderCaptcha = document.getElementById('slider-captcha');
-        const sliderHandle = document.getElementById('slider-handle');
-        const sliderTrack = document.getElementById('slider-track');
-        const submitButton = document.getElementById('submit-button');
-        let isDragging = false;
-        let startX;
-        let startLeft;
-
-        verifyCheckbox.addEventListener('change', function() {
-            if (this.checked) {
-                showSliderCaptcha();
-            }
-        });
-
-        sliderHandle.addEventListener('mousedown', startDragging);
-        document.addEventListener('mousemove', drag);
-        document.addEventListener('mouseup', stopDragging);
-
-        function startDragging(e) {
-            isDragging = true;
-            startX = e.clientX;
-            startLeft = sliderHandle.offsetLeft;
-        }
-
-        function drag(e) {
-            if (!isDragging) return;
-            const currentX = e.clientX;
-            let newLeft = startLeft + currentX - startX;
-            newLeft = Math.max(0, Math.min(newLeft, 260));
-            sliderHandle.style.left = `${newLeft}px`;
-            sliderTrack.style.width = `${newLeft}px`;
-        }
-
-        function stopDragging() {
-            if (!isDragging) return;
-            isDragging = false;
-            if (typeof window[callback] === 'function') {
-                window[callback]();
-            }
-        }
-
-        function showSliderCaptcha() {
-            sliderCaptcha.style.display = 'block';
-        }
-    }
 })();
 }
