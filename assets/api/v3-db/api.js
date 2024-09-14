@@ -1,4 +1,3 @@
-document.addEventListener('DOMContentLoaded', function() {
     const captchaHTML = `
     <style>
             #captcha-container {
@@ -285,4 +284,3 @@ document.addEventListener('DOMContentLoaded', function() {
     `;
 
     document.getElementById('one-captcha').innerHTML = captchaHTML;
-};
