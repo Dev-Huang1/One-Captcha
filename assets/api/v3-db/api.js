@@ -1,179 +1,191 @@
-// One Captcha JavaScript File
-
 (function() {
-    const htmlContent = `
-        <div id="captcha-container">
-            <div id="verify-section">
-                <div id="loading-spinner"></div>
-                <img src="assets/check-mark.svg" id="check-mark" style="display: none;">
-                I'm not a robot. <span id="success-message" style="display: none;">Success</span>
-            </div>
-            <div id="brand">
-                <a href="https://github.com/Dev-Huang1/One-Captcha">
-                    <img src="https://captcha.xyehr.cn/assets/logo/logo.svg" alt="One Captcha Logo">
-                </a>
-                One Captcha
-                <div class="privacy-terms-links">
-                    <a href="https://www.xyehr.cn/one-captcha-privacy-policy" id="privacy-link">Privacy</a>
-                    ·
-                    <a href="https://help.xyehr.cn/jekyll/2024-07-05-one-captcha.html" id="docs-link">Docs</a>
-                </div>
-            </div>
-            <div id="slider-captcha">
-                <div id="puzzle-container">
-                    <img src="" id="puzzle-image">
-                    <div id="puzzle-piece"></div>
-                </div>
-                <div>Verification failed. Please try again.</div>
-                <div id="slider">
-                    <div id="slider-track"></div>
-                    <div id="slider-handle">→</div>
-                </div>
-                <button id="retry-button">Retry</button>
-            </div>
-            <button id="submit-button">Submit</button>
-        </div>
-    `;
-
-    const styles = `
+    const css = `
         #captcha-container {
-            font-family: Arial, sans-serif;
-            max-width: 300px;
-            margin: 20px auto;
-            padding: 20px;
+            width: 260px;
+            height: 40px;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            padding: 20px;
+            margin: 50px 0;
+            text-align: left;
+            box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.08);
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-family: Arial, sans-serif;
+            background-color: rgb(249, 249, 249);
+            color: #000000;
         }
         #verify-section {
             display: flex;
             align-items: center;
-            margin-bottom: 10px;
         }
-        #loading-spinner {
+        #verify-checkbox {
+            margin-right: 14px;
             width: 20px;
             height: 20px;
-            border: 2px solid #f3f3f3;
-            border-top: 2px solid #3498db;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-right: 10px;
+            outline: 2px solid rgb(193, 193, 193);
+            border-radius: 2px;
+            display: inline-block;
+            vertical-align: middle;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+            background: #fff;
+            position: relative;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        #verify-checkbox:checked::before {
+            transform: translate(-50%, -50%) scale(1.2);
         }
-        #check-mark {
-            width: 20px;
-            height: 20px;
-            margin-right: 10px;
+        #captcha-label {
+            margin-right: 20px;
         }
         #brand {
-            text-align: center;
-            margin-top: 20px;
+            font-weight: bold;
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            position: relative;
+            margin-top: 23.5px;
         }
         #brand img {
-            width: 100px;
-        }
-        .privacy-terms-links {
-            font-size: 12px;
-            margin-top: 10px;
+            width: 25px;
+            position: absolute;
+            right: 0;
+            top: -26px;
         }
         #slider-captcha {
-            margin-top: 20px;
-        }
-        #puzzle-container {
-            width: 100%;
-            height: 150px;
-            position: relative;
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
             overflow: hidden;
-            margin-bottom: 10px;
-        }
-        #puzzle-image {
-            width: 100%;
-            height: 100%;
-        }
-        #puzzle-piece {
-            width: 50px;
-            height: 50px;
-            position: absolute;
-            background-color: rgba(255, 255, 255, 0.7);
-            border: 2px solid #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            padding: 20px;
         }
         #slider {
             width: 100%;
             height: 40px;
-            background-color: #f3f3f3;
+            background-color: #f0f0f0;
             position: relative;
-            border-radius: 20px;
-        }
-        #slider-track {
-            height: 100%;
-            width: 0;
-            background-color: #4CAF50;
+            cursor: pointer;
             border-radius: 20px;
         }
         #slider-handle {
-            width: 50px;
+            width: 40px;
             height: 40px;
-            background-color: #2196F3;
+            background-color: #0066ff;
             position: absolute;
-            top: 0;
             left: 0;
-            cursor: pointer;
+            top: 0;
+            cursor: grab;
+            border-radius: 50%;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             color: white;
-            font-weight: bold;
-            border-radius: 20px;
         }
     `;
 
-    function initOneCaptcha() {
-        const targetElement = document.getElementById('one-captcha');
-        if (!targetElement) {
-            console.error('Element with id "one-captcha" not found');
-            return;
-        }
+    const template = `
+        <div id="captcha-container">
+            <div id="verify-section">
+                <input type="checkbox" id="verify-checkbox">
+                <label for="verify-checkbox" class="custom-checkbox"></label>
+                <img id="check-mark" src="assets/check-mark.svg" alt="Check Mark" style="display: none;">
+                <label for="verify-checkbox" id="captcha-label">I'm not a robot.</label>
+                <span id="success-message" style="display: none;">Success</span>
+            </div>
+            <div id="brand">
+                <a href="https://github.com/Dev-Huang1/One-Captcha"><img src="https://captcha.xyehr.cn/assets/logo/logo.svg" alt="One Captcha Logo"></a>
+                One Captcha
+            </div>
+        </div>
+        <div id="slider-captcha">
+            <div id="puzzle-container">
+                <img id="puzzle-image" src="" alt="img">
+                <div id="puzzle-piece"></div>
+            </div>
+            <div id="slider">
+                <div id="slider-track"></div>
+                <div id="slider-handle">→</div>
+            </div>
+        </div>
+        <button id="submit-button" disabled>Submit</button>
+    `;
 
-        // Add styles
-        const styleElement = document.createElement('style');
-        styleElement.textContent = styles;
-        document.head.appendChild(styleElement);
-
-        // Add HTML content
-        targetElement.innerHTML = htmlContent;
-
-        // Get callback function
-        const callbackName = targetElement.getAttribute('data-callback');
-        const callback = window[callbackName];
-
-        if (typeof callback !== 'function') {
-            console.error('Callback function not found or not a function');
-            return;
-        }
-
-        // Implement captcha logic here
-        // This is where you would add the actual verification logic
-        // For now, we'll just simulate a successful verification on submit
-
-        const submitButton = document.getElementById('submit-button');
-        submitButton.addEventListener('click', () => {
-            // Simulate verification process
-            setTimeout(() => {
-                document.getElementById('loading-spinner').style.display = 'none';
-                document.getElementById('check-mark').style.display = 'inline';
-                document.getElementById('success-message').style.display = 'inline';
-                callback(true); // Call the callback function with success
-            }, 1000);
-        });
+    // Inject the template and styles into the page
+    function injectStyles() {
+        const style = document.createElement('style');
+        style.innerHTML = css;
+        document.head.appendChild(style);
     }
 
-    // Run the initialization when the DOM is fully loaded
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initOneCaptcha);
-    } else {
-        initOneCaptcha();
+    function injectTemplate() {
+        const captchaDiv = document.getElementById('one-captcha');
+        if (captchaDiv) {
+            captchaDiv.innerHTML = template;
+            initializeCaptcha(captchaDiv.dataset.callback);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        injectStyles();
+        injectTemplate();
+    });
+
+    function initializeCaptcha(callback) {
+        const verifyCheckbox = document.getElementById('verify-checkbox');
+        const sliderCaptcha = document.getElementById('slider-captcha');
+        const sliderHandle = document.getElementById('slider-handle');
+        const sliderTrack = document.getElementById('slider-track');
+        const submitButton = document.getElementById('submit-button');
+        let isDragging = false;
+        let startX;
+        let startLeft;
+
+        verifyCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                showSliderCaptcha();
+            }
+        });
+
+        sliderHandle.addEventListener('mousedown', startDragging);
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', stopDragging);
+
+        function startDragging(e) {
+            isDragging = true;
+            startX = e.clientX;
+            startLeft = sliderHandle.offsetLeft;
+        }
+
+        function drag(e) {
+            if (!isDragging) return;
+            const currentX = e.clientX;
+            let newLeft = startLeft + currentX - startX;
+            newLeft = Math.max(0, Math.min(newLeft, 260));
+            sliderHandle.style.left = `${newLeft}px`;
+            sliderTrack.style.width = `${newLeft}px`;
+        }
+
+        function stopDragging() {
+            if (!isDragging) return;
+            isDragging = false;
+            if (typeof window[callback] === 'function') {
+                window[callback]();
+            }
+        }
+
+        function showSliderCaptcha() {
+            sliderCaptcha.style.display = 'block';
+        }
     }
 })();
