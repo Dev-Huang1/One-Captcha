@@ -284,5 +284,5 @@
     </div>
     `;
 
-    document.getElementById('one-captcha').innerHTML = captchaHTML
+    document.getElementById('one-captcha').innerHTML = captchaHTML;
 // }
