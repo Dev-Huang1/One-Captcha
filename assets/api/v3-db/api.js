@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
 (function() {
-    const css = `
-        #captcha-container {
+    const captchaHTML = `
+    <style>
+            #captcha-container {
             width: 260px;
             height: 40px;
             border: 1px solid #ccc;
@@ -250,9 +251,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 color: #fff;
             }
          }
-    `;
-
-    const captchaHTML = `
+    </style>
+    
     <div id="captcha-container">
         <div id="verify-section">
             <input type="checkbox" id="verify-checkbox">
@@ -284,10 +284,6 @@ document.addEventListener('DOMContentLoaded', function() {
         <button id="retry-button">Retry</button>
     </div>
     `;
-
-    const style = document.createElement('style');
-  style.innerHTML = css;
-  document.head.appendChild(style);
 
     document.getElementById('one-captcha').innerHTML = captchaHTML
 
