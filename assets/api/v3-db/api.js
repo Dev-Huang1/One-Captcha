@@ -284,25 +284,12 @@
     </div>
     `;
 
-    // Inject the template and styles into the page
-    function injectStyles() {
-        const style = document.createElement('style');
-        style.innerHTML = css;
-        document.head.appendChild(style);
-    }
+    const style = document.createElement('style');
+  style.innerHTML = css;
+  document.head.appendChild(style);
 
-    function injectTemplate() {
-        const captchaDiv = document.getElementById('one-captcha');
-        if (captchaDiv) {
-            captchaDiv.innerHTML = template;
-            initializeCaptcha(captchaDiv.dataset.callback);
-        }
-    }
+    document.getElementById('one-captcha').innerHTML = captchaHTML
 
-    document.addEventListener('DOMContentLoaded', () => {
-        injectStyles();
-        injectTemplate();
-    });
 
     function initializeCaptcha(callback) {
         const verifyCheckbox = document.getElementById('verify-checkbox');
