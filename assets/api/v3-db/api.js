@@ -1,3 +1,4 @@
+document.addEventListener('DOMContentLoaded', function() {
 (function() {
     const css = `
         #captcha-container {
@@ -339,3 +340,4 @@
         }
     }
 })();
+}
