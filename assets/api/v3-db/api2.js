@@ -27,15 +27,15 @@ async function checkIPRateLimit() {
 }
 
 function showRateLimitWarning() {
-    const checkbox = document.getElementById('verify-checkbox');
-    const checkboxRect = checkbox.getBoundingClientRect();
+    const loadingSpinner = document.getElementById('loading-spinner');
+    const spinnerRect = loadingSpinner.getBoundingClientRect();
     
     const warningElement = document.createElement('div');
     warningElement.id = 'rate-limit-warning';
     warningElement.style.cssText = `
         position: absolute;
-        top: ${checkboxRect.bottom + window.scrollY}px;
-        left: ${checkboxRect.right + window.scrollX}px;
+        top: ${spinnerRect.bottom + window.scrollY}px;
+        left: ${spinnerRect.right + window.scrollX}px;
         background-color: #ffffff;
         color: #f44336;
         padding: 20px;
@@ -62,6 +62,7 @@ function showRateLimitWarning() {
         warningElement.remove();
     }, 3000);
 }
+
 
 function captcha() {
     document.getElementById('one-captcha').innerHTML = `
