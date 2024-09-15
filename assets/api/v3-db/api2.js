@@ -1,6 +1,6 @@
 // IP Rate Limit functionality
 const MAX_REQUESTS = 5; // Maximum number of requests allowed per hour
-const RATE_LIMIT_DURATION = 180000; // 1 hour in milliseconds
+const RATE_LIMIT_DURATION = 180000;
 
 async function checkIPRateLimit() {
     try {
@@ -27,16 +27,20 @@ async function checkIPRateLimit() {
 }
 
 function showRateLimitWarning() {
+function showRateLimitWarning() {
+    const checkbox = document.getElementById('verify-checkbox');
+    const rect = checkbox.getBoundingClientRect();
+    
     const warningElement = document.createElement('div');
     warningElement.id = 'rate-limit-warning';
     warningElement.style.cssText = `
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        position: absolute;
+        top: ${rect.bottom}px;
+        left: ${rect.right}px;
+        transform: translate(-100%, 0);
         background-color: #ffffff;
         color: #f44336;
-        padding: 20px;
+        padding: 10px;
         border-radius: 5px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         z-index: 1000;
@@ -45,14 +49,13 @@ function showRateLimitWarning() {
         border: 1px solid #f44336;
         animation: fadeIn 0.5s, fadeOut 0.5s 2s;
         @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes fadeOut {
-    from { opacity: 1; }
-    to { opacity: 0; }
-}
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
     `;
     warningElement.textContent = '检测到您正在滥用我们的服务';
     document.body.appendChild(warningElement);
