@@ -27,6 +27,7 @@ async function checkIPRateLimit() {
 }
 
 function showRateLimitWarning() {
+function showRateLimitWarning() {
     const warningElement = document.createElement('div');
     warningElement.id = 'rate-limit-warning';
     warningElement.style.cssText = `
@@ -34,13 +35,25 @@ function showRateLimitWarning() {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background-color: #f44336;
-        color: white;
+        background-color: #ffffff;
+        color: #f44336;
         padding: 20px;
         border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         z-index: 1000;
         text-align: center;
         font-family: Arial, sans-serif;
+        border: 1px solid #f44336;
+        animation: fadeIn 0.5s, fadeOut 0.5s 2s;
+        @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
     `;
     warningElement.textContent = '检测到您正在滥用我们的服务';
     document.body.appendChild(warningElement);
@@ -49,7 +62,6 @@ function showRateLimitWarning() {
         warningElement.remove();
     }, 3000);
 }
-
 
 function captcha() {
     document.getElementById('one-captcha').innerHTML = `
