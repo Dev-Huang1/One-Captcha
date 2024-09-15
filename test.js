@@ -105,13 +105,6 @@ function captcha() {
             object-fit: cover;
             border-radius: 10px
         }
-        #puzzle-piece {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            background-size: 300px 200px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        }
         #slider {
             width: 100%;
             height: 40px;
@@ -159,6 +152,7 @@ function captcha() {
             background-size: 300px 200px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
             border-radius: 10px;
+            overflow: hidden;
         }
         #puzzle-hole {
             position: absolute;
@@ -359,32 +353,42 @@ function captcha() {
     });
 
     function showSliderCaptcha() {
-        currentImage = images[Math.floor(Math.random() * images.length)];
-        puzzleImage.src = `/assets/v3/${currentImage}`;
+    currentImage = images[Math.floor(Math.random() * images.length)];
+    puzzleImage.src = `/assets/v3/${currentImage}`;
 
-        puzzleImage.onload = () => {
-            const pieceSize = 50;
-            const maxX = 300 - pieceSize;
-            const maxY = 200 - pieceSize;
-            const pieceX = Math.floor(Math.random() * (maxX - 50) + 50); 
-            const pieceY = Math.floor(Math.random() * maxY);
+    puzzleImage.onload = () => {
+        const pieceSize = 50;
+        const maxX = 300 - pieceSize;
+        const maxY = 200 - pieceSize;
+        const pieceX = Math.floor(Math.random() * (maxX - 50) + 50); 
+        const pieceY = Math.floor(Math.random() * maxY);
 
-            puzzlePiece.style.left = '0px';
-            puzzlePiece.style.top = `${pieceY}px`;
-            puzzlePiece.style.backgroundImage = `url(assets/v3/${currentImage})`;
-            puzzlePiece.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
+        // Create an off-screen canvas
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = pieceSize;
+        canvas.height = pieceSize;
 
-            const puzzleHole = document.createElement('div');
-            puzzleHole.id = 'puzzle-hole';
-            puzzleHole.style.left = `${pieceX}px`;
-            puzzleHole.style.top = `${pieceY}px`;
-            document.getElementById('puzzle-container').appendChild(puzzleHole);
+        // Draw the piece on the canvas
+        ctx.drawImage(puzzleImage, pieceX, pieceY, pieceSize, pieceSize, 0, 0, pieceSize, pieceSize);
 
-            piecePosition = pieceX;
-            sliderCaptcha.style.display = 'block';
-            resetSlider();
-        };
-    }
+        // Set the piece as an image instead of background
+        puzzlePiece.style.backgroundImage = 'none';
+        puzzlePiece.innerHTML = `<img src="${canvas.toDataURL()}" width="${pieceSize}" height="${pieceSize}">`;
+        puzzlePiece.style.left = '0px';
+        puzzlePiece.style.top = `${pieceY}px`;
+
+        const puzzleHole = document.createElement('div');
+        puzzleHole.id = 'puzzle-hole';
+        puzzleHole.style.left = `${pieceX}px`;
+        puzzleHole.style.top = `${pieceY}px`;
+        document.getElementById('puzzle-container').appendChild(puzzleHole);
+
+        piecePosition = pieceX;
+        sliderCaptcha.style.display = 'block';
+        resetSlider();
+    };
+}
 
     function startDragging(e) {
         e.preventDefault();
