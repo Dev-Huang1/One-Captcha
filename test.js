@@ -339,22 +339,26 @@ function captcha() {
     }
 
     verifyCheckbox.addEventListener('change', function() {
-        if (this.checked) {
-            this.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
-            this.style.transform = 'scale(0)';
-            this.style.opacity = '0';
-    
+    if (this.checked) {
+        this.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+        this.style.transform = 'scale(0)';
+        this.style.opacity = '0';
+
+        setTimeout(() => {
+            this.style.display = 'none';
+            const spinner = document.getElementById('loading-spinner');
+            spinner.style.display = 'inline-block';
             setTimeout(() => {
-                this.style.display = 'none';
-                const spinner = document.getElementById('loading-spinner');
-                spinner.style.display = 'inline-block';
-                setTimeout(() => {
-                    spinner.style.opacity = '1';
-                    showSliderCaptcha();
-                }, 50);  // Slight delay to trigger the transition
-            }, 300);
-        }
-    });
+                spinner.style.opacity = '1';
+                // 重置 sliderCaptcha 的状态
+                sliderCaptcha.style.opacity = '0';
+                sliderCaptcha.style.display = 'block';
+                showSliderCaptcha();
+            }, 50);  // Slight delay to trigger the transition
+        }, 300);
+    }
+});
+
 
     function showSliderCaptcha() {
     currentImage = images[Math.floor(Math.random() * images.length)];
@@ -380,6 +384,7 @@ function captcha() {
         puzzlePiece.style.backgroundImage = `url(/assets/v3/${currentImage})`;
         puzzlePiece.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
         puzzlePiece.style.backgroundSize = `${puzzleImage.width}px ${puzzleImage.height}px`;
+        puzzlePiece.style.display = 'block';
         puzzlePiece.style.zIndex = '1000'; // 确保拼图块在最上层
 
         // 移除旧的拼图洞
@@ -392,6 +397,7 @@ function captcha() {
         puzzleHole.id = 'puzzle-hole';
         puzzleHole.style.left = `${pieceX}px`;
         puzzleHole.style.top = `${pieceY}px`;
+        puzzleHole.style.display = 'block';
         puzzleHole.style.zIndex = '999'; // 确保拼图洞在拼图块下面
         document.getElementById('puzzle-container').appendChild(puzzleHole);
 
@@ -403,10 +409,10 @@ function captcha() {
         setTimeout(() => {
             puzzlePiece.style.display = 'block';
             puzzleHole.style.display = 'block';
+            sliderCaptcha.style.opacity = '1';
         }, 100);
     };
 }
-
 
     function startDragging(e) {
         e.preventDefault();
