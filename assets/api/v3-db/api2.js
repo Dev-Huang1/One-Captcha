@@ -381,7 +381,7 @@ function captcha() {
             docsLink: "Docs",
             successMessage: "Success",
             errorMessage: "Verification failed. Please try again.",
-            rateLimitWarning: 'You are abusing our service. Please try again later.',
+            //rateLimitWarning: 'You are abusing our service. Please try again later.',
         },
         zh: {
             captchaLabel: "我不是机器人",
@@ -391,7 +391,7 @@ function captcha() {
             docsLink: "文档",
             successMessage: "验证成功",
             errorMessage: "验证失败，请重试",
-            rateLimitWarning: '检测到您正在滥用我们的服务，请稍候再试。',
+            //rateLimitWarning: '检测到您正在滥用我们的服务，请稍候再试。',
         }
     };
 
@@ -408,7 +408,7 @@ function captcha() {
         document.getElementById('docs-link').textContent = translations[language].docsLink;
         // document.getElementById('submit-button').textContent = translations[language].submitButton;
         document.getElementById('error-message').textContent = translations[language].errorMessage;
-        document.getElementById('rate-limit-warning').textContent = translations[language].rateLimitWarning;
+        //document.getElementById('rate-limit-warning').textContent = translations[language].rateLimitWarning;
     }
 
     verifyCheckbox.addEventListener('change', async function() {
