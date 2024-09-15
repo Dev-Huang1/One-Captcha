@@ -500,7 +500,6 @@ function captcha() {
     let totalMovement = 0;
     let totalTime = 0;
     let velocityChanges = 0;
-    let accelerationChanges = 0;
 
     for (let i = 1; i < movements.length; i++) {
         const prev = movements[i - 1];
@@ -514,21 +513,12 @@ function captcha() {
         totalMovement += distance;
         totalTime += timeDiff;
 
-        // 计算速度
-        const velocity = distance / timeDiff;
-
         // 检测速度变化
         if (i > 1) {
             const prevVelocity = Math.abs(movements[i - 1].x - movements[i - 2].x) / (movements[i - 1].time - movements[i - 2].time);
-            if (Math.abs(velocity - prevVelocity) > 0.5) {
+            const currVelocity = distance / timeDiff;
+            if (Math.abs(currVelocity - prevVelocity) > 0.5) {
                 velocityChanges++;
-            }
-            
-            // 计算加速度变化
-            const prevAcceleration = Math.abs(prevVelocity - (movements[i - 2].x - movements[i - 3].x) / (movements[i - 2].time - movements[i - 3].time));
-            const currAcceleration = Math.abs(velocity - prevVelocity);
-            if (Math.abs(currAcceleration - prevAcceleration) > 0.5) {
-                accelerationChanges++;
             }
         }
     }
@@ -539,11 +529,11 @@ function captcha() {
     // 设定阈值
     const isSmooth = averageVelocity < 0.8; // 控制滑动速度的平滑性
     const isNatural = velocityChanges > 1; // 检测是否有速度变化
-    const isAccurate = accelerationChanges > 1; // 检测是否有加速度变化
 
     // 根据阈值判断是否为人类操作
-    return isSmooth && isNatural && isAccurate;
-    }
+    return isSmooth && isNatural;
+}
+
     
     
     function changeImageAndPosition() {
