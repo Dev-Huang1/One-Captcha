@@ -360,7 +360,7 @@ function captcha() {
 
     function showSliderCaptcha() {
         currentImage = images[Math.floor(Math.random() * images.length)];
-        puzzleImage.src = `.../assets/v3/${currentImage}`;
+        puzzleImage.src = `/assets/v3/${currentImage}`;
 
         puzzleImage.onload = () => {
             const pieceSize = 50;
