@@ -254,7 +254,11 @@ function captcha() {
             <input type="checkbox" id="verify-checkbox">
             <label for="verify-checkbox" class="custom-checkbox"></label>
             <div id="loading-spinner"></div>
-            <img id="check-mark" src="assets/check-mark.svg" alt="Check Mark" style="display: none;">
+            <!--<img id="check-mark" src="assets/check-mark.svg" alt="Check Mark" style="display: none;">-->
+            <svg id="check-mark" style="display: none;" xmlns="http://www.w3.org/2000/svg" height="24px"
+            viewBox="0 -960 960 960" width="24px" fill="#4CAF50">
+            <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
+            </svg>
             <label for="verify-checkbox" id="captcha-label">I'm not a robot.</label>
             <span id="success-message" style="display: none;">Success</span>
         </div>
