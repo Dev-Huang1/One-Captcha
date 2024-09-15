@@ -1,5 +1,5 @@
 function captcha() {
-document.getElementById('one-captcha').innerHTML = `
+    document.getElementById('one-captcha').innerHTML = `
     <style>
             #captcha-container {
             width: 260px;
