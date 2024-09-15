@@ -568,11 +568,20 @@ function captcha() {
     
     setTimeout(function() {
         if (typeof window[callbackFunctionName] === 'function') {
-            window[callbackFunctionName]("Verification passed");
+            handleCaptchaCallback("Verification passed");
         } else {
             console.error("Callback function not found.");
+            handleCaptchaError("Callback function not found.");
         }
     }, 700);
+}
+
+function handleCaptchaCallback(result) {
+    console.log(result);
+}
+
+function handleCaptchaError(error) {
+    console.error(error);
 }
 
 
