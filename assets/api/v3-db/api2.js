@@ -27,16 +27,14 @@ async function checkIPRateLimit() {
 }
 
 function showRateLimitWarning() {
-    const checkbox = document.getElementById('verify-checkbox');
-    const rect = checkbox.getBoundingClientRect();
-    
+    const captchaContainer = document.getElementById('captcha-container');
     const warningElement = document.createElement('div');
     warningElement.id = 'rate-limit-warning';
     warningElement.style.cssText = `
         position: absolute;
-        top: ${rect.bottom}px;
-        left: ${rect.right}px;
-        transform: translate(-100%, 0);
+        right: 0; /* Align to the right */
+        bottom: 0; /* Align to the bottom */
+        transform: translate(50%, 50%); /* Adjust position relative to checkbox */
         background-color: #ffffff;
         color: #f44336;
         padding: 10px;
@@ -57,12 +55,13 @@ function showRateLimitWarning() {
         }
     `;
     warningElement.textContent = '检测到您正在滥用我们的服务';
-    document.body.appendChild(warningElement);
+    captchaContainer.appendChild(warningElement);
 
     setTimeout(() => {
         warningElement.remove();
     }, 3000);
 }
+
 
 function captcha() {
     document.getElementById('one-captcha').innerHTML = `
