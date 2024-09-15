@@ -340,11 +340,6 @@ function captcha() {
         document.getElementById('error-message').textContent = translations[language].errorMessage;
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        const userLang = detectLanguage();
-        applyTranslations(userLang);
-    });
-
     verifyCheckbox.addEventListener('change', function() {
         if (this.checked) {
             this.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
@@ -536,4 +531,6 @@ function captcha() {
 
 document.addEventListener('DOMContentLoaded', function() {
     captcha();
+    const userLang = detectLanguage();
+    applyTranslations(userLang);
 });
