@@ -1,4 +1,56 @@
-function captcha() {
+const ipifyAPI = 'https://api.ipify.org?format=json';
+const IP_REQUEST_LIMIT = 5; // 每个 IP 在一定时间内的最大请求次数
+const REQUEST_TIME_FRAME = 15 * 60 * 1000; // 请求时间框架：15 分钟
+
+let ipRequestCounts = {};
+let ipRequestTimestamps = {};
+
+// 获取用户 IP 地址
+async function getUserIP() {
+    try {
+        const response = await fetch(ipifyAPI);
+        const data = await response.json();
+        return data.ip;
+    } catch (error) {
+        console.error('获取 IP 地址失败:', error);
+        return null;
+    }
+}
+
+// 检查 IP 请求限制
+function checkIPLimit(ip) {
+    const currentTime = Date.now();
+    if (!ip) return false;
+
+    if (!ipRequestCounts[ip]) {
+        ipRequestCounts[ip] = 0;
+        ipRequestTimestamps[ip] = currentTime;
+    }
+
+    const timeElapsed = currentTime - ipRequestTimestamps[ip];
+    if (timeElapsed > REQUEST_TIME_FRAME) {
+        ipRequestCounts[ip] = 0;
+        ipRequestTimestamps[ip] = currentTime;
+    }
+
+    if (ipRequestCounts[ip] >= IP_REQUEST_LIMIT) {
+        return false; // 超过请求限制
+    } else {
+        ipRequestCounts[ip]++;
+        return true; // 未超过请求限制
+    }
+}
+
+async function captcha() {
+    const ip = await getUserIP();
+
+    if (!checkIPLimit(ip)) {
+        document.getElementById('error-message').textContent = '请求过于频繁，请稍后再试。';
+        document.getElementById('error-message').style.display = 'block';
+        return;
+    }
+    
+    
     document.getElementById('one-captcha').innerHTML = `
         <style>
         #captcha-container {
