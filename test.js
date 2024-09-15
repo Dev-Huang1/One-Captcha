@@ -394,34 +394,24 @@ async function captcha() {
         document.getElementById('error-message').textContent = translations[language].errorMessage;
     }
     
-    verifyCheckbox.addEventListener('change', async function() {
+    verifyCheckbox.addEventListener('change', function() {
     if (this.checked) {
-        try {
-            const response = await fetch('/api/ip-limit');
-            if (response.status === 429) {
-                alert('请求过于频繁，请稍后再试。');
-                return;
-            }
+        this.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+        this.style.transform = 'scale(0)';
+        this.style.opacity = '0';
 
-            this.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
-            this.style.transform = 'scale(0)';
-            this.style.opacity = '0';
-
+        setTimeout(() => {
+            this.style.display = 'none';
+            const spinner = document.getElementById('loading-spinner');
+            spinner.style.display = 'inline-block';
             setTimeout(() => {
-                this.style.display = 'none';
-                const spinner = document.getElementById('loading-spinner');
-                spinner.style.display = 'inline-block';
-                setTimeout(() => {
-                    spinner.style.opacity = '1';
-                    // 重置 sliderCaptcha 的状态
-                    sliderCaptcha.style.opacity = '0';
-                    sliderCaptcha.style.display = 'block';
-                    showSliderCaptcha();
-                }, 50);  // Slight delay to trigger the transition
-            }, 300);
-        } catch (error) {
-            console.error('Error:', error);
-        }
+                spinner.style.opacity = '1';
+                // 重置 sliderCaptcha 的状态
+                sliderCaptcha.style.opacity = '0';
+                sliderCaptcha.style.display = 'block';
+                showSliderCaptcha();
+            }, 50);  // Slight delay to trigger the transition
+        }, 300);
     }
 });
 
