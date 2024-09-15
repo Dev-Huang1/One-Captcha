@@ -1,6 +1,6 @@
 // IP Rate Limit functionality
 const MAX_REQUESTS = 5; // Maximum number of requests allowed per hour
-const RATE_LIMIT_DURATION = 3600000; // 1 hour in milliseconds
+const RATE_LIMIT_DURATION = 180000; // 1 hour in milliseconds
 
 async function checkIPRateLimit() {
     try {
