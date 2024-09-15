@@ -495,29 +495,57 @@ function captcha() {
     }
 
     function isHumanLikeMovement() {
-        if (movements.length < 5) return false;
+    if (movements.length < 5) return false;
 
-        let isUneven = false;
-        let prevSpeed = null;
+    let totalMovement = 0;
+    let totalTime = 0;
+    let velocityChanges = 0;
+    let accelerationChanges = 0;
 
-        for (let i = 1; i < movements.length; i++) {
-            const dx = movements[i].x - movements[i-1].x;
-            const dt = movements[i].time - movements[i-1].time;
-            const speed = Math.abs(dx / dt);
+    for (let i = 1; i < movements.length; i++) {
+        const prev = movements[i - 1];
+        const curr = movements[i];
 
-            if (prevSpeed !== null) {
-                if (Math.abs(speed - prevSpeed) > 0.1) {
-                    isUneven = true;
-                    break;
-                }
+        // 计算位移和时间差
+        const distance = Math.abs(curr.x - prev.x);
+        const timeDiff = curr.time - prev.time;
+
+        // 计算总位移和时间
+        totalMovement += distance;
+        totalTime += timeDiff;
+
+        // 计算速度
+        const velocity = distance / timeDiff;
+
+        // 检测速度变化
+        if (i > 1) {
+            const prevVelocity = Math.abs(movements[i - 1].x - movements[i - 2].x) / (movements[i - 1].time - movements[i - 2].time);
+            if (Math.abs(velocity - prevVelocity) > 0.5) {
+                velocityChanges++;
             }
-
-            prevSpeed = speed;
+            
+            // 计算加速度变化
+            const prevAcceleration = Math.abs(prevVelocity - (movements[i - 2].x - movements[i - 3].x) / (movements[i - 2].time - movements[i - 3].time));
+            const currAcceleration = Math.abs(velocity - prevVelocity);
+            if (Math.abs(currAcceleration - prevAcceleration) > 0.5) {
+                accelerationChanges++;
+            }
         }
-
-        return isUneven;
     }
 
+    // 平均速度
+    const averageVelocity = totalMovement / totalTime;
+
+    // 设定阈值
+    const isSmooth = averageVelocity < 0.8; // 控制滑动速度的平滑性
+    const isNatural = velocityChanges > 1; // 检测是否有速度变化
+    const isAccurate = accelerationChanges > 1; // 检测是否有加速度变化
+
+    // 根据阈值判断是否为人类操作
+    return isSmooth && isNatural && isAccurate;
+    }
+    
+    
     function changeImageAndPosition() {
         const puzzleHole = document.getElementById('puzzle-hole');
         if (puzzleHole) {
