@@ -575,6 +575,7 @@ function captcha() {
     }, 700);
 }
 
+
     applyTranslations(detectLanguage());
 };
 
