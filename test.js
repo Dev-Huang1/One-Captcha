@@ -283,6 +283,10 @@ function captcha() {
     </div>
     `;
 
+    var script = document.createElement('script');
+
+    script.textContent = `
+    
     const verifyCheckbox = document.getElementById('verify-checkbox');
     const sliderCaptcha = document.getElementById('slider-captcha');
     const puzzleImage = document.getElementById('puzzle-image');
@@ -526,8 +530,9 @@ function captcha() {
         document.removeEventListener('visibilitychange', handleVisibilityChange);
     }
 };
+`;
 
-    
+    document.body.appendChild(script);
 
 document.addEventListener('DOMContentLoaded', function() {
     captcha();
