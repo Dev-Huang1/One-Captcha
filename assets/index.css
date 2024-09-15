@@ -321,7 +321,19 @@
     }
 
     .section-article {
-           max-width: 45%;
+           max-width: 50%;
+    }
+
+    .blue-section-article {
+           max-width: 50%;
+    }
+
+    .feature-container {
+           padding: 36px 5%;
+    }
+
+    .feature-showcase {
+           padding: 36px 5%;
     }
 }
 
