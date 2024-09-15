@@ -447,8 +447,9 @@ function captcha() {
         document.getElementById('retry-button').textContent = translations[language].retryButton;
         document.getElementById('privacy-link').textContent = translations[language].privacyLink;
         document.getElementById('docs-link').textContent = translations[language].docsLink;
-        document.getElementById('submit-button').textContent = translations[language].submitButton;
+        // document.getElementById('submit-button').textContent = translations[language].submitButton;
         document.getElementById('error-message').textContent = translations[language].errorMessage;
+        document.getElementById('rate-limit-warning').textContent = translations[language].rateLimitWarning;
     }
 
     verifyCheckbox.addEventListener('change', async function() {
