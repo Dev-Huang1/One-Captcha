@@ -27,7 +27,6 @@ async function checkIPRateLimit() {
 }
 
 function showRateLimitWarning() {
-function showRateLimitWarning() {
     const checkbox = document.getElementById('verify-checkbox');
     const rect = checkbox.getBoundingClientRect();
     
