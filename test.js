@@ -525,10 +525,10 @@ function captcha() {
         changeImageAndPosition();
         document.removeEventListener('visibilitychange', handleVisibilityChange);
     }
+
+    applyTranslations(detectLanguage());
 };
 
 document.addEventListener('DOMContentLoaded', function() {
     captcha();
-    const userLang = detectLanguage();
-    applyTranslations(userLang);
 });
