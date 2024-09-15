@@ -161,6 +161,11 @@ function captcha() {
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3) inset;
             border-radius: 10px;
         }
+        #puzzle-piece, #puzzle-hole {
+            pointer-events: none;
+            will-change: transform;
+        }
+
         #success-message {
             display: none;
             color: #000000;
@@ -362,21 +367,43 @@ function captcha() {
         const pieceX = Math.floor(Math.random() * (maxX - 50) + 50); 
         const pieceY = Math.floor(Math.random() * maxY);
 
+        // 确保拼图块元素存在
+        if (!document.getElementById('puzzle-piece')) {
+            const newPuzzlePiece = document.createElement('div');
+            newPuzzlePiece.id = 'puzzle-piece';
+            document.getElementById('puzzle-container').appendChild(newPuzzlePiece);
+            puzzlePiece = newPuzzlePiece;
+        }
+
         puzzlePiece.style.left = '0px';
         puzzlePiece.style.top = `${pieceY}px`;
         puzzlePiece.style.backgroundImage = `url(/assets/v3/${currentImage})`;
         puzzlePiece.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
         puzzlePiece.style.backgroundSize = `${puzzleImage.width}px ${puzzleImage.height}px`;
+        puzzlePiece.style.zIndex = '1000'; // 确保拼图块在最上层
+
+        // 移除旧的拼图洞
+        const oldPuzzleHole = document.getElementById('puzzle-hole');
+        if (oldPuzzleHole) {
+            oldPuzzleHole.remove();
+        }
 
         const puzzleHole = document.createElement('div');
         puzzleHole.id = 'puzzle-hole';
         puzzleHole.style.left = `${pieceX}px`;
         puzzleHole.style.top = `${pieceY}px`;
+        puzzleHole.style.zIndex = '999'; // 确保拼图洞在拼图块下面
         document.getElementById('puzzle-container').appendChild(puzzleHole);
 
         piecePosition = pieceX;
         sliderCaptcha.style.display = 'block';
         resetSlider();
+
+        // 确保所有元素都正确显示
+        setTimeout(() => {
+            puzzlePiece.style.display = 'block';
+            puzzleHole.style.display = 'block';
+        }, 100);
     };
 }
 
@@ -391,22 +418,25 @@ function captcha() {
     }
 
     function drag(e) {
-        if (!isDragging) return;
-        e.preventDefault();
+    if (!isDragging) return;
+    e.preventDefault();
 
-        const currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
-        let newLeft = startLeft + currentX - startX;
-        newLeft = Math.max(0, Math.min(newLeft, 260));
+    const currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
+    let newLeft = startLeft + currentX - startX;
+    newLeft = Math.max(0, Math.min(newLeft, 260));
 
+    requestAnimationFrame(() => {
         sliderHandle.style.left = `${newLeft}px`;
         sliderTrack.style.width = `${newLeft}px`;
         puzzlePiece.style.left = `${newLeft}px`;
+    });
 
-        movements.push({
-            x: newLeft,
-            time: Date.now() - startTime
-        });
-    }
+    movements.push({
+        x: newLeft,
+        time: Date.now() - startTime
+    });
+}
+
 
     function stopDragging() {
         if (!isDragging) return;
