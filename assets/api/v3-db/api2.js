@@ -27,7 +27,6 @@ async function checkIPRateLimit() {
 }
 
 function showRateLimitWarning() {
-function showRateLimitWarning() {
     const warningElement = document.createElement('div');
     warningElement.id = 'rate-limit-warning';
     warningElement.style.cssText = `
