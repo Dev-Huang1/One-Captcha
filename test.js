@@ -1,6 +1,6 @@
 const ipifyAPI = 'https://api.ipify.org?format=json';
 const IP_REQUEST_LIMIT = 5; // 每个 IP 在一定时间内的最大请求次数
-const REQUEST_TIME_FRAME = 15 * 60 * 1000; // 请求时间框架：15 分钟
+const REQUEST_TIME_FRAME = 10 * 1000; // 请求时间框架：10 秒
 
 let ipRequestCounts = {};
 let ipRequestTimestamps = {};
