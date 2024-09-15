@@ -341,10 +341,9 @@ function captcha() {
         document.getElementById('submit-button').textContent = translations[language].submitButton;
         document.getElementById('error-message').textContent = translations[language].errorMessage;
     }
-
-    verifyCheckbox.addEventListener('change', function() {
+    
     verifyCheckbox.addEventListener('change', async function () {
-  if (this.checked) {
+    if (this.checked) {
     // 调用 IP 验证 API
     const ipResponse = await fetch('/api/check-ip');
     if (ipResponse.status === 429) {
