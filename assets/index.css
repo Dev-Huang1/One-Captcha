@@ -319,6 +319,10 @@
     .content-section-blue {
            padding: 36px 5%;
     }
+
+    .section-article {
+           max-width: 75%;
+    }
 }
 
 @media (max-width: 768px) {
