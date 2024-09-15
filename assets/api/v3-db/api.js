@@ -281,8 +281,8 @@ function captcha() {
         </div>
         <button id="retry-button">Retry</button>
     </div>
+    `;
 
-    <script>
     const verifyCheckbox = document.getElementById('verify-checkbox');
     const sliderCaptcha = document.getElementById('slider-captcha');
     const puzzleImage = document.getElementById('puzzle-image');
@@ -530,9 +530,9 @@ function captcha() {
         changeImageAndPosition();
         document.removeEventListener('visibilitychange', handleVisibilityChange);
     }
-    </script>
-    `;
 };
+
+    
 
 document.addEventListener('DOMContentLoaded', function() {
     captcha();
