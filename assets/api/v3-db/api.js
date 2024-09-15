@@ -1,4 +1,5 @@
-    const captchaHTML = `
+function captcha() {
+document.getElementById('one-captcha').innerHTML = `
     <style>
             #captcha-container {
             width: 260px;
@@ -282,5 +283,4 @@
         <button id="retry-button">Retry</button>
     </div>
     `;
-
-    document.getElementById('one-captcha').innerHTML = captchaHTML;
+};
