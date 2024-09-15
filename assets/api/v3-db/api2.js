@@ -26,47 +26,7 @@ async function checkIPRateLimit() {
     }
 }
 
-/*function showRateLimitWarning() {
-    const loadingSpinner = document.getElementById('loading-spinner');
-    const spinnerRect = loadingSpinner.getBoundingClientRect();
-    
-    const warningElement = document.createElement('div');
-    warningElement.id = 'rate-limit-warning';
-    warningElement.style.cssText = `
-        position: absolute;
-        top: ${spinnerRect.bottom + window.scrollY}px;
-        left: ${spinnerRect.right + window.scrollX}px;
-        background-color: #ffffff;
-        color: #f44336;
-        padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        z-index: 1000;
-        text-align: center;
-        font-family: Arial, sans-serif;
-        border: 1px solid #f44336;
-        animation: fadeIn 0.5s, fadeOut 0.5s 2s;
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
-    `;
-    warningElement.textContent = '检测到您正在滥用我们的服务，请稍候再试';
-    document.body.appendChild(warningElement);
-
-    setTimeout(() => {
-        warningElement.remove();
-    }, 3000);
-}*/
-
 function showRateLimitWarning() {
-    const language = detectLanguage();
-    const warningMessage = translations[language].rateLimitWarning;
-    
     const loadingSpinner = document.getElementById('loading-spinner');
     const spinnerRect = loadingSpinner.getBoundingClientRect();
     
@@ -95,14 +55,13 @@ function showRateLimitWarning() {
             to { opacity: 0; }
         }
     `;
-    warningElement.textContent = warningMessage;
+    warningElement.textContent = 'You are abusing our service. Please try again later.';
     document.body.appendChild(warningElement);
 
     setTimeout(() => {
         warningElement.remove();
     }, 3000);
 }
-
 
 function captcha() {
     document.getElementById('one-captcha').innerHTML = `
