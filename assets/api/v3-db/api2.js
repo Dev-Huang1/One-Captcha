@@ -410,28 +410,31 @@ function captcha() {
     }
 
     verifyCheckbox.addEventListener('change', async function() {
-        if (this.checked) {
+    if (this.checked) {
+        const spinner = document.getElementById('loading-spinner');
+        spinner.style.display = 'inline-block';
+        
+        setTimeout(async () => {
+            spinner.style.opacity = '0';
+            
             const isAllowed = await checkIPRateLimit();
             if (!isAllowed) {
                 this.checked = false;
                 showRateLimitWarning();
                 return;
             }
-
-        setTimeout(() => {
-            this.style.display = 'none';
-            const spinner = document.getElementById('loading-spinner');
-            spinner.style.display = 'inline-block';
+            
             setTimeout(() => {
-                spinner.style.opacity = '1';
-                // 重置 sliderCaptcha 的状态
+                this.style.display = 'none';
                 sliderCaptcha.style.opacity = '0';
                 sliderCaptcha.style.display = 'block';
                 showSliderCaptcha();
-            }, 50);  // Slight delay to trigger the transition
+            }, 50);
+            
         }, 300);
     }
 });
+
 
 
     function showSliderCaptcha() {
