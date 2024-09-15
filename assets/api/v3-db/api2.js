@@ -26,7 +26,7 @@ async function checkIPRateLimit() {
     }
 }
 
-/*function showRateLimitWarning() {
+function showRateLimitWarning() {
     const loadingSpinner = document.getElementById('loading-spinner');
     const spinnerRect = loadingSpinner.getBoundingClientRect();
     
@@ -61,7 +61,7 @@ async function checkIPRateLimit() {
     setTimeout(() => {
         warningElement.remove();
     }, 3000);
-}*/
+}
 
 
 function captcha() {
@@ -361,6 +361,7 @@ function captcha() {
     const successMessage = document.getElementById('success-message');
     // const submitButton = document.getElementById('submit-button');
     const errorMessage = document.getElementById('error-message');
+    const rateLimitWarning = document.getElementById('rate-limit-warning');
 
     const images = ['image1.jpeg', 'image2.jpeg', 'image3.jpg', 'img018.png', 'img072.jpg', 'img102.jpeg', 'img181.jpeg', 'img193.jpeg', 'img273.jpeg', 'img372.jpeg', 'img392.jpeg', 'img396.jpeg', 'img398.jpeg', 'img462.jpg', 'img482.jpeg', 'img492.jpeg', 'img592.jpg', 'img638.jpg', 'img639.jpeg', 'img639.jpg', 'img648.jpg', 'img657.jpeg', 'img857.jpeg', 'img928.jpeg'];
     let currentImage;
@@ -410,7 +411,7 @@ function captcha() {
         document.getElementById('error-message').textContent = translations[language].errorMessage;
     }
 
-    function showRateLimitWarning() {
+    /*function showRateLimitWarning() {
     const language = detectLanguage();
     const warningMessage = translations[language].rateLimitWarning;
     
@@ -448,7 +449,7 @@ function captcha() {
     setTimeout(() => {
         warningElement.remove();
     }, 3000);
-}
+}*/
 
 
     verifyCheckbox.addEventListener('change', async function() {
