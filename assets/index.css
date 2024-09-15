@@ -307,6 +307,20 @@
   line-height: 1.5;
 }
 
+@media (min-width: 769px) {
+    .content-section {
+           padding: 0 5%;
+    }
+
+    .content-section-grey {
+           padding: 0 5%;
+    }
+
+    .content-section-blue {
+           padding: 0 5%;
+    }
+}
+
 @media (max-width: 768px) {
     .hero {
         flex-direction: column;
