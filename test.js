@@ -452,8 +452,9 @@ function captcha() {
         if (Math.abs(finalPosition - piecePosition) < 5) {
             if (isHumanLikeMovement()) {
                 showSuccessMessage();
+                Callback();
                 sliderCaptcha.style.display = 'none';
-                submitButton.disabled = false;
+                // submitButton.disabled = false;
                 document.addEventListener('visibilitychange', handleVisibilityChange);
             } else {
                 document.getElementById('error-message').style.display = 'block';
@@ -555,6 +556,16 @@ function captcha() {
         resetSlider();
         changeImageAndPosition();
         document.removeEventListener('visibilitychange', handleVisibilityChange);
+    }
+
+    function Callback() {
+    var captchaElement = document.getElementById('one-captcha');
+    var callbackFunctionName = captchaElement.getAttribute('data-callback');
+    if (typeof window[callbackFunctionName] === 'function') {
+      window[callbackFunctionName]("Verification passed");
+    } else {
+      console.error("Callback function not found.");
+    }
     }
 
     applyTranslations(detectLanguage());
