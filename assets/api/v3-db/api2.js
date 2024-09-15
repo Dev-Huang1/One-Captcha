@@ -34,13 +34,25 @@ function showRateLimitWarning() {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background-color: #f44336;
-        color: white;
+        background-color: #ffffff;
+        color: #f44336;
         padding: 20px;
         border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         z-index: 1000;
         text-align: center;
         font-family: Arial, sans-serif;
+        border: 1px solid #f44336;
+        animation: fadeIn 0.5s, fadeOut 0.5s 2s;
+        @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
     `;
     warningElement.textContent = '检测到您正在滥用我们的服务';
     document.body.appendChild(warningElement);
@@ -49,7 +61,6 @@ function showRateLimitWarning() {
         warningElement.remove();
     }, 3000);
 }
-
 
 function captcha() {
     document.getElementById('one-captcha').innerHTML = `
@@ -396,26 +407,32 @@ function captcha() {
     }
 
     verifyCheckbox.addEventListener('change', async function() {
-        if (this.checked) {
+    if (this.checked) {
+        const spinner = document.getElementById('loading-spinner');
+        spinner.style.display = 'inline-block';
+        spinner.style.opacity = '1';
+        
+        // 先进行旋转动画
+        setTimeout(async () => {
             const isAllowed = await checkIPRateLimit();
             if (!isAllowed) {
                 this.checked = false;
+                spinner.style.opacity = '0';
+                setTimeout(() => {
+                    spinner.style.display = 'none';
+                }, 300);
                 showRateLimitWarning();
                 return;
             }
-
-        setTimeout(() => {
-            this.style.display = 'none';
-            const spinner = document.getElementById('loading-spinner');
-            spinner.style.display = 'inline-block';
+            // 动画完成后显示滑块验证码
+            spinner.style.opacity = '0';
             setTimeout(() => {
-                spinner.style.opacity = '1';
-                // 重置 sliderCaptcha 的状态
-                sliderCaptcha.style.opacity = '0';
+                spinner.style.display = 'none';
+                const sliderCaptcha = document.getElementById('slider-captcha');
                 sliderCaptcha.style.display = 'block';
                 showSliderCaptcha();
-            }, 50);  // Slight delay to trigger the transition
-        }, 300);
+            }, 300);  // Slight delay to trigger the transition
+        }, 300); // Delay before starting spinner animation
     }
 });
 
@@ -431,41 +448,26 @@ function captcha() {
         const pieceX = Math.floor(Math.random() * (maxX - 50) + 50); 
         const pieceY = Math.floor(Math.random() * maxY);
 
-        // 确保拼图块元素存在
-        if (!document.getElementById('puzzle-piece')) {
-            const newPuzzlePiece = document.createElement('div');
-            newPuzzlePiece.id = 'puzzle-piece';
-            document.getElementById('puzzle-container').appendChild(newPuzzlePiece);
-            puzzlePiece = newPuzzlePiece;
-        }
-
         puzzlePiece.style.left = '0px';
         puzzlePiece.style.top = `${pieceY}px`;
         puzzlePiece.style.backgroundImage = `url(/assets/v3/${currentImage})`;
         puzzlePiece.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
         puzzlePiece.style.backgroundSize = `${puzzleImage.width}px ${puzzleImage.height}px`;
         puzzlePiece.style.display = 'block';
-        puzzlePiece.style.zIndex = '1000'; // 确保拼图块在最上层
-
-        // 移除旧的拼图洞
-        const oldPuzzleHole = document.getElementById('puzzle-hole');
-        if (oldPuzzleHole) {
-            oldPuzzleHole.remove();
-        }
+        puzzlePiece.style.zIndex = '1000'; 
 
         const puzzleHole = document.createElement('div');
         puzzleHole.id = 'puzzle-hole';
         puzzleHole.style.left = `${pieceX}px`;
         puzzleHole.style.top = `${pieceY}px`;
         puzzleHole.style.display = 'block';
-        puzzleHole.style.zIndex = '999'; // 确保拼图洞在拼图块下面
+        puzzleHole.style.zIndex = '999'; 
         document.getElementById('puzzle-container').appendChild(puzzleHole);
 
         piecePosition = pieceX;
         sliderCaptcha.style.display = 'block';
         resetSlider();
 
-        // 确保所有元素都正确显示
         setTimeout(() => {
             puzzlePiece.style.display = 'block';
             puzzleHole.style.display = 'block';
@@ -474,14 +476,35 @@ function captcha() {
     };
 }
 
+
     function startDragging(e) {
-        e.preventDefault();
-        isDragging = true;
-        startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
-        startLeft = sliderHandle.offsetLeft;
-        startTime = Date.now();
-        movements = [];
-    }
+    e.preventDefault();
+    isDragging = true;
+    startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
+    startLeft = sliderHandle.offsetLeft;
+    startTime = Date.now();
+    movements = [];
+}
+
+function drag(e) {
+    if (!isDragging) return;
+    e.preventDefault();
+
+    const currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
+    let newLeft = startLeft + currentX - startX;
+    newLeft = Math.max(0, Math.min(newLeft, 260));
+
+    requestAnimationFrame(() => {
+        sliderHandle.style.left = `${newLeft}px`;
+        sliderTrack.style.width = `${newLeft}px`;
+        puzzlePiece.style.left = `${newLeft}px`;
+    });
+
+    movements.push({
+        x: newLeft,
+        time: Date.now() - startTime
+    });
+}
 
     function drag(e) {
     if (!isDragging) return;
@@ -507,24 +530,22 @@ function captcha() {
     function stopDragging() {
         if (!isDragging) return;
         isDragging = false;
-    
-        const finalPosition = sliderHandle.offsetLeft;
-        if (Math.abs(finalPosition - piecePosition) < 5) {
-            if (isHumanLikeMovement()) {
-                showSuccessMessage();
-                Callback();
-                sliderCaptcha.style.display = 'none';
-                // submitButton.disabled = false;
-                document.addEventListener('visibilitychange', handleVisibilityChange);
-            } else {
-                document.getElementById('error-message').style.display = 'block';
-                changeImageAndPosition();
-            }
-        } else {
-            document.getElementById('error-message').style.display = 'block';
-            changeImageAndPosition();
-        }
+        if (!isDragging) return;
+    isDragging = false;
+
+    const finalPosition = sliderHandle.offsetLeft;
+    const tolerance = 20; // Adjust tolerance as needed
+    if (Math.abs(finalPosition - piecePosition) <= tolerance) {
+        successMessage.style.display = 'block';
+        setTimeout(() => {
+            sliderCaptcha.style.display = 'none';
+            successMessage.style.display = 'none';
+            verifyCheckbox.checked = false;
+        }, 1000); // Delay to show success message
+    } else {
+        errorMessage.style.display = 'block';
     }
+}
 
     function showSuccessMessage() {
         const spinner = document.getElementById('loading-spinner');
