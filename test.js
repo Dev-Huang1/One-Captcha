@@ -152,7 +152,6 @@ function captcha() {
             background-size: 300px 200px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
             border-radius: 10px;
-            overflow: hidden;
         }
         #puzzle-hole {
             position: absolute;
@@ -358,25 +357,16 @@ function captcha() {
 
     puzzleImage.onload = () => {
         const pieceSize = 50;
-        const maxX = 300 - pieceSize;
-        const maxY = 200 - pieceSize;
+        const maxX = puzzleImage.width - pieceSize;
+        const maxY = puzzleImage.height - pieceSize;
         const pieceX = Math.floor(Math.random() * (maxX - 50) + 50); 
         const pieceY = Math.floor(Math.random() * maxY);
 
-        // Create an off-screen canvas
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = pieceSize;
-        canvas.height = pieceSize;
-
-        // Draw the piece on the canvas
-        ctx.drawImage(puzzleImage, pieceX, pieceY, pieceSize, pieceSize, 0, 0, pieceSize, pieceSize);
-
-        // Set the piece as an image instead of background
-        puzzlePiece.style.backgroundImage = 'none';
-        puzzlePiece.innerHTML = `<img src="${canvas.toDataURL()}" width="${pieceSize}" height="${pieceSize}">`;
         puzzlePiece.style.left = '0px';
         puzzlePiece.style.top = `${pieceY}px`;
+        puzzlePiece.style.backgroundImage = `url(/assets/v3/${currentImage})`;
+        puzzlePiece.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
+        puzzlePiece.style.backgroundSize = `${puzzleImage.width}px ${puzzleImage.height}px`;
 
         const puzzleHole = document.createElement('div');
         puzzleHole.id = 'puzzle-hole';
@@ -389,6 +379,7 @@ function captcha() {
         resetSlider();
     };
 }
+
 
     function startDragging(e) {
         e.preventDefault();
