@@ -27,15 +27,15 @@ async function checkIPRateLimit() {
 }
 
 function showRateLimitWarning() {
-    const checkbox = document.getElementById('verify-checkbox');
-    const checkboxRect = checkbox.getBoundingClientRect();
+    const loadingSpinner = document.getElementById('loading-spinner');
+    const spinnerRect = loadingSpinner.getBoundingClientRect();
     
     const warningElement = document.createElement('div');
     warningElement.id = 'rate-limit-warning';
     warningElement.style.cssText = `
         position: absolute;
-        top: ${checkboxRect.bottom + window.scrollY}px;
-        left: ${checkboxRect.right + window.scrollX}px;
+        top: ${spinnerRect.bottom + window.scrollY}px;
+        left: ${spinnerRect.right + window.scrollX}px;
         background-color: #ffffff;
         color: #f44336;
         padding: 20px;
@@ -55,15 +55,13 @@ function showRateLimitWarning() {
             to { opacity: 0; }
         }
     `;
-    warningElement.textContent = '检测到您正在滥用我们的服务';
+    warningElement.textContent = 'You are abusing our service. Please try again later.';
     document.body.appendChild(warningElement);
 
     setTimeout(() => {
         warningElement.remove();
     }, 3000);
 }
-
-
 
 function captcha() {
     document.getElementById('one-captcha').innerHTML = `
@@ -362,6 +360,7 @@ function captcha() {
     const successMessage = document.getElementById('success-message');
     // const submitButton = document.getElementById('submit-button');
     const errorMessage = document.getElementById('error-message');
+    const rateLimitWarning = document.getElementById('rate-limit-warning');
 
     const images = ['image1.jpeg', 'image2.jpeg', 'image3.jpg', 'img018.png', 'img072.jpg', 'img102.jpeg', 'img181.jpeg', 'img193.jpeg', 'img273.jpeg', 'img372.jpeg', 'img392.jpeg', 'img396.jpeg', 'img398.jpeg', 'img462.jpg', 'img482.jpeg', 'img492.jpeg', 'img592.jpg', 'img638.jpg', 'img639.jpeg', 'img639.jpg', 'img648.jpg', 'img657.jpeg', 'img857.jpeg', 'img928.jpeg'];
     let currentImage;
@@ -382,6 +381,7 @@ function captcha() {
             docsLink: "Docs",
             successMessage: "Success",
             errorMessage: "Verification failed. Please try again.",
+            //rateLimitWarning: 'You are abusing our service. Please try again later.',
         },
         zh: {
             captchaLabel: "我不是机器人",
@@ -391,6 +391,7 @@ function captcha() {
             docsLink: "文档",
             successMessage: "验证成功",
             errorMessage: "验证失败，请重试",
+            //rateLimitWarning: '检测到您正在滥用我们的服务，请稍候再试。',
         }
     };
 
@@ -405,34 +406,37 @@ function captcha() {
         document.getElementById('retry-button').textContent = translations[language].retryButton;
         document.getElementById('privacy-link').textContent = translations[language].privacyLink;
         document.getElementById('docs-link').textContent = translations[language].docsLink;
-        document.getElementById('submit-button').textContent = translations[language].submitButton;
+        // document.getElementById('submit-button').textContent = translations[language].submitButton;
         document.getElementById('error-message').textContent = translations[language].errorMessage;
+        //document.getElementById('rate-limit-warning').textContent = translations[language].rateLimitWarning;
     }
 
     verifyCheckbox.addEventListener('change', async function() {
-        if (this.checked) {
-            const isAllowed = await checkIPRateLimit();
-            if (!isAllowed) {
-                this.checked = false;
-                showRateLimitWarning();
-                return;
-            }
-
+    if (this.checked) {
+        this.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+        this.style.transform = 'scale(0)';
+        this.style.opacity = '0';
+    
         setTimeout(() => {
             this.style.display = 'none';
             const spinner = document.getElementById('loading-spinner');
             spinner.style.display = 'inline-block';
             setTimeout(() => {
                 spinner.style.opacity = '1';
-                // 重置 sliderCaptcha 的状态
-                sliderCaptcha.style.opacity = '0';
-                sliderCaptcha.style.display = 'block';
-                showSliderCaptcha();
-            }, 50);  // Slight delay to trigger the transition
+                checkIPRateLimit().then(isAllowed => {
+                    if (!isAllowed) {
+                        this.checked = false;
+                        showRateLimitWarning();
+                        return;
+                    }
+                    sliderCaptcha.style.opacity = '0';
+                    sliderCaptcha.style.display = 'block';
+                    showSliderCaptcha();
+                });
+            }, 50);
         }, 300);
     }
 });
-
 
     function showSliderCaptcha() {
     currentImage = images[Math.floor(Math.random() * images.length)];
