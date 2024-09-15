@@ -449,26 +449,25 @@ function captcha() {
 
 
     function stopDragging() {
-        if (!isDragging) return;
-        isDragging = false;
-    
-        const finalPosition = sliderHandle.offsetLeft;
-        if (Math.abs(finalPosition - piecePosition) < 5) {
-            if (isHumanLikeMovement()) {
-                showSuccessMessage();
-                Callback();
-                sliderCaptcha.style.display = 'none';
-                // submitButton.disabled = false;
-                document.addEventListener('visibilitychange', handleVisibilityChange);
-            } else {
-                document.getElementById('error-message').style.display = 'block';
-                changeImageAndPosition();
-            }
+    if (!isDragging) return;
+    isDragging = false;
+
+    const finalPosition = sliderHandle.offsetLeft;
+    if (Math.abs(finalPosition - piecePosition) < 5) {
+        if (isHumanLikeMovement() && detectHumanCharacteristics()) {
+            showSuccessMessage();
+            Callback();
+            sliderCaptcha.style.display = 'none';
+            document.addEventListener('visibilitychange', handleVisibilityChange);
         } else {
             document.getElementById('error-message').style.display = 'block';
             changeImageAndPosition();
         }
+    } else {
+        document.getElementById('error-message').style.display = 'block';
+        changeImageAndPosition();
     }
+}
 
     function showSuccessMessage() {
         const spinner = document.getElementById('loading-spinner');
@@ -495,46 +494,55 @@ function captcha() {
     }
 
     function isHumanLikeMovement() {
-    if (movements.length < 5) return false;
+    if (movements.length < 10) return false; // 增加最小移动次数要求
 
-    let totalMovement = 0;
-    let totalTime = 0;
-    let velocityChanges = 0;
+    let isUneven = false;
+    let prevSpeed = null;
+    let speedChanges = 0;
+    let pauseCount = 0;
+    let totalTime = movements[movements.length - 1].time - movements[0].time;
 
     for (let i = 1; i < movements.length; i++) {
-        const prev = movements[i - 1];
-        const curr = movements[i];
+        const dx = movements[i].x - movements[i-1].x;
+        const dt = movements[i].time - movements[i-1].time;
+        const speed = Math.abs(dx / dt);
 
-        // 计算位移和时间差
-        const distance = Math.abs(curr.x - prev.x);
-        const timeDiff = curr.time - prev.time;
+        if (dt > 100) { // 检测暂停
+            pauseCount++;
+        }
 
-        // 计算总位移和时间
-        totalMovement += distance;
-        totalTime += timeDiff;
-
-        // 检测速度变化
-        if (i > 1) {
-            const prevVelocity = Math.abs(movements[i - 1].x - movements[i - 2].x) / (movements[i - 1].time - movements[i - 2].time);
-            const currVelocity = distance / timeDiff;
-            if (Math.abs(currVelocity - prevVelocity) > 0.5) {
-                velocityChanges++;
+        if (prevSpeed !== null) {
+            if (Math.abs(speed - prevSpeed) > 0.2) {
+                speedChanges++;
             }
+        }
+
+        prevSpeed = speed;
+    }
+
+    // 判断条件
+    isUneven = speedChanges > 3;
+    let hasPauses = pauseCount > 0;
+    let reasonableTime = totalTime > 500 && totalTime < 5000; // 0.5秒到5秒之间
+
+    return isUneven && hasPauses && reasonableTime;
+}
+
+    function detectHumanCharacteristics() {
+    let smallMovements = 0;
+    let largeMovements = 0;
+
+    for (let i = 1; i < movements.length; i++) {
+        const dx = movements[i].x - movements[i-1].x;
+        if (Math.abs(dx) < 1) {
+            smallMovements++;
+        } else if (Math.abs(dx) > 5) {
+            largeMovements++;
         }
     }
 
-    // 平均速度
-    const averageVelocity = totalMovement / totalTime;
-
-    // 设定阈值
-    const isSmooth = averageVelocity < 0.8; // 控制滑动速度的平滑性
-    const isNatural = velocityChanges > 1; // 检测是否有速度变化
-
-    // 根据阈值判断是否为人类操作
-    return isSmooth && isNatural;
-}
-
-    
+    return smallMovements > 0 && largeMovements > 0;
+    }
     
     function changeImageAndPosition() {
         const puzzleHole = document.getElementById('puzzle-hole');
