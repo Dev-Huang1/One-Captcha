@@ -407,25 +407,29 @@ function captcha() {
         document.getElementById('error-message').textContent = translations[language].errorMessage;
     }
 
-    verifyCheckbox.addEventListener('change', function() {
+    verifyCheckbox.addEventListener('change', async function() {
     if (this.checked) {
-        const spinner = document.getElementById('loading-spinner');
-        spinner.style.display = 'inline-block';
-        setTimeout(async () => {
-            spinner.style.opacity = '1';
-            
-            const isAllowed = await checkIPRateLimit();
-            if (!isAllowed) {
-                this.checked = false;
-                showRateLimitWarning();
-                spinner.style.display = 'none';
-                return;
-            }
-            
+        this.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+        this.style.transform = 'scale(0)';
+        this.style.opacity = '0';
+    
+        setTimeout(() => {
             this.style.display = 'none';
-            sliderCaptcha.style.opacity = '0';
-            sliderCaptcha.style.display = 'block';
-            showSliderCaptcha();
+            const spinner = document.getElementById('loading-spinner');
+            spinner.style.display = 'inline-block';
+            setTimeout(() => {
+                spinner.style.opacity = '1';
+                checkIPRateLimit().then(isAllowed => {
+                    if (!isAllowed) {
+                        this.checked = false;
+                        showRateLimitWarning();
+                        return;
+                    }
+                    sliderCaptcha.style.opacity = '0';
+                    sliderCaptcha.style.display = 'block';
+                    showSliderCaptcha();
+                });
+            }, 50);
         }, 300);
     }
 });
