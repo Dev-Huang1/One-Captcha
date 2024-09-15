@@ -561,12 +561,17 @@ function captcha() {
     function Callback() {
     var captchaElement = document.getElementById('one-captcha');
     var callbackFunctionName = captchaElement.getAttribute('data-callback');
-    if (typeof window[callbackFunctionName] === 'function') {
-      window[callbackFunctionName]("Verification passed");
-    } else {
-      console.error("Callback function not found.");
-    }
-    }
+    
+    // 使用setTimeout来延迟1秒执行回调函数
+    setTimeout(function() {
+        if (typeof window[callbackFunctionName] === 'function') {
+            window[callbackFunctionName]("Verification passed");
+        } else {
+            console.error("Callback function not found.");
+        }
+    }, 1000); // 1000毫秒 = 1秒
+}
+
 
     applyTranslations(detectLanguage());
 };
