@@ -63,8 +63,6 @@ function showRateLimitWarning() {
     }, 3000);
 }
 
-
-
 function captcha() {
     document.getElementById('one-captcha').innerHTML = `
         <style>
@@ -409,33 +407,28 @@ function captcha() {
         document.getElementById('error-message').textContent = translations[language].errorMessage;
     }
 
-    verifyCheckbox.addEventListener('change', async function() {
+    verifyCheckbox.addEventListener('change', function() {
     if (this.checked) {
         const spinner = document.getElementById('loading-spinner');
         spinner.style.display = 'inline-block';
-        
         setTimeout(async () => {
-            spinner.style.opacity = '0';
+            spinner.style.opacity = '1';
             
             const isAllowed = await checkIPRateLimit();
             if (!isAllowed) {
                 this.checked = false;
                 showRateLimitWarning();
+                spinner.style.display = 'none';
                 return;
             }
             
-            setTimeout(() => {
-                this.style.display = 'none';
-                sliderCaptcha.style.opacity = '0';
-                sliderCaptcha.style.display = 'block';
-                showSliderCaptcha();
-            }, 50);
-            
+            this.style.display = 'none';
+            sliderCaptcha.style.opacity = '0';
+            sliderCaptcha.style.display = 'block';
+            showSliderCaptcha();
         }, 300);
     }
 });
-
-
 
     function showSliderCaptcha() {
     currentImage = images[Math.floor(Math.random() * images.length)];
