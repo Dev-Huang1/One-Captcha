@@ -32,5 +32,3 @@ function captcha() {
     </div>
     `;
 };
-
-captcha()
