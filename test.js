@@ -283,6 +283,9 @@ function captcha() {
     </div>
     `;
 
+    const language = detectLanguage();
+    applyTranslations(language);
+
     const verifyCheckbox = document.getElementById('verify-checkbox');
     const sliderCaptcha = document.getElementById('slider-captcha');
     const puzzleImage = document.getElementById('puzzle-image');
