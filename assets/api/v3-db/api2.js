@@ -26,7 +26,7 @@ async function checkIPRateLimit() {
     }
 }
 
-function showRateLimitWarning() {
+/*function showRateLimitWarning() {
     const loadingSpinner = document.getElementById('loading-spinner');
     const spinnerRect = loadingSpinner.getBoundingClientRect();
     
@@ -61,7 +61,7 @@ function showRateLimitWarning() {
     setTimeout(() => {
         warningElement.remove();
     }, 3000);
-}
+}*/
 
 
 function captcha() {
@@ -411,7 +411,7 @@ function captcha() {
         document.getElementById('error-message').textContent = translations[language].errorMessage;
     }
 
-    /*function showRateLimitWarning() {
+    function showRateLimitWarning() {
     const language = detectLanguage();
     const warningMessage = translations[language].rateLimitWarning;
     
@@ -449,7 +449,7 @@ function captcha() {
     setTimeout(() => {
         warningElement.remove();
     }, 3000);
-}*/
+}
 
 
     verifyCheckbox.addEventListener('change', async function() {
