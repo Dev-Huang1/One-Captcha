@@ -425,15 +425,9 @@ function captcha() {
             spinner.style.display = 'inline-block';
             setTimeout(() => {
                 spinner.style.opacity = '1';
-                checkIPRateLimit().then(isAllowed => {
-                    if (!isAllowed) {
-                        this.checked = false;
-                        showRateLimitWarning();
-                        return;
-                    }
-                    sliderCaptcha.style.opacity = '0';
-                    sliderCaptcha.style.display = 'block';
-                    showSliderCaptcha();
+                sliderCaptcha.style.opacity = '0';
+                sliderCaptcha.style.display = 'block';
+                showSliderCaptcha();
                 });
             }, 50);
         }, 300);
