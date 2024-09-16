@@ -545,7 +545,6 @@ function captcha() {
     }
 }
 
-
     function showSuccessMessage() {
         const spinner = document.getElementById('loading-spinner');
         const checkMark = document.getElementById('check-mark');
@@ -688,8 +687,6 @@ function captcha() {
 
     localStorage.setItem(ip, JSON.stringify(ipData));
 }
-
-
 
     applyTranslations(detectLanguage());
 };
