@@ -12,20 +12,17 @@ async function checkIPRateLimit() {
         const currentTime = Date.now();
 
         if (!ipData.timestamp || (currentTime - ipData.timestamp) > RATE_LIMIT_DURATION) {
-            ipData = { failCount: 0, timestamp: currentTime };
-        }
-
-        // 检查failCount是否超过限制
-        if (ipData.failCount >= MAX_REQUESTS) {
-            return false; // 达到限制,不允许请求
-        }
+    ipData = { failCount: 0, timestamp: currentTime };
+    } else {
+            
+    }
 
         localStorage.setItem(ip, JSON.stringify(ipData));
 
-        return true; // 允许请求
+        return ipData.count <= MAX_REQUESTS;
     } catch (error) {
         console.error('Error checking IP rate limit:', error);
-        return true; // 出错时允许请求
+        return true; // Allow the request if there's an error
     }
 }
 
@@ -523,27 +520,28 @@ function captcha() {
         time: Date.now() - startTime
     });
 }
-    
-    function stopDragging() {
-    if (!isDragging) return;
-    isDragging = false;
 
-    const finalPosition = sliderHandle.offsetLeft;
-    if (Math.abs(finalPosition - piecePosition) < 5) {
-        if (isHumanLikeMovement()) {
-            // 成功的逻辑
-        } else {
-            document.getElementById('error-message').style.display = 'block';
-            changeImageAndPosition();
-            incrementFailCount(); // 添加这一行
-        }
+
+    function stopDragging() {
+        if (!isDragging) return;
+        isDragging = false;
+    
+        const finalPosition = sliderHandle.offsetLeft;
+        if (Math.abs(finalPosition - piecePosition) < 5) {
+    if (isHumanLikeMovement()) {
+        // 成功的逻辑
     } else {
         document.getElementById('error-message').style.display = 'block';
         changeImageAndPosition();
         incrementFailCount(); // 添加这一行
     }
+} else {
+    document.getElementById('error-message').style.display = 'block';
+    changeImageAndPosition();
+    incrementFailCount(); // 添加这一行
 }
 
+    }
 
     function showSuccessMessage() {
         const spinner = document.getElementById('loading-spinner');
