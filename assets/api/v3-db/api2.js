@@ -12,10 +12,10 @@ async function checkIPRateLimit() {
         const currentTime = Date.now();
 
         if (!ipData.timestamp || (currentTime - ipData.timestamp) > RATE_LIMIT_DURATION) {
-            ipData = { count: 1, timestamp: currentTime };
-        } else {
-            ipData.count++;
-        }
+    ipData = { failCount: 0, timestamp: currentTime };
+    } else {
+            
+    }
 
         localStorage.setItem(ip, JSON.stringify(ipData));
 
@@ -528,20 +528,19 @@ function captcha() {
     
         const finalPosition = sliderHandle.offsetLeft;
         if (Math.abs(finalPosition - piecePosition) < 5) {
-            if (isHumanLikeMovement()) {
-                showSuccessMessage();
-                Callback();
-                sliderCaptcha.style.display = 'none';
-                // submitButton.disabled = false;
-                document.addEventListener('visibilitychange', handleVisibilityChange);
-            } else {
-                document.getElementById('error-message').style.display = 'block';
-                changeImageAndPosition();
-            }
-        } else {
-            document.getElementById('error-message').style.display = 'block';
-            changeImageAndPosition();
-        }
+    if (isHumanLikeMovement()) {
+        // 成功的逻辑
+    } else {
+        document.getElementById('error-message').style.display = 'block';
+        changeImageAndPosition();
+        incrementFailCount(); // 添加这一行
+    }
+} else {
+    document.getElementById('error-message').style.display = 'block';
+    changeImageAndPosition();
+    incrementFailCount(); // 添加这一行
+}
+
     }
 
     function showSuccessMessage() {
@@ -668,6 +667,21 @@ function captcha() {
             console.error("Callback function not found.");
         }
     }, 700);
+}
+
+    async function incrementFailCount() {
+    const response = await fetch('https://ipapi.co/json/');
+    const data = await response.json();
+    const ip = data.ip;
+
+    let ipData = JSON.parse(localStorage.getItem(ip) || '{}');
+    ipData.failCount = (ipData.failCount || 0) + 1;
+    ipData.timestamp = Date.now();
+    localStorage.setItem(ip, JSON.stringify(ipData));
+
+    if (ipData.failCount >= MAX_REQUESTS) {
+        showRateLimitWarning();
+    }
 }
 
 
