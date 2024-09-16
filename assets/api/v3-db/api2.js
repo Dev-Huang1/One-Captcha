@@ -1,6 +1,6 @@
 // IP Rate Limit functionality
-const MAX_FAILURES = 5; // 最大失败次数
-const FAILURE_KEY = 'captcha_failures';
+const MAX_REQUESTS = 5; // Maximum number of requests allowed per hour
+const RATE_LIMIT_DURATION = 180000;
 
 async function checkIPRateLimit() {
     try {
@@ -12,13 +12,9 @@ async function checkIPRateLimit() {
         const currentTime = Date.now();
 
         if (!ipData.timestamp || (currentTime - ipData.timestamp) > RATE_LIMIT_DURATION) {
-            ipData = { count: 1, failures: 0, timestamp: currentTime };
+            ipData = { count: 1, timestamp: currentTime };
         } else {
             ipData.count++;
-        }
-
-        if (ipData.failures >= MAX_FAILURES) {
-            return false; // 触发滥用警告
         }
 
         localStorage.setItem(ip, JSON.stringify(ipData));
@@ -26,7 +22,7 @@ async function checkIPRateLimit() {
         return ipData.count <= MAX_REQUESTS;
     } catch (error) {
         console.error('Error checking IP rate limit:', error);
-        return true; // 允许请求，如果出现错误
+        return true; // Allow the request if there's an error
     }
 }
 
@@ -59,14 +55,13 @@ function showRateLimitWarning() {
             to { opacity: 0; }
         }
     `;
-    warningElement.textContent = '验证失败次数过多，请稍后再试。';
+    warningElement.textContent = 'You are abusing our service. Please try again later.';
     document.body.appendChild(warningElement);
 
     setTimeout(() => {
         warningElement.remove();
     }, 3000);
 }
-
 
 function captcha() {
     document.getElementById('one-captcha').innerHTML = `
@@ -421,7 +416,7 @@ function captcha() {
         this.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
         this.style.transform = 'scale(0)';
         this.style.opacity = '0';
-
+    
         setTimeout(() => {
             this.style.display = 'none';
             const spinner = document.getElementById('loading-spinner');
@@ -528,38 +523,26 @@ function captcha() {
 
 
     function stopDragging() {
-    if (!isDragging) return;
-    isDragging = false;
-
-    const finalPosition = sliderHandle.offsetLeft;
-    const ip = 'user-ip-address'; // 使用实际的IP地址获取方式
-
-    if (Math.abs(finalPosition - piecePosition) < 5) {
-        if (isHumanLikeMovement()) {
-            showSuccessMessage();
-            Callback();
-            sliderCaptcha.style.display = 'none';
-            // submitButton.disabled = false;
-            document.addEventListener('visibilitychange', handleVisibilityChange);
+        if (!isDragging) return;
+        isDragging = false;
+    
+        const finalPosition = sliderHandle.offsetLeft;
+        if (Math.abs(finalPosition - piecePosition) < 5) {
+            if (isHumanLikeMovement()) {
+                showSuccessMessage();
+                Callback();
+                sliderCaptcha.style.display = 'none';
+                // submitButton.disabled = false;
+                document.addEventListener('visibilitychange', handleVisibilityChange);
+            } else {
+                document.getElementById('error-message').style.display = 'block';
+                changeImageAndPosition();
+            }
         } else {
             document.getElementById('error-message').style.display = 'block';
             changeImageAndPosition();
-            // 增加失败计数
-            let ipData = JSON.parse(localStorage.getItem(ip) || '{}');
-            ipData.failures = (ipData.failures || 0) + 1;
-            localStorage.setItem(ip, JSON.stringify(ipData));
         }
-    } else {
-        document.getElementById('error-message').style.display = 'block';
-        changeImageAndPosition();
-        // 增加失败计数
-        let ipData = JSON.parse(localStorage.getItem(ip) || '{}');
-        ipData.failures = (ipData.failures || 0) + 1;
-        localStorage.setItem(ip, JSON.stringify(ipData));
     }
-}
-
-
 
     function showSuccessMessage() {
         const spinner = document.getElementById('loading-spinner');
@@ -630,8 +613,6 @@ function captcha() {
 
     return isUneven;
 }
-
-
     function changeImageAndPosition() {
         const puzzleHole = document.getElementById('puzzle-hole');
         if (puzzleHole) {
@@ -688,6 +669,7 @@ function captcha() {
         }
     }, 700);
 }
+
 
     applyTranslations(detectLanguage());
 };
