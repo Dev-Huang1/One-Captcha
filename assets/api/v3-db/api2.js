@@ -3,7 +3,6 @@ const MAX_REQUESTS = 5; // Maximum number of requests allowed per hour
 const RATE_LIMIT_DURATION = 180000;
 
 async function checkIPRateLimit() {
-async function checkIPRateLimit() {
     try {
         const response = await fetch('https://ipapi.co/json/');
         const data = await response.json();
