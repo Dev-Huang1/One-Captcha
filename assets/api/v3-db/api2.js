@@ -1,6 +1,6 @@
 // IP Rate Limit functionality
-const MAX_REQUESTS = 5; // Maximum number of requests allowed per hour
-const RATE_LIMIT_DURATION = 180000;
+const MAX_FAILURES = 5; // 最大失败次数
+const FAILURE_KEY = 'captcha_failures';
 
 async function checkIPRateLimit() {
     try {
@@ -12,17 +12,18 @@ async function checkIPRateLimit() {
         const currentTime = Date.now();
 
         if (!ipData.timestamp || (currentTime - ipData.timestamp) > RATE_LIMIT_DURATION) {
-            ipData = { count: 1, timestamp: currentTime };
-        } else {
-            ipData.count++;
+            ipData = { failures: 0, timestamp: currentTime };
+        }
+
+        if (ipData.failures >= MAX_FAILURES) {
+            return false; // 超过最大失败次数，禁止验证
         }
 
         localStorage.setItem(ip, JSON.stringify(ipData));
-
-        return ipData.count <= MAX_REQUESTS;
+        return true;
     } catch (error) {
         console.error('Error checking IP rate limit:', error);
-        return true; // Allow the request if there's an error
+        return true; // 如果有错误，则允许请求
     }
 }
 
@@ -55,13 +56,14 @@ function showRateLimitWarning() {
             to { opacity: 0; }
         }
     `;
-    warningElement.textContent = 'You are abusing our service. Please try again later.';
+    warningElement.textContent = '验证失败次数过多，请稍后再试。';
     document.body.appendChild(warningElement);
 
     setTimeout(() => {
         warningElement.remove();
     }, 3000);
 }
+
 
 function captcha() {
     document.getElementById('one-captcha').innerHTML = `
@@ -523,26 +525,24 @@ function captcha() {
 
 
     function stopDragging() {
-        if (!isDragging) return;
-        isDragging = false;
-    
-        const finalPosition = sliderHandle.offsetLeft;
-        if (Math.abs(finalPosition - piecePosition) < 5) {
-            if (isHumanLikeMovement()) {
-                showSuccessMessage();
-                Callback();
-                sliderCaptcha.style.display = 'none';
-                // submitButton.disabled = false;
-                document.addEventListener('visibilitychange', handleVisibilityChange);
-            } else {
-                document.getElementById('error-message').style.display = 'block';
-                changeImageAndPosition();
-            }
+    if (!isDragging) return;
+    isDragging = false;
+
+    const finalPosition = sliderHandle.offsetLeft;
+    if (Math.abs(finalPosition - piecePosition) < 5) {
+        if (isHumanLikeMovement()) {
+            showSuccessMessage();
+            Callback();
+            sliderCaptcha.style.display = 'none';
+            document.addEventListener('visibilitychange', handleVisibilityChange);
         } else {
-            document.getElementById('error-message').style.display = 'block';
-            changeImageAndPosition();
+            handleVerificationFailure();
         }
+    } else {
+        handleVerificationFailure();
     }
+}
+
 
     function showSuccessMessage() {
         const spinner = document.getElementById('loading-spinner');
@@ -670,6 +670,21 @@ function captcha() {
             console.error("Callback function not found.");
         }
     }, 700);
+}
+
+    function handleVerificationFailure() {
+    document.getElementById('error-message').style.display = 'block';
+    changeImageAndPosition();
+
+    // 更新失败次数
+    const ip = localStorage.getItem('ip'); // 需要确保IP获取逻辑正确
+    let ipData = JSON.parse(localStorage.getItem(ip) || '{}');
+    ipData.failures = (ipData.failures || 0) + 1;
+    localStorage.setItem(ip, JSON.stringify(ipData));
+
+    if (ipData.failures >= MAX_FAILURES) {
+        showRateLimitWarning();
+    }
 }
 
 
