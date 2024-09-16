@@ -14,7 +14,7 @@ async function checkIPRateLimit() {
         if (!ipData.timestamp || (currentTime - ipData.timestamp) > RATE_LIMIT_DURATION) {
     ipData = { failCount: 0, timestamp: currentTime };
     } else {
-            
+            ipData.failCount++;
     }
 
         localStorage.setItem(ip, JSON.stringify(ipData));
