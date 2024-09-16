@@ -569,29 +569,50 @@ function captcha() {
     }
 
     function isHumanLikeMovement() {
-        if (movements.length < 5) return false;
+    if (movements.length < 5) return false;
 
-        let isUneven = false;
-        let prevSpeed = null;
-
-        for (let i = 1; i < movements.length; i++) {
-            const dx = movements[i].x - movements[i-1].x;
-            const dt = movements[i].time - movements[i-1].time;
-            const speed = Math.abs(dx / dt);
-
-            if (prevSpeed !== null) {
-                if (Math.abs(speed - prevSpeed) > 0.1) {
-                    isUneven = true;
-                    break;
-                }
-            }
-
-            prevSpeed = speed;
-        }
-
-        return isUneven;
+    const speeds = [];
+    let prevSpeed = null;
+    
+    // 计算每次移动的速度
+    for (let i = 1; i < movements.length; i++) {
+        const dx = movements[i].x - movements[i-1].x;
+        const dt = movements[i].time - movements[i-1].time;
+        if (dt <= 0) continue; // 忽略无效的时间间隔
+        const speed = Math.abs(dx / dt);
+        speeds.push(speed);
     }
 
+    // 如果速度计算不到
+    if (speeds.length < 2) return false;
+
+    // 计算速度的平均值和标准差
+    const meanSpeed = speeds.reduce((sum, s) => sum + s, 0) / speeds.length;
+    const variance = speeds.reduce((sum, s) => sum + Math.pow(s - meanSpeed, 2), 0) / speeds.length;
+    const stdDeviation = Math.sqrt(variance);
+
+    // 定义标准差阈值
+    const stdDeviationThreshold = 0.2; // 可调整
+
+    // 如果标准差超过阈值，则认为运动不自然
+    if (stdDeviation > stdDeviationThreshold) {
+        return true;
+    }
+
+    // 计算速度的加速度
+    let prevAcceleration = null;
+    for (let i = 1; i < speeds.length; i++) {
+        const acceleration = speeds[i] - speeds[i-1];
+        if (prevAcceleration !== null) {
+            if (Math.abs(acceleration - prevAcceleration) > 0.2) { // 可调整
+                return true;
+            }
+        }
+        prevAcceleration = acceleration;
+    }
+
+    return isUneven;
+}
     function changeImageAndPosition() {
         const puzzleHole = document.getElementById('puzzle-hole');
         if (puzzleHole) {
