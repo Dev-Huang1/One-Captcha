@@ -12,18 +12,21 @@ async function checkIPRateLimit() {
         const currentTime = Date.now();
 
         if (!ipData.timestamp || (currentTime - ipData.timestamp) > RATE_LIMIT_DURATION) {
-            ipData = { failures: 0, timestamp: currentTime };
+            ipData = { count: 1, failures: 0, timestamp: currentTime };
+        } else {
+            ipData.count++;
         }
 
         if (ipData.failures >= MAX_FAILURES) {
-            return false; // 超过最大失败次数，禁止验证
+            return false; // 触发滥用警告
         }
 
         localStorage.setItem(ip, JSON.stringify(ipData));
-        return true;
+
+        return ipData.count <= MAX_REQUESTS;
     } catch (error) {
         console.error('Error checking IP rate limit:', error);
-        return true; // 如果有错误，则允许请求
+        return true; // 允许请求，如果出现错误
     }
 }
 
@@ -418,16 +421,22 @@ function captcha() {
         this.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
         this.style.transform = 'scale(0)';
         this.style.opacity = '0';
-    
+
         setTimeout(() => {
             this.style.display = 'none';
             const spinner = document.getElementById('loading-spinner');
             spinner.style.display = 'inline-block';
             setTimeout(() => {
                 spinner.style.opacity = '1';
-                sliderCaptcha.style.opacity = '0';
-                sliderCaptcha.style.display = 'block';
-                showSliderCaptcha();
+                checkIPRateLimit().then(isAllowed => {
+                    if (!isAllowed) {
+                        this.checked = false;
+                        showRateLimitWarning();
+                        return;
+                    }
+                    sliderCaptcha.style.opacity = '0';
+                    sliderCaptcha.style.display = 'block';
+                    showSliderCaptcha();
                 });
             }, 50);
         }, 300);
@@ -523,19 +532,33 @@ function captcha() {
     isDragging = false;
 
     const finalPosition = sliderHandle.offsetLeft;
+    const ip = 'user-ip-address'; // 使用实际的IP地址获取方式
+
     if (Math.abs(finalPosition - piecePosition) < 5) {
         if (isHumanLikeMovement()) {
             showSuccessMessage();
             Callback();
             sliderCaptcha.style.display = 'none';
+            // submitButton.disabled = false;
             document.addEventListener('visibilitychange', handleVisibilityChange);
         } else {
-            handleVerificationFailure();
+            document.getElementById('error-message').style.display = 'block';
+            changeImageAndPosition();
+            // 增加失败计数
+            let ipData = JSON.parse(localStorage.getItem(ip) || '{}');
+            ipData.failures = (ipData.failures || 0) + 1;
+            localStorage.setItem(ip, JSON.stringify(ipData));
         }
     } else {
-        handleVerificationFailure();
+        document.getElementById('error-message').style.display = 'block';
+        changeImageAndPosition();
+        // 增加失败计数
+        let ipData = JSON.parse(localStorage.getItem(ip) || '{}');
+        ipData.failures = (ipData.failures || 0) + 1;
+        localStorage.setItem(ip, JSON.stringify(ipData));
     }
 }
+
 
 
     function showSuccessMessage() {
@@ -665,22 +688,6 @@ function captcha() {
         }
     }, 700);
 }
-
-    function handleVerificationFailure() {
-    document.getElementById('error-message').style.display = 'block';
-    changeImageAndPosition();
-
-    // 更新失败次数
-    const ip = localStorage.getItem('ip'); // 需要确保IP获取逻辑正确
-    let ipData = JSON.parse(localStorage.getItem(ip) || '{}');
-    ipData.failures = (ipData.failures || 0) + 1;
-    localStorage.setItem(ip, JSON.stringify(ipData));
-
-    if (ipData.failures >= MAX_FAILURES) {
-        showRateLimitWarning();
-    }
-}
-
 
     applyTranslations(detectLanguage());
 };
