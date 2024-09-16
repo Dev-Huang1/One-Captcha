@@ -569,28 +569,62 @@ function captcha() {
     }
 
     function isHumanLikeMovement() {
-        if (movements.length < 5) return false;
+    if (movements.length < 5) return false;
 
-        let isUneven = false;
-        let prevSpeed = null;
+    let isUneven = false;
+    let prevSpeed = null;
+    let speedChanges = 0;
+    let totalPause = 0;
+    let lastTime = movements[0].time;
 
-        for (let i = 1; i < movements.length; i++) {
-            const dx = movements[i].x - movements[i-1].x;
-            const dt = movements[i].time - movements[i-1].time;
-            const speed = Math.abs(dx / dt);
+    for (let i = 1; i < movements.length; i++) {
+        const dx = movements[i].x - movements[i-1].x;
+        const dt = movements[i].time - movements[i-1].time;
+        const speed = Math.abs(dx / dt);
 
-            if (prevSpeed !== null) {
-                if (Math.abs(speed - prevSpeed) > 0.1) {
-                    isUneven = true;
-                    break;
-                }
+        // 检测暂停
+        if (movements[i].time - lastTime > 50) {
+            totalPause += movements[i].time - lastTime;
+        }
+        lastTime = movements[i].time;
+
+        // 检测速度变化
+        if (prevSpeed !== null) {
+            const speedDiff = Math.abs(speed - prevSpeed);
+            if (speedDiff > 0.1) {
+                speedChanges++;
             }
-
-            prevSpeed = speed;
         }
 
-        return isUneven;
+        prevSpeed = speed;
+
+        // 检测不均匀移动
+        if (i > 1) {
+            const prevDx = movements[i-1].x - movements[i-2].x;
+            if (Math.abs(dx - prevDx) > 2) {
+                isUneven = true;
+            }
+        }
     }
+
+    // 计算总时间和平均速度
+    const totalTime = movements[movements.length - 1].time - movements[0].time;
+    const totalDistance = movements[movements.length - 1].x - movements[0].x;
+    const avgSpeed = totalDistance / totalTime;
+
+    // 新的判断条件
+    const isHumanLike = isUneven 
+        && speedChanges >= 3 
+        && totalPause > 100 
+        && totalPause < totalTime * 0.5 
+        && avgSpeed > 0.1 
+        && avgSpeed < 2;
+
+    // 添加随机因素
+    const randomFactor = Math.random();
+    return isHumanLike && randomFactor > 0.1; // 90% 的概率返回 true
+}
+
 
     function changeImageAndPosition() {
         const puzzleHole = document.getElementById('puzzle-hole');
