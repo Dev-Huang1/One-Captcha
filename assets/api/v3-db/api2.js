@@ -524,8 +524,7 @@ function captcha() {
         time: Date.now() - startTime
     });
 }
-
-    function stopDragging() {
+    
     function stopDragging() {
     if (!isDragging) return;
     isDragging = false;
