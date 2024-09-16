@@ -1,6 +1,7 @@
 // IP Rate Limit functionality
 const MAX_REQUESTS = 5; // Maximum number of requests allowed per hour
 const RATE_LIMIT_DURATION = 180000;
+const MAX_FAIL_ATTEMPTS = 5;
 
 async function checkIPRateLimit() {
     try {
@@ -16,7 +17,7 @@ async function checkIPRateLimit() {
         }
 
         // 检查failCount是否超过限制
-        if (ipData.failCount >= MAX_REQUESTS) {
+        if (ipData.failCount >= MAX_FAIL_ATTEMPTS) {
             return false; // 达到限制,不允许请求
         }
 
@@ -28,7 +29,6 @@ async function checkIPRateLimit() {
         return true; // 出错时允许请求
     }
 }
-
 
 function showRateLimitWarning() {
     const loadingSpinner = document.getElementById('loading-spinner');
@@ -526,22 +526,24 @@ function captcha() {
 }
 
     function stopDragging() {
+    function stopDragging() {
     if (!isDragging) return;
     isDragging = false;
 
     const finalPosition = sliderHandle.offsetLeft;
     if (Math.abs(finalPosition - piecePosition) < 5) {
         if (isHumanLikeMovement()) {
-            // 成功的逻辑
+            showSuccessMessage();
+            sliderCaptcha.style.display = 'none';
         } else {
             document.getElementById('error-message').style.display = 'block';
             changeImageAndPosition();
-            incrementFailCount(); // 添加这一行
+            incrementFailCount();
         }
     } else {
         document.getElementById('error-message').style.display = 'block';
         changeImageAndPosition();
-        incrementFailCount(); // 添加这一行
+        incrementFailCount();
     }
 }
 
@@ -671,21 +673,29 @@ function captcha() {
     }, 700);
 }
 
-    async function incrementFailCount() {
-    const response = await fetch('https://ipapi.co/json/');
-    const data = await response.json();
-    const ip = data.ip;
-
+    function incrementFailCount() {
+    const ip = JSON.parse(localStorage.getItem('ipData')).ip;
     let ipData = JSON.parse(localStorage.getItem(ip) || '{}');
     ipData.failCount = (ipData.failCount || 0) + 1;
-    ipData.timestamp = Date.now();
     localStorage.setItem(ip, JSON.stringify(ipData));
 
-    if (ipData.failCount >= MAX_REQUESTS) {
+    if (ipData.failCount >= MAX_FAIL_ATTEMPTS) {
         showRateLimitWarning();
+        closeSliderCaptcha();
     }
 }
 
+    function closeSliderCaptcha() {
+    sliderCaptcha.style.display = 'none';
+    verifyCheckbox.checked = false;
+    verifyCheckbox.style.display = 'inline-block';
+    verifyCheckbox.style.transform = 'scale(1)';
+    verifyCheckbox.style.opacity = '1';
+    document.getElementById('loading-spinner').style.display = 'none';
+    document.getElementById('captcha-label').style.display = 'inline-block';
+    document.getElementById('success-message').style.display = 'none';
+    }
+    
 
     applyTranslations(detectLanguage());
 };
