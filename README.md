@@ -40,6 +40,21 @@
 
 ## How to use
 
+**Add the following code inside the <head> tag of your HTML:**
+
+```html
+<script src="https://onecaptcha.us.kg/assets/api/v3-db/api.js"></script>
+```
+
+**Then, add the following code where you need to add the CAPTCHA:**
+
+```html
+<div id="one-captcha" data-callback="Your Callback Function"></div>
+```
+
+**Please note that data-callback is the function to be executed after successful validation.**
+
+**For example, if your execution function is "CaptchaSuccess()", then please write "CaptchaSuccess" (without brackets) into data-callback.**
 
 
 ## Contributors
