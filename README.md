@@ -87,6 +87,6 @@
 
 **If you have any questions or suggestions, please contact me by emailing me to ask an issue or submit a request.**
 
-E-mail:
+**E-mail:**
 **evan.huang000@outlook.com**
 **evan.huang000@proton.me**
