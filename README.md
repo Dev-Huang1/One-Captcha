@@ -18,7 +18,7 @@
 
 </div>
 
-🤖 **A free human-machine verification product project that is secure and privacy-protecting.**
+🤖 **A free human-machine verification product project that is secure and privacy-protecting.** 🎉🔥
 
 - **⭐ GDPR compliant**
 - **⭐ Written in JavaScript, easy to understand**
