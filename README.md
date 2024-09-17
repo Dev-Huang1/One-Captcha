@@ -45,7 +45,7 @@
 
 ![Success](assets/Preview-Success.png)
 
-## How to use
+## Quick start
 
 **Add the following code inside the <head> tag of your HTML:**
 
