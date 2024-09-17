@@ -45,7 +45,7 @@
 
 ![Success](assets/Preview-Success.png)
 
-## Quick start
+## Quick Start
 
 **Add the following code inside the <head> tag of your HTML:**
 
