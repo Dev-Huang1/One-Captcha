@@ -63,6 +63,13 @@
 
 **For example, if your execution function is "CaptchaSuccess()", then please write "CaptchaSuccess" (without brackets) into data-callback.**
 
+## Project Structure
+
+> - `assets`: Assets Folder
+>     - `api`: The folder where the version of the API is stored
+>     - `logo`: Folder where LOGO images are stored
+>     - `v3`: The folder where the images of the sliding verification code of version v3 are stored
+> - `demo`: Demo Folder
 
 ## Contributors
 
