@@ -20,6 +20,13 @@
 
 🤖 **A free human-machine verification product project that is secure and privacy-protecting.**
 
+- **GDPR compliant**
+- **Written in JavaScript, easy to understand**
+- **Mobile friendly**
+- **No third-party services**
+- **Open Source**
+- **End-to-end encryption**
+
 ## Preview
 
 **Light Mode**
