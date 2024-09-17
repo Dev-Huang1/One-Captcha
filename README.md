@@ -38,6 +38,10 @@
 
 ![Success](assets/Preview-Success.png)
 
+## How to use
+
+
+
 ## Contributors
 
 ![Contributors](https://opencollective.com/One-Captcha/contributors.svg?width=890&button=false)
