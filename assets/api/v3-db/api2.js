@@ -668,6 +668,7 @@ function captcha() {
     }
 
     function resetCaptcha() {
+        ErrorCallback();
         verifyCheckbox.checked = false;
         verifyCheckbox.style.display = 'inline-block';
         document.getElementById('captcha-label').style.display = 'inline-block';
@@ -677,7 +678,6 @@ function captcha() {
         sliderCaptcha.style.display = 'none';
         resetSlider();
         changeImageAndPosition();
-        ErrorCallback();
         document.removeEventListener('visibilitychange', handleVisibilityChange);
     }
 
