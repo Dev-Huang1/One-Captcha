@@ -521,6 +521,29 @@ function captcha() {
     });
 }
 
+    function Callback() {
+    var captchaElement = document.getElementById('one-captcha');
+    var callbackFunctionName = captchaElement.getAttribute('data-callback');
+    
+    setTimeout(function() {
+        if (typeof window[callbackFunctionName] === 'function') {
+            window[callbackFunctionName]("Verification passed");
+        } else {
+            console.error("Callback function not found.");
+        }
+    }, 700);
+}
+
+    function ErrorCallback() {
+    var captchaElement = document.getElementById('one-captcha');
+    var callbackFunctionName = captchaElement.getAttribute('error-callback');
+    
+    setTimeout(function() {
+        if (typeof window[callbackFunctionName] === 'function') {
+            window[callbackFunctionName]("Error is passed");
+        }
+    }, 500);
+}
 
     function stopDragging() {
         if (!isDragging) return;
@@ -656,30 +679,6 @@ function captcha() {
         changeImageAndPosition();
         ErrorCallback();
         document.removeEventListener('visibilitychange', handleVisibilityChange);
-    }
-
-    function Callback() {
-    var captchaElement = document.getElementById('one-captcha');
-    var callbackFunctionName = captchaElement.getAttribute('data-callback');
-    
-    setTimeout(function() {
-        if (typeof window[callbackFunctionName] === 'function') {
-            window[callbackFunctionName]("Verification passed");
-        } else {
-            console.error("Callback function not found.");
-        }
-    }, 700);
-}
-
-    function ErrorCallback() {
-    var captchaElement = document.getElementById('one-captcha');
-    var callbackFunctionName = captchaElement.getAttribute('error-callback');
-    
-    setTimeout(function() {
-        if (typeof window[callbackFunctionName] === 'function') {
-            window[callbackFunctionName]("Error is passed");
-        }
-    }, 500);
     }
 
     applyTranslations(detectLanguage());
