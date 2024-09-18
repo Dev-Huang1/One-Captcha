@@ -12,23 +12,19 @@ async function checkIPRateLimit() {
         const currentTime = Date.now();
 
         if (!ipData.timestamp || (currentTime - ipData.timestamp) > RATE_LIMIT_DURATION) {
-            ipData = { failCount: 0, timestamp: currentTime };
-        }
-
-        // 检查failCount是否超过限制
-        if (ipData.failCount >= MAX_REQUESTS) {
-            return false; // 达到限制,不允许请求
+            ipData = { count: 1, timestamp: currentTime };
+        } else {
+            ipData.count++;
         }
 
         localStorage.setItem(ip, JSON.stringify(ipData));
 
-        return true; // 允许请求
+        return ipData.count <= MAX_REQUESTS;
     } catch (error) {
         console.error('Error checking IP rate limit:', error);
-        return true; // 出错时允许请求
+        return true; // Allow the request if there's an error
     }
 }
-
 
 function showRateLimitWarning() {
     const loadingSpinner = document.getElementById('loading-spinner');
@@ -524,26 +520,29 @@ function captcha() {
         time: Date.now() - startTime
     });
 }
-    
-    function stopDragging() {
-    if (!isDragging) return;
-    isDragging = false;
 
-    const finalPosition = sliderHandle.offsetLeft;
-    if (Math.abs(finalPosition - piecePosition) < 5) {
-        if (isHumanLikeMovement()) {
-            // 成功的逻辑
+
+    function stopDragging() {
+        if (!isDragging) return;
+        isDragging = false;
+    
+        const finalPosition = sliderHandle.offsetLeft;
+        if (Math.abs(finalPosition - piecePosition) < 5) {
+            if (isHumanLikeMovement()) {
+                showSuccessMessage();
+                Callback();
+                sliderCaptcha.style.display = 'none';
+                // submitButton.disabled = false;
+                document.addEventListener('visibilitychange', handleVisibilityChange);
+            } else {
+                document.getElementById('error-message').style.display = 'block';
+                changeImageAndPosition();
+            }
         } else {
             document.getElementById('error-message').style.display = 'block';
             changeImageAndPosition();
-            incrementFailCount(); // 添加这一行
         }
-    } else {
-        document.getElementById('error-message').style.display = 'block';
-        changeImageAndPosition();
-        incrementFailCount(); // 添加这一行
     }
-}
 
     function showSuccessMessage() {
         const spinner = document.getElementById('loading-spinner');
@@ -651,11 +650,10 @@ function captcha() {
         document.getElementById('captcha-label').style.display = 'inline-block';
         document.getElementById('check-mark').style.display = 'none';
         document.getElementById('success-message').style.display = 'none';
-        // submitButton.disabled = true;
+        submitButton.disabled = true;
         sliderCaptcha.style.display = 'none';
         resetSlider();
         changeImageAndPosition();
-        ErrorCallback();
         document.removeEventListener('visibilitychange', handleVisibilityChange);
     }
 
@@ -671,34 +669,7 @@ function captcha() {
         }
     }, 700);
 }
-    
-    function ErrorCallback() {
-        var captchaElement = document.getElementById('one-captcha');
-        var callbackFunctionName = captchaElement.getAttribute('error-callback');
-    
-        setTimeout(function() {
-            if (typeof window[callbackFunctionName] === 'function') {
-                window[callbackFunctionName]("Verification passed");
-            } 
-        }, 700);
-    }
 
-    function incrementFailCount() {
-    const response = await fetch('https://ipapi.co/json/');
-    const data = await response.json();
-    const ip = data.ip;
-
-    let ipData = JSON.parse(localStorage.getItem(ip) || '{}');
-    
-    if (!ipData.failCount) {
-        ipData.failCount = 0;
-    }
-    
-    ipData.failCount++;
-    ipData.timestamp = Date.now();
-
-    localStorage.setItem(ip, JSON.stringify(ipData));
-}
 
     applyTranslations(detectLanguage());
 };
