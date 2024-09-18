@@ -4,15 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CAPTCHA Demo</title>
-    <script src="https://onecaptcha.us.kg/assets/api/v3-db/api.js"></script>
+    <script src="https://onecaptcha.us.kg/assets/api/v3-db/api2.js"></script>
 </head>
 <body>
-    <div id="one-captcha" data-callback="CaptchaSuccess"></div>
+    <div id="one-captcha" data-callback="CaptchaSuccess" error-callback="CaptchaError"></div>
 
     <script>
         function CaptchaSuccess() {
             alert('CAPTCHA verification successful!');
         };
+
+        function CaptchaError() {
+            alert("Error")
+        }
     </script>
 </body>
 </html>
