@@ -650,10 +650,11 @@ function captcha() {
         document.getElementById('captcha-label').style.display = 'inline-block';
         document.getElementById('check-mark').style.display = 'none';
         document.getElementById('success-message').style.display = 'none';
-        submitButton.disabled = true;
+        // submitButton.disabled = true;
         sliderCaptcha.style.display = 'none';
         resetSlider();
         changeImageAndPosition();
+        ErrorCallback();
         document.removeEventListener('visibilitychange', handleVisibilityChange);
     }
 
@@ -670,6 +671,16 @@ function captcha() {
     }, 700);
 }
 
+    function ErrorCallback() {
+    var captchaElement = document.getElementById('one-captcha');
+    var callbackFunctionName = captchaElement.getAttribute('error-callback');
+    
+    setTimeout(function() {
+        if (typeof window[callbackFunctionName] === 'function') {
+            window[callbackFunctionName]("Error is passed");
+        }
+    }, 500);
+    }
 
     applyTranslations(detectLanguage());
 };
