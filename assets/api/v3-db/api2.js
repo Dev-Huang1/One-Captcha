@@ -1,5 +1,4 @@
-// IP Rate Limit functionality
-const MAX_REQUESTS = 5; // Maximum number of requests allowed per hour
+const MAX_REQUESTS = 5;
 const RATE_LIMIT_DURATION = 180000;
 
 async function checkIPRateLimit() {
@@ -22,7 +21,7 @@ async function checkIPRateLimit() {
         return ipData.count <= MAX_REQUESTS;
     } catch (error) {
         console.error('Error checking IP rate limit:', error);
-        return true; // Allow the request if there's an error
+        return true;
     }
 }
 
