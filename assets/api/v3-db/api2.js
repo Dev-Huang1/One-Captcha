@@ -657,19 +657,34 @@ function captcha() {
         document.removeEventListener('visibilitychange', handleVisibilityChange);
     }
 
-    function Callback() {
-    var captchaElement = document.getElementById('one-captcha');
-    var callbackFunctionName = captchaElement.getAttribute('data-callback');
-    
-    setTimeout(function() {
-        if (typeof window[callbackFunctionName] === 'function') {
-            window[callbackFunctionName]("Verification passed");
-        } else {
-            console.error("Callback function not found.");
-        }
-    }, 700);
+    function generateToken() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let token = '';
+    for (let i = 0; i < 150; i++) {
+        token += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return token;
 }
 
+function setCookie(name, value, seconds) {
+    let expires = "";
+    if (seconds) {
+        const date = new Date();
+        date.setTime(date.getTime() + (seconds * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
+
+function Callback() {
+    const token = generateToken();
+
+    if (typeof window['dataCallback'] === 'function') {
+        window['dataCallback'](token);
+    }
+
+    setCookie('captchaToken', token, 15);
+}
 
     applyTranslations(detectLanguage());
 };
