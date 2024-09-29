@@ -679,11 +679,13 @@ function setCookie(name, value, seconds) {
 function Callback() {
     const token = generateToken();
 
-    if (typeof window['dataCallback'] === 'function') {
-        window['dataCallback'](token);
-    }
+    if (typeof window[callbackFunctionName] === 'function') {
+            window[callbackFunctionName](token);
+        } else {
+            console.error("Callback function not found.");
+        }
 
-    setCookie('captchaToken', token, 15);
+    setCookie('OneCaptchaToken', token, 15);
 }
 
     applyTranslations(detectLanguage());
