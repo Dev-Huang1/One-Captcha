@@ -681,14 +681,17 @@ function Callback() {
     var captchaElement = document.getElementById('one-captcha');
     var callbackFunctionName = captchaElement.getAttribute('data-callback');
 
-    if (typeof window[callbackFunctionName] === 'function') {
+    setTimeout(() => {
+        if (typeof window[callbackFunctionName] === 'function') {
             window[callbackFunctionName](token);
         } else {
             console.error("Callback function not found.");
         }
+    }, 500);
 
     setCookie('OneCaptchaToken', token, 15);
 }
+
 
     applyTranslations(detectLanguage());
 };
