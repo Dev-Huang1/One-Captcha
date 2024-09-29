@@ -1,5 +1,5 @@
-
-const MAX_REQUESTS = 5;
+// IP Rate Limit functionality
+const MAX_REQUESTS = 5; // Maximum number of requests allowed per hour
 const RATE_LIMIT_DURATION = 180000;
 
 async function checkIPRateLimit() {
@@ -22,7 +22,7 @@ async function checkIPRateLimit() {
         return ipData.count <= MAX_REQUESTS;
     } catch (error) {
         console.error('Error checking IP rate limit:', error);
-        return true;
+        return true; // Allow the request if there's an error
     }
 }
 
@@ -521,38 +521,6 @@ function captcha() {
     });
 }
 
-    function Callback() {
-    var captchaElement = document.getElementById('one-captcha');
-    var callbackFunctionName = captchaElement.getAttribute('data-callback');
-    
-    // 生成一个新的 token
-    const token = generateToken(); 
-
-    // 将 token 存入 cookie
-    document.cookie = `captchaToken=${token}; path=/; max-age=3600`; // 1小时有效
-
-    // 发送 token 到 data-callback 的 URL
-    if (typeof window[callbackFunctionName] === 'function') {
-        window[callbackFunctionName]({ status: "success", token: token });
-    } else {
-        console.error("Callback function not found.");
-    }
-}
-
-function generateToken() {
-    return Math.random().toString(36).substr(2); 
-}
-
-    function ErrorCallback() {
-    var captchaElement = document.getElementById('one-captcha');
-    var callbackFunctionName = captchaElement.getAttribute('error-callback');
-    
-    setTimeout(function() {
-        if (typeof window[callbackFunctionName] === 'function') {
-            window[callbackFunctionName]("Error is passed");
-        }
-    }, 500);
-}
 
     function stopDragging() {
         if (!isDragging) return;
@@ -677,18 +645,31 @@ function generateToken() {
     }
 
     function resetCaptcha() {
-        ErrorCallback();
         verifyCheckbox.checked = false;
         verifyCheckbox.style.display = 'inline-block';
         document.getElementById('captcha-label').style.display = 'inline-block';
         document.getElementById('check-mark').style.display = 'none';
         document.getElementById('success-message').style.display = 'none';
-        // submitButton.disabled = true;
+        submitButton.disabled = true;
         sliderCaptcha.style.display = 'none';
         resetSlider();
         changeImageAndPosition();
         document.removeEventListener('visibilitychange', handleVisibilityChange);
     }
+
+    function Callback() {
+    var captchaElement = document.getElementById('one-captcha');
+    var callbackFunctionName = captchaElement.getAttribute('data-callback');
+    
+    setTimeout(function() {
+        if (typeof window[callbackFunctionName] === 'function') {
+            window[callbackFunctionName]("Verification passed");
+        } else {
+            console.error("Callback function not found.");
+        }
+    }, 700);
+}
+
 
     applyTranslations(detectLanguage());
 };
