@@ -11,8 +11,24 @@
 
     <script>
         function CaptchaSuccess(token) {
-            alert(token);
-        };
+    // 获取名为 'OneCaptchaToken' 的 cookie 值
+    function getTokenCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+    // 获取 OneCaptchaToken 的 cookie
+    const cookieToken = getCookie('OneCaptchaToken');
+
+    // 比较 token 和 cookieToken 是否相同
+    if (token === cookieToken) {
+        alert('Token matches the cookie!');
+    } else {
+        alert('Token does not match the cookie.');
+    }
+}
+
 
         function CaptchaError() {
             alert('Error');
