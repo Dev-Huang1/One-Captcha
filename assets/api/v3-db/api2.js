@@ -678,6 +678,8 @@ function setCookie(name, value, seconds) {
 
 function Callback() {
     const token = generateToken();
+    var captchaElement = document.getElementById('one-captcha');
+    var callbackFunctionName = captchaElement.getAttribute('data-callback');
 
     if (typeof window[callbackFunctionName] === 'function') {
             window[callbackFunctionName](token);
