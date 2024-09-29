@@ -10,8 +10,8 @@
     <div id="one-captcha" data-callback="CaptchaSuccess" error-callback="CaptchaError"></div>
 
     <script>
-        function CaptchaSuccess() {
-            alert('CAPTCHA verification successful!');
+        function CaptchaSuccess(token) {
+            alert(token);
         };
 
         function CaptchaError() {
