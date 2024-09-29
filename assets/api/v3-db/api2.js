@@ -1,4 +1,4 @@
-
+// Limiting abuse to prevent unlimited attempts is still under testing
 const MAX_REQUESTS = 5; // Maximum number of requests allowed per hour
 const RATE_LIMIT_DURATION = 180000;
 
