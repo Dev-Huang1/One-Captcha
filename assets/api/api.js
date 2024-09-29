@@ -1,3 +1,68 @@
+// Limiting abuse to prevent unlimited attempts is still under testing
+const MAX_REQUESTS = 5; // Maximum number of requests allowed per hour
+const RATE_LIMIT_DURATION = 180000;
+
+async function checkIPRateLimit() {
+    try {
+        const response = await fetch('https://ipapi.co/json/');
+        const data = await response.json();
+        const ip = data.ip;
+
+        let ipData = JSON.parse(localStorage.getItem(ip) || '{}');
+        const currentTime = Date.now();
+
+        if (!ipData.timestamp || (currentTime - ipData.timestamp) > RATE_LIMIT_DURATION) {
+            ipData = { count: 1, timestamp: currentTime };
+        } else {
+            ipData.count++;
+        }
+
+        localStorage.setItem(ip, JSON.stringify(ipData));
+
+        return ipData.count <= MAX_REQUESTS;
+    } catch (error) {
+        console.error('Error checking IP rate limit:', error);
+        return true; // Allow the request if there's an error
+    }
+}
+
+function showRateLimitWarning() {
+    const loadingSpinner = document.getElementById('loading-spinner');
+    const spinnerRect = loadingSpinner.getBoundingClientRect();
+    
+    const warningElement = document.createElement('div');
+    warningElement.id = 'rate-limit-warning';
+    warningElement.style.cssText = `
+        position: absolute;
+        top: ${spinnerRect.bottom + window.scrollY}px;
+        left: ${spinnerRect.right + window.scrollX}px;
+        background-color: #ffffff;
+        color: #f44336;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        text-align: center;
+        font-family: Arial, sans-serif;
+        border: 1px solid #f44336;
+        animation: fadeIn 0.5s, fadeOut 0.5s 2s;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+    `;
+    warningElement.textContent = 'You are abusing our service. Please try again later.';
+    document.body.appendChild(warningElement);
+
+    setTimeout(() => {
+        warningElement.remove();
+    }, 3000);
+}
+
 function captcha() {
     document.getElementById('one-captcha').innerHTML = `
         <style>
@@ -295,8 +360,9 @@ function captcha() {
     const successMessage = document.getElementById('success-message');
     // const submitButton = document.getElementById('submit-button');
     const errorMessage = document.getElementById('error-message');
+    const rateLimitWarning = document.getElementById('rate-limit-warning');
 
-    const images = ['image1.jpeg', 'image2.jpeg', 'image3.jpg', 'img018.png', 'img072.jpg', 'img102.jpeg', 'img181.jpeg', 'img193.jpeg', 'img273.jpeg', 'img372.jpeg', 'img392.jpeg', 'img396.jpeg', 'img398.jpeg', 'img462.jpg', 'img482.jpeg', 'img492.jpeg', 'img592.jpg', 'img638.jpg', 'img639.jpeg', 'img639.jpg', 'img648.jpg', 'img657.jpeg', 'img857.jpeg', 'img928.jpeg'];
+    const images = ['image1.jpeg', 'image2.jpeg', 'image3.jpg', 'img018.png', 'img072.jpg', 'img102.jpeg', 'img181.jpeg', 'img193.jpeg', 'img273.jpeg', 'img372.jpeg', 'img392.jpeg', 'img398.jpeg', 'img462.jpg', 'img482.jpeg', 'img492.jpeg', 'img592.jpg', 'img638.jpg', 'img639.jpeg', 'img639.jpg', 'img648.jpg', 'img657.jpeg', 'img857.jpeg', 'img928.jpeg'];
     let currentImage;
     let piecePosition;
     let isDragging = false;
@@ -315,6 +381,7 @@ function captcha() {
             docsLink: "Docs",
             successMessage: "Success",
             errorMessage: "Verification failed. Please try again.",
+            //rateLimitWarning: 'You are abusing our service. Please try again later.',
         },
         zh: {
             captchaLabel: "我不是机器人",
@@ -324,6 +391,7 @@ function captcha() {
             docsLink: "文档",
             successMessage: "验证成功",
             errorMessage: "验证失败，请重试",
+            //rateLimitWarning: '检测到您正在滥用我们的服务，请稍候再试。',
         }
     };
 
@@ -338,35 +406,41 @@ function captcha() {
         document.getElementById('retry-button').textContent = translations[language].retryButton;
         document.getElementById('privacy-link').textContent = translations[language].privacyLink;
         document.getElementById('docs-link').textContent = translations[language].docsLink;
-        document.getElementById('submit-button').textContent = translations[language].submitButton;
+        // document.getElementById('submit-button').textContent = translations[language].submitButton;
         document.getElementById('error-message').textContent = translations[language].errorMessage;
+        //document.getElementById('rate-limit-warning').textContent = translations[language].rateLimitWarning;
     }
 
-    verifyCheckbox.addEventListener('change', function() {
+    verifyCheckbox.addEventListener('change', async function() {
     if (this.checked) {
         this.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
         this.style.transform = 'scale(0)';
         this.style.opacity = '0';
-
+    
         setTimeout(() => {
             this.style.display = 'none';
             const spinner = document.getElementById('loading-spinner');
             spinner.style.display = 'inline-block';
             setTimeout(() => {
                 spinner.style.opacity = '1';
-                // 重置 sliderCaptcha 的状态
-                sliderCaptcha.style.opacity = '0';
-                sliderCaptcha.style.display = 'block';
-                showSliderCaptcha();
-            }, 50);  // Slight delay to trigger the transition
+                checkIPRateLimit().then(isAllowed => {
+                    if (!isAllowed) {
+                        this.checked = false;
+                        showRateLimitWarning();
+                        return;
+                    }
+                    sliderCaptcha.style.opacity = '0';
+                    sliderCaptcha.style.display = 'block';
+                    showSliderCaptcha();
+                });
+            }, 50);
         }, 300);
     }
 });
 
-
     function showSliderCaptcha() {
     currentImage = images[Math.floor(Math.random() * images.length)];
-    puzzleImage.src = `/assets/v3/${currentImage}`;
+    puzzleImage.src = `https://onecaptcha.us.kg/assets/v3/${currentImage}`;
 
     puzzleImage.onload = () => {
         const pieceSize = 50;
@@ -495,29 +569,50 @@ function captcha() {
     }
 
     function isHumanLikeMovement() {
-        if (movements.length < 5) return false;
+    if (movements.length < 5) return false;
 
-        let isUneven = false;
-        let prevSpeed = null;
-
-        for (let i = 1; i < movements.length; i++) {
-            const dx = movements[i].x - movements[i-1].x;
-            const dt = movements[i].time - movements[i-1].time;
-            const speed = Math.abs(dx / dt);
-
-            if (prevSpeed !== null) {
-                if (Math.abs(speed - prevSpeed) > 0.1) {
-                    isUneven = true;
-                    break;
-                }
-            }
-
-            prevSpeed = speed;
-        }
-
-        return isUneven;
+    const speeds = [];
+    let prevSpeed = null;
+    
+    // 计算每次移动的速度
+    for (let i = 1; i < movements.length; i++) {
+        const dx = movements[i].x - movements[i-1].x;
+        const dt = movements[i].time - movements[i-1].time;
+        if (dt <= 0) continue; // 忽略无效的时间间隔
+        const speed = Math.abs(dx / dt);
+        speeds.push(speed);
     }
 
+    // 如果速度计算不到
+    if (speeds.length < 2) return false;
+
+    // 计算速度的平均值和标准差
+    const meanSpeed = speeds.reduce((sum, s) => sum + s, 0) / speeds.length;
+    const variance = speeds.reduce((sum, s) => sum + Math.pow(s - meanSpeed, 2), 0) / speeds.length;
+    const stdDeviation = Math.sqrt(variance);
+
+    // 定义标准差阈值
+    const stdDeviationThreshold = 0.2; // 可调整
+
+    // 如果标准差超过阈值，则认为运动不自然
+    if (stdDeviation > stdDeviationThreshold) {
+        return true;
+    }
+
+    // 计算速度的加速度
+    let prevAcceleration = null;
+    for (let i = 1; i < speeds.length; i++) {
+        const acceleration = speeds[i] - speeds[i-1];
+        if (prevAcceleration !== null) {
+            if (Math.abs(acceleration - prevAcceleration) > 0.2) { // 可调整
+                return true;
+            }
+        }
+        prevAcceleration = acceleration;
+    }
+
+    return isUneven;
+}
     function changeImageAndPosition() {
         const puzzleHole = document.getElementById('puzzle-hole');
         if (puzzleHole) {
@@ -562,17 +657,39 @@ function captcha() {
         document.removeEventListener('visibilitychange', handleVisibilityChange);
     }
 
-    function Callback() {
+    function generateToken() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let token = '';
+    for (let i = 0; i < 150; i++) {
+        token += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return token;
+}
+
+function setCookie(name, value, seconds) {
+    let expires = "";
+    if (seconds) {
+        const date = new Date();
+        date.setTime(date.getTime() + (seconds * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
+
+function Callback() {
+    const token = generateToken();
     var captchaElement = document.getElementById('one-captcha');
     var callbackFunctionName = captchaElement.getAttribute('data-callback');
-    
-    setTimeout(function() {
+
+    setTimeout(() => {
         if (typeof window[callbackFunctionName] === 'function') {
-            window[callbackFunctionName]("Verification passed");
+            window[callbackFunctionName](token);
         } else {
             console.error("Callback function not found.");
         }
-    }, 700);
+    }, 500);
+
+    setCookie('OneCaptchaToken', token, 15);
 }
 
 
