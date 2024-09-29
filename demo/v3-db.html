@@ -19,7 +19,7 @@
     }
 
     // 获取 OneCaptchaToken 的 cookie
-    const cookieToken = getCookie('OneCaptchaToken');
+    const cookieToken = getTokenCookie('OneCaptchaToken');
 
     // 比较 token 和 cookieToken 是否相同
     if (token === cookieToken) {
