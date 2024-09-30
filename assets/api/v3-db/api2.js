@@ -74,9 +74,6 @@ function captcha() {
             border: 1px solid #ccc;
             padding: 20px;
             /* margin: 50px 0; */
-            margin-left: 50px 0;
-            margin-top: 50px 0;
-            margin-bottom: 50px 0;
             text-align: left;
             box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.08);
             border-radius: 3px;
@@ -113,7 +110,7 @@ function captcha() {
             transform: translate(-50%, -50%) scale(1.2);
         }
         #captcha-label {
-            margin-right: 20px;
+            /* margin-right: 20px; */
         }
         #brand {
             font-weight: bold;
