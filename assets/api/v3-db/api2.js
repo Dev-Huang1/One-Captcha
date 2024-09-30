@@ -679,6 +679,7 @@ function captcha() {
         submitButton.disabled = true;
         sliderCaptcha.style.display = 'none';
         resetSlider();
+        ErrorCallback();
         changeImageAndPosition();
         document.removeEventListener('visibilitychange', handleVisibilityChange);
     }
@@ -717,6 +718,18 @@ function Callback() {
 
     setCookie('OneCaptchaToken', token, 15);
 }
+
+    function ErrorCallback() {
+    var captchaElement = document.getElementById('one-captcha');
+    var errorCallbackFunctionName = captchaElement.getAttribute('error-callback');
+
+        if (typeof window[errorCallbackFunctionName] === 'function') {
+            window[errorCallbackFunctionName];
+        } else {
+            console.error("Error Callback function not found.");
+        }
+
+    }
 
     applyTranslations(detectLanguage());
 };
