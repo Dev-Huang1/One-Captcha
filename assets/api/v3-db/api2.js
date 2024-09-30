@@ -400,7 +400,7 @@ function captcha() {
         verifyingText: "Verificando...",
         retryButton: "Reintentar",
         privacyLink: "Privacidad",
-        docsLink: "Documentos",
+        docsLink: "Docs",
         successMessage: "Éxito",
         errorMessage: "La verificación falló. Por favor, inténtelo de nuevo.",
     },
