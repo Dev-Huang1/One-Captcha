@@ -405,7 +405,7 @@ function captcha() {
         errorMessage: "La verificación falló. Por favor, inténtelo de nuevo.",
     },
     fr: { 
-        captchaLabel: "Je ne suis pas un robot",
+        captchaLabel: "Je suis humain",
         verifyingText: "Vérification...",
         retryButton: "Réessayer",
         privacyLink: "Confidentialité",
