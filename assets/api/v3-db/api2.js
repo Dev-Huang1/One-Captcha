@@ -397,7 +397,6 @@ function captcha() {
         }
     };
 
-    document.addEventListener('DOMContentLoaded', function() {
     const captchaElement = document.getElementById('one-captcha');
     const dataLang = captchaElement.getAttribute('data-lang');
 
