@@ -397,7 +397,14 @@ function captcha() {
         }
     };
 
+    document.addEventListener('DOMContentLoaded', function() {
+    const captchaElement = document.getElementById('one-captcha');
+    const dataLang = captchaElement.getAttribute('data-lang');
+
     function detectLanguage() {
+        if (dataLang) {
+            return dataLang;
+        }
         const userLang = navigator.language || navigator.userLanguage;
         if (userLang.startsWith('zh')) return 'zh';
         else return userLang.includes('zh') ? 'zh' : 'en';
@@ -408,9 +415,7 @@ function captcha() {
         document.getElementById('retry-button').textContent = translations[language].retryButton;
         document.getElementById('privacy-link').textContent = translations[language].privacyLink;
         document.getElementById('docs-link').textContent = translations[language].docsLink;
-        // document.getElementById('submit-button').textContent = translations[language].submitButton;
         document.getElementById('error-message').textContent = translations[language].errorMessage;
-        //document.getElementById('rate-limit-warning').textContent = translations[language].rateLimitWarning;
     }
 
     verifyCheckbox.addEventListener('change', async function() {
@@ -693,7 +698,6 @@ function Callback() {
 
     setCookie('OneCaptchaToken', token, 15);
 }
-
 
     applyTranslations(detectLanguage());
 };
