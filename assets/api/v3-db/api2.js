@@ -394,7 +394,25 @@ function captcha() {
             successMessage: "验证成功",
             errorMessage: "验证失败，请重试",
             //rateLimitWarning: '检测到您正在滥用我们的服务，请稍候再试。',
-        }
+        },
+        es: {
+        captchaLabel: "No soy un robot",
+        verifyingText: "Verificando...",
+        retryButton: "Reintentar",
+        privacyLink: "Privacidad",
+        docsLink: "Documentos",
+        successMessage: "Éxito",
+        errorMessage: "La verificación falló. Por favor, inténtelo de nuevo.",
+    },
+    fr: { 
+        captchaLabel: "Je ne suis pas un robot",
+        verifyingText: "Vérification...",
+        retryButton: "Réessayer",
+        privacyLink: "Confidentialité",
+        docsLink: "Docs",
+        successMessage: "Succès",
+        errorMessage: "Échec de la vérification. Veuillez réessayer.",
+    },
     };
 
     const captchaElement = document.getElementById('one-captcha');
@@ -406,6 +424,8 @@ function captcha() {
         }
         const userLang = navigator.language || navigator.userLanguage;
         if (userLang.startsWith('zh')) return 'zh';
+        else if (userLang.startsWith('es')) return 'es';
+        else if (userLang.startsWith('fr')) return 'fr';
         else return userLang.includes('zh') ? 'zh' : 'en';
     }
 
