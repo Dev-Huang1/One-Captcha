@@ -1,4 +1,6 @@
-// IP Rate Limit functionality
+// This is a test api
+
+// Limiting abuse to prevent unlimited attempts is still under testing
 const MAX_REQUESTS = 5; // Maximum number of requests allowed per hour
 const RATE_LIMIT_DURATION = 180000;
 
@@ -440,7 +442,7 @@ function captcha() {
 
     function showSliderCaptcha() {
     currentImage = images[Math.floor(Math.random() * images.length)];
-    puzzleImage.src = `/assets/v3/${currentImage}`;
+    puzzleImage.src = `https://onecaptcha.us.kg/assets/v3/${currentImage}`;
 
     puzzleImage.onload = () => {
         const pieceSize = 50;
@@ -657,17 +659,39 @@ function captcha() {
         document.removeEventListener('visibilitychange', handleVisibilityChange);
     }
 
-    function Callback() {
+    function generateToken() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let token = '';
+    for (let i = 0; i < 150; i++) {
+        token += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return token;
+}
+
+function setCookie(name, value, seconds) {
+    let expires = "";
+    if (seconds) {
+        const date = new Date();
+        date.setTime(date.getTime() + (seconds * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
+
+function Callback() {
+    const token = generateToken();
     var captchaElement = document.getElementById('one-captcha');
     var callbackFunctionName = captchaElement.getAttribute('data-callback');
-    
-    setTimeout(function() {
+
+    setTimeout(() => {
         if (typeof window[callbackFunctionName] === 'function') {
-            window[callbackFunctionName]("Verification passed");
+            window[callbackFunctionName](token);
         } else {
             console.error("Callback function not found.");
         }
-    }, 700);
+    }, 500);
+
+    setCookie('OneCaptchaToken', token, 15);
 }
 
 
