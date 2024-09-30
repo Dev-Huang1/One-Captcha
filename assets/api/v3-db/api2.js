@@ -66,9 +66,7 @@ function showRateLimitWarning() {
 }
 
 function captcha() {
-    const elements = document.querySelectorAll('.one-captcha');
-elements.forEach(element => {
-  element.innerHTML = `
+    document.getElementById('one-captcha').innerHTML = `
         <style>
         #captcha-container {
             width: 260px;
