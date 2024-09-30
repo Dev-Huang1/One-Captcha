@@ -408,7 +408,7 @@ function captcha() {
         captchaLabel: "Je suis humain",
         verifyingText: "Vérification...",
         retryButton: "Réessayer",
-        privacyLink: "Confidentialité",
+        privacyLink: "La vie privée",
         docsLink: "Docs",
         successMessage: "Succès",
         errorMessage: "Échec de la vérification. Veuillez réessayer.",
