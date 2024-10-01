@@ -423,7 +423,7 @@ function captcha() {
             errorMessage: "Verification failed. Please try again.",
             //rateLimitWarning: 'You are abusing our service. Please try again later.',
         },
-        zhcn: {
+        zh: {
             captchaLabel: "我不是机器人",
             verifyingText: "验证中...",
             //retryButton: "重试",
@@ -461,7 +461,7 @@ function captcha() {
             return dataLang;
         }
         const userLang = navigator.language || navigator.userLanguage;
-        if (userLang.startsWith('zh')) return 'zhcn';
+        if (userLang.startsWith('zh')) return 'zh';
         else if (userLang.startsWith('es')) return 'es';
         else if (userLang.startsWith('fr')) return 'fr';
         else return userLang.includes('zh') ? 'zh' : 'en';
