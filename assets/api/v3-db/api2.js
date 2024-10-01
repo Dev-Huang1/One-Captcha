@@ -734,7 +734,7 @@ function setCookie(name, value, seconds) {
         date.setTime(date.getTime() + (seconds * 1000));
         expires = "; expires=" + date.toUTCString();
     }
-    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    document.cookie = name + "=" + (value || "") + expires + "; path=/; domain=.onecaptcha.us.kg;";
 }
 
 function Callback() {
@@ -750,7 +750,7 @@ function Callback() {
         }
     }, 500);
 
-    setCookie('OneCaptchaToken', token, 15);
+    setCookie('OneCaptchaToken', token, 150);
 }
 
     applyTranslations(detectLanguage());
