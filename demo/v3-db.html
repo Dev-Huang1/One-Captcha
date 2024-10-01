@@ -8,6 +8,7 @@
 </head>
 <body>
     <div id="one-captcha" data-callback="CaptchaSuccess" data-lang="en" error-callback="CaptchaError"></div>
+    <p id="texttest">Test</p>
     
     <script>
         function CaptchaSuccess(token) {
@@ -31,7 +32,8 @@
 
 
         function CaptchaError() {
-            alert('Error');
+            const element = document.getElementById('text');
+            element.style.color = 'red'; 
         }
     </script>
 </body>
