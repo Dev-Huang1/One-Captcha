@@ -1,10 +1,20 @@
+// api/verify.js
 export default function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ message: 'Only POST requests are allowed' });
     }
 
     const { token } = req.body;
-    const cookieToken = req.headers.cookie
+    if (!token) {
+        return res.status(400).json({ message: 'Token is required' });
+    }
+
+    const cookieHeader = req.headers.cookie;
+    if (!cookieHeader) {
+        return res.status(400).json({ message: 'No cookies found' });
+    }
+
+    const cookieToken = cookieHeader
         .split('; ')
         .find(row => row.startsWith('OneCaptchaToken='))
         ?.split('=')[1];
