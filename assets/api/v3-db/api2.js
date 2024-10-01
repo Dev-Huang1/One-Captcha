@@ -1,7 +1,7 @@
 // This is a test api
 
 // Limiting abuse to prevent unlimited attempts is still under testing
-/* const MAX_REQUESTS = 5; // Maximum number of requests allowed per hour
+const MAX_REQUESTS = 5; // Maximum number of requests allowed per hour
 const RATE_LIMIT_DURATION = 180000;
 
 async function checkIPRateLimit() {
@@ -63,7 +63,7 @@ function showRateLimitWarning() {
     setTimeout(() => {
         warningElement.remove();
     }, 3000);
-} */
+} 
 
 function captcha() {
     document.getElementById('one-captcha').innerHTML = `
@@ -360,7 +360,6 @@ function captcha() {
     const sliderTrack = document.getElementById('slider-track');
     const retryButton = document.getElementById('retry-button');
     const successMessage = document.getElementById('success-message');
-    // const submitButton = document.getElementById('submit-button');
     const errorMessage = document.getElementById('error-message');
     const rateLimitWarning = document.getElementById('rate-limit-warning');
 
@@ -558,7 +557,6 @@ function captcha() {
                 showSuccessMessage();
                 Callback();
                 sliderCaptcha.style.display = 'none';
-                // submitButton.disabled = false;
                 document.addEventListener('visibilitychange', handleVisibilityChange);
             } else {
                 document.getElementById('error-message').style.display = 'block';
@@ -579,11 +577,11 @@ function captcha() {
         document.getElementById('success-message').style.display = 'inline-block';
     
         setTimeout(() => {
-            spinner.style.display = 'none'; // Hide the spinner
-            checkMark.style.display = 'inline-block'; // Show the check mark
+            spinner.style.display = 'none';
+            checkMark.style.display = 'inline-block';
             setTimeout(() => {
-                checkMark.style.opacity = '1'; // Fade in the check mark
-                checkMark.style.transform = 'scale(1)'; // Scale up the check mark
+                checkMark.style.opacity = '1';
+                checkMark.style.transform = 'scale(1)';
             }, 50);  
         }, 300);
     }
@@ -617,10 +615,8 @@ function captcha() {
     const variance = speeds.reduce((sum, s) => sum + Math.pow(s - meanSpeed, 2), 0) / speeds.length;
     const stdDeviation = Math.sqrt(variance);
 
-    // 定义标准差阈值
-    const stdDeviationThreshold = 0.2; // 可调整
-
-    // 如果标准差超过阈值，则认为运动不自然
+    const stdDeviationThreshold = 0.2;
+        
     if (stdDeviation > stdDeviationThreshold) {
         return true;
     }
