@@ -459,7 +459,6 @@ function captcha() {
                     showSliderCaptcha();
                 });
             }, 50);
-        }, 300);
     }
 });
 
