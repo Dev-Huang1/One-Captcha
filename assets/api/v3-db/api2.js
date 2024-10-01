@@ -145,20 +145,54 @@ function captcha() {
             margin: 0 3px;
         }
         #slider-captcha {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 12px;
-            overflow: hidden;
-            padding: 20px;
-            font-family: Arial, sans-serif;
-        }
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 300px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        overflow: hidden;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+    }
+    #slider-captcha-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid #e0e0e0;
+    }
+
+    #powered-by {
+        display: flex;
+        align-items: center;
+        font-size: 12px;
+        color: #888;
+    }
+
+    #powered-by img {
+        width: 16px;
+        height: 16px;
+        margin-right: 5px;
+    }
+
+    #slider-captcha-actions {
+        display: flex;
+        align-items: center;
+    }
+
+    #slider-captcha-actions img {
+        width: 16px;
+        height: 16px;
+        margin-left: 10px;
+        cursor: pointer;
+    }
+    
         #puzzle-container {
             width: 100%;
             height: 200px;
@@ -286,9 +320,17 @@ function captcha() {
             }
         
             #slider-captcha {
-                background-color: #2c2c2c;
-                border-color: #444;
-            }
+            background-color: #2c2c2c;
+            border-color: #444;
+        }
+
+        #slider-captcha-footer {
+            border-top-color: #444;
+        }
+
+        #powered-by {
+            color: #aaa;
+        }
         
             #slider {
                 background-color: #444;
@@ -339,17 +381,26 @@ function captcha() {
     </div>
 
     <div id="slider-captcha">
-        <div id="puzzle-container">
-            <img id="puzzle-image" src="" alt="img">
-            <div id="puzzle-piece"></div>
-        </div>
-        <p id="error-message" style="color: red; display: none;">Verification failed. Please try again.</p>
-        <div id="slider">
-            <div id="slider-track"></div>
-            <div id="slider-handle">→</div>
-        </div>
-        <button id="retry-button">Retry</button>
+    <div id="puzzle-container">
+        <img id="puzzle-image" src="" alt="img">
+        <div id="puzzle-piece"></div>
     </div>
+    <p id="error-message" style="color: red; display: none;">Verification failed. Please try again.</p>
+    <div id="slider">
+        <div id="slider-track"></div>
+        <div id="slider-handle">→</div>
+    </div>
+    <div id="slider-captcha-footer">
+        <div id="powered-by">
+            <img src="https://onecaptcha.us.kg/assets/logo/logo.svg" alt="One Captcha Logo">
+            Powered by One Captcha
+        </div>
+        <div id="slider-captcha-actions">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23888888'%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3Cpath d='M11 17h2v-6h-2v6zm1-15C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM11 9h2V7h-2v2z'/%3E%3C/svg%3E" alt="Info">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23888888'%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3Cpath d='M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z'/%3E%3C/svg%3E" alt="Refresh">
+        </div>
+    </div>
+</div>
     `;
     
     const verifyCheckbox = document.getElementById('verify-checkbox');
