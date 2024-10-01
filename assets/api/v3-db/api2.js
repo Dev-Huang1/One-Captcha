@@ -461,10 +461,10 @@ function captcha() {
             return dataLang;
         }
         const userLang = navigator.language || navigator.userLanguage;
-        if (userLang.startsWith('zhcn')) return 'zhcn';
+        if (userLang.startsWith('zh')) return 'zhcn';
         else if (userLang.startsWith('es')) return 'es';
         else if (userLang.startsWith('fr')) return 'fr';
-        else return userLang.includes('zhcn') ? 'zhcn' : 'en';
+        else return userLang.includes('zh') ? 'zh' : 'en';
     }
 
     function applyTranslations(language) {
