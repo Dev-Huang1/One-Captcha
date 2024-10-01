@@ -7,7 +7,7 @@
     <script src="https://onecaptcha.us.kg/assets/api/v3-db/api2.js"></script>
 </head>
 <body>
-    <div id="one-captcha" data-callback="CaptchaSuccess" data-lang="en"></div>
+    <div id="one-captcha" data-callback="CaptchaSuccess" data-lang="en" error-callback="CaptchaError"></div>
     
     <script>
         function CaptchaSuccess(token) {
