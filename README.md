@@ -27,7 +27,7 @@
 - **⭐ Open Source**
 - **⭐ End-to-end encryption**
 - **⭐ Light/Dark Mode**
-- **⭐Multilingual (in development)**
+- **⭐ Multilingual (in development)**
 
 ## Preview
 
