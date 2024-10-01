@@ -458,9 +458,9 @@ function captcha() {
                     sliderCaptcha.style.display = 'block';
                     showSliderCaptcha();
                 });
-            }, 50);
-    }
-});
+            }, 300);
+        }
+    });
 
     function showSliderCaptcha() {
     currentImage = images[Math.floor(Math.random() * images.length)];
