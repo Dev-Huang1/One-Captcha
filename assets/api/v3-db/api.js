@@ -1,7 +1,7 @@
 // This is a test api
 
 // Limiting abuse to prevent unlimited attempts is still under testing
-const MAX_REQUESTS = 5; // Maximum number of requests allowed per hour
+/* const MAX_REQUESTS = 5;
 const RATE_LIMIT_DURATION = 180000;
 
 async function checkIPRateLimit() {
@@ -63,7 +63,7 @@ function showRateLimitWarning() {
     setTimeout(() => {
         warningElement.remove();
     }, 3000);
-}
+} */
 
 function captcha() {
     document.getElementById('one-captcha').innerHTML = `
@@ -73,7 +73,7 @@ function captcha() {
             height: 40px;
             border: 1px solid #ccc;
             padding: 20px;
-            margin: 50px 0;
+            /* margin: 50px 0; */
             text-align: left;
             box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.08);
             border-radius: 3px;
@@ -110,7 +110,7 @@ function captcha() {
             transform: translate(-50%, -50%) scale(1.2);
         }
         #captcha-label {
-            margin-right: 20px;
+            /* margin-right: 20px; */
         }
         #brand {
             font-weight: bold;
@@ -330,10 +330,10 @@ function captcha() {
             <span id="success-message" style="display: none;">Success</span>
         </div>
         <div id="brand">
-            <a href="https://github.com/Dev-Huang1/One-Captcha"><img src="https://captcha.xyehr.cn/assets/logo/logo.svg" alt="One Captcha Logo"></a>
+            <a href="https://github.com/Dev-Huang1/One-Captcha"><img src="https://onecaptcha.us.kg/assets/logo/logo.svg" alt="One Captcha Logo"></a>
             One Captcha
             <div class="privacy-terms-links">
-                <a href="https://www.xyehr.cn/one-captcha-privacy-policy" id="privacy-link">Privacy</a><p>·</p><a href="https://help.xyehr.cn/jekyll/2024-07-05-one-captcha.html" id="docs-link">Docs</a>
+                <a href="https://www.xyehr.cn/one-captcha-privacy-policy" id="privacy-link">Privacy</a><p>·</p><a href="https://docs.xyehr.cn" id="docs-link">Docs</a>
             </div>
         </div>
     </div>
@@ -360,7 +360,6 @@ function captcha() {
     const sliderTrack = document.getElementById('slider-track');
     const retryButton = document.getElementById('retry-button');
     const successMessage = document.getElementById('success-message');
-    // const submitButton = document.getElementById('submit-button');
     const errorMessage = document.getElementById('error-message');
     const rateLimitWarning = document.getElementById('rate-limit-warning');
 
@@ -394,12 +393,38 @@ function captcha() {
             successMessage: "验证成功",
             errorMessage: "验证失败，请重试",
             //rateLimitWarning: '检测到您正在滥用我们的服务，请稍候再试。',
-        }
+        },
+        es: {
+        captchaLabel: "No soy un robot",
+        verifyingText: "Verificando...",
+        retryButton: "Reintentar",
+        privacyLink: "Privacidad",
+        docsLink: "Docs",
+        successMessage: "Éxito",
+        errorMessage: "La verificación falló. Por favor, inténtelo de nuevo.",
+    },
+    fr: { 
+        captchaLabel: "Je suis humain",
+        verifyingText: "Vérification...",
+        retryButton: "Réessayer",
+        privacyLink: "La vie privée",
+        docsLink: "Docs",
+        successMessage: "Succès",
+        errorMessage: "Échec de la vérification. Veuillez réessayer.",
+    },
     };
 
+    const captchaElement = document.getElementById('one-captcha');
+    const dataLang = captchaElement.getAttribute('data-lang');
+
     function detectLanguage() {
+        if (dataLang) {
+            return dataLang;
+        }
         const userLang = navigator.language || navigator.userLanguage;
         if (userLang.startsWith('zh')) return 'zh';
+        else if (userLang.startsWith('es')) return 'es';
+        else if (userLang.startsWith('fr')) return 'fr';
         else return userLang.includes('zh') ? 'zh' : 'en';
     }
 
@@ -408,9 +433,7 @@ function captcha() {
         document.getElementById('retry-button').textContent = translations[language].retryButton;
         document.getElementById('privacy-link').textContent = translations[language].privacyLink;
         document.getElementById('docs-link').textContent = translations[language].docsLink;
-        // document.getElementById('submit-button').textContent = translations[language].submitButton;
         document.getElementById('error-message').textContent = translations[language].errorMessage;
-        //document.getElementById('rate-limit-warning').textContent = translations[language].rateLimitWarning;
     }
 
     verifyCheckbox.addEventListener('change', async function() {
@@ -425,20 +448,19 @@ function captcha() {
             spinner.style.display = 'inline-block';
             setTimeout(() => {
                 spinner.style.opacity = '1';
-                checkIPRateLimit().then(isAllowed => {
+                /* checkIPRateLimit().then(isAllowed => {
                     if (!isAllowed) {
                         this.checked = false;
                         showRateLimitWarning();
                         return;
-                    }
+                    } */
                     sliderCaptcha.style.opacity = '0';
                     sliderCaptcha.style.display = 'block';
                     showSliderCaptcha();
                 });
-            }, 50);
-        }, 300);
-    }
-});
+            }, 300);
+        }
+    });
 
     function showSliderCaptcha() {
     currentImage = images[Math.floor(Math.random() * images.length)];
@@ -534,7 +556,6 @@ function captcha() {
                 showSuccessMessage();
                 Callback();
                 sliderCaptcha.style.display = 'none';
-                // submitButton.disabled = false;
                 document.addEventListener('visibilitychange', handleVisibilityChange);
             } else {
                 document.getElementById('error-message').style.display = 'block';
@@ -555,11 +576,11 @@ function captcha() {
         document.getElementById('success-message').style.display = 'inline-block';
     
         setTimeout(() => {
-            spinner.style.display = 'none'; // Hide the spinner
-            checkMark.style.display = 'inline-block'; // Show the check mark
+            spinner.style.display = 'none';
+            checkMark.style.display = 'inline-block';
             setTimeout(() => {
-                checkMark.style.opacity = '1'; // Fade in the check mark
-                checkMark.style.transform = 'scale(1)'; // Scale up the check mark
+                checkMark.style.opacity = '1';
+                checkMark.style.transform = 'scale(1)';
             }, 50);  
         }, 300);
     }
@@ -593,10 +614,8 @@ function captcha() {
     const variance = speeds.reduce((sum, s) => sum + Math.pow(s - meanSpeed, 2), 0) / speeds.length;
     const stdDeviation = Math.sqrt(variance);
 
-    // 定义标准差阈值
-    const stdDeviationThreshold = 0.2; // 可调整
-
-    // 如果标准差超过阈值，则认为运动不自然
+    const stdDeviationThreshold = 0.2;
+        
     if (stdDeviation > stdDeviationThreshold) {
         return true;
     }
@@ -655,6 +674,7 @@ function captcha() {
         submitButton.disabled = true;
         sliderCaptcha.style.display = 'none';
         resetSlider();
+        ErrorCallback();
         changeImageAndPosition();
         document.removeEventListener('visibilitychange', handleVisibilityChange);
     }
@@ -693,7 +713,6 @@ function Callback() {
 
     setCookie('OneCaptchaToken', token, 15);
 }
-
 
     applyTranslations(detectLanguage());
 };
