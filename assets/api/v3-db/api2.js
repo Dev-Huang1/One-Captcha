@@ -715,7 +715,7 @@ function captcha() {
         sliderCaptcha.style.display = 'none';
         resetSlider();
         ErrorCallback();
-        changeImageAndPosition();
+        // changeImageAndPosition();
         document.removeEventListener('visibilitychange', handleVisibilityChange);
     }
 
