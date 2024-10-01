@@ -754,6 +754,20 @@ function Callback() {
     setCookie('OneCaptchaToken', token, 15);
 }
 
+    function ErrorCallback() {
+    const captchaElement = document.getElementById('one-captcha');
+    const errorCallbackFunctionName = captchaElement.getAttribute('error-callback');
+    
+    setTimeout(() => {
+        if (typeof window[errorCallbackFunctionName] === 'function') {
+            window[errorCallbackFunctionName]();
+        } else {
+            console.error("Error callback function not found.");
+        }
+    }, 500);
+}
+
+
     applyTranslations(detectLanguage());
 };
 
