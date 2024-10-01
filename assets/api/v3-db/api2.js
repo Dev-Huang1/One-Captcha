@@ -1,7 +1,7 @@
 // This is a test api
 
 // Limiting abuse to prevent unlimited attempts is still under testing
-const MAX_REQUESTS = 5; // Maximum number of requests allowed per hour
+/* const MAX_REQUESTS = 5;
 const RATE_LIMIT_DURATION = 180000;
 
 async function checkIPRateLimit() {
@@ -63,7 +63,7 @@ function showRateLimitWarning() {
     setTimeout(() => {
         warningElement.remove();
     }, 3000);
-} 
+} */
 
 function captcha() {
     document.getElementById('one-captcha').innerHTML = `
@@ -448,12 +448,12 @@ function captcha() {
             spinner.style.display = 'inline-block';
             setTimeout(() => {
                 spinner.style.opacity = '1';
-                checkIPRateLimit().then(isAllowed => {
+                /* checkIPRateLimit().then(isAllowed => {
                     if (!isAllowed) {
                         this.checked = false;
                         showRateLimitWarning();
                         return;
-                    }
+                    } */
                     sliderCaptcha.style.opacity = '0';
                     sliderCaptcha.style.display = 'block';
                     showSliderCaptcha();
