@@ -49,7 +49,7 @@
 
 ## Quick Start
 
-...Writing document
+[See docs](https://docs.xyehr.cn/docs/one-captcha)
 
 ## Project Structure
 
@@ -69,7 +69,7 @@
 
 ## Help
 
-[Captcha demo](https://onecaptcha.us.kg/demo/v3-db) | [Wiki]() | [Github Wiki](https://github.com/Dev-Huang1/One-Captcha/wiki) | [Report problem](mailto:devhuang000@outlook.com)
+[Captcha demo](https://onecaptcha.us.kg/demo/v3-db) | [Docs](https://docs.xyehr.cn/docs/one-captcha) | [Github Wiki](https://github.com/Dev-Huang1/One-Captcha/wiki) | [Report problem](mailto:devhuang000@outlook.com)
 
 ### Contact me
 
