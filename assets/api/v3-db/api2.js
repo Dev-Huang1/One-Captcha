@@ -739,18 +739,25 @@ function setCookie(name, value, seconds) {
 
 function Callback() {
     const token = generateToken();
-    var captchaElement = document.getElementById('one-captcha');
-    var callbackFunctionName = captchaElement.getAttribute('data-callback');
+    const tokenData = { token: token, timestamp: Date.now() };
 
-    setTimeout(() => {
-        if (typeof window[callbackFunctionName] === 'function') {
-            window[callbackFunctionName](token);
-        } else {
-            console.error("Callback function not found.");
+    fetch('/api/save-token', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(tokenData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            console.error('Error saving token');
         }
-    }, 500);
+    })
+    .catch(error => {
+        console.error('Network error:', error);
+    });
 
-    setCookie('OneCaptchaToken', token, 150);
+    // setCookie('OneCaptchaToken', token, 180);
 }
 
     applyTranslations(detectLanguage());
