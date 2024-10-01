@@ -396,7 +396,7 @@ function captcha() {
             Powered by One Captcha
         </div>
         <div id="slider-captcha-actions">
-            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23888888'%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3Cpath d='M11 17h2v-6h-2v6zm1-15C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM11 9h2V7h-2v2z'/%3E%3C/svg%3E" alt="Info">
+            <img id="retry-button" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23888888'%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3Cpath d='M11 17h2v-6h-2v6zm1-15C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM11 9h2V7h-2v2z'/%3E%3C/svg%3E" alt="Info">
             <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23888888'%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3Cpath d='M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z'/%3E%3C/svg%3E" alt="Refresh">
         </div>
     </div>
@@ -428,7 +428,7 @@ function captcha() {
         en: {
             captchaLabel: "I'm not a robot",
             verifyingText: "Verifying...",
-            retryButton: "Retry",
+            //retryButton: "Retry",
             privacyLink: "Privacy",
             docsLink: "Docs",
             successMessage: "Success",
@@ -438,7 +438,7 @@ function captcha() {
         zh: {
             captchaLabel: "我不是机器人",
             verifyingText: "验证中...",
-            retryButton: "重试",
+            //retryButton: "重试",
             privacyLink: "隐私",
             docsLink: "文档",
             successMessage: "验证成功",
@@ -448,7 +448,7 @@ function captcha() {
         es: {
         captchaLabel: "No soy un robot",
         verifyingText: "Verificando...",
-        retryButton: "Reintentar",
+        //retryButton: "Reintentar",
         privacyLink: "Privacidad",
         docsLink: "Docs",
         successMessage: "Éxito",
@@ -457,7 +457,7 @@ function captcha() {
     fr: { 
         captchaLabel: "Je suis humain",
         verifyingText: "Vérification...",
-        retryButton: "Réessayer",
+        //retryButton: "Réessayer",
         privacyLink: "La vie privée",
         docsLink: "Docs",
         successMessage: "Succès",
@@ -481,7 +481,7 @@ function captcha() {
 
     function applyTranslations(language) {
         document.getElementById('captcha-label').textContent = translations[language].captchaLabel;
-        document.getElementById('retry-button').textContent = translations[language].retryButton;
+        //document.getElementById('retry-button').textContent = translations[language].retryButton;
         document.getElementById('privacy-link').textContent = translations[language].privacyLink;
         document.getElementById('docs-link').textContent = translations[language].docsLink;
         document.getElementById('error-message').textContent = translations[language].errorMessage;
