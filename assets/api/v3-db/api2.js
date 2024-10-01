@@ -168,8 +168,9 @@ function captcha() {
         border-top: 1px solid #e0e0e0;
     }
 
-    #slider-captcha-footer a {
+    #slider-captcha-actions a {
         text-decoration: none;
+        display: inline-block;
     }
 
     #powered-by {
