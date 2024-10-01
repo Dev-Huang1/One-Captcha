@@ -7,8 +7,7 @@
     <script src="https://onecaptcha.us.kg/assets/api/v3-db/api2.js"></script>
 </head>
 <body>
-    <div id="one-captcha" data-callback="CaptchaSuccess" data-lang="zh" error-callback="CaptchaError"></div>
-    <p id="texttest">Test</p>
+    <div id="one-captcha" data-callback="CaptchaSuccess" error-callback="CaptchaError"></div>
     
     <script>
         function CaptchaSuccess(token) {
@@ -29,12 +28,6 @@
         alert('Token does not match the cookie.');
     }
 }
-
-
-        function CaptchaError() {
-            const element = document.getElementById('text');
-            element.style.color = 'red'; 
-        }
     </script>
 </body>
 </html>
