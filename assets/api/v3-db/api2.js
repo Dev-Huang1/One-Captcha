@@ -707,10 +707,11 @@ function captcha() {
     function resetCaptcha() {
         verifyCheckbox.checked = false;
         verifyCheckbox.style.display = 'inline-block';
+        verifyCheckbox.style.opacity = '1';
+        verifyCheckbox.style.transform = 'scale(1)';
         document.getElementById('captcha-label').style.display = 'inline-block';
         document.getElementById('check-mark').style.display = 'none';
         document.getElementById('success-message').style.display = 'none';
-        submitButton.disabled = true;
         sliderCaptcha.style.display = 'none';
         resetSlider();
         ErrorCallback();
