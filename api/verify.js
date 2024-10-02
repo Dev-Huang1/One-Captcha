@@ -1,26 +1,26 @@
 import fs from 'fs';
 import path from 'path';
 
-export default function handler(req, res) {
-    if (req.method === 'POST') {
-        const { token } = req.body;
-        const filePath = path.join('/tmp', 'token.json'); // 使用/tmp目录
+/**
+ * 验证token的有效性
+ * @param {string} token - 需要验证的token
+ * @returns {boolean} - 如果token有效返回true，否则返回false
+ */
+export function verifyToken(token) {
+    const filePath = path.join('/tmp', 'token.json');
 
-        if (!fs.existsSync(filePath)) {
-            return res.status(404).json({ message: 'failed' });
-        }
-
-        const tokenData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-        const currentTime = Date.now();
-
-        // Check if the token exists and is still valid
-        if (tokenData[token] && (currentTime <= tokenData[token])) {
-    return res.status(200).json({ message: 'success' });
-}
-
-
-        return res.status(404).json({ message: 'failed' });
+    // 如果文件不存在，返回失败
+    if (!fs.existsSync(filePath)) {
+        return false;
     }
 
-    return res.status(405).json({ message: 'Method not allowed' });
+    const tokenData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    const currentTime = Date.now();
+
+    // 检查token是否存在且未过期
+    if (tokenData[token] && currentTime <= tokenData[token]) {
+        return true;
+    }
+
+    return false;
 }
