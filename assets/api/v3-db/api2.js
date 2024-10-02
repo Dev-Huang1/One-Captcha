@@ -739,26 +739,37 @@ function setCookie(name, value, seconds) {
 
 function Callback() {
     const token = generateToken();
-    const tokenData = {
-        token: token,
-        createdAt: new Date().toISOString(),
-        expiresAt: new Date(Date.now() + 180000).toISOString() // 180秒后过期
-    };
+    var captchaElement = document.getElementById('one-captcha');
+    var callbackFunctionName = captchaElement.getAttribute('data-callback');
 
-    // 发送token到Vercel API保存到KV
-    fetch('/api/save-token', {
+    setTimeout(() => {
+        if (typeof window[callbackFunctionName] === 'function') {
+            window[callbackFunctionName](token);
+        } else {
+            console.error("Callback function not found.");
+        }
+    }, 500);
+
+    // Send token to Vercel API to store it in token.json
+    fetch('/api/storeToken', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(tokenData)
-    }).then(response => response.json())
-      .then(data => {
-          console.log(data.message);
-      }).catch(error => {
-          console.error('Error:', error);
-      });
+        body: JSON.stringify({ token })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Token stored successfully', data);
+    })
+    .catch(error => {
+        console.error('Error storing token:', error);
+    });
+
+    // Set token as a cookie with a 180 second expiration
+    setCookie('OneCaptchaToken', token, 180);
 }
+
 
 
     applyTranslations(detectLanguage());
