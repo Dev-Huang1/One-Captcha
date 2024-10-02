@@ -750,28 +750,9 @@ function Callback() {
         }
     }, 500);
 
-    // Send token to Vercel API to store it in token.json
-    fetch('/api/token', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ token })
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Token stored successfully', data);
-    })
-    .catch(error => {
-        console.error('Error storing token:', error);
-    });
-
-    // Set token as a cookie with a 180 second expiration
-    setCookie('OneCaptchaToken', token, 180);
+    setCookie('OneCaptchaToken', token, 150);
 }
-
-
-
+    
     applyTranslations(detectLanguage());
 };
 
