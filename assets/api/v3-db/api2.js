@@ -739,26 +739,27 @@ function setCookie(name, value, seconds) {
 
 function Callback() {
     const token = generateToken();
-    const tokenData = { token: token, timestamp: Date.now() };
+    const tokenData = {
+        token: token,
+        createdAt: new Date().toISOString(),
+        expiresAt: new Date(Date.now() + 180000).toISOString() // 180秒后过期
+    };
 
+    // 发送token到Vercel API保存到KV
     fetch('/api/save-token', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(tokenData)
-    })
-    .then(response => {
-        if (!response.ok) {
-            console.error('Error saving token');
-        }
-    })
-    .catch(error => {
-        console.error('Network error:', error);
-    });
-
-    // setCookie('OneCaptchaToken', token, 180);
+    }).then(response => response.json())
+      .then(data => {
+          console.log(data.message);
+      }).catch(error => {
+          console.error('Error:', error);
+      });
 }
+
 
     applyTranslations(detectLanguage());
 };
