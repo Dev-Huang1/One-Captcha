@@ -344,6 +344,10 @@ function captcha() {
             #success-message {
                 color: #fff;
             }
+
+            #loading-spinner {
+                border: 3px solid #333333;
+            }
          }
     </style>
     <div id="captcha-container">
