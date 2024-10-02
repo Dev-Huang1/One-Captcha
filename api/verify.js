@@ -4,7 +4,7 @@ import path from 'path';
 export default function handler(req, res) {
     if (req.method === 'POST') {
         const { token } = req.body;
-        const filePath = path.join(process.cwd(), 'token.json');
+        const filePath = path.join(process.cwd(), 'tmp/token.json');
 
         if (!fs.existsSync(filePath)) {
             return res.status(404).json({ message: 'failed' });
