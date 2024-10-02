@@ -730,7 +730,7 @@ function captcha() {
 async function hashToken(token) {
     const encoder = new TextEncoder();
     const dataBuffer = encoder.encode(token);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', dataBuffer);
+    const hashBuffer = await crypto.subtle.digest('SHA-512', dataBuffer);
     const hashArray = Array.from(new Uint8Array(hashBuffer));
     const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     return hashHex;
@@ -743,7 +743,7 @@ function setCookie(name, value, seconds) {
         date.setTime(date.getTime() + (seconds * 1000));
         expires = "; expires=" + date.toUTCString();
     }
-    document.cookie = name + "=" + (value || "") + expires + "; path=/; domain=.onecaptcha.us.kg;";
+    document.cookie = name + "=" + (value || "") + expires + "; path=/;";
 }
 
 async function Callback() {
