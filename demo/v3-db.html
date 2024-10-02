@@ -10,7 +10,7 @@
     <div id="one-captcha" data-callback="CaptchaSuccess"></div>
     
     <script>
-        function CaptchaSuccess(token) {
+        async function CaptchaSuccess(token) {
     // 获取名为 'OneCaptchaToken' 的 cookie 值
     function getTokenCookie(name) {
         const value = `; ${document.cookie}`;
@@ -21,14 +21,25 @@
     // 获取 OneCaptchaToken 的 cookie
     const cookieToken = getTokenCookie('OneCaptchaToken');
 
+    // 哈希化 token
+    async function hashToken(token) {
+        const encoder = new TextEncoder();
+        const dataBuffer = encoder.encode(token);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', dataBuffer);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        return hashHex;
+    }
+
     // 比较 token 和 cookieToken 是否相同
-    if (token === cookieToken) {
+    const hashedToken = await hashToken(token); // 对传入的token进行哈希
+    if (hashedToken === cookieToken) {
         alert('Token matches the cookie!');
-        navigator.clipboard.writeText(token)
     } else {
         alert('Token does not match the cookie.');
     }
 }
+
     </script>
 </body>
 </html>
