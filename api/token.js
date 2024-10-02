@@ -1,30 +1,26 @@
-export default async function handler(req, res) {
-  const fs = require('fs');
-  const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
-  // 仅处理 POST 请求
-  if (req.method === 'POST') {
-    const { token } = req.body;
-
-    // 定义文件路径为 /tmp 目录
+/**
+ * 保存token及其过期时间到token.json文件
+ * @param {string} token - 需要保存的token
+ */
+export function saveToken(token) {
     const filePath = path.join('/tmp', 'token.json');
+    const currentTime = Date.now();
+    const expirationTime = currentTime + 180 * 1000; // 180秒后过期
 
-    // 读取现有的 token.json 文件，如果不存在则创建一个空对象
     let tokens = {};
+
+    // 如果文件存在，读取现有的token数据
     if (fs.existsSync(filePath)) {
-      const fileData = fs.readFileSync(filePath, 'utf8');
-      tokens = JSON.parse(fileData);
+        const fileData = fs.readFileSync(filePath, 'utf8');
+        tokens = JSON.parse(fileData);
     }
 
-    // 存储token以及生成过期时间戳
-    const expirationTime = Date.now() + 180 * 1000; // 当前时间加上180秒
+    // 保存token和过期时间
     tokens[token] = expirationTime;
 
-    // 将更新后的token列表写入token.json
+    // 将更新后的token数据写入文件
     fs.writeFileSync(filePath, JSON.stringify(tokens, null, 2), 'utf8');
-
-    res.status(200).json({ message: 'Token stored successfully' });
-  } else {
-    res.status(405).json({ message: 'Method Not Allowed' });
-  }
 }
