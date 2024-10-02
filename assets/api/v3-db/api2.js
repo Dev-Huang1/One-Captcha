@@ -751,7 +751,7 @@ function Callback() {
     }, 500);
 
     // Send token to Vercel API to store it in token.json
-    fetch('/api/storeToken', {
+    fetch('/api/token', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
