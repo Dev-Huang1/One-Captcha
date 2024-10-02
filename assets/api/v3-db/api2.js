@@ -345,9 +345,9 @@ function captcha() {
                 color: #fff;
             }
 
-            #loading-spinner {
+            /* #loading-spinner {
                 border: 3px solid #333333;
-            }
+            } */
          }
     </style>
     <div id="captcha-container">
