@@ -1,30 +1,20 @@
-import { promises as fs } from 'fs';
-import path from 'path';
-
 export default async function handler(req, res) {
     if (req.method === 'POST') {
         const { token } = req.body;
 
-        const filePath = path.join(process.cwd(), 'token.json');
-        let tokenData;
         try {
-            const fileContent = await fs.readFile(filePath, 'utf8');
-            tokenData = JSON.parse(fileContent);
-        } catch (err) {
-            return res.status(500).json({ message: 'failed', error: 'Token file not found or corrupted' });
-        }
+            // 从Vercel KV读取token
+            const tokenData = await kv.get(token);
 
-        // 检查 token 是否存在且在有效期内（180秒）
-        const currentTime = Date.now();
-        const tokenEntry = tokenData.tokens.find(entry => entry.token === token);
-
-        if (tokenEntry && currentTime - tokenEntry.timestamp < 180 * 1000) {
-            return res.status(200).json({ message: 'success' });
-        } else {
-            return res.status(400).json({ message: 'failed' });
+            if (tokenData && new Date(tokenData.expiresAt) > new Date()) {
+                return res.status(200).json({ message: 'success' });
+            } else {
+                return res.status(400).json({ message: 'failed' });
+            }
+        } catch (error) {
+            return res.status(500).json({ message: 'Error verifying token', error });
         }
     } else {
-        res.setHeader('Allow', ['POST']);
-        return res.status(405).end(`Method ${req.method} Not Allowed`);
+        return res.status(405).json({ message: 'Method not allowed' });
     }
 }
