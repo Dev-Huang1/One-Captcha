@@ -393,7 +393,7 @@ function OneCaptchaInit() {
 
     <div id="slider-captcha">
     <div id="slider-captcha-header">
-        <p>Please complete CAPTCHA</p>
+        <p id="slider-captcha-header-text">Please complete CAPTCHA</p>
     </div>
     <div id="puzzle-container">
         <img id="puzzle-image" src="" alt="img">
