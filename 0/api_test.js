@@ -150,7 +150,8 @@ function OneCaptchaInit() {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 300px;
+        width: 285px;
+        height: 350px;
         background-color: #fff;
         border: 1px solid #ccc;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
