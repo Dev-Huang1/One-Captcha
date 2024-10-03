@@ -391,7 +391,7 @@ function OneCaptchaInit() {
         <span style="font-weight: bold; display: inline-block;">
             Please complete CAPTCHA
         </span>
-        <span style="margin-top: 40px; font-size: 10px;">
+        <span style="font-size: 10px;">
             If an error occurs, click the Retry button
         </span>
     </div>
