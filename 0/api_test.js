@@ -169,19 +169,21 @@ function OneCaptchaInit() {
     }
 
     #slider-captcha-header {
-        height: 65px;
-        background-color: #0066ff;
-        color: #fff;
-        padding: 15px;
-        border-radius: 4px;
-        margin-bottom: 17px;
-    }
+    height: 65px;
+    background-color: #0066ff;
+    color: #fff;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 17px;
+    position: relative;
+}
 
-    #slider-captcha-header-text {
-        margin-left: 9px;
-        margin-top: 15px;
-    }
-
+#slider-captcha-header-text {
+    position: absolute;
+    top: 15px;
+    left: 7px;
+    font-weight: bold;
+}
     #slider-captcha-header-subtext {
         font-size: 13px;
     }
