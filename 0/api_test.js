@@ -323,11 +323,11 @@ function OneCaptchaInit() {
 
     <div id="slider-captcha">
     <div id="slider-captcha-header">
-        <span style="font-weight: bold; display: inline-block;">
+        <span id="slider-captcha-header-text" style="font-weight: bold; display: inline-block;">
             Please complete CAPTCHA
         </span>
         </br>
-        <span style="font-size: 10px;">
+        <span id="slider-captcha-header-text2" style="font-size: 10px;">
             If an error occurs, click the Retry button
         </span>
     </div>
@@ -362,7 +362,8 @@ function OneCaptchaInit() {
     const retryButton = document.getElementById('retry-button');
     const successMessage = document.getElementById('success-message');
     const errorMessage = document.getElementById('error-message');
-    const rateLimitWarning = document.getElementById('rate-limit-warning');
+    const headerText = document.getElementById('slider-captcha-header-text');
+    const smallHeaderText = document.getElementById('slider-captcha-header-text2')
 
     const images = ['image1.jpeg', 'image2.jpeg', 'image3.jpg', 'img018.png', 'img072.jpg', 'img102.jpeg', 'img181.jpeg', 'img193.jpeg', 'img273.jpeg', 'img372.jpeg', 'img392.jpeg', 'img398.jpeg', 'img462.jpg', 'img482.jpeg', 'img492.jpeg', 'img592.jpg', 'img638.jpg', 'img639.jpeg', 'img639.jpg', 'img648.jpg', 'img657.jpeg', 'img857.jpeg', 'img928.jpeg'];
     let currentImage;
@@ -378,40 +379,42 @@ function OneCaptchaInit() {
         en: {
             captchaLabel: "I'm not a robot",
             verifyingText: "Verifying...",
-            //retryButton: "Retry",
             privacyLink: "Privacy",
             docsLink: "Docs",
             successMessage: "Success",
             errorMessage: "Verification failed. Please try again.",
-            //rateLimitWarning: 'You are abusing our service. Please try again later.',
+            headerText: "Please complete CAPTCHA",
+            smallHeaderText: "If an error occurs, click the Retry button",
         },
         zh: {
             captchaLabel: "我不是机器人",
             verifyingText: "验证中...",
-            //retryButton: "重试",
             privacyLink: "隐私",
             docsLink: "文档",
             successMessage: "验证成功",
             errorMessage: "验证失败，请重试",
-            //rateLimitWarning: '检测到您正在滥用我们的服务，请稍候再试。',
+            headerText: "请完成 CAPTCHA",
+            smallHeaderText: "如果出现错误，请点按重试按钮",
         },
         es: {
         captchaLabel: "No soy un robot",
         verifyingText: "Verificando...",
-        //retryButton: "Reintentar",
         privacyLink: "Privacidad",
         docsLink: "Docs",
         successMessage: "Éxito",
         errorMessage: "La verificación falló. Por favor, inténtelo de nuevo.",
+        headerText: "Por favor complete el CAPTCHA",
+        smallHeaderText: "Si se produce un error, haga clic en el botón Reintentar"
     },
     fr: { 
         captchaLabel: "Je suis humain",
         verifyingText: "Vérification...",
-        //retryButton: "Réessayer",
         privacyLink: "La vie privée",
         docsLink: "Docs",
         successMessage: "Succès",
         errorMessage: "Échec de la vérification. Veuillez réessayer.",
+        headerText: "Veuillez compléter le CAPTCHA",
+        smallHeaderText: "Si une erreur se produit, cliquez sur le bouton Réessayer"
     },
     };
 
@@ -435,6 +438,8 @@ function OneCaptchaInit() {
         document.getElementById('privacy-link').textContent = translations[language].privacyLink;
         document.getElementById('docs-link').textContent = translations[language].docsLink;
         document.getElementById('error-message').textContent = translations[language].errorMessage;
+        docment.getElementById('slider-captcha-header-text').textContent = translations[language].headerText;
+        docment.getElementById('slider-captcha-header-text2').textContent = translations[language].smallHeaderText
     }
 
     verifyCheckbox.addEventListener('change', async function() {
