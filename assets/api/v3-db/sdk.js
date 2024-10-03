@@ -3,7 +3,7 @@ function captcha() {
   .then(response => response.text())
   .then(html => {
     document.getElementById('one-captcha').innerHTML = html; 
-  }
+  });
     
     const verifyCheckbox = document.getElementById('verify-checkbox');
     const sliderCaptcha = document.getElementById('slider-captcha');
