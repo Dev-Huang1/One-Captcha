@@ -172,7 +172,7 @@ function OneCaptchaInit() {
         height: 65px;
         background-color: #0066ff;
         color: #fff;
-        /* padding: 15px; */
+        padding: 15px;
         border-radius: 4px;
         margin-bottom: 17px;
     }
