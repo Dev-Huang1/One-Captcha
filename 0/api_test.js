@@ -392,7 +392,7 @@ function OneCaptchaInit() {
             Please complete CAPTCHA
         </span>
         <span style="position: absolute; bottom: 15px; left: 7px; font-size: 10px;">
-            a
+            shdiwhdjeibciskdjwodjdndjd
         </span>
     </div>
     <div id="puzzle-container">
