@@ -308,9 +308,9 @@
 }
 
         .footer {
-            background-color: #f8f9fa;
+            background-color: #fff;
             color: #333;
-            padding: 20px;
+            padding: 30px;
             font-size: 14px;
         }
         .footer-content {
@@ -328,7 +328,6 @@
         .footer-section h4 {
             color: #0066ff;
             margin-bottom: 10px;
-            font-size: 22px;
         }
         .footer-section ul {
             list-style-type: none;
@@ -340,7 +339,6 @@
         .footer-section ul li a {
             color: #333;
             text-decoration: none;
-            font-size: 17px;
         }
         .footer-section ul li a:hover {
             color: #0066ff;
