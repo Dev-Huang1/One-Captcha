@@ -175,7 +175,6 @@ function OneCaptchaInit() {
     padding: 15px;
     border-radius: 4px;
     margin-bottom: 17px;
-    position: relative;
 }
 
     #slider-captcha-header-subtext {
@@ -389,7 +388,7 @@ function OneCaptchaInit() {
 
     <div id="slider-captcha">
     <div id="slider-captcha-header">
-        <span style="margin-left: 7px; margin-top: 15px; font-weight: bold; display: inline-block;">
+        <span style="font-weight: bold; display: inline-block;">
             Please complete CAPTCHA
         </span>
     </div>
