@@ -173,8 +173,8 @@ function OneCaptchaInit() {
         background-color: #0066ff;
         color: #fff;
         padding: 15px;
-        border: 4px;
-        margin-bottom: 20px;
+        border-radius: 4px;
+        margin-bottom: 17px;
     }
 
     #slider-captcha-actions a {
@@ -218,7 +218,7 @@ function OneCaptchaInit() {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 4px
+            border-radius: 4px;
         }
         #slider {
             width: 100%;
