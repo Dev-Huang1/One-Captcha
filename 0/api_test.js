@@ -180,9 +180,10 @@ function OneCaptchaInit() {
 
 #slider-captcha-header-text {
     position: absolute;
-    top: 15px;
+    /*top: 15px;*/
     left: 7px;
     font-weight: bold;
+    font-size: 25px;
 }
     #slider-captcha-header-subtext {
         font-size: 13px;
