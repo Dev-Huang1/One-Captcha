@@ -154,7 +154,7 @@ function OneCaptchaInit() {
         background-color: #fff;
         border: 1px solid #ccc;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        border-radius: 12px;
+        border-radius: 2px;
         overflow: hidden;
         padding: 20px;
         font-family: Arial, sans-serif;
@@ -209,7 +209,7 @@ function OneCaptchaInit() {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 10px
+            border-radius: 2px
         }
         #slider {
             width: 100%;
