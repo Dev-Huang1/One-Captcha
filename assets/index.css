@@ -328,7 +328,7 @@
         .footer-section h4 {
             color: #0066ff;
             margin-bottom: 10px;
-            font-size: 20px;
+            font-size: 18.5px;
         }
         .footer-section ul {
             list-style-type: none;
@@ -350,6 +350,7 @@
             margin-top: 20px;
             padding-top: 20px;
             border-top: 1px solid #ddd;
+            font-size: 15px;
         }
         @media (max-width: 768px) {
             .footer-section {
