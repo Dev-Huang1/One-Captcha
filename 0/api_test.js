@@ -1,70 +1,5 @@
 // This is a test api
 
-// Limiting abuse to prevent unlimited attempts is still under testing
-/* const MAX_REQUESTS = 5;
-const RATE_LIMIT_DURATION = 180000;
-
-async function checkIPRateLimit() {
-    try {
-        const response = await fetch('https://ipapi.co/json/');
-        const data = await response.json();
-        const ip = data.ip;
-
-        let ipData = JSON.parse(localStorage.getItem(ip) || '{}');
-        const currentTime = Date.now();
-
-        if (!ipData.timestamp || (currentTime - ipData.timestamp) > RATE_LIMIT_DURATION) {
-            ipData = { count: 1, timestamp: currentTime };
-        } else {
-            ipData.count++;
-        }
-
-        localStorage.setItem(ip, JSON.stringify(ipData));
-
-        return ipData.count <= MAX_REQUESTS;
-    } catch (error) {
-        console.error('Error checking IP rate limit:', error);
-        return true; // Allow the request if there's an error
-    }
-}
-
-function showRateLimitWarning() {
-    const loadingSpinner = document.getElementById('loading-spinner');
-    const spinnerRect = loadingSpinner.getBoundingClientRect();
-    
-    const warningElement = document.createElement('div');
-    warningElement.id = 'rate-limit-warning';
-    warningElement.style.cssText = `
-        position: absolute;
-        top: ${spinnerRect.bottom + window.scrollY}px;
-        left: ${spinnerRect.right + window.scrollX}px;
-        background-color: #ffffff;
-        color: #f44336;
-        padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        z-index: 1000;
-        text-align: center;
-        font-family: Arial, sans-serif;
-        border: 1px solid #f44336;
-        animation: fadeIn 0.5s, fadeOut 0.5s 2s;
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
-    `;
-    warningElement.textContent = 'You are abusing our service. Please try again later.';
-    document.body.appendChild(warningElement);
-
-    setTimeout(() => {
-        warningElement.remove();
-    }, 3000);
-} */
-
 function OneCaptchaInit() {
     document.getElementById('one-captcha').innerHTML = `
         <style>
@@ -391,6 +326,7 @@ function OneCaptchaInit() {
         <span style="font-weight: bold; display: inline-block;">
             Please complete CAPTCHA
         </span>
+        </br>
         <span style="font-size: 10px;">
             If an error occurs, click the Retry button
         </span>
