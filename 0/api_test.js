@@ -175,6 +175,7 @@ function OneCaptchaInit() {
     padding: 15px;
     border-radius: 4px;
     margin-bottom: 17px;
+    position: relative;
 }
 
     #slider-captcha-header-subtext {
