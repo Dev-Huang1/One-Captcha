@@ -177,6 +177,14 @@ function OneCaptchaInit() {
         margin-bottom: 17px;
     }
 
+    #slider-captcha-header-text {
+        margin-buttom: 15px;
+    }
+
+    #slider-captcha-header-subtext {
+        font-size: 13px;
+    }
+
     #slider-captcha-actions a {
         text-decoration: none;
         display: inline-block;
