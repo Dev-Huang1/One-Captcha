@@ -439,7 +439,7 @@ function OneCaptchaInit() {
         document.getElementById('docs-link').textContent = translations[language].docsLink;
         document.getElementById('error-message').textContent = translations[language].errorMessage;
         docment.getElementById('slider-captcha-header-text').textContent = translations[language].headerText;
-        docment.getElementById('slider-captcha-header-text2').textContent = translations[language].smallHeaderText
+        docment.getElementById('slider-captcha-header-text2').textContent = translations[language].smallHeaderText;
     }
 
     verifyCheckbox.addEventListener('change', async function() {
