@@ -169,11 +169,12 @@ function OneCaptchaInit() {
     }
 
     #slider-captcha-header {
-        width: 100%;
         height: 65px;
         background-color: #0066ff;
         color: #fff;
         padding: 15px;
+        border: 4px;
+        margin-bottom: 20px;
     }
 
     #slider-captcha-actions a {
