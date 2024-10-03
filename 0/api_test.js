@@ -363,7 +363,7 @@ function OneCaptchaInit() {
     const successMessage = document.getElementById('success-message');
     const errorMessage = document.getElementById('error-message');
     const headerText = document.getElementById('slider-captcha-header-text');
-    const smallHeaderText = document.getElementById('slider-captcha-header-text2')
+    const smallHeaderText = document.getElementById('slider-captcha-header-text2');
 
     const images = ['image1.jpeg', 'image2.jpeg', 'image3.jpg', 'img018.png', 'img072.jpg', 'img102.jpeg', 'img181.jpeg', 'img193.jpeg', 'img273.jpeg', 'img372.jpeg', 'img392.jpeg', 'img398.jpeg', 'img462.jpg', 'img482.jpeg', 'img492.jpeg', 'img592.jpg', 'img638.jpg', 'img639.jpeg', 'img639.jpg', 'img648.jpg', 'img657.jpeg', 'img857.jpeg', 'img928.jpeg'];
     let currentImage;
