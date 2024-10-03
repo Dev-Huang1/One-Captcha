@@ -23,7 +23,7 @@
         </nav>
         <div class="hero">
             <div class="hero-content">
-                <h1 id="section1">GDPR compliant secure Captcha</h1>
+                <h1 id="Overview">GDPR compliant secure Captcha</h1>
                 <h2>Use One Captcha to protect their websites and online services from spam and abuse. One Captcha respects the privacy of its users and uses end-to-end encryption.</h2>
                 <div class="buttons">
                     <a href="https://xyehr.cn/blog/one-captcha" class="btn btn-primary">Get Started</a>
@@ -210,7 +210,7 @@
                 <img src="assets/logo/logo.svg" style="width: 28px; height: 28px;"><h3>One Captcha</h3>
                 <h4>Solution</h4>
                 <ul>
-                    <li><a href="#GDPR compliant secure Captcha">Overview</a></li>
+                    <li><a href="#Overview">Overview</a></li>
                     <li><a href="#">Demo</a></li>
                     <li><a href="#">Features</a></li>
                 </ul>
@@ -240,19 +240,16 @@
     </footer>
 
     <script>
-        function scrollToElement(element) {
+        window.onload = function() {
+    var hash = window.location.hash;
+    if (hash) {
+        var element = document.querySelector(hash);
         if (element) {
-            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            element.scrollIntoView({ behavior: 'smooth' });
         }
     }
+};
 
-    window.addEventListener('load', () => {
-        const hash = window.location.hash;
-        if (hash) {
-            const targetElement = document.querySelector(hash);
-            scrollToElement(targetElement);
-        }
-    });
     </script>
 </body>
 </html>
