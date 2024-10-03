@@ -183,7 +183,7 @@ function OneCaptchaInit() {
     /*top: 15px;*/
     left: 7px;
     font-weight: bold;
-    font-size: 25px;
+    font-size: 20px;
 }
     #slider-captcha-header-subtext {
         font-size: 13px;
