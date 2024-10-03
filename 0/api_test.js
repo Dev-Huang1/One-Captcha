@@ -168,6 +168,14 @@ function OneCaptchaInit() {
         border-top: 1px solid #e0e0e0;
     }
 
+    #slider-captcha-header {
+        width: 100%;
+        height: 65px;
+        background-color: #0066ff;
+        color: #fff;
+        padding: 15px;
+    }
+
     #slider-captcha-actions a {
         text-decoration: none;
         display: inline-block;
@@ -374,6 +382,9 @@ function OneCaptchaInit() {
     </div>
 
     <div id="slider-captcha">
+    <div id="slider-captcha-header">
+        <p>Please complete CAPTCHA</p>
+    </div>
     <div id="puzzle-container">
         <img id="puzzle-image" src="" alt="img">
         <div id="puzzle-piece"></div>
