@@ -65,7 +65,7 @@ function showRateLimitWarning() {
     }, 3000);
 } */
 
-function captcha() {
+function OneCaptchaInit() {
     document.getElementById('one-captcha').innerHTML = `
         <style>
         #captcha-container {
@@ -598,7 +598,7 @@ function captcha() {
         if (Math.abs(finalPosition - piecePosition) < 5) {
             if (isHumanLikeMovement()) {
                 showSuccessMessage();
-                Callback();
+                OneCaptchaCallback();
                 sliderCaptcha.style.display = 'none';
                 document.addEventListener('visibilitychange', handleVisibilityChange);
             } else {
@@ -751,7 +751,7 @@ function setCookie(name, value, seconds) {
     document.cookie = name + "=" + (value || "") + expires + "; path=/;";
 }
 
-async function Callback() {
+async function OneCaptchaCallback() {
     const token = generateToken();
     const hashedToken = await hashToken(token); // 先对token进行哈希
     var captchaElement = document.getElementById('one-captcha');
@@ -768,10 +768,9 @@ async function Callback() {
     setCookie('OneCaptchaToken', hashedToken, 150); // 存储哈希值到cookie
 }
 
-    
     applyTranslations(detectLanguage());
 };
 
 document.addEventListener('DOMContentLoaded', function() {
-    captcha();
+    OneCaptchaInit();
 });
