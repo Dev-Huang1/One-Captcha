@@ -65,7 +65,7 @@ function showRateLimitWarning() {
     }, 3000);
 } */
 
-function captcha() {
+function OneCaptchaInit() {
     document.getElementById('one-captcha').innerHTML = `
         <style>
         #captcha-container {
@@ -154,7 +154,7 @@ function captcha() {
         background-color: #fff;
         border: 1px solid #ccc;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        border-radius: 12px;
+        border-radius: 2px;
         overflow: hidden;
         padding: 20px;
         font-family: Arial, sans-serif;
@@ -209,7 +209,7 @@ function captcha() {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 10px
+            border-radius: 2px
         }
         #slider {
             width: 100%;
@@ -343,6 +343,11 @@ function captcha() {
         
             #success-message {
                 color: #fff;
+            }
+
+            #loading-spinner {
+                border: 3px solid #4B4B4B;
+                border-top: 3px solid #0066ff;
             }
          }
     </style>
@@ -593,7 +598,7 @@ function captcha() {
         if (Math.abs(finalPosition - piecePosition) < 5) {
             if (isHumanLikeMovement()) {
                 showSuccessMessage();
-                Callback();
+                OneCaptchaCallback();
                 sliderCaptcha.style.display = 'none';
                 document.addEventListener('visibilitychange', handleVisibilityChange);
             } else {
@@ -727,6 +732,15 @@ function captcha() {
     return token;
 }
 
+async function hashToken(token) {
+    const encoder = new TextEncoder();
+    const dataBuffer = encoder.encode(token);
+    const hashBuffer = await crypto.subtle.digest('SHA-512', dataBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    return hashHex;
+}
+
 function setCookie(name, value, seconds) {
     let expires = "";
     if (seconds) {
@@ -737,25 +751,28 @@ function setCookie(name, value, seconds) {
     document.cookie = name + "=" + (value || "") + expires + "; path=/;";
 }
 
-function Callback() {
+async function OneCaptchaCallback() {
     const token = generateToken();
+    const hashedToken = await hashToken(token); // 先对token进行哈希
     var captchaElement = document.getElementById('one-captcha');
     var callbackFunctionName = captchaElement.getAttribute('data-callback');
 
     setTimeout(() => {
         if (typeof window[callbackFunctionName] === 'function') {
-            window[callbackFunctionName](token);
+            window[callbackFunctionName](token); // 直接传递原始token
         } else {
             console.error("Callback function not found.");
         }
     }, 500);
 
-    setCookie('OneCaptchaToken', token, 150);
+    setCookie('OneCaptchaToken', hashedToken, 150); // 存储哈希值到cookie
 }
 
     applyTranslations(detectLanguage());
 };
 
 document.addEventListener('DOMContentLoaded', function() {
-    captcha();
+    // setTimeout(() => {
+        OneCaptchaInit();
+    // }, 887);
 });
