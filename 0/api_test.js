@@ -150,13 +150,13 @@ function OneCaptchaInit() {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 245px;
+        width: 285px;
         background-color: #fff;
         border: 1px solid #ccc;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        border-radius: 2px;
+        border-radius: 4px;
         overflow: hidden;
-        padding: 20px;
+        padding: 10px; // 20px
         font-family: Arial, sans-serif;
     }
     #slider-captcha-footer {
@@ -209,7 +209,7 @@ function OneCaptchaInit() {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 2px
+            border-radius: 4px
         }
         #slider {
             width: 100%;
