@@ -175,16 +175,8 @@ function OneCaptchaInit() {
     padding: 15px;
     border-radius: 4px;
     margin-bottom: 17px;
-    position: relative;
 }
 
-#slider-captcha-header-text {
-    position: absolute;
-    /*top: 15px;*/
-    left: 7px;
-    font-weight: bold;
-    font-size: 20px;
-}
     #slider-captcha-header-subtext {
         font-size: 13px;
     }
@@ -396,7 +388,9 @@ function OneCaptchaInit() {
 
     <div id="slider-captcha">
     <div id="slider-captcha-header">
-        <p id="slider-captcha-header-text">Please complete CAPTCHA</p>
+        <span style="margin-left: 7px; margin-top: 15px; font-weight: bold; display: inline-block;">
+            Please complete CAPTCHA
+        </span>
     </div>
     <div id="puzzle-container">
         <img id="puzzle-image" src="" alt="img">
