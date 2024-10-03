@@ -330,6 +330,11 @@
             margin-bottom: 10px;
             font-size: 18.5px;
         }
+        .footer-section h3 {
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 23px;
+        }
         .footer-section ul {
             list-style-type: none;
             padding: 0;
