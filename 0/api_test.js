@@ -772,7 +772,7 @@ async function OneCaptchaCallback() {
 };
 
 document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(() => {
+    // setTimeout(() => {
         OneCaptchaInit();
-    }, 887);
+    // }, 887);
 });
