@@ -3,8 +3,10 @@ function captcha() {
   .then(response => response.text())
   .then(html => {
     document.getElementById('one-captcha').innerHTML = html; 
+      OneCaptchaJavaScript()
   });
-    
+
+function OneCaptchaJavaScript() {
     const verifyCheckbox = document.getElementById('verify-checkbox');
     const sliderCaptcha = document.getElementById('slider-captcha');
     const puzzleImage = document.getElementById('puzzle-image');
@@ -379,6 +381,7 @@ async function Callback() {
 
     
     applyTranslations(detectLanguage());
+};
 };
 
 document.addEventListener('DOMContentLoaded', function() {
