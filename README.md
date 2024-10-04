@@ -69,7 +69,7 @@
 
 ## Help
 
-[Captcha demo](https://onecaptcha.us.kg/demo/v3-db) | [Docs](https://docs.xyehr.cn/docs/one-captcha) | [Github Wiki](https://github.com/Dev-Huang1/One-Captcha/wiki) | [Report problem](mailto:devhuang000@outlook.com)
+[Captcha demo](https://onecaptcha.us.kg/demo/v3-db) | [Docs](https://docs.xyehr.cn/docs/one-captcha) | [Report problem](mailto:evan.huang000@proton.me)
 
 ### Contact me
 
