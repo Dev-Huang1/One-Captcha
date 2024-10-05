@@ -1,9 +1,9 @@
 // This is a test api
 
 function OneCaptchaInit() {
-    const OneCaptchaDiv = document.querySelectorAll('div');
+    const OneCaptchaDivs = document.querySelectorAll('div[id]');
     
-    OneCaptchaDiv.forEach(div => {
+    OneCaptchaDivs.forEach(div => {
         const OneCaptchaID = div.getAttribute('id');
 
         if (OneCaptchaID === 'one-captcha') {
