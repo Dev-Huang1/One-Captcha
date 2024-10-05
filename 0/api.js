@@ -1,70 +1,5 @@
 // This is a test api
 
-// Limiting abuse to prevent unlimited attempts is still under testing
-/* const MAX_REQUESTS = 5;
-const RATE_LIMIT_DURATION = 180000;
-
-async function checkIPRateLimit() {
-    try {
-        const response = await fetch('https://ipapi.co/json/');
-        const data = await response.json();
-        const ip = data.ip;
-
-        let ipData = JSON.parse(localStorage.getItem(ip) || '{}');
-        const currentTime = Date.now();
-
-        if (!ipData.timestamp || (currentTime - ipData.timestamp) > RATE_LIMIT_DURATION) {
-            ipData = { count: 1, timestamp: currentTime };
-        } else {
-            ipData.count++;
-        }
-
-        localStorage.setItem(ip, JSON.stringify(ipData));
-
-        return ipData.count <= MAX_REQUESTS;
-    } catch (error) {
-        console.error('Error checking IP rate limit:', error);
-        return true; // Allow the request if there's an error
-    }
-}
-
-function showRateLimitWarning() {
-    const loadingSpinner = document.getElementById('loading-spinner');
-    const spinnerRect = loadingSpinner.getBoundingClientRect();
-    
-    const warningElement = document.createElement('div');
-    warningElement.id = 'rate-limit-warning';
-    warningElement.style.cssText = `
-        position: absolute;
-        top: ${spinnerRect.bottom + window.scrollY}px;
-        left: ${spinnerRect.right + window.scrollX}px;
-        background-color: #ffffff;
-        color: #f44336;
-        padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        z-index: 1000;
-        text-align: center;
-        font-family: Arial, sans-serif;
-        border: 1px solid #f44336;
-        animation: fadeIn 0.5s, fadeOut 0.5s 2s;
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
-    `;
-    warningElement.textContent = 'You are abusing our service. Please try again later.';
-    document.body.appendChild(warningElement);
-
-    setTimeout(() => {
-        warningElement.remove();
-    }, 3000);
-} */
-
 function OneCaptchaInit() {
     document.getElementById('one-captcha').innerHTML = `
         <style>
@@ -150,13 +85,13 @@ function OneCaptchaInit() {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 300px;
+        width: 285px;
         background-color: #fff;
         border: 1px solid #ccc;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        border-radius: 2px;
+        border-radius: 4px;
         overflow: hidden;
-        padding: 20px;
+        padding: 15px;
         font-family: Arial, sans-serif;
     }
     #slider-captcha-footer {
@@ -166,6 +101,19 @@ function OneCaptchaInit() {
         margin-top: 10px;
         padding-top: 10px;
         border-top: 1px solid #e0e0e0;
+    }
+
+    #slider-captcha-header {
+    height: 65px;
+    background-color: #0066ff;
+    color: #fff;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 17px;
+}
+
+    #slider-captcha-header-subtext {
+        font-size: 13px;
     }
 
     #slider-captcha-actions a {
@@ -209,7 +157,7 @@ function OneCaptchaInit() {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 2px
+            border-radius: 4px;
         }
         #slider {
             width: 100%;
@@ -374,6 +322,15 @@ function OneCaptchaInit() {
     </div>
 
     <div id="slider-captcha">
+    <div id="slider-captcha-header">
+        <span id="slider-captcha-header-text" style="font-weight: bold; display: inline-block;">
+            Please complete CAPTCHA
+        </span>
+        </br>
+        <span id="slider-captcha-header-text2" style="font-size: 10px;">
+            If an error occurs, click the Retry button
+        </span>
+    </div>
     <div id="puzzle-container">
         <img id="puzzle-image" src="" alt="img">
         <div id="puzzle-piece"></div>
@@ -405,7 +362,8 @@ function OneCaptchaInit() {
     const retryButton = document.getElementById('retry-button');
     const successMessage = document.getElementById('success-message');
     const errorMessage = document.getElementById('error-message');
-    const rateLimitWarning = document.getElementById('rate-limit-warning');
+    const headerText = document.getElementById('slider-captcha-header-text');
+    const smallHeaderText = document.getElementById('slider-captcha-header-text2');
 
     const images = ['image1.jpeg', 'image2.jpeg', 'image3.jpg', 'img018.png', 'img072.jpg', 'img102.jpeg', 'img181.jpeg', 'img193.jpeg', 'img273.jpeg', 'img372.jpeg', 'img392.jpeg', 'img398.jpeg', 'img462.jpg', 'img482.jpeg', 'img492.jpeg', 'img592.jpg', 'img638.jpg', 'img639.jpeg', 'img639.jpg', 'img648.jpg', 'img657.jpeg', 'img857.jpeg', 'img928.jpeg'];
     let currentImage;
@@ -421,40 +379,42 @@ function OneCaptchaInit() {
         en: {
             captchaLabel: "I'm not a robot",
             verifyingText: "Verifying...",
-            //retryButton: "Retry",
             privacyLink: "Privacy",
             docsLink: "Docs",
             successMessage: "Success",
             errorMessage: "Verification failed. Please try again.",
-            //rateLimitWarning: 'You are abusing our service. Please try again later.',
+            headerText: "Please complete CAPTCHA",
+            smallHeaderText: "If an error occurs, click the Retry button",
         },
         zh: {
             captchaLabel: "我不是机器人",
             verifyingText: "验证中...",
-            //retryButton: "重试",
             privacyLink: "隐私",
             docsLink: "文档",
             successMessage: "验证成功",
             errorMessage: "验证失败，请重试",
-            //rateLimitWarning: '检测到您正在滥用我们的服务，请稍候再试。',
+            headerText: "请完成 CAPTCHA",
+            smallHeaderText: "如果出现错误，请点按重试按钮",
         },
         es: {
         captchaLabel: "No soy un robot",
         verifyingText: "Verificando...",
-        //retryButton: "Reintentar",
         privacyLink: "Privacidad",
         docsLink: "Docs",
         successMessage: "Éxito",
         errorMessage: "La verificación falló. Por favor, inténtelo de nuevo.",
+        headerText: "Por favor complete el CAPTCHA",
+        smallHeaderText: "Si se produce un error, haga clic en el botón Reintentar"
     },
     fr: { 
         captchaLabel: "Je suis humain",
         verifyingText: "Vérification...",
-        //retryButton: "Réessayer",
         privacyLink: "La vie privée",
         docsLink: "Docs",
         successMessage: "Succès",
         errorMessage: "Échec de la vérification. Veuillez réessayer.",
+        headerText: "Veuillez compléter le CAPTCHA",
+        smallHeaderText: "Si une erreur se produit, cliquez sur le bouton Réessayer"
     },
     };
 
@@ -478,6 +438,8 @@ function OneCaptchaInit() {
         document.getElementById('privacy-link').textContent = translations[language].privacyLink;
         document.getElementById('docs-link').textContent = translations[language].docsLink;
         document.getElementById('error-message').textContent = translations[language].errorMessage;
+        document.getElementById('slider-captcha-header-text').textContent = translations[language].headerText;
+        document.getElementById('slider-captcha-header-text2').textContent = translations[language].smallHeaderText;
     }
 
     verifyCheckbox.addEventListener('change', async function() {
