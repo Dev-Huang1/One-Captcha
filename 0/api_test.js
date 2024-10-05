@@ -1,9 +1,7 @@
 // This is a test api
 
 function OneCaptchaInit() {
-    const OneCaptchaDivs = document.querySelectorAll('[id="one-captcha"]'); 
-OneCaptchaDivs.forEach(OneCaptchaDiv => {
-    OneCaptchaDiv.innerHTML = `
+    document.getElementById('one-captcha').innerHTML = `
         <style>
         #captcha-container {
             width: 260px;
@@ -354,7 +352,6 @@ OneCaptchaDivs.forEach(OneCaptchaDiv => {
     </div>
 </div>
     `;
-    });
     
     const verifyCheckbox = document.getElementById('verify-checkbox');
     const sliderCaptcha = document.getElementById('slider-captcha');
