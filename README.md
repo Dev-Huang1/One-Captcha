@@ -47,6 +47,10 @@
 
 ![Success](assets/Preview-Success.png)
 
+**Slider Captcha**
+
+![Slider Captcha](assets/OneCaptchaSliderPreview.png)
+
 ## Quick Start
 
 [See docs](https://docs.xyehr.cn/docs/one-captcha)
