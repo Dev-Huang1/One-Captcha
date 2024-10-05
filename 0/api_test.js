@@ -1,7 +1,7 @@
 // This is a test api
 
 function OneCaptchaInit() {
-    const OneCaptchaDivs = document.querySelectorAll('[id="one-captcha"]');  // 选择所有id为"test"的元素
+    const OneCaptchaDivs = document.querySelectorAll('[id="one-captcha"]'); 
 OneCaptchaDivs.forEach(OneCaptchaDiv => {
     OneCaptchaDiv.innerHTML = `
         <style>
