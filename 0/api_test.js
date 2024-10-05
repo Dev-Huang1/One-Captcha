@@ -1,13 +1,9 @@
 // This is a test api
 
 function OneCaptchaInit() {
-    const OneCaptchaDivs = document.querySelectorAll('div[id]');
-    
-    OneCaptchaDivs.forEach(div => {
-        const OneCaptchaID = div.getAttribute('id');
-
-        if (OneCaptchaID === 'one-captcha') {
-            div.innerHTML = `
+    const elements = document.querySelectorAll('[id="one-captcha"]');  // 选择所有id为"test"的元素
+elements.forEach(element => {
+    element.innerHTML = `
         <style>
         #captcha-container {
             width: 260px;
@@ -358,8 +354,7 @@ function OneCaptchaInit() {
     </div>
 </div>
     `;
-        }
-    };
+    });
     
     const verifyCheckbox = document.getElementById('verify-checkbox');
     const sliderCaptcha = document.getElementById('slider-captcha');
