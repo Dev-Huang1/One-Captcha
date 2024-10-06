@@ -419,7 +419,7 @@ function OneCaptchaInit() {
         de: {
             captchaLabel: "ich bin ein Mensch",
             verifyingText: "Überprüfen...",
-            privacyLink: "Privatsphäre",
+            privacyLink: "Privat",
             docsLink: "Doku",
             successMessage: "Erfolg",
             errorMessage: "Überprüfung fehlgeschlagen. Bitte erneut versuchen.",
