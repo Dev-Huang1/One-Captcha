@@ -39,7 +39,7 @@
         .hero-content {
             max-width: 50%;
         }
-        /* .hero-image {
+        .hero-image {
             position: relative;
             max-width: 45%;
         }
@@ -47,7 +47,7 @@
             box-shadow: 0 2px 8px 1px rgba(0, 0, 0, 0.08);
             max-width: 100%;
             height: auto;
-        } */
+        }
         .hero h1 {
             font-size: 37px;
             color: #333;
