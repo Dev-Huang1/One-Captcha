@@ -46,7 +46,7 @@ function OneCaptchaInit() {
         }
         #captcha-label {
             /* margin-right: 20px; */
-            max-width: 93px;
+            max-width: 100px;
         }
         #brand {
             font-weight: bold;
