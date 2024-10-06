@@ -1,7 +1,9 @@
 // This is a test api
 
 function OneCaptchaInit() {
-    document.getElementById('one-captcha').innerHTML = `
+    const captchaElement = document.getElementById('one-captcha');
+    const shadow = captchaElement.attachShadow({ mode: 'open' });
+    shadow.innerHTML = `
         <style>
         #captcha-container {
             width: 260px;
