@@ -416,6 +416,16 @@ function OneCaptchaInit() {
         headerText: "Veuillez compléter le CAPTCHA",
         smallHeaderText: "Si une erreur se produit, cliquez sur le bouton Réessayer"
     },
+        de: {
+            captchaLabel: "ich bin ein Mensch",
+            verifyingText: "Überprüfen...",
+            privacyLink: "Privatsphäre",
+            docsLink: "Doku",
+            successMessage: "Erfolg",
+            errorMessage: "Überprüfung fehlgeschlagen. Bitte erneut versuchen.",
+            headerText: "Bitte füllen Sie das CAPTCHA aus",
+            smallHeaderText: "Wenn ein Fehler auftritt, klicken Sie auf die Schaltfläche „Wiederholen“",
+        }
     };
 
     const captchaElement = document.getElementById('one-captcha');
@@ -429,6 +439,7 @@ function OneCaptchaInit() {
         if (userLang.startsWith('zh')) return 'zh';
         else if (userLang.startsWith('es')) return 'es';
         else if (userLang.startsWith('fr')) return 'fr';
+        else if (userLang.startsWith('de')) return 'de';
         else return userLang.includes('zh') ? 'zh' : 'en';
     }
 
