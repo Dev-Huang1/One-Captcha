@@ -425,6 +425,16 @@ function OneCaptchaInit() {
             errorMessage: "Überprüfung fehlgeschlagen. Bitte erneut versuchen.",
             headerText: "Bitte füllen Sie das CAPTCHA aus",
             smallHeaderText: "Wenn ein Fehler auftritt, klicken Sie auf die Schaltfläche „Wiederholen“",
+        },
+        ja: {
+            captchaLabel: "私は人間です",
+            verifyingText: "検証中…",
+            privacyLink: "プライバシー",
+            docsLink: "書類",
+            successMessage: "検証成功",
+            errorMessage: "検証失敗。再度お試しください。",
+            headerText: "CAPTCHA を完了してください。",
+            smallHeaderText: "エラーが発生した場合は、「再試行」ボタンをクリックしてください",
         }
     };
 
@@ -440,6 +450,7 @@ function OneCaptchaInit() {
         else if (userLang.startsWith('es')) return 'es';
         else if (userLang.startsWith('fr')) return 'fr';
         else if (userLang.startsWith('de')) return 'de';
+        else if (userLang.startsWith('ja')) return 'ja';
         else return userLang.includes('zh') ? 'zh' : 'en';
     }
 
