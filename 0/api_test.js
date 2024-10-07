@@ -398,6 +398,16 @@ function OneCaptchaInit() {
             headerText: "请完成 CAPTCHA",
             smallHeaderText: "如果出现错误，请点按重试按钮",
         },
+        "zh-hant": {
+            captchaLabel: "我不是機器人",
+            verifyingText: "驗證中...",
+            privacyLink: "隱私",
+            docsLink: "文件",
+            successMessage: "驗證成功",
+            errorMessage: "驗證失敗，請重試",
+            headerText: "請完成 CAPTCHA",
+            smallHeaderText: "如果出現錯誤，請點按重試按鈕",
+        },
         es: {
         captchaLabel: "No soy un robot",
         verifyingText: "Verificando...",
@@ -449,6 +459,9 @@ function OneCaptchaInit() {
         }
         const userLang = navigator.language || navigator.userLanguage;
         if (userLang.startsWith('zh')) return 'zh';
+        else if (userLang.startsWith('zh-hk')) return 'zh-hant';
+        else if (userLang.startsWith('zh-mo')) return 'zh-hant';
+        else if (userLang.startsWith('zh-tw')) return 'zh-hant';
         else if (userLang.startsWith('es')) return 'es';
         else if (userLang.startsWith('fr')) return 'fr';
         else if (userLang.startsWith('de')) return 'de';
