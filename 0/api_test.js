@@ -505,9 +505,37 @@ function OneCaptchaInit() {
         }
     });
 
+    function applyBlurAndPattern(imageElement) {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = imageElement.width;
+    canvas.height = imageElement.height;
+
+    ctx.drawImage(imageElement, 0, 0, canvas.width, canvas.height);
+
+    ctx.filter = 'blur(5px)';
+    ctx.drawImage(imageElement, 0, 0, canvas.width, canvas.height);
+
+    drawLinePattern(ctx, canvas.width, canvas.height);
+
+    imageElement.src = canvas.toDataURL();
+}
+
+function drawLinePattern(ctx, width, height) {
+    ctx.beginPath();
+    for (let i = 0; i < height; i += 10) {
+        ctx.moveTo(0, i);
+        ctx.lineTo(width, i);
+    }
+    ctx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
+    ctx.stroke();
+}
+
     function showSliderCaptcha() {
     currentImage = images[Math.floor(Math.random() * images.length)];
     puzzleImage.src = `https://onecaptcha.us.kg/assets/v3/${currentImage}`;
+
+    applyBlurAndPattern(puzzleImage);
 
     puzzleImage.onload = () => {
         const pieceSize = 50;
