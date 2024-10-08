@@ -586,6 +586,7 @@ function drawLinePattern(ctx, width, height) {
         sliderCaptcha.style.opacity = '1';
     }, 100);
 };
+    };
 
     function startDragging(e) {
         e.preventDefault();
