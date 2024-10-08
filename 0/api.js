@@ -1,9 +1,8 @@
-// This is a test api
-
 function OneCaptchaInit() {
     document.getElementById('one-captcha').innerHTML = `
         <style>
         #captcha-container {
+            all: unset;
             width: 260px;
             height: 40px;
             border: 1px solid #ccc;
@@ -46,6 +45,7 @@ function OneCaptchaInit() {
         }
         #captcha-label {
             /* margin-right: 20px; */
+            max-width: 125px;
         }
         #brand {
             font-weight: bold;
@@ -316,7 +316,7 @@ function OneCaptchaInit() {
             <a href="https://github.com/Dev-Huang1/One-Captcha"><img src="https://onecaptcha.us.kg/assets/logo/logo.svg" alt="One Captcha Logo"></a>
             One Captcha
             <div class="privacy-terms-links">
-                <a href="https://www.xyehr.cn/one-captcha-privacy-policy" id="privacy-link">Privacy</a><p>·</p><a href="https://docs.xyehr.cn" id="docs-link">Docs</a>
+                <a href="https://docs.xyehr.cn/docs/one-captcha/more/privacy" id="privacy-link">Privacy</a><p>·</p><a href="https://docs.xyehr.cn/docs/one-captcha" id="docs-link">Docs</a>
             </div>
         </div>
     </div>
@@ -346,7 +346,7 @@ function OneCaptchaInit() {
             Powered by One Captcha
         </div>
         <div id="slider-captcha-actions">
-            <a href="https://docs.xyehr.cn/"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23888888'%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3Cpath d='M11 17h2v-6h-2v6zm1-15C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM11 9h2V7h-2v2z'/%3E%3C/svg%3E" alt="About"></a>
+            <a href="https://onecaptcha.us.kg/"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23888888'%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3Cpath d='M11 17h2v-6h-2v6zm1-15C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM11 9h2V7h-2v2z'/%3E%3C/svg%3E" alt="About"></a>
             <a><img id="retry-button" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23888888'%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3Cpath d='M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z'/%3E%3C/svg%3E" alt="Refresh"></a>
         </div>
     </div>
@@ -396,6 +396,16 @@ function OneCaptchaInit() {
             headerText: "请完成 CAPTCHA",
             smallHeaderText: "如果出现错误，请点按重试按钮",
         },
+        "zh-hant": {
+            captchaLabel: "我不是機器人",
+            verifyingText: "驗證中...",
+            privacyLink: "隱私",
+            docsLink: "文件",
+            successMessage: "驗證成功",
+            errorMessage: "驗證失敗，請重試",
+            headerText: "請完成 CAPTCHA",
+            smallHeaderText: "如果出現錯誤，請點按重試按鈕",
+        },
         es: {
         captchaLabel: "No soy un robot",
         verifyingText: "Verificando...",
@@ -416,6 +426,26 @@ function OneCaptchaInit() {
         headerText: "Veuillez compléter le CAPTCHA",
         smallHeaderText: "Si une erreur se produit, cliquez sur le bouton Réessayer"
     },
+        de: {
+            captchaLabel: "ich bin ein Mensch",
+            verifyingText: "Überprüfen...",
+            privacyLink: "Privat",
+            docsLink: "Doku",
+            successMessage: "Erfolg",
+            errorMessage: "Überprüfung fehlgeschlagen. Bitte erneut versuchen.",
+            headerText: "Bitte füllen Sie das CAPTCHA aus",
+            smallHeaderText: "Wenn ein Fehler auftritt, klicken Sie auf die Schaltfläche „Wiederholen“",
+        },
+        ja: {
+            captchaLabel: "私は人間です",
+            verifyingText: "検証中…",
+            privacyLink: "プライバシー",
+            docsLink: "書類",
+            successMessage: "検証成功",
+            errorMessage: "検証失敗。再度お試しください。",
+            headerText: "CAPTCHA を完了してください。",
+            smallHeaderText: "エラーが発生した場合は、「再試行」ボタンをクリックしてください",
+        }
     };
 
     const captchaElement = document.getElementById('one-captcha');
@@ -427,8 +457,13 @@ function OneCaptchaInit() {
         }
         const userLang = navigator.language || navigator.userLanguage;
         if (userLang.startsWith('zh')) return 'zh';
+        else if (userLang.startsWith('zh-hk')) return 'zh-hant';
+        else if (userLang.startsWith('zh-mo')) return 'zh-hant';
+        else if (userLang.startsWith('zh-tw')) return 'zh-hant';
         else if (userLang.startsWith('es')) return 'es';
         else if (userLang.startsWith('fr')) return 'fr';
+        else if (userLang.startsWith('de')) return 'de';
+        else if (userLang.startsWith('ja')) return 'ja';
         else return userLang.includes('zh') ? 'zh' : 'en';
     }
 
