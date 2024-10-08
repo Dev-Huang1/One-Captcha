@@ -57,11 +57,10 @@
 
 ## Project Structure
 
+> - `0`: The folder where the version of the API is stored
 > - `assets`: Assets Folder
->     - `api`: The folder where the version of the API is stored
 >     - `logo`: Folder where LOGO images are stored
 >     - `v3`: The folder where the images of the sliding verification code of version v3 are stored
-> - `demo`: Demo Folder
 
 ## Contributors
 
