@@ -505,17 +505,15 @@ function OneCaptchaInit() {
         }
     });
 
-    function applyBlurAndPattern(imageElement) {
+    let isProcessing = false;
+
+function applyBlurAndPattern(imageElement) {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     canvas.width = imageElement.width;
     canvas.height = imageElement.height;
 
     ctx.drawImage(imageElement, 0, 0, canvas.width, canvas.height);
-
-    ctx.filter = 'blur(5px)';
-    ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height);
-
     drawLinePattern(ctx, canvas.width, canvas.height);
 
     return canvas.toDataURL();
@@ -532,6 +530,9 @@ function drawLinePattern(ctx, width, height) {
 }
 
 function showSliderCaptcha() {
+    if (isProcessing) return;
+    isProcessing = true;
+
     currentImage = images[Math.floor(Math.random() * images.length)];
     puzzleImage.src = `https://onecaptcha.us.kg/assets/v3/${currentImage}`;
 
@@ -584,6 +585,7 @@ function showSliderCaptcha() {
                 puzzlePiece.style.display = 'block';
                 puzzleHole.style.display = 'block';
                 sliderCaptcha.style.opacity = '1';
+                isProcessing = false;
             }, 100);
         };
 
@@ -591,7 +593,7 @@ function showSliderCaptcha() {
     };
 }
 
-
+    
     function startDragging(e) {
         e.preventDefault();
         isDragging = true;
