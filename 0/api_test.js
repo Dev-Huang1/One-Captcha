@@ -514,11 +514,11 @@ function OneCaptchaInit() {
     ctx.drawImage(imageElement, 0, 0, canvas.width, canvas.height);
 
     ctx.filter = 'blur(5px)';
-    ctx.drawImage(imageElement, 0, 0, canvas.width, canvas.height);
+    ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height);
 
     drawLinePattern(ctx, canvas.width, canvas.height);
 
-    imageElement.src = canvas.toDataURL();
+    return canvas.toDataURL();
 }
 
 function drawLinePattern(ctx, width, height) {
@@ -531,62 +531,66 @@ function drawLinePattern(ctx, width, height) {
     ctx.stroke();
 }
 
-    function showSliderCaptcha() {
+function showSliderCaptcha() {
     currentImage = images[Math.floor(Math.random() * images.length)];
     puzzleImage.src = `https://onecaptcha.us.kg/assets/v3/${currentImage}`;
 
     puzzleImage.onload = () => {
-    const pieceSize = 50;
-    const maxX = puzzleImage.width - pieceSize;
-    const maxY = puzzleImage.height - pieceSize;
-    const pieceX = Math.floor(Math.random() * (maxX - 50) + 50); 
-    const pieceY = Math.floor(Math.random() * maxY);
+        const pieceSize = 50;
+        const maxX = puzzleImage.width - pieceSize;
+        const maxY = puzzleImage.height - pieceSize;
+        const pieceX = Math.floor(Math.random() * (maxX - 50) + 50); 
+        const pieceY = Math.floor(Math.random() * maxY);
 
-    const modifiedImageSrc = applyBlurAndPattern(puzzleImage);
-    puzzleImage.src = modifiedImageSrc;
+        const modifiedImageSrc = applyBlurAndPattern(puzzleImage);
 
-    // 确保拼图块元素存在
-    if (!document.getElementById('puzzle-piece')) {
-        const newPuzzlePiece = document.createElement('div');
-        newPuzzlePiece.id = 'puzzle-piece';
-        document.getElementById('puzzle-container').appendChild(newPuzzlePiece);
-        puzzlePiece = newPuzzlePiece;
-    }
+        const modifiedImage = new Image();
+        modifiedImage.onload = () => {
+            puzzleImage.src = modifiedImageSrc;
 
-    puzzlePiece.style.left = '0px';
-    puzzlePiece.style.top = `${pieceY}px`;
-    puzzlePiece.style.backgroundImage = `url(${modifiedImageSrc})`;
-    puzzlePiece.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
-    puzzlePiece.style.backgroundSize = `${puzzleImage.width}px ${puzzleImage.height}px`;
-    puzzlePiece.style.display = 'block';
-    puzzlePiece.style.zIndex = '1000'; // 确保拼图块在最上层
+            if (!document.getElementById('puzzle-piece')) {
+                const newPuzzlePiece = document.createElement('div');
+                newPuzzlePiece.id = 'puzzle-piece';
+                document.getElementById('puzzle-container').appendChild(newPuzzlePiece);
+                puzzlePiece = newPuzzlePiece;
+            }
 
-    // 移除旧的拼图洞
-    const oldPuzzleHole = document.getElementById('puzzle-hole');
-    if (oldPuzzleHole) {
-        oldPuzzleHole.remove();
-    }
+            puzzlePiece.style.left = '0px';
+            puzzlePiece.style.top = `${pieceY}px`;
+            puzzlePiece.style.backgroundImage = `url(${modifiedImageSrc})`;
+            puzzlePiece.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
+            puzzlePiece.style.backgroundSize = `${puzzleImage.width}px ${puzzleImage.height}px`;
+            puzzlePiece.style.display = 'block';
+            puzzlePiece.style.zIndex = '1000';
 
-    const puzzleHole = document.createElement('div');
-    puzzleHole.id = 'puzzle-hole';
-    puzzleHole.style.left = `${pieceX}px`;
-    puzzleHole.style.top = `${pieceY}px`;
-    puzzleHole.style.display = 'block';
-    puzzleHole.style.zIndex = '999'; // 确保拼图洞在拼图块下面
-    document.getElementById('puzzle-container').appendChild(puzzleHole);
+            const oldPuzzleHole = document.getElementById('puzzle-hole');
+            if (oldPuzzleHole) {
+                oldPuzzleHole.remove();
+            }
 
-    piecePosition = pieceX;
-    sliderCaptcha.style.display = 'block';
-    resetSlider();
+            const puzzleHole = document.createElement('div');
+            puzzleHole.id = 'puzzle-hole';
+            puzzleHole.style.left = `${pieceX}px`;
+            puzzleHole.style.top = `${pieceY}px`;
+            puzzleHole.style.display = 'block';
+            puzzleHole.style.zIndex = '999';
+            document.getElementById('puzzle-container').appendChild(puzzleHole);
 
-    // 确保所有元素都正确显示
-    setTimeout(() => {
-        puzzlePiece.style.display = 'block';
-        puzzleHole.style.display = 'block';
-        sliderCaptcha.style.opacity = '1';
-    }, 100);
-};
+            piecePosition = pieceX;
+            sliderCaptcha.style.display = 'block';
+            resetSlider();
+
+            setTimeout(() => {
+                puzzlePiece.style.display = 'block';
+                puzzleHole.style.display = 'block';
+                sliderCaptcha.style.opacity = '1';
+            }, 100);
+        };
+
+        modifiedImage.src = modifiedImageSrc;
     };
+}
+
 
     function startDragging(e) {
         e.preventDefault();
