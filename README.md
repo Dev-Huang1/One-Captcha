@@ -66,10 +66,6 @@
 
 ![Contributors](https://opencollective.com/One-Captcha/contributors.svg?width=890&button=false)
 
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=Dev-Huang1/One-Captcha&type=Timeline)](https://star-history.com/#Dev-Huang1/One-Captcha&Timeline)
-
 ## Help
 
 [Captcha demo](https://onecaptcha.us.kg/demo/v3-db) | [Docs](https://docs.xyehr.cn/docs/one-captcha) | [Report problem](mailto:evan.huang000@proton.me)
