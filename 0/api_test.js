@@ -302,6 +302,7 @@ function OneCaptchaInit() {
          }
     </style>
     <div id="captcha-container">
+        <noscript>Please enable JavaScript for human authentication</noscript>
         <div id="verify-section">
             <input type="checkbox" id="verify-checkbox">
             <label for="verify-checkbox" class="custom-checkbox"></label>
