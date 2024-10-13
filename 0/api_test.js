@@ -1,5 +1,3 @@
-// This is a test api
-
 function OneCaptchaInit() {
     document.getElementById('one-captcha').innerHTML = `
         <style>
@@ -302,7 +300,6 @@ function OneCaptchaInit() {
          }
     </style>
     <div id="captcha-container">
-        <noscript>Please enable JavaScript for human authentication</noscript>
         <div id="verify-section">
             <input type="checkbox" id="verify-checkbox">
             <label for="verify-checkbox" class="custom-checkbox"></label>
@@ -506,34 +503,7 @@ function OneCaptchaInit() {
         }
     });
 
-    let isProcessing = false;
-
-function applyBlurAndPattern(imageElement) {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = imageElement.width;
-    canvas.height = imageElement.height;
-
-    ctx.drawImage(imageElement, 0, 0, canvas.width, canvas.height);
-    drawLinePattern(ctx, canvas.width, canvas.height);
-
-    return canvas.toDataURL();
-}
-
-function drawLinePattern(ctx, width, height) {
-    ctx.beginPath();
-    for (let i = 0; i < height; i += 10) {
-        ctx.moveTo(0, i);
-        ctx.lineTo(width, i);
-    }
-    ctx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
-    ctx.stroke();
-}
-
-function showSliderCaptcha() {
-    if (isProcessing) return;
-    isProcessing = true;
-
+    function showSliderCaptcha() {
     currentImage = images[Math.floor(Math.random() * images.length)];
     puzzleImage.src = `https://onecaptcha.us.kg/assets/v3/${currentImage}`;
 
@@ -544,56 +514,49 @@ function showSliderCaptcha() {
         const pieceX = Math.floor(Math.random() * (maxX - 50) + 50); 
         const pieceY = Math.floor(Math.random() * maxY);
 
-        const modifiedImageSrc = applyBlurAndPattern(puzzleImage);
+        // 确保拼图块元素存在
+        if (!document.getElementById('puzzle-piece')) {
+            const newPuzzlePiece = document.createElement('div');
+            newPuzzlePiece.id = 'puzzle-piece';
+            document.getElementById('puzzle-container').appendChild(newPuzzlePiece);
+            puzzlePiece = newPuzzlePiece;
+        }
 
-        const modifiedImage = new Image();
-        modifiedImage.onload = () => {
-            puzzleImage.src = modifiedImageSrc;
+        puzzlePiece.style.left = '0px';
+        puzzlePiece.style.top = `${pieceY}px`;
+        puzzlePiece.style.backgroundImage = `url(https://onecaptcha.us.kg/assets/v3/${currentImage})`;
+        puzzlePiece.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
+        puzzlePiece.style.backgroundSize = `${puzzleImage.width}px ${puzzleImage.height}px`;
+        puzzlePiece.style.display = 'block';
+        puzzlePiece.style.zIndex = '1000'; // 确保拼图块在最上层
 
-            if (!document.getElementById('puzzle-piece')) {
-                const newPuzzlePiece = document.createElement('div');
-                newPuzzlePiece.id = 'puzzle-piece';
-                document.getElementById('puzzle-container').appendChild(newPuzzlePiece);
-                puzzlePiece = newPuzzlePiece;
-            }
+        // 移除旧的拼图洞
+        const oldPuzzleHole = document.getElementById('puzzle-hole');
+        if (oldPuzzleHole) {
+            oldPuzzleHole.remove();
+        }
 
-            puzzlePiece.style.left = '0px';
-            puzzlePiece.style.top = `${pieceY}px`;
-            puzzlePiece.style.backgroundImage = `url(${modifiedImageSrc})`;
-            puzzlePiece.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
-            puzzlePiece.style.backgroundSize = `${puzzleImage.width}px ${puzzleImage.height}px`;
-            puzzlePiece.style.display = 'block';
-            puzzlePiece.style.zIndex = '1000';
+        const puzzleHole = document.createElement('div');
+        puzzleHole.id = 'puzzle-hole';
+        puzzleHole.style.left = `${pieceX}px`;
+        puzzleHole.style.top = `${pieceY}px`;
+        puzzleHole.style.display = 'block';
+        puzzleHole.style.zIndex = '999'; // 确保拼图洞在拼图块下面
+        document.getElementById('puzzle-container').appendChild(puzzleHole);
 
-            const oldPuzzleHole = document.getElementById('puzzle-hole');
-            if (oldPuzzleHole) {
-                oldPuzzleHole.remove();
-            }
+        piecePosition = pieceX;
+        sliderCaptcha.style.display = 'block';
+        resetSlider();
 
-            const puzzleHole = document.createElement('div');
-            puzzleHole.id = 'puzzle-hole';
-            puzzleHole.style.left = `${pieceX}px`;
-            puzzleHole.style.top = `${pieceY}px`;
-            puzzleHole.style.display = 'block';
-            puzzleHole.style.zIndex = '999';
-            document.getElementById('puzzle-container').appendChild(puzzleHole);
-
-            piecePosition = pieceX;
-            sliderCaptcha.style.display = 'block';
-            resetSlider();
-
+        // 确保所有元素都正确显示
+        setTimeout(() => {
             puzzlePiece.style.display = 'block';
             puzzleHole.style.display = 'block';
             sliderCaptcha.style.opacity = '1';
-
-            isProcessing = false;  // Reset the processing flag here
-        };
-        modifiedImage.src = modifiedImageSrc;
+        }, 100);
     };
 }
 
-
-    
     function startDragging(e) {
         e.preventDefault();
         isDragging = true;
