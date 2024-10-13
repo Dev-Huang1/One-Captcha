@@ -582,17 +582,16 @@ function showSliderCaptcha() {
             sliderCaptcha.style.display = 'block';
             resetSlider();
 
-            setTimeout(() => {
-                puzzlePiece.style.display = 'block';
-                puzzleHole.style.display = 'block';
-                sliderCaptcha.style.opacity = '1';
-                isProcessing = false;
-            }, 100);
-        };
+            puzzlePiece.style.display = 'block';
+            puzzleHole.style.display = 'block';
+            sliderCaptcha.style.opacity = '1';
 
+            isProcessing = false;  // Reset the processing flag here
+        };
         modifiedImage.src = modifiedImageSrc;
     };
 }
+
 
     
     function startDragging(e) {
