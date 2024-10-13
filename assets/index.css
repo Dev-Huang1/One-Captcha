@@ -1,121 +1,148 @@
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-        body {
-            background-color: #fff;
-        }
-        .header {
-            background-color: white;
-        }
-        .nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 5%;
-        }
-        .logo {
-            display: flex;
-            align-items: center;
-        }
-        .logo img {
-            width: 40px;
-            height: 40px;
-            margin-right: 10px;
-        }
-        .logo span {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #333;
-        }
-        .hero {
-            padding: 0 5%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .hero-content {
-            max-width: 50%;
-        }
-        .hero-image {
-            position: relative;
-            max-width: 45%;
-        }
-        .hero img {
-            box-shadow: 0 2px 8px 1px rgba(0, 0, 0, 0.08);
-            max-width: 100%;
-            height: auto;
-        }
-        .hero h1 {
-            font-size: 37px;
-            color: #333;
-            margin-bottom: 25px;
-        }
-        .hero h2 {
-            font-size: 18px;
-            color: #666;
-            margin-bottom: 1.5rem;
-            font-weight: 400;
-        }
-        .buttons {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 30px;
-        }
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: 25px;
-            font-size: 1rem;
-            font-weight: bold;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        .btn-primary {
-            background-color: #0066ff;
-            color: white;
-            border: none;
-        }
-        .btn-primary:hover {
-            background-color: #0052cc;
-        }
-        .btn-secondary {
-            background-color: white;
-            color: #0066ff;
-            border: 2px solid #0066ff;
-        }
-        .btn-secondary:hover {
-            background-color: #f0f8ff;
-        }
-        .features {
-            display: flex;
-            gap: 2rem;
-            position: absolute;
-            bottom: -50px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: white;
-            padding: 1rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px 1px rgba(0, 0, 0, 0.08);
-        }
-        .feature {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: #0066ff;
-        }
-        .feature svg {
-            width: 22px;
-            height: 22px;
-            margin-bottom: 0.5rem;
-            fill: currentColor;
-        }
-        .feature span {
-            font-size: 12.5px;
-            text-align: center;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #fff;
+}
+
+/* 导航栏和Logo */
+.header {
+    background-color: white;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 5%;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.logo span {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Hero部分 */
+.hero {
+    padding: 0 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.hero-content {
+    max-width: 50%;
+}
+
+.hero-image {
+    position: relative;
+    max-width: 45%;
+}
+
+.hero img {
+    box-shadow: 0 2px 8px 1px rgba(0, 0, 0, 0.08);
+    max-width: 100%;
+    height: auto;
+}
+
+.hero h1 {
+    font-size: 37px;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+.hero h2 {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+}
+
+.buttons {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 30px;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #0066ff;
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #0052cc;
+}
+
+.btn-secondary {
+    background-color: white;
+    color: #0066ff;
+    border: 2px solid #0066ff;
+}
+
+.btn-secondary:hover {
+    background-color: #f0f8ff;
+}
+
+/* 特性部分 */
+.features {
+    display: flex;
+    gap: 2rem;
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px 1px rgba(0, 0, 0, 0.08);
+}
+
+.feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #0066ff;
+}
+
+.feature svg {
+    width: 22px;
+    height: 22px;
+    margin-bottom: 0.5rem;
+    fill: currentColor;
+}
+
+.feature span {
+    font-size: 12.5px;
+    text-align: center;
+}
+
+/* 内容区 */
 .content-section {
     background-color: white;
     padding: 0 30px;
@@ -163,258 +190,196 @@
     gap: 1rem;
 }
 
+/* 特性容器 */
 .feature-container {
-  background-color: #2962FF;
-  color: white;
-  margin: 0;
-  padding: 0 30px;
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+    background-color: #2962FF;
+    color: white;
+    margin: 0;
+    padding: 0 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 .feature-feature {
-  flex-basis: calc(50% - 20px);
-  margin-bottom: 40px;
+    flex-basis: calc(50% - 20px);
+    margin-bottom: 40px;
 }
 
 .feature-icon {
-  width: 48px;
-  height: 48px;
-  fill: white;
+    width: 48px;
+    height: 48px;
+    fill: white;
 }
 
 .feature-title {
-  font-size: 24px;
-  margin: 10px 0;
+    font-size: 24px;
+    margin: 10px 0;
 }
 
 .feature-description {
-  font-size: 16px;
-  line-height: 1.5;
+    font-size: 16px;
+    line-height: 1.5;
 }
 
 .feature-link {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
 }
 
-.feature-showcase {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 36px 34px;
-  color: #333;
-  background-color: #F6F8FC;
+/* 页脚 */
+.footer {
+    background-color: #fff;
+    color: #333;
+    padding: 30px;
+    font-size: 14px;
 }
 
-.shield-features {
-  text-align: center;
-  margin-bottom: 40px;
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.shield-title {
-  color: #000;
-  font-size: 37px;
-  margin-bottom: 20px;
+.footer-section {
+    flex: 1 1 200px;
+    margin-bottom: 20px;
+    margin-right: 20px;
 }
 
-.shield-intro {
-  font-size: 16px;
-  line-height: 1.5;
-  margin-bottom: 30px;
+.footer-section h4 {
+    color: #0066ff;
+    margin-bottom: 10px;
+    font-size: 18.5px;
 }
 
-.helvetia-safeguard {
-  background-color: #ffffff;
-  border-radius: 15px;
-  padding: 20px;
-  position: relative;
-  margin-bottom: 28px;
+.footer-section h3 {
+    color: #000;
+    margin-bottom: 15px;
+    font-size: 23px;
 }
 
-.alp-visual {
-  height: 150px;
-  position: relative;
-  margin-bottom: 20px;
-  overflow: hidden;
-  border-radius: 10px;
+.footer-section ul {
+    list-style-type: none;
+    padding: 0;
 }
 
-.alp-map {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.footer-section ul li {
+    margin-bottom: 5px;
 }
 
-.edelweiss-emblem {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  background-color: #ff0000;
-  border-radius: 50%;
-  left: 10px;
-  top: 10px;
+.footer-section ul li a {
+    color: #333;
+    text-decoration: none;
+    font-size: 15px;
 }
 
-.edelweiss-emblem::after {
-  content: "+";
-  color: white;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 20px;
-  font-weight: bold;
+.footer-section ul li a:hover {
+    color: #0066ff;
 }
 
-.secret-code {
-  position: absolute;
-  right: 20px;
-  top: 20px;
-  background-color: #1a1a4d;
-  color: white;
-  padding: 5px 15px;
-  border-radius: 15px;
+.footer-bottom {
+    text-align: left;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+    font-size: 15px;
 }
 
-.secret-code::after {
-  content: "• • •";
-  font-size: 20px;
-  letter-spacing: 2px;
-}
-
-.safeguard-tag {
-  display: inline-block;
-  background-color: #cce0ff;
-  color: #0055cc;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 12px;
-  margin-bottom: 10px;
-}
-
-.safeguard-title {
-  color: #0055cc;
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-
-.safeguard-description {
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-        .footer {
-            background-color: #fff;
-            color: #333;
-            padding: 30px;
-            font-size: 14px;
-        }
-        .footer-content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .footer-section {
-            flex: 1 1 200px;
-            margin-bottom: 20px;
-            margin-right: 20px;
-        }
-        .footer-section h4 {
-            color: #0066ff;
-            margin-bottom: 10px;
-            font-size: 18.5px;
-        }
-        .footer-section h3 {
-            color: #000;
-            margin-bottom: 15px;
-            font-size: 23px;
-        }
-        .footer-section ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        .footer-section ul li {
-            margin-bottom: 5px;
-        }
-        .footer-section ul li a {
-            color: #333;
-            text-decoration: none;
-            font-size: 15px;
-        }
-        .footer-section ul li a:hover {
-            color: #0066ff;
-        }
-        .footer-bottom {
-            text-align: left;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid #ddd;
-            font-size: 15px;
-        }
-        @media (max-width: 768px) {
-            .footer-section {
-                flex: 1 1 100%;
-                margin-right: 0;
-            }
-        }
-
+/* 桌面版适配 */
 @media (min-width: 769px) {
+    /* 导航栏调整 */
+    .nav {
+        padding: 1rem 10%;
+    }
+
+    .logo img {
+        width: 60px;
+        height: 60px;
+    }
+
+    /* Hero部分调整 */
+    .hero {
+        padding: 0 10%;
+    }
+
+    .hero-content {
+        max-width: 40%;
+    }
+
+    .hero-image {
+        max-width: 50%;
+    }
+
+    /* 特性部分调整 */
+    .features {
+        gap: 3rem;
+    }
+
+    .feature-feature {
+        flex-basis: calc(33% - 20px); /* 三列布局 */
+    }
+
+    /* 内容区调整 */
     .content-section {
-           padding: 0 5%;
+        padding: 0 10%;
     }
 
     .content-section-grey {
-           padding: 36px 5%;
+        padding: 36px 10%;
     }
 
     .content-section-blue {
-           padding: 36px 5%;
+        padding: 36px 10%;
     }
 
     .section-article {
-           max-width: 50%;
+        max-width: 60%;
     }
 
-    .blue-section-article {
-           max-width: 50%;
-    }
-
-    .feature-container {
-           padding: 36px 5%;
-    }
-
-    .feature-showcase {
-           padding: 36px 5%;
+    /* 页脚部分调整 */
+    .footer-content {
+        padding: 0 10%;
     }
 }
 
+/* 移动版适配 */
 @media (max-width: 768px) {
     .hero {
         flex-direction: column;
         padding: 0 30px;
     }
+
     .hero-content, .hero-image {
         max-width: 100%;
     }
+
     .hero {
         display: flex;
         flex-direction: column-reverse;
     }
+
     .hero-image {
         margin-bottom: 30px;
     }
+
     .features {
         position: static;
         transform: none;
         margin-top: 30px;
     }
+
     .feature-feature {
         flex-basis: 100%;
+    }
+
+    .footer-section {
+        flex: 1 1 100%;
+        margin-right: 0;
     }
 }
