@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Captcha Noise</title>
+    <style>
+        canvas {
+            display: block;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="captchaCanvas" width="400" height="400"></canvas>
+
+    <script>
+        // 获取画布和上下文
+        const canvas = document.getElementById('captchaCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // 加载图片
+        const img = new Image();
+        img.src = 'assets/v3/img396.jpg'; // 替换为你要加噪点的图片路径
+        img.onload = function() {
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            addNoise();  // 图片加载完成后，开始添加噪点
+        };
+
+        // 添加噪点函数
+        function addNoise() {
+            // 添加方形噪点
+            for (let i = 0; i < 50; i++) { // 控制方框的数量
+                ctx.strokeStyle = getRandomColor();
+                ctx.lineWidth = Math.random() * 2 + 1;
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const size = Math.random() * 50 + 20; // 随机方框大小
+                ctx.strokeRect(x, y, size, size);
+            }
+
+            // 添加同心圆噪点
+            for (let i = 0; i < 10; i++) { // 控制同心圆的数量
+                const centerX = Math.random() * canvas.width;
+                const centerY = Math.random() * canvas.height;
+                const maxRadius = Math.random() * 60 + 30; // 随机半径
+
+                for (let j = 0; j < 5; j++) { // 每个圆环的数量
+                    ctx.beginPath();
+                    ctx.arc(centerX, centerY, maxRadius - j * 10, 0, 2 * Math.PI);
+                    ctx.strokeStyle = getRandomColor();
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                }
+            }
+        }
+
+        // 随机颜色生成函数
+        function getRandomColor() {
+            const r = Math.floor(Math.random() * 256);
+            const g = Math.floor(Math.random() * 256);
+            const b = Math.floor(Math.random() * 256);
+            return `rgb(${r},${g},${b})`;
+        }
+    </script>
+</body>
+</html>
