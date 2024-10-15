@@ -1,3 +1,4 @@
+(function() {
 function OneCaptchaInit() {
     document.getElementById('one-captcha').innerHTML = `
         <style>
@@ -773,3 +774,4 @@ document.addEventListener('DOMContentLoaded', function() {
         OneCaptchaInit();
     // }, 887);
 });
+})();
