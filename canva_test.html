@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>图片噪点效果</title>
+    <title>hCaptcha风格噪点效果</title>
     <style>
         body {
             display: flex;
@@ -34,44 +34,55 @@
         const ctx = canvas.getContext('2d');
         const imageInput = document.getElementById('imageInput');
 
-        function addNoise(img) {
+        function addStructuredNoise(img) {
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-            // 添加彩色方框
-            for (let i = 0; i < 50; i++) {
-                ctx.strokeStyle = `rgba(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255},0.5)`;
-                ctx.lineWidth = 2;
-                const size = Math.random() * 50 + 10;
-                ctx.strokeRect(
-                    Math.random() * canvas.width,
-                    Math.random() * canvas.height,
-                    size,
-                    size
-                );
+            // 添加半透明遮罩
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 添加同心正方形
+            const squareCount = 5;
+            const squareSpacing = canvas.width / (squareCount * 2);
+            for (let i = 0; i < squareCount; i++) {
+                for (let j = 0; j < squareCount; j++) {
+                    const x = i * squareSpacing * 2 + squareSpacing;
+                    const y = j * squareSpacing * 2 + squareSpacing;
+                    drawConcentricSquares(x, y, squareSpacing);
+                }
             }
 
-            // 添加彩色线条
-            for (let i = 0; i < 100; i++) {
+            // 添加同心圆
+            const circleCount = 4;
+            const circleSpacing = canvas.width / (circleCount * 2);
+            for (let i = 0; i < circleCount; i++) {
+                for (let j = 0; j < circleCount; j++) {
+                    const x = (i * 2 + 1) * circleSpacing;
+                    const y = (j * 2 + 1) * circleSpacing;
+                    drawConcentricCircles(x, y, circleSpacing);
+                }
+            }
+        }
+
+        function drawConcentricSquares(x, y, maxSize) {
+            const levels = 5;
+            for (let i = 0; i < levels; i++) {
+                const size = maxSize - (i * maxSize / levels);
+                ctx.strokeStyle = `rgba(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255},0.5)`;
+                ctx.lineWidth = 1;
+                ctx.strokeRect(x - size/2, y - size/2, size, size);
+            }
+        }
+
+        function drawConcentricCircles(x, y, maxRadius) {
+            const levels = 5;
+            for (let i = 0; i < levels; i++) {
+                const radius = maxRadius - (i * maxRadius / levels);
                 ctx.strokeStyle = `rgba(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255},0.5)`;
                 ctx.lineWidth = 1;
                 ctx.beginPath();
-                ctx.moveTo(Math.random() * canvas.width, Math.random() * canvas.height);
-                ctx.lineTo(Math.random() * canvas.width, Math.random() * canvas.height);
+                ctx.arc(x, y, radius, 0, Math.PI * 2);
                 ctx.stroke();
-            }
-
-            // 添加圆形噪点
-            for (let i = 0; i < 1000; i++) {
-                ctx.fillStyle = `rgba(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255},0.5)`;
-                ctx.beginPath();
-                ctx.arc(
-                    Math.random() * canvas.width,
-                    Math.random() * canvas.height,
-                    Math.random() * 2,
-                    0,
-                    Math.PI * 2
-                );
-                ctx.fill();
             }
         }
 
@@ -82,7 +93,7 @@
                 reader.onload = function(event) {
                     const img = new Image();
                     img.onload = function() {
-                        addNoise(img);
+                        addStructuredNoise(img);
                     }
                     img.src = event.target.result;
                 }
