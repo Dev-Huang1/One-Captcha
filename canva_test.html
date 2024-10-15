@@ -3,67 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Structured Captcha Noise</title>
+    <title>图片噪点效果</title>
     <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
         canvas {
-            display: block;
-            margin: 20px auto;
+            border: 1px solid #000;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
-    <canvas id="captchaCanvas" width="400" height="400"></canvas>
-
+    <div id="container">
+        <canvas id="canvas" width="400" height="400"></canvas>
+        <input type="file" id="imageInput" accept="image/*">
+    </div>
     <script>
-        // 获取画布和上下文
-        const canvas = document.getElementById('captchaCanvas');
+        const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
+        const imageInput = document.getElementById('imageInput');
 
-        // 加载图片
-        const img = new Image();
-        img.src = 'assets/v3/image1.jpeg'; // 替换为你要加噪点的图片路径
-        img.onload = function() {
+        function addNoise(img) {
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-            addGridNoise();  // 图片加载完成后，添加整齐的噪点
-        };
 
-        // 添加整齐的噪点
-        function addGridNoise() {
-            const gridSize = 100; // 网格大小，每个格子的宽和高
-            for (let x = 0; x < canvas.width; x += gridSize) {
-                for (let y = 0; y < canvas.height; y += gridSize) {
-                    drawNoiseInCell(x, y, gridSize);
-                }
+            // 添加彩色方框
+            for (let i = 0; i < 50; i++) {
+                ctx.strokeStyle = `rgba(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255},0.5)`;
+                ctx.lineWidth = 2;
+                const size = Math.random() * 50 + 10;
+                ctx.strokeRect(
+                    Math.random() * canvas.width,
+                    Math.random() * canvas.height,
+                    size,
+                    size
+                );
             }
-        }
 
-        // 在每个网格单元格中添加噪点
-        function drawNoiseInCell(x, y, size) {
-            ctx.strokeStyle = getRandomColor();
-            ctx.lineWidth = 2;
-
-            // 添加方形框
-            ctx.strokeRect(x, y, size, size);
-
-            // 在方框内添加同心圆
-            const centerX = x + size / 2;
-            const centerY = y + size / 2;
-            for (let i = 0; i < 10; i++) { // 每个格子中添加3个同心圆
+            // 添加彩色线条
+            for (let i = 0; i < 100; i++) {
+                ctx.strokeStyle = `rgba(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255},0.5)`;
+                ctx.lineWidth = 1;
                 ctx.beginPath();
-                ctx.arc(centerX, centerY, (size / 4) * (i + 1), 0, 2 * Math.PI);
-                ctx.strokeStyle = getRandomColor();
-                ctx.lineWidth = 0.1;
+                ctx.moveTo(Math.random() * canvas.width, Math.random() * canvas.height);
+                ctx.lineTo(Math.random() * canvas.width, Math.random() * canvas.height);
                 ctx.stroke();
             }
+
+            // 添加圆形噪点
+            for (let i = 0; i < 1000; i++) {
+                ctx.fillStyle = `rgba(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255},0.5)`;
+                ctx.beginPath();
+                ctx.arc(
+                    Math.random() * canvas.width,
+                    Math.random() * canvas.height,
+                    Math.random() * 2,
+                    0,
+                    Math.PI * 2
+                );
+                ctx.fill();
+            }
         }
 
-        // 随机颜色生成函数
-        function getRandomColor() {
-            const r = Math.floor(Math.random() * 256);
-            const g = Math.floor(Math.random() * 256);
-            const b = Math.floor(Math.random() * 256);
-            return `rgb(${r},${g},${b})`;
-        }
+        imageInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.onload = function() {
+                        addNoise(img);
+                    }
+                    img.src = event.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
     </script>
 </body>
 </html>
