@@ -48,11 +48,11 @@
             // 在方框内添加同心圆
             const centerX = x + size / 2;
             const centerY = y + size / 2;
-            for (let i = 0; i < 3; i++) { // 每个格子中添加3个同心圆
+            for (let i = 0; i < 10; i++) { // 每个格子中添加3个同心圆
                 ctx.beginPath();
                 ctx.arc(centerX, centerY, (size / 4) * (i + 1), 0, 2 * Math.PI);
                 ctx.strokeStyle = getRandomColor();
-                ctx.lineWidth = 1.5;
+                ctx.lineWidth = 0.1;
                 ctx.stroke();
             }
         }
