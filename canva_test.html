@@ -41,25 +41,20 @@
             ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // 添加同心正方形
-            const squareCount = 5;
-            const squareSpacing = canvas.width / (squareCount * 2);
-            for (let i = 0; i < squareCount; i++) {
-                for (let j = 0; j < squareCount; j++) {
-                    const x = i * squareSpacing * 2 + squareSpacing;
-                    const y = j * squareSpacing * 2 + squareSpacing;
-                    drawConcentricSquares(x, y, squareSpacing);
-                }
-            }
+            const count = 4;  // 定义网格数量
+            const spacing = canvas.width / (count * 2);
 
-            // 添加同心圆
-            const circleCount = 4;
-            const circleSpacing = canvas.width / (circleCount * 2);
-            for (let i = 0; i < circleCount; i++) {
-                for (let j = 0; j < circleCount; j++) {
-                    const x = (i * 2 + 1) * circleSpacing;
-                    const y = (j * 2 + 1) * circleSpacing;
-                    drawConcentricCircles(x, y, circleSpacing);
+            for (let i = 0; i < count; i++) {
+                for (let j = 0; j < count; j++) {
+                    const x = (i * 2 + 1) * spacing;
+                    const y = (j * 2 + 1) * spacing;
+
+                    // 随机决定绘制正方形或圆形
+                    if (Math.random() > 0.5) {
+                        drawConcentricSquares(x, y, spacing);
+                    } else {
+                        drawConcentricCircles(x, y, spacing);
+                    }
                 }
             }
         }
