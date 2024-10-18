@@ -65,7 +65,7 @@
         }
 
         function drawConcentricSquares(x, y, maxSize) {
-            const levels = 5;
+            const levels = 12;
             for (let i = 0; i < levels; i++) {
                 const size = maxSize - (i * maxSize / levels);
                 ctx.strokeStyle = `rgba(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255},0.5)`;
@@ -75,7 +75,7 @@
         }
 
         function drawConcentricCircles(x, y, maxRadius) {
-            const levels = 5;
+            const levels = 12;
             for (let i = 0; i < levels; i++) {
                 const radius = maxRadius - (i * maxRadius / levels);
                 ctx.strokeStyle = `rgba(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255},0.5)`;
