@@ -61,14 +61,14 @@
                         drawConcentricSquares(x, y, spacing);
                     }
 
-                    // 在圆形之间的空白区域绘制小图标或圆形来填充空隙
-                    drawFillingShape(x, y, spacing / 2);
+                    // 在圆形或正方形之间的空白区域绘制四角星来填充空隙
+                    drawStar(x, y, spacing / 2);
                 }
             }
         }
 
         function drawConcentricSquares(x, y, maxSize) {
-            const levels = 12;  
+            const levels = 15;  
             for (let i = 0; i < levels; i++) {
                 const size = maxSize - (i * maxSize / levels);
                 // 使用较低的透明度和柔和的颜色
@@ -79,7 +79,7 @@
         }
 
         function drawConcentricCircles(x, y, maxRadius) {
-            const levels = 12;  
+            const levels = 15;  
             for (let i = 0; i < levels; i++) {
                 const radius = maxRadius - (i * maxRadius / levels);
                 // 使用较低的透明度和柔和的颜色
@@ -91,13 +91,18 @@
             }
         }
 
-        function drawFillingShape(x, y, maxSize) {
-            // 在每个大圆之间绘制小装饰图案
-            const smallRadius = maxSize / 4;
-            ctx.fillStyle = `rgba(${Math.random() * 180}, ${Math.random() * 180}, ${Math.random() * 180}, 0.2)`;
+        function drawStar(x, y, size) {
+            ctx.strokeStyle = `rgba(${Math.random() * 180}, ${Math.random() * 180}, ${Math.random() * 180}, 0.5)`;
+            ctx.lineWidth = 1;
+            
             ctx.beginPath();
-            ctx.arc(x + smallRadius, y + smallRadius, smallRadius, 0, Math.PI * 2);
-            ctx.fill();
+            // 从中心画对角线交叉成四角星
+            ctx.moveTo(x - size / 2, y - size / 2); // 左上
+            ctx.lineTo(x + size / 2, y + size / 2); // 右下
+            
+            ctx.moveTo(x + size / 2, y - size / 2); // 右上
+            ctx.lineTo(x - size / 2, y + size / 2); // 左下
+            ctx.stroke();
         }
 
         imageInput.addEventListener('change', (e) => {
