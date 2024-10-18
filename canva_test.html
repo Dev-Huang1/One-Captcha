@@ -60,6 +60,9 @@
                     } else {
                         drawConcentricSquares(x, y, spacing);
                     }
+
+                    // 在圆形之间的空白区域绘制小图标或圆形来填充空隙
+                    drawFillingShape(x, y, spacing / 2);
                 }
             }
         }
@@ -86,6 +89,15 @@
                 ctx.arc(x, y, radius, 0, Math.PI * 2);
                 ctx.stroke();
             }
+        }
+
+        function drawFillingShape(x, y, maxSize) {
+            // 在每个大圆之间绘制小装饰图案
+            const smallRadius = maxSize / 4;
+            ctx.fillStyle = `rgba(${Math.random() * 180}, ${Math.random() * 180}, ${Math.random() * 180}, 0.2)`;
+            ctx.beginPath();
+            ctx.arc(x + smallRadius, y + smallRadius, smallRadius, 0, Math.PI * 2);
+            ctx.fill();
         }
 
         imageInput.addEventListener('change', (e) => {
