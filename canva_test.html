@@ -34,6 +34,8 @@
         const ctx = canvas.getContext('2d');
         const imageInput = document.getElementById('imageInput');
 
+        let shapeChoice; // 全局变量，用于存储选择的形状
+
         function addStructuredNoise(img) {
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
@@ -44,16 +46,19 @@
             const count = 4;  // 定义网格数量
             const spacing = canvas.width / (count * 2);
 
+            // 随机选择全局绘制形状：圆形或正方形
+            shapeChoice = Math.random() > 0.5 ? 'circle' : 'square';
+
             for (let i = 0; i < count; i++) {
                 for (let j = 0; j < count; j++) {
                     const x = (i * 2 + 1) * spacing;
                     const y = (j * 2 + 1) * spacing;
 
-                    // 随机决定绘制正方形或圆形
-                    if (Math.random() > 0.5) {
-                        drawConcentricSquares(x, y, spacing);
-                    } else {
+                    // 根据随机选择的形状绘制
+                    if (shapeChoice === 'circle') {
                         drawConcentricCircles(x, y, spacing);
+                    } else {
+                        drawConcentricSquares(x, y, spacing);
                     }
                 }
             }
