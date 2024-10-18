@@ -34,7 +34,7 @@
         const ctx = canvas.getContext('2d');
         const imageInput = document.getElementById('imageInput');
 
-        let shapeChoice; // 全局变量，用于存储选择的形状
+        let shapeChoice; // 用于存储选择的形状
 
         function addStructuredNoise(img) {
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
@@ -43,20 +43,20 @@
             ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            const count = 4;  // 定义网格数量
-            const spacing = canvas.width / (count * 2);
+            const count = 3;  // 定义网格数量减少以使图形变大
+            const spacing = canvas.width / count;
 
-            // 随机选择全局绘制形状：圆形或正方形
+            // 随机选择绘制形状：圆形或正方形
             shapeChoice = Math.random() > 0.5 ? 'circle' : 'square';
 
             for (let i = 0; i < count; i++) {
                 for (let j = 0; j < count; j++) {
-                    const x = (i * 2 + 1) * spacing;
-                    const y = (j * 2 + 1) * spacing;
+                    const x = i * spacing + spacing / 2;
+                    const y = j * spacing + spacing / 2;
 
                     // 根据随机选择的形状绘制
                     if (shapeChoice === 'circle') {
-                        drawConcentricCircles(x, y, spacing);
+                        drawConcentricCircles(x, y, spacing / 2);
                     } else {
                         drawConcentricSquares(x, y, spacing);
                     }
@@ -69,8 +69,8 @@
             for (let i = 0; i < levels; i++) {
                 const size = maxSize - (i * maxSize / levels);
                 ctx.strokeStyle = `rgba(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255},0.5)`;
-                ctx.lineWidth = 1;
-                ctx.strokeRect(x - size/2, y - size/2, size, size);
+                ctx.lineWidth = 2;
+                ctx.strokeRect(x - size / 2, y - size / 2, size, size);
             }
         }
 
@@ -79,7 +79,7 @@
             for (let i = 0; i < levels; i++) {
                 const radius = maxRadius - (i * maxRadius / levels);
                 ctx.strokeStyle = `rgba(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255},0.5)`;
-                ctx.lineWidth = 1;
+                ctx.lineWidth = 2;
                 ctx.beginPath();
                 ctx.arc(x, y, radius, 0, Math.PI * 2);
                 ctx.stroke();
