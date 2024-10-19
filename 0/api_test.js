@@ -509,53 +509,88 @@ function OneCaptchaInit() {
     puzzleImage.src = `https://onecaptcha.us.kg/assets/v3/${currentImage}`;
 
     puzzleImage.onload = () => {
-        const pieceSize = 50;
-        const maxX = puzzleImage.width - pieceSize;
-        const maxY = puzzleImage.height - pieceSize;
-        const pieceX = Math.floor(Math.random() * (maxX - 50) + 50); 
-        const pieceY = Math.floor(Math.random() * maxY);
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // 设置canvas大小与图片大小一致
+        canvas.width = puzzleImage.width;
+        canvas.height = puzzleImage.height;
 
-        // 确保拼图块元素存在
-        if (!document.getElementById('puzzle-piece')) {
-            const newPuzzlePiece = document.createElement('div');
-            newPuzzlePiece.id = 'puzzle-piece';
-            document.getElementById('puzzle-container').appendChild(newPuzzlePiece);
-            puzzlePiece = newPuzzlePiece;
-        }
+        // 绘制图像并添加噪点效果
+        addStructuredNoise(puzzleImage, ctx, canvas.width, canvas.height);
 
-        puzzlePiece.style.left = '0px';
-        puzzlePiece.style.top = `${pieceY}px`;
-        puzzlePiece.style.backgroundImage = `url(https://onecaptcha.us.kg/assets/v3/${currentImage})`;
-        puzzlePiece.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
-        puzzlePiece.style.backgroundSize = `${puzzleImage.width}px ${puzzleImage.height}px`;
-        puzzlePiece.style.display = 'block';
-        puzzlePiece.style.zIndex = '1000'; // 确保拼图块在最上层
+        // 处理完后显示图片
+        puzzleImage.src = canvas.toDataURL();
+        puzzleImage.style.display = 'block';
 
-        // 移除旧的拼图洞
-        const oldPuzzleHole = document.getElementById('puzzle-hole');
-        if (oldPuzzleHole) {
-            oldPuzzleHole.remove();
-        }
-
-        const puzzleHole = document.createElement('div');
-        puzzleHole.id = 'puzzle-hole';
-        puzzleHole.style.left = `${pieceX}px`;
-        puzzleHole.style.top = `${pieceY}px`;
-        puzzleHole.style.display = 'block';
-        puzzleHole.style.zIndex = '999'; // 确保拼图洞在拼图块下面
-        document.getElementById('puzzle-container').appendChild(puzzleHole);
-
-        piecePosition = pieceX;
-        sliderCaptcha.style.display = 'block';
-        resetSlider();
-
-        // 确保所有元素都正确显示
-        setTimeout(() => {
-            puzzlePiece.style.display = 'block';
-            puzzleHole.style.display = 'block';
-            sliderCaptcha.style.opacity = '1';
-        }, 100);
+        // 显示拼图部分
+        preparePuzzle(puzzleImage);
     };
+}
+
+function addStructuredNoise(img, ctx, width, height) {
+    // 绘制图片
+    ctx.drawImage(img, 0, 0, width, height);
+
+    // 添加噪点效果
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+    ctx.fillRect(0, 0, width, height);
+
+    const count = 3;
+    const spacing = width / count;
+    const shapeChoice = Math.random() > 0.5 ? 'circle' : 'square';
+
+    for (let i = 0; i < count; i++) {
+        for (let j = 0; j < count; j++) {
+            const x = i * spacing + spacing / 2;
+            const y = j * spacing + spacing / 2;
+
+            if (shapeChoice === 'circle') {
+                drawConcentricCircles(x, y, spacing / 2, ctx);
+            } else {
+                drawConcentricSquares(x, y, spacing, ctx);
+            }
+        }
+    }
+}
+
+function drawConcentricSquares(x, y, maxSize, ctx) {
+    const levels = 12;
+    for (let i = 0; i < levels; i++) {
+        const size = maxSize - (i * maxSize / levels);
+        ctx.strokeStyle = `rgba(${Math.random() * 180},${Math.random() * 180},${Math.random() * 180},0.3)`;
+        ctx.lineWidth = 1;
+        ctx.strokeRect(x - size / 2, y - size / 2, size, size);
+    }
+}
+
+function drawConcentricCircles(x, y, maxRadius, ctx) {
+    const levels = 12;
+    for (let i = 0; i < levels; i++) {
+        const radius = maxRadius - (i * maxRadius / levels);
+        ctx.strokeStyle = `rgba(${Math.random() * 180},${Math.random() * 180},${Math.random() * 180},0.3)`;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.stroke();
+    }
+}
+
+function preparePuzzle(puzzleImage) {
+    // Captcha拼图的逻辑，确保拼图块正确显示
+    const pieceSize = 50;
+    const maxX = puzzleImage.width - pieceSize;
+    const maxY = puzzleImage.height - pieceSize;
+    const pieceX = Math.floor(Math.random() * (maxX - 50) + 50); 
+    const pieceY = Math.floor(Math.random() * maxY);
+
+    const puzzlePiece = document.getElementById('puzzle-piece');
+    puzzlePiece.style.left = '0px';
+    puzzlePiece.style.top = `${pieceY}px`;
+    puzzlePiece.style.backgroundImage = `url(${puzzleImage.src})`;
+    puzzlePiece.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
+    puzzlePiece.style.backgroundSize = `${puzzleImage.width}px ${puzzleImage.height}px`;
+    puzzlePiece.style.display = 'block';
 }
 
     function startDragging(e) {
