@@ -512,7 +512,7 @@ function OneCaptchaInit() {
 
     puzzleImage.onload = () => {
         const imageCanvas = document.getElementById('imgcanvas');
-        const ctx = canvas.getContext('2d');
+        const ctx = imageCanvas.getContext('2d');
         
         // 设置canvas大小与图片大小一致
         imageCanvas.width = puzzleImage.width;
