@@ -374,6 +374,8 @@ function OneCaptchaInit() {
     let movements = [];
     let startTime;
     let leaveTimer;
+    let puzzleHole;
+
 
     const translations = {
         en: {
@@ -541,7 +543,7 @@ function showSliderCaptcha() {
         puzzlePiece.style.display = 'block';
         puzzlePiece.style.zIndex = '1000';
 
-        // 拼图洞处理
+        // 创建拼图洞（确保只创建一次）
         if (!puzzleHole) {
             puzzleHole = document.createElement('div');
             puzzleHole.id = 'puzzle-hole';
