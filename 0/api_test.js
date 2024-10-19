@@ -333,6 +333,7 @@ function OneCaptchaInit() {
         </span>
     </div>
     <div id="puzzle-container">
+        <canvas id="imgcanvas" style="display: none;"></canvas>
         <img id="puzzle-image" src="" alt="img">
         <div id="puzzle-piece"></div>
     </div>
@@ -365,6 +366,7 @@ function OneCaptchaInit() {
     const errorMessage = document.getElementById('error-message');
     const headerText = document.getElementById('slider-captcha-header-text');
     const smallHeaderText = document.getElementById('slider-captcha-header-text2');
+
 
     const images = ['image1.jpeg', 'image2.jpeg', 'image3.jpg', 'img018.png', 'img072.jpg', 'img102.jpeg', 'img181.jpeg', 'img193.jpeg', 'img273.jpeg', 'img372.jpeg', 'img392.jpeg', 'img398.jpeg', 'img462.jpg', 'img482.jpeg', 'img492.jpeg', 'img592.jpg', 'img638.jpg', 'img639.jpeg', 'img639.jpg', 'img648.jpg', 'img657.jpeg', 'img857.jpeg', 'img928.jpeg'];
     let currentImage;
@@ -509,18 +511,18 @@ function OneCaptchaInit() {
     puzzleImage.src = `https://onecaptcha.us.kg/assets/v3/${currentImage}`;
 
     puzzleImage.onload = () => {
-        const canvas = document.getElementById('canvas');
+        const imageCanvas = document.getElementById('imgcanvas');
         const ctx = canvas.getContext('2d');
         
         // 设置canvas大小与图片大小一致
-        canvas.width = puzzleImage.width;
-        canvas.height = puzzleImage.height;
+        imageCanvas.width = puzzleImage.width;
+        imageCanvas.height = puzzleImage.height;
 
         // 绘制图像并添加噪点效果
-        addStructuredNoise(puzzleImage, ctx, canvas.width, canvas.height);
+        addStructuredNoise(puzzleImage, ctx, imageCanvas.width, imageCanvas.height);
 
         // 处理完后显示图片
-        puzzleImage.src = canvas.toDataURL();
+        puzzleImage.src = imageCanvas.toDataURL();
         puzzleImage.style.display = 'block';
 
         // 显示拼图部分
