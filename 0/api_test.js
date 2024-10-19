@@ -533,9 +533,10 @@ function showSliderCaptcha() {
             drawConcentricSquares(ctx, x, y, maxSize);
         }
 
-        // 更新puzzle-image和puzzle-piece
-        puzzleImage.src = canvas.toDataURL();
-        puzzlePiece.src = canvas.toDataURL();
+        // 将绘制后的图像转换为数据URL并更新puzzle-image和puzzle-piece
+        const dataURL = canvas.toDataURL();
+        puzzleImage.src = dataURL; // 更新puzzle-image
+        puzzlePiece.src = dataURL;  // 更新puzzle-piece
     };
 }
 
@@ -560,6 +561,7 @@ function drawConcentricCircles(ctx, x, y, maxRadius) {
         ctx.stroke();
     }
 }
+
 
     function startDragging(e) {
         e.preventDefault();
