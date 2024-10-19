@@ -1,4 +1,3 @@
-(function() {
 function OneCaptchaInit() {
     document.getElementById('one-captcha').innerHTML = `
         <style>
@@ -333,7 +332,6 @@ function OneCaptchaInit() {
         </span>
     </div>
     <div id="puzzle-container">
-        <canvas id="imgcanvas" style="display: none;"></canvas>
         <img id="puzzle-image" src="" alt="img">
         <div id="puzzle-piece"></div>
     </div>
@@ -366,7 +364,6 @@ function OneCaptchaInit() {
     const errorMessage = document.getElementById('error-message');
     const headerText = document.getElementById('slider-captcha-header-text');
     const smallHeaderText = document.getElementById('slider-captcha-header-text2');
-
 
     const images = ['image1.jpeg', 'image2.jpeg', 'image3.jpg', 'img018.png', 'img072.jpg', 'img102.jpeg', 'img181.jpeg', 'img193.jpeg', 'img273.jpeg', 'img372.jpeg', 'img392.jpeg', 'img398.jpeg', 'img462.jpg', 'img482.jpeg', 'img492.jpeg', 'img592.jpg', 'img638.jpg', 'img639.jpeg', 'img639.jpg', 'img648.jpg', 'img657.jpeg', 'img857.jpeg', 'img928.jpeg'];
     let currentImage;
@@ -593,3 +590,221 @@ function preparePuzzle(canvas) {
     puzzlePiece.style.backgroundSize = `${canvas.width}px ${canvas.height}px`;
     puzzlePiece.style.display = 'block';
 }
+
+
+    function startDragging(e) {
+        e.preventDefault();
+        isDragging = true;
+        startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
+        startLeft = sliderHandle.offsetLeft;
+        startTime = Date.now();
+        movements = [];
+    }
+
+    function drag(e) {
+    if (!isDragging) return;
+    e.preventDefault();
+
+    const currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
+    let newLeft = startLeft + currentX - startX;
+    newLeft = Math.max(0, Math.min(newLeft, 260));
+
+    requestAnimationFrame(() => {
+        sliderHandle.style.left = `${newLeft}px`;
+        sliderTrack.style.width = `${newLeft}px`;
+        puzzlePiece.style.left = `${newLeft}px`;
+    });
+
+    movements.push({
+        x: newLeft,
+        time: Date.now() - startTime
+    });
+}
+
+
+    function stopDragging() {
+        if (!isDragging) return;
+        isDragging = false;
+    
+        const finalPosition = sliderHandle.offsetLeft;
+        if (Math.abs(finalPosition - piecePosition) < 5) {
+            if (isHumanLikeMovement()) {
+                showSuccessMessage();
+                OneCaptchaCallback();
+                sliderCaptcha.style.display = 'none';
+                document.addEventListener('visibilitychange', handleVisibilityChange);
+            } else {
+                document.getElementById('error-message').style.display = 'block';
+                changeImageAndPosition();
+            }
+        } else {
+            document.getElementById('error-message').style.display = 'block';
+            changeImageAndPosition();
+        }
+    }
+
+    function showSuccessMessage() {
+        const spinner = document.getElementById('loading-spinner');
+        const checkMark = document.getElementById('check-mark');
+        spinner.style.opacity = '0'; // Fade out the spinner
+        document.getElementById('captcha-label').style.display = 'none';
+        document.getElementById('success-message').textContent = translations[detectLanguage()].successMessage;
+        document.getElementById('success-message').style.display = 'inline-block';
+    
+        setTimeout(() => {
+            spinner.style.display = 'none';
+            checkMark.style.display = 'inline-block';
+            setTimeout(() => {
+                checkMark.style.opacity = '1';
+                checkMark.style.transform = 'scale(1)';
+            }, 50);  
+        }, 300);
+    }
+
+    function resetSlider() {
+        sliderHandle.style.left = '0';
+        sliderTrack.style.width = '0';
+        puzzlePiece.style.left = '0';
+    }
+
+    function isHumanLikeMovement() {
+    if (movements.length < 5) return false;
+
+    const speeds = [];
+    let prevSpeed = null;
+    
+    // 计算每次移动的速度
+    for (let i = 1; i < movements.length; i++) {
+        const dx = movements[i].x - movements[i-1].x;
+        const dt = movements[i].time - movements[i-1].time;
+        if (dt <= 0) continue; // 忽略无效的时间间隔
+        const speed = Math.abs(dx / dt);
+        speeds.push(speed);
+    }
+
+    // 如果速度计算不到
+    if (speeds.length < 2) return false;
+
+    // 计算速度的平均值和标准差
+    const meanSpeed = speeds.reduce((sum, s) => sum + s, 0) / speeds.length;
+    const variance = speeds.reduce((sum, s) => sum + Math.pow(s - meanSpeed, 2), 0) / speeds.length;
+    const stdDeviation = Math.sqrt(variance);
+
+    const stdDeviationThreshold = 0.2;
+        
+    if (stdDeviation > stdDeviationThreshold) {
+        return true;
+    }
+
+    // 计算速度的加速度
+    let prevAcceleration = null;
+    for (let i = 1; i < speeds.length; i++) {
+        const acceleration = speeds[i] - speeds[i-1];
+        if (prevAcceleration !== null) {
+            if (Math.abs(acceleration - prevAcceleration) > 0.2) { // 可调整
+                return true;
+            }
+        }
+        prevAcceleration = acceleration;
+    }
+
+    return isUneven;
+}
+    function changeImageAndPosition() {
+        const puzzleHole = document.getElementById('puzzle-hole');
+        if (puzzleHole) {
+            puzzleHole.remove();
+        }
+        showSliderCaptcha();
+    }
+
+    retryButton.addEventListener('click', function() {
+        changeImageAndPosition();
+    });
+
+    sliderHandle.addEventListener('mousedown', startDragging);
+    sliderHandle.addEventListener('touchstart', startDragging);
+
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('touchmove', drag);
+
+    document.addEventListener('mouseup', stopDragging);
+    document.addEventListener('touchend', stopDragging);
+
+    function handleVisibilityChange() {
+        if (document.visibilityState === 'hidden') {
+            leaveTimer = setTimeout(() => {
+                resetCaptcha();
+            }, 15000);
+        } else {
+            clearTimeout(leaveTimer);
+        }
+    }
+
+    function resetCaptcha() {
+        verifyCheckbox.checked = false;
+        verifyCheckbox.style.display = 'inline-block';
+        verifyCheckbox.style.opacity = '1';
+        verifyCheckbox.style.transform = 'scale(1)';
+        document.getElementById('captcha-label').style.display = 'inline-block';
+        document.getElementById('check-mark').style.display = 'none';
+        document.getElementById('success-message').style.display = 'none';
+        sliderCaptcha.style.display = 'none';
+        resetSlider();
+        // changeImageAndPosition();
+        document.removeEventListener('visibilitychange', handleVisibilityChange);
+    }
+
+    function generateToken() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let token = '';
+    for (let i = 0; i < 150; i++) {
+        token += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return token;
+}
+
+async function hashToken(token) {
+    const encoder = new TextEncoder();
+    const dataBuffer = encoder.encode(token);
+    const hashBuffer = await crypto.subtle.digest('SHA-512', dataBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    return hashHex;
+}
+
+function setCookie(name, value, seconds) {
+    let expires = "";
+    if (seconds) {
+        const date = new Date();
+        date.setTime(date.getTime() + (seconds * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/;";
+}
+
+async function OneCaptchaCallback() {
+    const token = generateToken();
+    const hashedToken = await hashToken(token); // 先对token进行哈希
+    var captchaElement = document.getElementById('one-captcha');
+    var callbackFunctionName = captchaElement.getAttribute('data-callback');
+
+    setTimeout(() => {
+        if (typeof window[callbackFunctionName] === 'function') {
+            window[callbackFunctionName](token); // 直接传递原始token
+        } else {
+            console.error("Callback function not found.");
+        }
+    }, 500);
+
+    setCookie('OneCaptchaToken', hashedToken, 150); // 存储哈希值到cookie
+}
+
+    applyTranslations(detectLanguage());
+};
+
+document.addEventListener('DOMContentLoaded', function() {
+    // setTimeout(() => {
+        OneCaptchaInit();
+    // }, 887);
+});
