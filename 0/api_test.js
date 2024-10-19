@@ -514,22 +514,31 @@ function showSliderCaptcha() {
         const pieceX = Math.floor(Math.random() * (maxX - 50) + 50); 
         const pieceY = Math.floor(Math.random() * maxY);
 
-        // 创建 canvas 并在上面绘制图形
+        // 创建 canvas 并清空之前的绘制
         const canvas = document.createElement('canvas');
         canvas.width = puzzleImage.width;
         canvas.height = puzzleImage.height;
         const ctx = canvas.getContext('2d');
+        
+        // 重绘原始图片到canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(puzzleImage, 0, 0, canvas.width, canvas.height);
+        
+        // 添加结构化噪声
         addStructuredNoise(puzzleImage, ctx, canvas);
 
         // 将 canvas 转为图片路径
         const dataURL = canvas.toDataURL('image/png');
 
-        // 确保拼图块元素存在
+        // 确保拼图块元素存在，如果不存在则创建
         if (!document.getElementById('puzzle-piece')) {
             const newPuzzlePiece = document.createElement('div');
             newPuzzlePiece.id = 'puzzle-piece';
             document.getElementById('puzzle-container').appendChild(newPuzzlePiece);
             puzzlePiece = newPuzzlePiece;
+        } else {
+            // 清除旧的背景图
+            puzzlePiece.style.backgroundImage = '';
         }
 
         puzzlePiece.style.left = '0px';
@@ -569,6 +578,7 @@ function showSliderCaptcha() {
         }, 100);
     };
 }
+
 
 let shapeChoice;
 
