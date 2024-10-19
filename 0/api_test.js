@@ -332,6 +332,7 @@ function OneCaptchaInit() {
         </span>
     </div>
     <div id="puzzle-container">
+        <canvas id="imgcanvas" style="display: none;"></canvas>
         <img id="puzzle-image" src="" alt="img">
         <div id="puzzle-piece"></div>
     </div>
