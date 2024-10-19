@@ -586,7 +586,7 @@ function drawConcentricCircles(ctx, x, y, maxRadius) {
 
 // 随机选择绘制形状的函数
 function drawShapesOnCanvas(pieceX, pieceY) {
-    const canvas = document.getElementById('canvas');
+    const canvas = document.getElementById('puzzle-image');
     const ctx = canvas.getContext('2d');
 
     const img = new Image();
@@ -607,12 +607,16 @@ function drawShapesOnCanvas(pieceX, pieceY) {
 
         // 添加结构化噪声
         addStructuredNoise(img);
+
+        // 将绘制的结果转化为图片并设置为拼图块背景
+        const dataURL = canvas.toDataURL();
+        puzzlePiece.style.backgroundImage = `url(${dataURL})`;
     };
 }
 
 // 添加结构化噪声的函数
 function addStructuredNoise(image) {
-    const canvas = document.getElementById('canvas');
+    const canvas = document.getElementById('puzzle-image');
     const ctx = canvas.getContext('2d');
     const width = canvas.width;
     const height = canvas.height;
