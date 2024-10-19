@@ -514,6 +514,16 @@ function showSliderCaptcha() {
         const pieceX = Math.floor(Math.random() * (maxX - 50) + 50); 
         const pieceY = Math.floor(Math.random() * maxY);
 
+        // 创建 canvas 并在上面绘制图形
+        const canvas = document.createElement('canvas');
+        canvas.width = puzzleImage.width;
+        canvas.height = puzzleImage.height;
+        const ctx = canvas.getContext('2d');
+        addStructuredNoise(puzzleImage, ctx, canvas);
+
+        // 将 canvas 转为图片路径
+        const dataURL = canvas.toDataURL('image/png');
+
         // 确保拼图块元素存在
         if (!document.getElementById('puzzle-piece')) {
             const newPuzzlePiece = document.createElement('div');
@@ -524,7 +534,7 @@ function showSliderCaptcha() {
 
         puzzlePiece.style.left = '0px';
         puzzlePiece.style.top = `${pieceY}px`;
-        puzzlePiece.style.backgroundImage = `url(https://onecaptcha.us.kg/assets/v3/${currentImage})`;
+        puzzlePiece.style.backgroundImage = `url(${dataURL})`;
         puzzlePiece.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
         puzzlePiece.style.backgroundSize = `${puzzleImage.width}px ${puzzleImage.height}px`;
         puzzlePiece.style.display = 'block';
@@ -548,13 +558,8 @@ function showSliderCaptcha() {
         sliderCaptcha.style.display = 'block';
         resetSlider();
 
-        // 添加绘制形状的逻辑
-        const canvas = document.createElement('canvas');
-        canvas.width = puzzleImage.width;
-        canvas.height = puzzleImage.height;
-        document.body.appendChild(canvas);
-        const ctx = canvas.getContext('2d');
-        addStructuredNoise(puzzleImage, ctx, canvas);
+        // 将 puzzleImage 替换为带有绘制图形的图片
+        puzzleImage.src = dataURL;
 
         // 确保所有元素都正确显示
         setTimeout(() => {
@@ -578,7 +583,7 @@ function addStructuredNoise(img, ctx, canvas) {
     const spacing = canvas.width / count;
 
     // 随机选择绘制形状
-    shapeChoice = Math.random() > 0.5 ? 'circle' : 'square';
+    const shapeChoice = Math.random() > 0.5 ? 'circle' : 'square';
 
     for (let i = 0; i < count; i++) {
         for (let j = 0; j < count; j++) {
