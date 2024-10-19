@@ -504,43 +504,98 @@ function OneCaptchaInit() {
     });
 
 function showSliderCaptcha() {
-    const puzzleImage = document.getElementById('puzzle-image');
-    const puzzlePiece = document.getElementById('puzzle-piece');
+    currentImage = images[Math.floor(Math.random() * images.length)];
+    puzzleImage.src = `https://onecaptcha.us.kg/assets/v3/${currentImage}`;
 
-    // 随机选择要绘制的形状
-    const shapeType = Math.random() < 0.5 ? 'circle' : 'square';
-    
-    const maxSize = 100; // 可以根据需要调整
-    const img = new Image();
-    img.src = puzzleImage.src; // 使用当前的puzzle-image的src
+    puzzleImage.onload = () => {
+        const pieceSize = 50;
+        const maxX = puzzleImage.width - pieceSize;
+        const maxY = puzzleImage.height - pieceSize;
+        const pieceX = Math.floor(Math.random() * (maxX - 50) + 50); 
+        const pieceY = Math.floor(Math.random() * maxY);
 
-    img.onload = () => {
-        const canvas = document.createElement('canvas');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext('2d');
-        
-        // 绘制原始图像
-        ctx.drawImage(img, 0, 0);
-
-        // 绘制随机形状
-        const x = Math.random() * img.width;
-        const y = Math.random() * img.height;
-
-        if (shapeType === 'circle') {
-            drawConcentricCircles(ctx, x, y, maxSize);
-        } else {
-            drawConcentricSquares(ctx, x, y, maxSize);
+        // 确保拼图块元素存在
+        if (!document.getElementById('puzzle-piece')) {
+            const newPuzzlePiece = document.createElement('div');
+            newPuzzlePiece.id = 'puzzle-piece';
+            document.getElementById('puzzle-container').appendChild(newPuzzlePiece);
+            puzzlePiece = newPuzzlePiece;
         }
 
-        // 将绘制后的图像转换为数据URL并更新puzzle-image和puzzle-piece
-        const dataURL = canvas.toDataURL();
-        puzzleImage.src = dataURL; // 更新puzzle-image
-        puzzlePiece.src = dataURL;  // 更新puzzle-piece
+        puzzlePiece.style.left = '0px';
+        puzzlePiece.style.top = `${pieceY}px`;
+        puzzlePiece.style.backgroundImage = `url(https://onecaptcha.us.kg/assets/v3/${currentImage})`;
+        puzzlePiece.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
+        puzzlePiece.style.backgroundSize = `${puzzleImage.width}px ${puzzleImage.height}px`;
+        puzzlePiece.style.display = 'block';
+        puzzlePiece.style.zIndex = '1000'; // 确保拼图块在最上层
+
+        // 移除旧的拼图洞
+        const oldPuzzleHole = document.getElementById('puzzle-hole');
+        if (oldPuzzleHole) {
+            oldPuzzleHole.remove();
+        }
+
+        const puzzleHole = document.createElement('div');
+        puzzleHole.id = 'puzzle-hole';
+        puzzleHole.style.left = `${pieceX}px`;
+        puzzleHole.style.top = `${pieceY}px`;
+        puzzleHole.style.display = 'block';
+        puzzleHole.style.zIndex = '999'; // 确保拼图洞在拼图块下面
+        document.getElementById('puzzle-container').appendChild(puzzleHole);
+
+        piecePosition = pieceX;
+        sliderCaptcha.style.display = 'block';
+        resetSlider();
+
+        // 添加绘制形状的逻辑
+        const canvas = document.createElement('canvas');
+        canvas.width = puzzleImage.width;
+        canvas.height = puzzleImage.height;
+        document.body.appendChild(canvas);
+        const ctx = canvas.getContext('2d');
+        addStructuredNoise(puzzleImage, ctx, canvas);
+
+        // 确保所有元素都正确显示
+        setTimeout(() => {
+            puzzlePiece.style.display = 'block';
+            puzzleHole.style.display = 'block';
+            sliderCaptcha.style.opacity = '1';
+        }, 100);
     };
 }
 
-function drawConcentricSquares(ctx, x, y, maxSize) {
+let shapeChoice;
+
+function addStructuredNoise(img, ctx, canvas) {
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+    // 添加半透明遮罩
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    const count = 3;
+    const spacing = canvas.width / count;
+
+    // 随机选择绘制形状
+    shapeChoice = Math.random() > 0.5 ? 'circle' : 'square';
+
+    for (let i = 0; i < count; i++) {
+        for (let j = 0; j < count; j++) {
+            const x = i * spacing + spacing / 2;
+            const y = j * spacing + spacing / 2;
+
+            // 根据随机选择的形状绘制
+            if (shapeChoice === 'circle') {
+                drawConcentricCircles(x, y, spacing / 2, ctx);
+            } else {
+                drawConcentricSquares(x, y, spacing, ctx);
+            }
+        }
+    }
+}
+
+function drawConcentricSquares(x, y, maxSize, ctx) {
     const levels = 12;  
     for (let i = 0; i < levels; i++) {
         const size = maxSize - (i * maxSize / levels);
@@ -550,7 +605,7 @@ function drawConcentricSquares(ctx, x, y, maxSize) {
     }
 }
 
-function drawConcentricCircles(ctx, x, y, maxRadius) {
+function drawConcentricCircles(x, y, maxRadius, ctx) {
     const levels = 12;  
     for (let i = 0; i < levels; i++) {
         const radius = maxRadius - (i * maxRadius / levels);
