@@ -508,47 +508,61 @@ function OneCaptchaInit() {
     puzzleImage.src = `https://onecaptcha.us.kg/assets/v3/${currentImage}`;
 
     puzzleImage.onload = () => {
-        const ctx = puzzleImage.getContext('2d'); // 直接获取 puzzleImage 的上下文
-        
-        // 设置canvas大小与图片大小一致
-        puzzleImage.width = puzzleImage.naturalWidth;
-        puzzleImage.height = puzzleImage.naturalHeight;
+        const pieceSize = 50;
+        const maxX = puzzleImage.width - pieceSize;
+        const maxY = puzzleImage.height - pieceSize;
+        const pieceX = Math.floor(Math.random() * (maxX - 50) + 50); 
+        const pieceY = Math.floor(Math.random() * maxY);
 
-        // 绘制图像并添加噪点效果
-        addStructuredNoise(puzzleImage, ctx, puzzleImage.width, puzzleImage.height);
+        // 确保拼图块元素存在
+        if (!document.getElementById('puzzle-piece')) {
+            const newPuzzlePiece = document.createElement('div');
+            newPuzzlePiece.id = 'puzzle-piece';
+            document.getElementById('puzzle-container').appendChild(newPuzzlePiece);
+            puzzlePiece = newPuzzlePiece;
+        }
 
-        // 显示拼图部分
-        preparePuzzle(puzzleImage);  // 使用绘制后的图片作为拼图
+        puzzlePiece.style.left = '0px';
+        puzzlePiece.style.top = `${pieceY}px`;
+        puzzlePiece.style.backgroundImage = `url(https://onecaptcha.us.kg/assets/v3/${currentImage})`;
+        puzzlePiece.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
+        puzzlePiece.style.backgroundSize = `${puzzleImage.width}px ${puzzleImage.height}px`;
+        puzzlePiece.style.display = 'block';
+        puzzlePiece.style.zIndex = '1000'; // 确保拼图块在最上层
+
+        // 移除旧的拼图洞
+        const oldPuzzleHole = document.getElementById('puzzle-hole');
+        if (oldPuzzleHole) {
+            oldPuzzleHole.remove();
+        }
+
+        const puzzleHole = document.createElement('div');
+        puzzleHole.id = 'puzzle-hole';
+        puzzleHole.style.left = `${pieceX}px`;
+        puzzleHole.style.top = `${pieceY}px`;
+        puzzleHole.style.display = 'block';
+        puzzleHole.style.zIndex = '999'; // 确保拼图洞在拼图块下面
+        document.getElementById('puzzle-container').appendChild(puzzleHole);
+
+        piecePosition = pieceX;
+        sliderCaptcha.style.display = 'block';
+        resetSlider();
+
+        // 确保所有元素都正确显示
+        setTimeout(() => {
+            puzzlePiece.style.display = 'block';
+            puzzleHole.style.display = 'block';
+            sliderCaptcha.style.opacity = '1';
+
+            // 这里调用绘制函数
+            drawShapesOnCanvas();
+        }, 100);
     };
 }
 
-
-function addStructuredNoise(img, ctx, width, height) {
-    // 添加噪点效果
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-    ctx.fillRect(0, 0, width, height);
-
-    const count = 3;
-    const spacing = width / count;
-    const shapeChoice = Math.random() > 0.5 ? 'circle' : 'square';
-
-    for (let i = 0; i < count; i++) {
-        for (let j = 0; j < count; j++) {
-            const x = i * spacing + spacing / 2;
-            const y = j * spacing + spacing / 2;
-
-            if (shapeChoice === 'circle') {
-                drawConcentricCircles(x, y, spacing / 2, ctx);
-            } else {
-                drawConcentricSquares(x, y, spacing, ctx);
-            }
-        }
-    }
-}
-
-
-function drawConcentricSquares(x, y, maxSize, ctx) {
-    const levels = 12;
+// 绘制同心正方形
+function drawConcentricSquares(x, y, maxSize) {
+    const levels = 12;  
     for (let i = 0; i < levels; i++) {
         const size = maxSize - (i * maxSize / levels);
         ctx.strokeStyle = `rgba(${Math.random() * 180},${Math.random() * 180},${Math.random() * 180},0.3)`;
@@ -557,8 +571,9 @@ function drawConcentricSquares(x, y, maxSize, ctx) {
     }
 }
 
-function drawConcentricCircles(x, y, maxRadius, ctx) {
-    const levels = 12;
+// 绘制同心圆
+function drawConcentricCircles(x, y, maxRadius) {
+    const levels = 12;  
     for (let i = 0; i < levels; i++) {
         const radius = maxRadius - (i * maxRadius / levels);
         ctx.strokeStyle = `rgba(${Math.random() * 180},${Math.random() * 180},${Math.random() * 180},0.3)`;
@@ -569,21 +584,49 @@ function drawConcentricCircles(x, y, maxRadius, ctx) {
     }
 }
 
-function preparePuzzle(canvas) {
-    // Captcha拼图的逻辑，确保拼图块正确显示
-    const pieceSize = 50;
-    const maxX = canvas.width - pieceSize;
-    const maxY = canvas.height - pieceSize;
-    const pieceX = Math.floor(Math.random() * (maxX - 50) + 50); 
-    const pieceY = Math.floor(Math.random() * maxY);
+// 绘制形状的函数
+function drawShapesOnCanvas() {
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
 
-    const puzzlePiece = document.getElementById('puzzle-piece');
-    puzzlePiece.style.left = '0px';
-    puzzlePiece.style.top = `${pieceY}px`;
-    puzzlePiece.style.backgroundImage = `url(${canvas.toDataURL()})`;  // 使用Canvas生成的图像
-    puzzlePiece.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
-    puzzlePiece.style.backgroundSize = `${canvas.width}px ${canvas.height}px`;
-    puzzlePiece.style.display = 'block';
+    const img = new Image();
+    img.src = puzzleImage.src; // 使用拼图图片的URL
+
+    img.onload = function() {
+        // 绘制拼图图片
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        // 绘制同心正方形
+        drawConcentricSquares(75, 75, 100); // 设定正方形中心和最大尺寸
+
+        // 绘制同心圆
+        drawConcentricCircles(200, 200, 50); // 设定圆形中心和最大半径
+
+        // 添加结构化噪声
+        addStructuredNoise(img);
+    };
+}
+
+// 添加结构化噪声的函数
+function addStructuredNoise(image) {
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const width = canvas.width;
+    const height = canvas.height;
+
+    ctx.drawImage(image, 0, 0, width, height);
+
+    // 添加噪声
+    for (let i = 0; i < 1000; i++) {
+        const x = Math.random() * width;
+        const y = Math.random() * height;
+        const radius = Math.random() * 5;
+
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.3)'; // 黑色噪声
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI * 2, true);
+        ctx.fill();
+    }
 }
 
 
