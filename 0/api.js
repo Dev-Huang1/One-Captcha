@@ -199,7 +199,7 @@ function OneCaptchaInit() {
             position: absolute;
             width: 50px;
             height: 50px;
-            background-color: rgba(0, 0, 0, 0.2);
+            background-color: rgba(0, 0, 0, 0.6);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.8) inset;
             border-radius: 10px;
         }
