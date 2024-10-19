@@ -332,7 +332,6 @@ function OneCaptchaInit() {
         </span>
     </div>
     <div id="puzzle-container">
-        <canvas id="imgcanvas" style="display: none;"></canvas>
         <img id="puzzle-image" src="" alt="img">
         <div id="puzzle-piece"></div>
     </div>
@@ -509,28 +508,22 @@ function OneCaptchaInit() {
     puzzleImage.src = `https://onecaptcha.us.kg/assets/v3/${currentImage}`;
 
     puzzleImage.onload = () => {
-        const imageCanvas = document.getElementById('imgcanvas');
-        const ctx = imageCanvas.getContext('2d');
+        const ctx = puzzleImage.getContext('2d'); // 直接获取 puzzleImage 的上下文
         
         // 设置canvas大小与图片大小一致
-        imageCanvas.width = puzzleImage.width;
-        imageCanvas.height = puzzleImage.height;
+        puzzleImage.width = puzzleImage.naturalWidth;
+        puzzleImage.height = puzzleImage.naturalHeight;
 
         // 绘制图像并添加噪点效果
-        addStructuredNoise(puzzleImage, ctx, imageCanvas.width, imageCanvas.height);
-
-        // 不再修改 puzzleImage.src，改为显示 Canvas 处理后的图片
-        imageCanvas.style.display = 'block';  // 显示处理后的 Canvas
+        addStructuredNoise(puzzleImage, ctx, puzzleImage.width, puzzleImage.height);
 
         // 显示拼图部分
-        preparePuzzle(imageCanvas);  // 使用Canvas处理后的图片作为拼图
+        preparePuzzle(puzzleImage);  // 使用绘制后的图片作为拼图
     };
 }
 
-function addStructuredNoise(img, ctx, width, height) {
-    // 绘制图片
-    ctx.drawImage(img, 0, 0, width, height);
 
+function addStructuredNoise(img, ctx, width, height) {
     // 添加噪点效果
     ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
     ctx.fillRect(0, 0, width, height);
@@ -552,6 +545,7 @@ function addStructuredNoise(img, ctx, width, height) {
         }
     }
 }
+
 
 function drawConcentricSquares(x, y, maxSize, ctx) {
     const levels = 12;
