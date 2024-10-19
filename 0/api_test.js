@@ -520,51 +520,51 @@ function showSliderCaptcha() {
         canvas.height = puzzleImage.height;
         const ctx = canvas.getContext('2d');
         
-        // 仅在第一次绘制时添加噪声
+        // 绘制拼图背景并添加图形
         ctx.drawImage(puzzleImage, 0, 0, canvas.width, canvas.height);
         addStructuredNoise(ctx, canvas);
-
-        // 将 canvas 转为图片路径
         const dataURL = canvas.toDataURL('image/png');
 
-        // 确保拼图块元素存在
-        if (!document.getElementById('puzzle-piece')) {
-            const newPuzzlePiece = document.createElement('div');
-            newPuzzlePiece.id = 'puzzle-piece';
-            document.getElementById('puzzle-container').appendChild(newPuzzlePiece);
-            puzzlePiece = newPuzzlePiece;
+        // 拼图块处理
+        if (!puzzlePiece) {
+            puzzlePiece = document.createElement('div');
+            puzzlePiece.id = 'puzzle-piece';
+            document.getElementById('puzzle-container').appendChild(puzzlePiece);
         }
 
+        // 更新拼图块的位置和样式（仅更新一次）
         puzzlePiece.style.left = '0px';
         puzzlePiece.style.top = `${pieceY}px`;
         puzzlePiece.style.backgroundImage = `url(${dataURL})`;
         puzzlePiece.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
         puzzlePiece.style.backgroundSize = `${puzzleImage.width}px ${puzzleImage.height}px`;
         puzzlePiece.style.display = 'block';
-        puzzlePiece.style.zIndex = '1000'; // 确保拼图块在最上层
+        puzzlePiece.style.zIndex = '1000';
 
-        // 移除旧的拼图洞
-        const oldPuzzleHole = document.getElementById('puzzle-hole');
-        if (oldPuzzleHole) {
-            oldPuzzleHole.remove();
+        // 拼图洞处理
+        if (!puzzleHole) {
+            puzzleHole = document.createElement('div');
+            puzzleHole.id = 'puzzle-hole';
+            document.getElementById('puzzle-container').appendChild(puzzleHole);
         }
 
-        const puzzleHole = document.createElement('div');
-        puzzleHole.id = 'puzzle-hole';
+        // 更新拼图洞的位置（仅更新一次）
         puzzleHole.style.left = `${pieceX}px`;
         puzzleHole.style.top = `${pieceY}px`;
         puzzleHole.style.display = 'block';
-        puzzleHole.style.zIndex = '999'; // 确保拼图洞在拼图块下面
-        document.getElementById('puzzle-container').appendChild(puzzleHole);
+        puzzleHole.style.zIndex = '999';
+
+        // 只更新一次拼图图像
+        if (!isImageUpdated) {
+            puzzleImage.src = dataURL;
+            isImageUpdated = true;
+        }
 
         piecePosition = pieceX;
         sliderCaptcha.style.display = 'block';
         resetSlider();
 
-        // 将 puzzleImage 替换为带有绘制图形的图片
-        puzzleImage.src = dataURL;
-
-        // 确保所有元素都正确显示
+        // 确保拼图块和拼图洞正确显示
         setTimeout(() => {
             puzzlePiece.style.display = 'block';
             puzzleHole.style.display = 'block';
