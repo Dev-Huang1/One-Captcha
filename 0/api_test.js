@@ -521,7 +521,7 @@ function showSliderCaptcha() {
         canvas.width = puzzleImage.width;
         canvas.height = puzzleImage.height;
         const ctx = canvas.getContext('2d');
-        
+
         // 绘制拼图背景并添加图形
         ctx.drawImage(puzzleImage, 0, 0, canvas.width, canvas.height);
         addStructuredNoise(ctx, canvas);
@@ -572,6 +572,12 @@ function showSliderCaptcha() {
             puzzleHole.style.display = 'block';
             sliderCaptcha.style.opacity = '1';
         }, 100);
+    };
+
+    // 处理图片加载错误
+    puzzleImage.onerror = () => {
+        console.error('Image loading error for:', currentImage);
+        // 可以在这里添加重试逻辑或者替代方案
     };
 }
 
