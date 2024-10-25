@@ -1,3 +1,4 @@
+(function() {
 function OneCaptchaInit() {
     document.getElementById('one-captcha').innerHTML = `
         <style>
@@ -199,8 +200,8 @@ function OneCaptchaInit() {
             position: absolute;
             width: 50px;
             height: 50px;
-            background-color: rgba(0, 0, 0, 0.2);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3) inset;
+            background-color: rgba(0, 0, 0, 0.6);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.8) inset;
             border-radius: 10px;
         }
         #puzzle-piece, #puzzle-hole {
@@ -374,8 +375,6 @@ function OneCaptchaInit() {
     let movements = [];
     let startTime;
     let leaveTimer;
-    let puzzleHole;
-
 
     const translations = {
         en: {
@@ -505,7 +504,7 @@ function OneCaptchaInit() {
         }
     });
 
-function showSliderCaptcha() {
+    function showSliderCaptcha() {
     currentImage = images[Math.floor(Math.random() * images.length)];
     puzzleImage.src = `https://onecaptcha.us.kg/assets/v3/${currentImage}`;
 
@@ -516,117 +515,48 @@ function showSliderCaptcha() {
         const pieceX = Math.floor(Math.random() * (maxX - 50) + 50); 
         const pieceY = Math.floor(Math.random() * maxY);
 
-        // 创建 canvas 并在上面绘制图形
-        const canvas = document.createElement('canvas');
-        canvas.width = puzzleImage.width;
-        canvas.height = puzzleImage.height;
-        const ctx = canvas.getContext('2d');
-
-        // 绘制拼图背景并添加图形
-        ctx.drawImage(puzzleImage, 0, 0, canvas.width, canvas.height);
-        addStructuredNoise(ctx, canvas);
-        const dataURL = canvas.toDataURL('image/png');
-
-        // 拼图块处理
-        if (!puzzlePiece) {
-            puzzlePiece = document.createElement('div');
-            puzzlePiece.id = 'puzzle-piece';
-            document.getElementById('puzzle-container').appendChild(puzzlePiece);
+        // 确保拼图块元素存在
+        if (!document.getElementById('puzzle-piece')) {
+            const newPuzzlePiece = document.createElement('div');
+            newPuzzlePiece.id = 'puzzle-piece';
+            document.getElementById('puzzle-container').appendChild(newPuzzlePiece);
+            puzzlePiece = newPuzzlePiece;
         }
 
-        // 更新拼图块的位置和样式（仅更新一次）
         puzzlePiece.style.left = '0px';
         puzzlePiece.style.top = `${pieceY}px`;
-        puzzlePiece.style.backgroundImage = `url(${dataURL})`;
+        puzzlePiece.style.backgroundImage = `url(https://onecaptcha.us.kg/assets/v3/${currentImage})`;
         puzzlePiece.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
         puzzlePiece.style.backgroundSize = `${puzzleImage.width}px ${puzzleImage.height}px`;
         puzzlePiece.style.display = 'block';
-        puzzlePiece.style.zIndex = '1000';
+        puzzlePiece.style.zIndex = '1000'; // 确保拼图块在最上层
 
-        // 创建拼图洞（确保只创建一次）
-        if (!puzzleHole) {
-            puzzleHole = document.createElement('div');
-            puzzleHole.id = 'puzzle-hole';
-            document.getElementById('puzzle-container').appendChild(puzzleHole);
+        // 移除旧的拼图洞
+        const oldPuzzleHole = document.getElementById('puzzle-hole');
+        if (oldPuzzleHole) {
+            oldPuzzleHole.remove();
         }
 
-        // 更新拼图洞的位置（仅更新一次）
+        const puzzleHole = document.createElement('div');
+        puzzleHole.id = 'puzzle-hole';
         puzzleHole.style.left = `${pieceX}px`;
         puzzleHole.style.top = `${pieceY}px`;
         puzzleHole.style.display = 'block';
-        puzzleHole.style.zIndex = '999';
-
-        // 只更新一次拼图图像
-        if (!isImageUpdated) {
-            puzzleImage.src = dataURL;
-            isImageUpdated = true;
-        }
+        puzzleHole.style.zIndex = '999'; // 确保拼图洞在拼图块下面
+        document.getElementById('puzzle-container').appendChild(puzzleHole);
 
         piecePosition = pieceX;
         sliderCaptcha.style.display = 'block';
         resetSlider();
 
-        // 确保拼图块和拼图洞正确显示
+        // 确保所有元素都正确显示
         setTimeout(() => {
             puzzlePiece.style.display = 'block';
             puzzleHole.style.display = 'block';
             sliderCaptcha.style.opacity = '1';
         }, 100);
     };
-
-    // 处理图片加载错误
-    puzzleImage.onerror = () => {
-        console.error('Image loading error for:', currentImage);
-        // 可以在这里添加重试逻辑或者替代方案
-    };
 }
-
-let shapeChoice;
-
-function addStructuredNoise(ctx, canvas) {
-    const count = 3;
-    const spacing = canvas.width / count;
-
-    // 随机选择绘制形状
-    const shapeChoice = Math.random() > 0.5 ? 'circle' : 'square';
-
-    for (let i = 0; i < count; i++) {
-        for (let j = 0; j < count; j++) {
-            const x = i * spacing + spacing / 2;
-            const y = j * spacing + spacing / 2;
-
-            // 根据随机选择的形状绘制
-            if (shapeChoice === 'circle') {
-                drawConcentricCircles(x, y, spacing / 2, ctx);
-            } else {
-                drawConcentricSquares(x, y, spacing, ctx);
-            }
-        }
-    }
-}
-
-function drawConcentricSquares(x, y, maxSize, ctx) {
-    const levels = 12;  
-    for (let i = 0; i < levels; i++) {
-        const size = maxSize - (i * maxSize / levels);
-        ctx.strokeStyle = `rgba(${Math.random() * 180},${Math.random() * 180},${Math.random() * 180},0.3)`;
-        ctx.lineWidth = 1;
-        ctx.strokeRect(x - size / 2, y - size / 2, size, size);
-    }
-}
-
-function drawConcentricCircles(x, y, maxRadius, ctx) {
-    const levels = 12;  
-    for (let i = 0; i < levels; i++) {
-        const radius = maxRadius - (i * maxRadius / levels);
-        ctx.strokeStyle = `rgba(${Math.random() * 180},${Math.random() * 180},${Math.random() * 180},0.3)`;
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.arc(x, y, radius, 0, Math.PI * 2);
-        ctx.stroke();
-    }
-}
-
 
     function startDragging(e) {
         e.preventDefault();
@@ -827,13 +757,13 @@ async function OneCaptchaCallback() {
 
     setTimeout(() => {
         if (typeof window[callbackFunctionName] === 'function') {
-            window[callbackFunctionName](token); // 直接传递原始token
+            window[callbackFunctionName](token);
         } else {
             console.error("Callback function not found.");
         }
     }, 500);
 
-    setCookie('OneCaptchaToken', hashedToken, 150); // 存储哈希值到cookie
+    setCookie('OneCaptchaToken', hashedToken, 150);
 }
 
     applyTranslations(detectLanguage());
@@ -844,3 +774,4 @@ document.addEventListener('DOMContentLoaded', function() {
         OneCaptchaInit();
     // }, 887);
 });
+})();
