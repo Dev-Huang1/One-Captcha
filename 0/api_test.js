@@ -562,7 +562,17 @@ function showSliderCaptcha() {
         canvas.height = puzzleImage.height;
         const ctx = canvas.getContext('2d');
 
-        addStructuredNoise(puzzleImage, ctx, pieceX, pieceY).then(base64Image => {
+        // 绘制图形并返回base64图像
+        const shapeChoice = Math.random() > 0.5 ? 'circle' : 'square';
+        let drawingPromise;
+
+        if (shapeChoice === 'circle') {
+            drawingPromise = drawConcentricCircles(ctx, ctx.canvas.width / 4);
+        } else {
+            drawingPromise = drawConcentricSquares(ctx, ctx.canvas.width / 4);
+        }
+
+        drawingPromise.then(base64Image => {
             puzzlePiece.style.backgroundImage = `url(${base64Image})`;
             puzzleHole.style.backgroundImage = `url(${base64Image})`;
             puzzleHole.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
@@ -582,47 +592,17 @@ function showSliderCaptcha() {
     };
 }
 
-function addStructuredNoise(img, ctx, pieceX, pieceY) {
-    return new Promise((resolve) => {
-        ctx.drawImage(img, 0, 0, ctx.canvas.width, ctx.canvas.height);
-
-        // 添加半透明遮罩
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-        ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
-        const count = 3;
-        const spacing = ctx.canvas.width / count;
-
-        // 随机选择绘制形状
-        const shapeChoice = Math.random() > 0.5 ? 'circle' : 'square';
-
-        let drawingPromise;
-
-        if (shapeChoice === 'circle') {
-            drawingPromise = drawConcentricCircles(ctx, spacing / 2);
-        } else {
-            drawingPromise = drawConcentricSquares(ctx, spacing);
-        }
-
-        drawingPromise.then(() => {
-            // 生成base64图像
-            const base64Image = ctx.canvas.toDataURL('image/png');
-            resolve(base64Image);
-        });
-    });
-}
-
 function drawConcentricSquares(ctx, maxSize) {
     return new Promise((resolve) => {
         const levels = 12;  
         for (let i = 0; i < levels; i++) {
             const size = maxSize - (i * maxSize / levels);
-            // 使用较低的透明度和柔和的颜色
             ctx.strokeStyle = `rgba(${Math.random() * 180},${Math.random() * 180},${Math.random() * 180},0.3)`;
             ctx.lineWidth = 1;
             ctx.strokeRect(ctx.canvas.width / 2 - size / 2, ctx.canvas.height / 2 - size / 2, size, size);
         }
-        resolve();
+        const base64Image = ctx.canvas.toDataURL('image/png');
+        resolve(base64Image);
     });
 }
 
@@ -631,16 +611,17 @@ function drawConcentricCircles(ctx, maxRadius) {
         const levels = 12;  
         for (let i = 0; i < levels; i++) {
             const radius = maxRadius - (i * maxRadius / levels);
-            // 使用较低的透明度和柔和的颜色
             ctx.strokeStyle = `rgba(${Math.random() * 180},${Math.random() * 180},${Math.random() * 180},0.3)`;
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.arc(ctx.canvas.width / 2, ctx.canvas.height / 2, radius, 0, Math.PI * 2);
             ctx.stroke();
         }
-        resolve();
+        const base64Image = ctx.canvas.toDataURL('image/png');
+        resolve(base64Image);
     });
 }
+
 
     function startDragging(e) {
         e.preventDefault();
