@@ -561,7 +561,7 @@ function showSliderCaptcha() {
         canvas.width = puzzleImage.width;
         canvas.height = puzzleImage.height;
         const ctx = canvas.getContext('2d');
-        
+
         addStructuredNoise(puzzleImage, ctx, pieceX, pieceY).then(base64Image => {
             puzzlePiece.style.backgroundImage = `url(${base64Image})`;
             puzzleHole.style.backgroundImage = `url(${base64Image})`;
@@ -584,62 +584,63 @@ function showSliderCaptcha() {
 
 function addStructuredNoise(img, ctx, pieceX, pieceY) {
     return new Promise((resolve) => {
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, ctx.canvas.width, ctx.canvas.height);
 
         // 添加半透明遮罩
         ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
         const count = 3;
-        const spacing = canvas.width / count;
+        const spacing = ctx.canvas.width / count;
 
         // 随机选择绘制形状
         const shapeChoice = Math.random() > 0.5 ? 'circle' : 'square';
 
-        for (let i = 0; i < count; i++) {
-            for (let j = 0; j < count; j++) {
-                const x = i * spacing + spacing / 2;
-                const y = j * spacing + spacing / 2;
+        let drawingPromise;
 
-                // 根据随机选择的形状绘制
-                if (shapeChoice === 'circle') {
-                    drawConcentricCircles(ctx, x, y, spacing / 2);
-                } else {
-                    drawConcentricSquares(ctx, x, y, spacing);
-                }
-            }
+        if (shapeChoice === 'circle') {
+            drawingPromise = drawConcentricCircles(ctx, spacing / 2);
+        } else {
+            drawingPromise = drawConcentricSquares(ctx, spacing);
         }
 
-        // 生成base64图像
-        const base64Image = canvas.toDataURL('image/png');
-        resolve(base64Image);
+        drawingPromise.then(() => {
+            // 生成base64图像
+            const base64Image = ctx.canvas.toDataURL('image/png');
+            resolve(base64Image);
+        });
     });
 }
 
-function drawConcentricSquares(ctx, x, y, maxSize) {
-    const levels = 12;  
-    for (let i = 0; i < levels; i++) {
-        const size = maxSize - (i * maxSize / levels);
-        // 使用较低的透明度和柔和的颜色
-        ctx.strokeStyle = `rgba(${Math.random() * 180},${Math.random() * 180},${Math.random() * 180},0.3)`;
-        ctx.lineWidth = 1;
-        ctx.strokeRect(x - size / 2, y - size / 2, size, size);
-    }
+function drawConcentricSquares(ctx, maxSize) {
+    return new Promise((resolve) => {
+        const levels = 12;  
+        for (let i = 0; i < levels; i++) {
+            const size = maxSize - (i * maxSize / levels);
+            // 使用较低的透明度和柔和的颜色
+            ctx.strokeStyle = `rgba(${Math.random() * 180},${Math.random() * 180},${Math.random() * 180},0.3)`;
+            ctx.lineWidth = 1;
+            ctx.strokeRect(ctx.canvas.width / 2 - size / 2, ctx.canvas.height / 2 - size / 2, size, size);
+        }
+        resolve();
+    });
 }
 
-function drawConcentricCircles(ctx, x, y, maxRadius) {
-    const levels = 12;  
-    for (let i = 0; i < levels; i++) {
-        const radius = maxRadius - (i * maxRadius / levels);
-        // 使用较低的透明度和柔和的颜色
-        ctx.strokeStyle = `rgba(${Math.random() * 180},${Math.random() * 180},${Math.random() * 180},0.3)`;
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.arc(x, y, radius, 0, Math.PI * 2);
-        ctx.stroke();
-    }
+function drawConcentricCircles(ctx, maxRadius) {
+    return new Promise((resolve) => {
+        const levels = 12;  
+        for (let i = 0; i < levels; i++) {
+            const radius = maxRadius - (i * maxRadius / levels);
+            // 使用较低的透明度和柔和的颜色
+            ctx.strokeStyle = `rgba(${Math.random() * 180},${Math.random() * 180},${Math.random() * 180},0.3)`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.arc(ctx.canvas.width / 2, ctx.canvas.height / 2, radius, 0, Math.PI * 2);
+            ctx.stroke();
+        }
+        resolve();
+    });
 }
-
 
     function startDragging(e) {
         e.preventDefault();
