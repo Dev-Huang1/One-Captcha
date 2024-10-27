@@ -562,6 +562,9 @@ function showSliderCaptcha() {
         canvas.height = puzzleImage.height;
         const ctx = canvas.getContext('2d');
 
+        // 绘制背景图像到canvas
+        ctx.drawImage(puzzleImage, 0, 0);
+
         // 在draw函数中绘制
         const shapeChoice = Math.random() > 0.5 ? 'circle' : 'square';
 
