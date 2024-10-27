@@ -1,3 +1,4 @@
+(function() {
 function OneCaptchaInit() {
     document.getElementById('one-captcha').innerHTML = `
         <style>
@@ -445,7 +446,17 @@ function OneCaptchaInit() {
             errorMessage: "検証失敗。再度お試しください。",
             headerText: "CAPTCHA を完了してください。",
             smallHeaderText: "エラーが発生した場合は、「再試行」ボタンをクリックしてください",
-        }
+        },
+        kr: {
+            captchaLabel: "나는 인간이다",
+            verifyingText: "확인 중...",
+            privacyLink: "은둔",
+            docsLink: "문서",
+            successMessage: "확인 성공",
+            errorMessage: "확인에 실패했습니다. 다시 시도해 주세요.",
+            headerText: "보안 문자를 작성해 주세요",
+            smallHeaderText: "오류가 발생하면 재시도 버튼을 클릭하세요",
+        },
     };
 
     const captchaElement = document.getElementById('one-captcha');
@@ -464,6 +475,7 @@ function OneCaptchaInit() {
         else if (userLang.startsWith('fr')) return 'fr';
         else if (userLang.startsWith('de')) return 'de';
         else if (userLang.startsWith('ja')) return 'ja';
+        else if (userLang.startsWith('kr')) return 'kr';
         else return userLang.includes('zh') ? 'zh' : 'en';
     }
 
@@ -756,13 +768,13 @@ async function OneCaptchaCallback() {
 
     setTimeout(() => {
         if (typeof window[callbackFunctionName] === 'function') {
-            window[callbackFunctionName](token); // 直接传递原始token
+            window[callbackFunctionName](token);
         } else {
             console.error("Callback function not found.");
         }
     }, 500);
 
-    setCookie('OneCaptchaToken', hashedToken, 150); // 存储哈希值到cookie
+    setCookie('OneCaptchaToken', hashedToken, 150);
 }
 
     applyTranslations(detectLanguage());
@@ -773,3 +785,4 @@ document.addEventListener('DOMContentLoaded', function() {
         OneCaptchaInit();
     // }, 887);
 });
+})();
