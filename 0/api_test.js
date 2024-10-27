@@ -523,7 +523,7 @@ function OneCaptchaInit() {
         const pieceSize = 50;
         const maxX = puzzleImage.width - pieceSize;
         const maxY = puzzleImage.height - pieceSize;
-        const pieceX = Math.floor(Math.random() * (maxX - 50) + 50); 
+        const pieceX = Math.floor(Math.random() * (maxX - 50) + 50);
         const pieceY = Math.floor(Math.random() * maxY);
 
         // 确保拼图块元素存在
@@ -536,9 +536,6 @@ function OneCaptchaInit() {
 
         puzzlePiece.style.left = '0px';
         puzzlePiece.style.top = `${pieceY}px`;
-        puzzlePiece.style.backgroundImage = `url(https://onecaptcha.us.kg/assets/v3/${currentImage})`;
-        puzzlePiece.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
-        puzzlePiece.style.backgroundSize = `${puzzleImage.width}px ${puzzleImage.height}px`;
         puzzlePiece.style.display = 'block';
         puzzlePiece.style.zIndex = '1000'; // 确保拼图块在最上层
 
@@ -557,6 +554,17 @@ function OneCaptchaInit() {
         document.getElementById('puzzle-container').appendChild(puzzleHole);
 
         piecePosition = pieceX;
+        
+        // 调用 addStructuredNoise 函数生成噪声图像
+        const img = new Image();
+        img.src = puzzleImage.src; // 使用拼图图像源
+        img.onload = () => {
+            addStructuredNoise(img, (base64Image) => {
+                puzzlePiece.style.backgroundImage = `url(${base64Image})`;
+                puzzleHole.style.backgroundImage = `url(${base64Image})`;
+            });
+        };
+
         sliderCaptcha.style.display = 'block';
         resetSlider();
 
@@ -567,6 +575,65 @@ function OneCaptchaInit() {
             sliderCaptcha.style.opacity = '1';
         }, 100);
     };
+}
+
+
+const canvas = document.createElement('canvas');
+const ctx = canvas.getContext('2d');
+
+function addStructuredNoise(img, callback) {
+    canvas.width = img.width;
+    canvas.height = img.height;
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+    // 添加半透明遮罩
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    const count = 3;
+    const spacing = canvas.width / count;
+
+    // 随机选择绘制形状
+    const shapeChoice = Math.random() > 0.5 ? 'circle' : 'square';
+
+    for (let i = 0; i < count; i++) {
+        for (let j = 0; j < count; j++) {
+            const x = i * spacing + spacing / 2;
+            const y = j * spacing + spacing / 2;
+
+            // 根据随机选择的形状绘制
+            if (shapeChoice === 'circle') {
+                drawConcentricCircles(x, y, spacing / 2);
+            } else {
+                drawConcentricSquares(x, y, spacing);
+            }
+        }
+    }
+
+    // 返回Base64图像数据
+    callback(canvas.toDataURL());
+}
+
+function drawConcentricSquares(x, y, maxSize) {
+    const levels = 12;
+    for (let i = 0; i < levels; i++) {
+        const size = maxSize - (i * maxSize / levels);
+        ctx.strokeStyle = `rgba(${Math.random() * 180},${Math.random() * 180},${Math.random() * 180},0.3)`;
+        ctx.lineWidth = 1;
+        ctx.strokeRect(x - size / 2, y - size / 2, size, size);
+    }
+}
+
+function drawConcentricCircles(x, y, maxRadius) {
+    const levels = 12;
+    for (let i = 0; i < levels; i++) {
+        const radius = maxRadius - (i * maxRadius / levels);
+        ctx.strokeStyle = `rgba(${Math.random() * 180},${Math.random() * 180},${Math.random() * 180},0.3)`;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.stroke();
+    }
 }
 
     function startDragging(e) {
