@@ -523,7 +523,7 @@ function showSliderCaptcha() {
         const pieceSize = 50;
         const maxX = puzzleImage.width - pieceSize;
         const maxY = puzzleImage.height - pieceSize;
-        const pieceX = Math.floor(Math.random() * (maxX - 50) + 50); 
+        const pieceX = Math.floor(Math.random() * (maxX - 50) + 50);
         const pieceY = Math.floor(Math.random() * maxY);
 
         // 确保拼图块元素存在
@@ -556,22 +556,20 @@ function showSliderCaptcha() {
         puzzleHole.style.zIndex = '999'; // 确保拼图洞在拼图块下面
         document.getElementById('puzzle-container').appendChild(puzzleHole);
 
-        // 添加结构化噪声并生成base64图像
+        // 创建canvas用于绘制
         const canvas = document.createElement('canvas');
         canvas.width = puzzleImage.width;
         canvas.height = puzzleImage.height;
         const ctx = canvas.getContext('2d');
 
-        // 绘制图形并返回base64图像
+        // 在draw函数中绘制
         const shapeChoice = Math.random() > 0.5 ? 'circle' : 'square';
-        let drawingPromise;
 
-        if (shapeChoice === 'circle') {
-            drawingPromise = drawConcentricCircles(ctx, ctx.canvas.width / 4);
-        } else {
-            drawingPromise = drawConcentricSquares(ctx, ctx.canvas.width / 4);
-        }
+        const drawingPromise = shapeChoice === 'circle'
+            ? drawConcentricCircles(ctx, ctx.canvas.width / 4)
+            : drawConcentricSquares(ctx, ctx.canvas.width / 4);
 
+        // 绘制完成后将base64图像传递给各个元素
         drawingPromise.then(base64Image => {
             puzzlePiece.style.backgroundImage = `url(${base64Image})`;
             puzzleHole.style.backgroundImage = `url(${base64Image})`;
@@ -602,6 +600,7 @@ function drawConcentricSquares(ctx, maxSize) {
             ctx.lineWidth = 1;
             ctx.strokeRect(ctx.canvas.width / 2 - size / 2, ctx.canvas.height / 2 - size / 2, size, size);
         }
+        // 返回生成的base64图像
         const base64Image = ctx.canvas.toDataURL('image/png');
         resolve(base64Image);
     });
@@ -618,12 +617,13 @@ function drawConcentricCircles(ctx, maxRadius) {
             ctx.arc(ctx.canvas.width / 2, ctx.canvas.height / 2, radius, 0, Math.PI * 2);
             ctx.stroke();
         }
+        // 返回生成的base64图像
         const base64Image = ctx.canvas.toDataURL('image/png');
         resolve(base64Image);
     });
 }
 
-
+        
     function startDragging(e) {
         e.preventDefault();
         isDragging = true;
