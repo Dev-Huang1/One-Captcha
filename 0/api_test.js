@@ -577,6 +577,7 @@ function showSliderCaptcha() {
             puzzleHole.style.backgroundImage = `url(${base64Image})`;
             puzzleHole.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
             puzzleHole.style.backgroundSize = `${puzzleImage.width}px ${puzzleImage.height}px`;
+            puzzleImage.src = base64Image; // 将图像传递给 puzzle-image
         });
 
         piecePosition = pieceX;
