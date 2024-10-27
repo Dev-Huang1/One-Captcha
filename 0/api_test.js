@@ -448,7 +448,7 @@ function OneCaptchaInit() {
             smallHeaderText: "エラーが発生した場合は、「再試行」ボタンをクリックしてください",
         },
         kr: {
-            captchaLabel: "나는 로봇이 아니다",
+            captchaLabel: "나는 인간이다",
             verifyingText: "확인 중...",
             privacyLink: "은둔",
             docsLink: "문서",
