@@ -515,7 +515,7 @@ function OneCaptchaInit() {
         }
     });
 
-    function showSliderCaptcha() {
+function showSliderCaptcha() {
     currentImage = images[Math.floor(Math.random() * images.length)];
     puzzleImage.src = `https://onecaptcha.us.kg/assets/v3/${currentImage}`;
 
@@ -534,82 +534,89 @@ function OneCaptchaInit() {
             puzzlePiece = newPuzzlePiece;
         }
 
-        // 添加结构化噪声到Canvas
-        const canvas = document.getElementById('canvas');
+        puzzlePiece.style.left = '0px';
+        puzzlePiece.style.top = `${pieceY}px`;
+        puzzlePiece.style.backgroundImage = `url(https://onecaptcha.us.kg/assets/v3/${currentImage})`;
+        puzzlePiece.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
+        puzzlePiece.style.backgroundSize = `${puzzleImage.width}px ${puzzleImage.height}px`;
+        puzzlePiece.style.display = 'block';
+        puzzlePiece.style.zIndex = '1000'; // 确保拼图块在最上层
+
+        // 移除旧的拼图洞
+        const oldPuzzleHole = document.getElementById('puzzle-hole');
+        if (oldPuzzleHole) {
+            oldPuzzleHole.remove();
+        }
+
+        const puzzleHole = document.createElement('div');
+        puzzleHole.id = 'puzzle-hole';
+        puzzleHole.style.left = `${pieceX}px`;
+        puzzleHole.style.top = `${pieceY}px`;
+        puzzleHole.style.display = 'block';
+        puzzleHole.style.zIndex = '999'; // 确保拼图洞在拼图块下面
+        document.getElementById('puzzle-container').appendChild(puzzleHole);
+
+        // 添加结构化噪声并生成base64图像
+        const canvas = document.createElement('canvas');
+        canvas.width = puzzleImage.width;
+        canvas.height = puzzleImage.height;
         const ctx = canvas.getContext('2d');
-        const img = new Image();
-        img.src = `https://onecaptcha.us.kg/assets/v3/${currentImage}`;
-        img.onload = function() {
-            addStructuredNoise(img, ctx);
-            const dataURL = canvas.toDataURL(); // 获取 Base64 编码
+        
+        addStructuredNoise(puzzleImage, ctx, pieceX, pieceY).then(base64Image => {
+            puzzlePiece.style.backgroundImage = `url(${base64Image})`;
+            puzzleHole.style.backgroundImage = `url(${base64Image})`;
+            puzzleHole.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
+            puzzleHole.style.backgroundSize = `${puzzleImage.width}px ${puzzleImage.height}px`;
+        });
 
-            puzzlePiece.style.backgroundImage = `url(${dataURL})`;
-            puzzlePiece.style.left = '0px';
-            puzzlePiece.style.top = `${pieceY}px`;
+        piecePosition = pieceX;
+        sliderCaptcha.style.display = 'block';
+        resetSlider();
+
+        // 确保所有元素都正确显示
+        setTimeout(() => {
             puzzlePiece.style.display = 'block';
-            puzzlePiece.style.zIndex = '1000'; // 确保拼图块在最上层
-
-            // 移除旧的拼图洞
-            const oldPuzzleHole = document.getElementById('puzzle-hole');
-            if (oldPuzzleHole) {
-                oldPuzzleHole.remove();
-            }
-
-            const puzzleHole = document.createElement('div');
-            puzzleHole.id = 'puzzle-hole';
-            puzzleHole.style.left = `${pieceX}px`;
-            puzzleHole.style.top = `${pieceY}px`;
             puzzleHole.style.display = 'block';
-            puzzleHole.style.zIndex = '999'; // 确保拼图洞在拼图块下面
-            document.getElementById('puzzle-container').appendChild(puzzleHole);
-
-            piecePosition = pieceX;
-            sliderCaptcha.style.display = 'block';
-            resetSlider();
-
-            // 确保所有元素都正确显示
-            setTimeout(() => {
-                puzzlePiece.style.display = 'block';
-                puzzleHole.style.display = 'block';
-                sliderCaptcha.style.opacity = '1';
-            }, 100);
-        };
+            sliderCaptcha.style.opacity = '1';
+        }, 100);
     };
 }
 
+function addStructuredNoise(img, ctx, pieceX, pieceY) {
+    return new Promise((resolve) => {
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-const canvas = document.createElement('canvas');
-const ctx = canvas.getContext('2d');
+        // 添加半透明遮罩
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-function addStructuredNoise(img, ctx) {
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        const count = 3;
+        const spacing = canvas.width / count;
 
-    // 添加半透明遮罩
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+        // 随机选择绘制形状
+        const shapeChoice = Math.random() > 0.5 ? 'circle' : 'square';
 
-    const count = 3;
-    const spacing = canvas.width / count;
+        for (let i = 0; i < count; i++) {
+            for (let j = 0; j < count; j++) {
+                const x = i * spacing + spacing / 2;
+                const y = j * spacing + spacing / 2;
 
-    // 随机选择绘制形状
-    shapeChoice = Math.random() > 0.5 ? 'circle' : 'square';
-
-    for (let i = 0; i < count; i++) {
-        for (let j = 0; j < count; j++) {
-            const x = i * spacing + spacing / 2;
-            const y = j * spacing + spacing / 2;
-
-            // 根据随机选择的形状绘制
-            if (shapeChoice === 'circle') {
-                drawConcentricCircles(x, y, spacing / 2, ctx);
-            } else {
-                drawConcentricSquares(x, y, spacing, ctx);
+                // 根据随机选择的形状绘制
+                if (shapeChoice === 'circle') {
+                    drawConcentricCircles(ctx, x, y, spacing / 2);
+                } else {
+                    drawConcentricSquares(ctx, x, y, spacing);
+                }
             }
         }
-    }
+
+        // 生成base64图像
+        const base64Image = canvas.toDataURL('image/png');
+        resolve(base64Image);
+    });
 }
 
-function drawConcentricSquares(x, y, maxSize, ctx) {
+function drawConcentricSquares(ctx, x, y, maxSize) {
     const levels = 12;  
     for (let i = 0; i < levels; i++) {
         const size = maxSize - (i * maxSize / levels);
@@ -620,8 +627,7 @@ function drawConcentricSquares(x, y, maxSize, ctx) {
     }
 }
 
-
-function drawConcentricCircles(x, y, maxRadius, ctx) {
+function drawConcentricCircles(ctx, x, y, maxRadius) {
     const levels = 12;  
     for (let i = 0; i < levels; i++) {
         const radius = maxRadius - (i * maxRadius / levels);
