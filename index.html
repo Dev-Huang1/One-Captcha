@@ -683,7 +683,7 @@
         var elements = document.querySelectorAll('.buttons, .section-title, .section-article, .blue-section-title, .blue-section-article, .feature-feature, .helvetia-safeguard');
         elements.forEach(function(element) {
             if (isElementInViewport(element)) {
-                card.classList.add('show');
+                element.classList.add('show');
             }
         });
     }
