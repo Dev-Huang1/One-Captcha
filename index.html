@@ -443,7 +443,20 @@
     .feature-showcase {
     gap: 1px; 
     }
-}</style>
+}
+        .buttons, .section-title, .section-article, .blue-section-title, .blue-section-article, .feature-feature, .helvetia-safeguard {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.buttons.show, .section-title.show, .section-article.show, .blue-section-title.show, .blue-section-article.show, .feature-feature.show, .helvetia-safeguard.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+    
+    </style>
     <link rel="icon" href="/assets/logo/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/assets/logo/logo.svg" type="image/svg+xml">
     <meta property="og:title" content="One Captcha | GDPR compliant secure Captcha" />
