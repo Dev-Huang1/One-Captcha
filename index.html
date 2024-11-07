@@ -680,10 +680,10 @@
     }
 
     function handleScroll() {
-        var elements = document.querySelectorAll('.buttons, .section-title, .section-article, .blue-section-title, .blue-section-article, .feature-feature, .helvetia-safeguard');
-        elements.forEach(function(element) {
-            if (isElementInViewport(element)) {
-                element.classList.add('show');
+        var cards = document.querySelectorAll('.buttons, .section-title, .section-article, .blue-section-title, .blue-section-article, .feature-feature, .helvetia-safeguard');
+        cards.forEach(function(card) {
+            if (isElementInViewport(card)) {
+                card.classList.add('show');
             }
         });
     }
