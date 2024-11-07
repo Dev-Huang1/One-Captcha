@@ -5,11 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>One Captcha | GDPR compliant secure Captcha</title>
     <!--<link rel="stylesheet" href="assets/index.css">-->
-    <style>        * {
+    <style>
+        @import url('/assets/font/open-sans.css');
+
+        @font-face {
+            font-family: 'ECA-M';
+            src: url('assets/font/ECA-Medium.ttf') format('truetype');
+        }
+
+        @font-face {
+            font-family: 'ECA-L';
+            src: url('assets/font/ECA-Light.ttf') format('truetype');
+        }
+        
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            font-family: "ECA-L";
         }
         body {
             background-color: #fff;
@@ -381,7 +394,7 @@
     }
 
     .content-section-blue {
-           padding: 36px 5%;
+           padding: 50px 20px;
     }
 
     .section-article {
