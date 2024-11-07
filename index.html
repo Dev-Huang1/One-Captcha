@@ -667,5 +667,32 @@
             <p>&copy; Tech-Art Studio 2024</p>
         </div>
     </footer>
+
+    <script>
+    function isElementInViewport(el) {
+        var rect = el.getBoundingClientRect();
+        return (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
+    }
+
+    function handleScroll() {
+        var elements = document.querySelectorAll('.buttons, .section-title, .section-article, .blue-section-title, .blue-section-article, .feature-feature, .helvetia-safeguard');
+        elements.forEach(function(element) {
+            if (isElementInViewport(element)) {
+                card.classList.add('show');
+            }
+        });
+    }
+
+    // Trigger the effect on initial load
+    handleScroll();
+
+    // Listen for scroll events
+    window.addEventListener('scroll', handleScroll);
+    </script>
 </body>
 </html>
