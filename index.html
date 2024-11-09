@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech-Art Cloud Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="/assets/images/logo/favicon.ico" type="image/x-icon">
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <meta property="og:title" content="Tech-Art Cloud Home">
+    <meta property="og:description" content="A new cloud platform that provides scalable infrastructure and development tools for building and enhancing digital services and applications.">
+    <meta property="og:image" content="https://cloud.xyehr.cn/assets/images/logo/Tech-Art-Cloud-Logo.png">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadNews();
+        });
+
+function loadNews() {
+    fetch('posts/posts.json')
+        .then(response => response.json())
+        .then(articles => {
+            const newsGrid = document.getElementById('newsGrid');
+            articles.forEach(article => {
+                const card = createNewsCard(article);
+                newsGrid.appendChild(card);
+            });
+        })
+        .catch(error => console.error('Error loading news:', error));
+}
+
+function createNewsCard(article) {
+    const card = document.createElement('div');
+    card.className = 'news-card';
+    card.innerHTML = `
+        <img src="${article.image}" alt="${article.title}">
+        <div class="news-card-content">
+            <h3>${article.title}</h3>
+            <p>${article.preview}</p>
+        </div>
+    `;
+    return card;
+}
+    </script>
+    <style>
+        @import url('/assets/font/open-sans.css');
+
+        @font-face {
+            font-family: 'ECA-M';
+            src: url('assets/font/ECA-Medium.ttf') format('truetype');
+        }
+
+        @font-face {
+            font-family: 'ECA-L';
+            src: url('assets/font/ECA-Light.ttf') format('truetype');
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "ECA-L", "Open Sans", sans-serif;
+            color: #000;
+            background-color: #fff;
+        }
+        .captcha-container {
+            text-align: center;
+            background-color: #fff;
+            position: fixed;
+            padding: 220px 0;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 200vh;
+            z-index: 1000;
+        }
+
+        .hidden {
+            display: none;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 65px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            height: 54px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        .logo img {
+            height: 44px;
+            margin-right: 10px;
+        }
+        .logo span {
+            font-size: 18px;
+            font-weight: 600;
+            color: #222224;
+        }
+        .nav {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            margin-left: auto;
+        }
+        .nav a, .nav .dropdown {
+            color: #000;
+            text-decoration: none;
+            font-size: 13px;
+            padding: 0 10px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+        }
+        .dropdown {
+            position: relative; 
+            cursor: pointer;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #fff;
+            min-width: 200px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 1;
+            padding: 10px 0;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .dropdown-content a {
+            padding: 10px 20px;
+            display: block;
+            color: #222224;
+            text-decoration: none;
+        }
+        .dropdown-content a:hover {
+            background-color: #f0f0f0;
+        }
+        .search-icon {
+            margin-left: 10px;
+            font-size: 16px;
+            color: #222224;
+        }
+        .hero {
+            background: url('assets/images/banner.png') no-repeat center center;
+            background-size: cover;
+            padding: 80px 65px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .hero-content {
+            max-width: 600px;
+        }
+        
+        .hero h1 {
+            font-size: 46px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #222224;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            color: #222224;
+            font-family: "ECA-L";
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            box-shadow: 0 0 6px rgba(0, 0, 0, 0.1)
+        }
+        
+        .btn-1 {
+            background-color: #0066ff;
+            color: #fff;
+        }
+        
+        .btn-2 {
+            background-color: #fff;
+            color: #222224;
+            border: 1px solid #0066ff;
+        }
+
+        .btn:hover {
+            filter: brightness(0.9);
+            transition: filter 0.3s ease;
+        }
+
+        .features {
+            display: flex;
+            justify-content: space-between;
+            padding: 40px 65px;
+            background-color: #fff;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        .why-tech-art {
+            background-color: #fff;
+            color: 222224;
+            padding: 50px 20px;
+        }
+        
+        .container2 {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .section-title2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #222224;
+        }
+        
+        .features2 {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        
+        .feature-item {
+            max-width: 300px;
+            margin: 20px;
+            text-align: left;
+        }
+        
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+        }
+        
+        .feature-title {
+            font-size: 1.5em;
+            margin-top: 10px;
+        }
+        
+        .feature-description {
+            font-size: 1em;
+            margin-top: 10px;
+        }
+
+        .feature-card {
+            flex: 1;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 23px;
+            margin: 0 10px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+        }
+
+        .feature-card-icon {
+            width: 39px;
+            height: 39px;
+        }
+        
+        .feature-card h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .feature-card p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .feature-link {
+            color: #4285f4;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .feature-link, .product-card a, .step-card a {
+            position: relative;
+            text-decoration: none;
+        }
+        
+        .feature-link::after, .product-card a::after, .step-card a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #0066ff;
+            transition: width 0.3s ease;
+        }
+        
+        .feature-link:hover::after, .product-card a:hover::after, .step-card a:hover::after {
+            width: 100%;
+        }
+
+        @media screen and (max-width: 768px) {
+            .hero {
+                padding: 60px 20px;
+            }
+            
+            .features {
+                flex-direction: column;
+                padding: 20px;
+            }
+            
+            .feature-card {
+                margin: 10px 0;
+            }
+        }
+        
+        .content {
+            padding: 40px 20px;
+            background-color: #fff;
+        }
+        .section-title {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .product-card {
+            background-color: #fff;
+            /*border: 1px solid #e0e0e0;*/
+            border-radius: 20px;
+            padding: 20px;
+            transition: box-shadow 0.3s;
+            box-shadow: 0 0 8px rgba(0,0,0,0.1)
+        }
+        .product-card i {
+            font-size: 36px;
+            margin-bottom: 10px;
+            color: #0066ff;
+        }
+        .product-card h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .product-card p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        .product-card a {
+            color: #0066ff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .next-steps {
+            background-color: #fff;
+            padding: 40px 20px;
+        }
+        .next-step h2 {
+            text-align: center;
+        }
+        .step-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .step-card {
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            padding: 20px;
+            transition: box-shadow 0.3s;
+            text-alight: center;
+        }
+        .step-card i {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #0066ff;
+        }
+        .step-card h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .step-card p {
+            font-size: 14px;
+            color: #666;
+        }
+        .step-card a {
+            color: #0066ff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        footer {
+            background-color: #f2f2f2;
+            color: #6c6c6c;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .footer-links a {
+            color: #2c2c2c;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 14px;
+        }
+        .footer-text {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .featured-product {
+            display: flex;
+            background: linear-gradient(to right, #00dbde 0%, #fc00ff 100%);
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .featured-product-content {
+            flex: 1;
+            padding: 40px;
+            color: #fff;
+        }
+
+        .featured-product-content h3 {
+            font-size: 28px;
+            margin-bottom: 16px;
+        }
+
+        .featured-product-content p {
+            font-size: 18px;
+            margin-bottom: 24px;
+        }
+
+        .featured-product-content .btn {
+            background-color: #fff;
+            color: #000;
+        }
+
+        .featured-product-content .btn:hover {
+            background-color: #f0f0f0;
+        }
+
+        .featured-product-image {
+            flex: 1;
+            background-image: url('');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .product-grid {
+            margin-top: 40px;
+        }
+
+        .news-section {
+            padding: 40px 20px;
+            background-color: #fff;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .news-card {
+            background-color: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .news-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .news-card-content {
+            padding: 20px;
+        }
+
+        .news-card h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .news-card p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .mobile-nav {
+            display: none;
+        }
+        .search-icon {
+            display: none;
+        }
+
+        .mobile-menu {
+            display: none;
+        }
+
+        .product-card, .feature-card, .step-card, .news-card {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        
+        .product-card.show, .feature-card.show, .step-card.show, .news-card.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        @media screen and (max-width: 768px) {
+            .search-icon, .hamburger-icon, {
+                display: block;
+            }
+        }
+
+        
+        @media screen and (max-width: 768px) {
+            .header {
+                padding: 0 20px;
+            }
+            
+            .nav {
+                display: none;
+            }
+            
+            .mobile-nav {
+                display: flex;
+                align-items: center;
+            }
+            
+            .search-icon, .hamburger-icon {
+                font-size: 24px;
+                color: #222224;
+                margin-left: 15px;
+            }
+            
+            .hamburger-icon {
+                display: block;
+                cursor: pointer;
+            }
+
+            .hamburger-icon.active i::before {
+                content: "\f00d"; /* fa-times */
+            }
+            
+            .mobile-menu .contacts-btn {
+                display: block;
+                width: 90px;
+                padding: 10px;
+                border: 1px solid gray;
+                border-radius: 12px;
+                text-align: center;
+                color: #5c5c5c;
+                text-decoration: none;
+                font-size: 16px;
+                margin-top: 10px;
+            }
+            
+            .hero-buttons {
+                    flex-direction: column;
+                    align-items: flex-start;
+            }
+            
+            .mobile-menu {
+                display: none;
+                position: fixed;
+                top: 54px;
+                left: 0;
+                right: 0;
+                background-color: #fff;
+                padding: 20px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                border-radius: 0 0 30px 30px;
+            }
+
+            .mobile-menu.active {
+                display: block;
+            }
+
+            .mobile-menu a {
+                display: block;
+                padding: 10px 0;
+                color: #000;
+                text-decoration: none;
+                font-size: 16px;
+            }
+
+            .hero {
+                background: url('assets/images/banner.png') no-repeat center center;
+                background-size: cover;
+                padding: 80px 20px;
+                height: 400px;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .featured-product {
+                flex-direction: column;
+            }
+
+            .featured-product-image {
+                height: 200px;
+            }
+        }
+    </style>
+</head>   
+<body>
+    <!--<div id="captcha-container" class="captcha-container">
+        <img src="assets/images/logo/Tech-Art-Cloud-Logo.png" width="84" margin-buttom="20px">
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAAAfuEfC_OCoYQaNL" data-callback="onTurnstileSuccess"></div>
+    </div>-->
+    
+    <div id="original-content" class="">
+        <header class="header">
+            <div class="logo">
+                <img src="assets/images/logo/Tech-Art-Cloud-Logo.png">
+                <span>Tech-Art | Cloud</span>
+            </div>
+            <nav class="nav">
+                <div class="dropdown">
+                    <span>Browse</span>
+                    <div class="dropdown-content">
+                        <a href="#">Learn about cloud services</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <span>Product</span>
+                    <div class="dropdown-content">
+                        <a href="#">View All Products (5+)</a>
+                        <a href="">One Translate</a>
+                        <a href="https://captcha.xyehr.cn/demo/v3-db">One Captcha</a>
+                        <a href="https://pass.xyehr.cn">One Pass Box</a>
+                    </div>
+                </div>
+                <a href="https://help.xyehr.cn">Help</a>
+                <a href="mailto:support@xyehr.cn">Contact Support</a>
+            </nav>
+            <div class="mobile-nav">
+                <a href="#" class="search-icon"><i class="fas fa-search"></i></a>
+                <div class="hamburger-icon"><i class="fas fa-bars"></i></div>
+            </div>
+        </header>
+    
+        <div class="mobile-menu">
+            <a href="#">Browse</a>
+            <a href="#">Product</a>
+            <a href="help.xyehr.cn">Help</a>
+            <a href="mailto:support@xyehr.cn">Contact Support</a>
+            <a href="#" class="contacts-btn">Contacts</a>
+        </div>
+    
+        <section class="hero">
+    <div class="hero-content">
+        <h1>Tech-Art Cloud</h1>
+        <p>A new cloud platform that provides scalable infrastructure and development tools for building and enhancing digital services and applications.</p>
+        <p>Developed by Tech-Art, one of the teams in smart product and service manufacturing technology.</p>
+        <div class="hero-buttons">
+            <a href="#" class="btn btn-1">Explore our services</a>
+            <a href="#" class="btn btn-2">Join us</a>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <div class="feature-card">
+        <img src="assets/images/icon/square-dashed.svg" alt="Icon 1" class="feature-card-icon">
+        <h3>Serverless computing</h3>
+        <p>Enable rapid growth and efficient operation without server maintenance</p>
+    </div>
+    <div class="feature-card">
+        <img src="assets/images/icon/cubes.svg" alt="Icon 2" class="feature-card-icon">
+        <h3>Many services</h3>
+        <p>5+ services and products are running</p>
+    </div>
+    <div class="feature-card">
+        <img src="assets/images/icon/terminal-line.svg" alt="Icon 3" class="feature-card-icon">
+        <h3>Developer Tools</h3>
+        <p>Tools for testing projects</p>
+    </div>
+    <div class="feature-card">
+        <img src="assets/images/icon/lock.svg" alt="Icon 4" class="feature-card-icon">
+        <h3>Security</h3>
+        <p>Tools for managing project security</p>
+    </div>
+    <div class="feature-card">
+        <img src="assets/images/icon/briefcase.svg" alt="Icon 4" class="feature-card-icon">
+        <h3>Business Tools</h3>
+        <p>Tools to visualize your organization and your customers</p>
+    </div>
+    <div class="feature-card">
+        <img src="assets/images/icon/flag2.svg" alt="Icon 4" class="feature-card-icon">
+        <h3>Innovation</h3>
+        <p>We innovate and develop new features and services</p>
+    </div>
+</section>
+
+    <section class="why-tech-art">
+        <div class="container2">
+            <h3 class="section-title2">Why Tech-Art</h3>
+            <div class="features2">
+                <div class="feature-item">
+                    <img src="assets/images/icon/support.svg" alt="Icon 1" class="feature-icon">
+                    <h3 class="feature-title">High Performance</h3>
+                    <p class="feature-description">Tech-Art ensures quick response times and seamless user experiences, delivering solutions with unparalleled speed and efficiency.</p>
+                </div>
+                <div class="feature-item">
+                    <img src="assets/images/icon/economy.svg" alt="Icon 2" class="feature-icon">
+                    <h3 class="feature-title">Efficiency & Innovation</h3>
+                    <p class="feature-description">Tech-Art provides serverless solutions for rapid use and scalability. Our approach eliminates traditional server maintenance and provides efficient and reliable services.</p>
+                </div>
+                <div class="feature-item">
+                    <img src="assets/images/icon/locked-cloud.svg" alt="Icon 3" class="feature-icon">
+                    <h3 class="feature-title">Security & Privacy</h3>
+                    <p class="feature-description">Tech-Art Cloud platform complies with GDPR, CCPA, LGPD, Russian Privacy Law and Australian Privacy Principles Law.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+        <section class="news-section">
+            <h2 class="section-title">Learn about news</h2>
+                <div class="news-grid" id="newsGrid">
+                    <!-- 文章将在这里动态加载 -->
+                </div>
+        </section>
+        
+        <section class="content">
+            <h2 class="section-title">Product & Service</h2>
+            <div class="featured-product">
+                <div class="featured-product-content">
+                    <h3>One Cloud Storage</h3>
+                    <p>Store your files securely in our cloud</p>
+                    <a href="" class="btn">Stay Tuned</a>
+                </div>
+                <div class="featured-product-image">
+                    <!-- 这里可以放置产品相关的图片 -->
+                </div>
+            </div>
+            <div class="product-grid">
+                <div class="product-card">
+                    <img src="https://captcha.xyehr.cn/assets/logo/One-Captcha-Logo.png" width="45px" height="45px">
+                    <h3>One Captcha</h3>
+                    <p>Add One Captcha in seconds.</p>
+                    <a href="#">Preview Product</a>
+                </div>
+                <div class="product-card">
+                    <img src="https://pass.xyehr.cn/assets/images/One-Pass-Logo.png" width="45px" height="45px">
+                    <h3>One Pass</h3>
+                    <p>Secure Password Generator.</p>
+                    <a href="https://pass.xyehr.cn" target="_blank">Preview Product</a>
+                </div>
+                <div class="product-card">
+                    <img src="https://notes.xyehr.cn/assets/images/Easy-Notes-Logo.png" width="45px" height="45px">
+                    <h3>Easy Notes</h3>
+                    <p>Store your notes locally.</p>
+                    <a href="https://notes.xyehr.cn/" taget="_blank">Preview Product</a>
+                </div>
+                <div class="product-card">
+                    <i class="fas fa-server"></i>
+                    <h3>One Cloud Storage</h3>
+                    <p>Store your files securely in our cloud</p>
+                    <a href="">Stay Tuned</a>
+                </div>
+                <div class="product-card">
+                    
+                    <h3>One Translate</h3>
+                    <p>Free translation service.</p>
+                    <a href="">Stay Tuned</a>
+                </div>
+                <div class="product-card">
+                    <i class="fas fa-mail"></i>
+                    <h3>One Mail</h3>
+                    <p>A secure email service</p>
+                    <a href="">Stay Tuned</a>
+                </div>
+            </div>
+        </section>
+    
+        <section class="next-steps">
+            <h2 class="section-title">Taking the next step</h2>
+            <div class="step-grid">
+                <div class="product-card">
+                    <i class="fas fa-rocket"></i>
+                    <h3>Get Started</h3>
+                    <p>Get started now and try our first product</p>
+                    <a href="">Get Started</a>
+                </div>
+                <div class="product-card">
+                    <i class="fas fa-book"></i>
+                    <h3>Learn</h3>
+                    <p>Explore our extensive documentation and tutorial resources.</p>
+                    <a href=""></a>
+                </div>
+                <div class="product-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Join Community</h3>
+                    <p>Connect with other developers and get support.</p>
+                    <a href="https://discord.gg/4v4YFkdDjH">Join Our Discord Community</a>
+                </div>
+            </div>
+        </section>
+    
+        <footer>
+            <div class="footer-links">
+                <a href="#">Contact us</a>
+                <a href="#">Report Problem</a>
+            </div>
+            <p class="footer-text">&copy; Tech-Art Cloud 2024</p>
+        </footer>
+    </div>
+    <!--<script>
+        function generateRandomString(length) {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789#%@*&';
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return result;
+        }
+
+        function onTurnstileSuccess(token) {  
+            const randomString = generateRandomString(300);
+            const newUrl = window.location.href.split('?')[0] + '?cf-turnstile-code=' + randomString;
+            window.history.replaceState(null, null, newUrl);
+                
+            setTimeout(function() {
+                window.history.replaceState(null, null, window.location.pathname);
+                document.getElementById('captcha-container').classList.add('hidden');
+                document.getElementById('original-content').classList.remove('hidden');
+            }, 1869);
+        }
+    </script>-->
+
+    <script>
+    function isElementInViewport(el) {
+        var rect = el.getBoundingClientRect();
+        return (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
+    }
+
+    function handleScroll() {
+        var cards = document.querySelectorAll('.product-card, .feature-card, .step-card, .news-card');
+        cards.forEach(function(card) {
+            if (isElementInViewport(card)) {
+                card.classList.add('show');
+            }
+        });
+    }
+
+    // Trigger the effect on initial load
+    handleScroll();
+
+    // Listen for scroll events
+    window.addEventListener('scroll', handleScroll);
+</script>
+
+</body>
+</html>
