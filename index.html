@@ -3,20 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech-Art Cloud Home</title>
+    <title>One Captcha | GDPR compliant secure Captcha</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="icon" href="/assets/images/logo/favicon.ico" type="image/x-icon">
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-    <meta property="og:title" content="Tech-Art Cloud Home">
-    <meta property="og:description" content="A new cloud platform that provides scalable infrastructure and development tools for building and enhancing digital services and applications.">
-    <meta property="og:image" content="https://cloud.xyehr.cn/assets/images/logo/Tech-Art-Cloud-Logo.png">
+    <link rel="icon" href="/assets/logo/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/assets/logo/logo.svg" type="image/svg+xml">
+    <script src="0/api.js" async defer></script>
+    <meta property="og:title" content="One Captcha | GDPR compliant secure Captcha" />
+    <meta property="og:description" content="🤖🛡️ A free human-machine verification product project that is secure and privacy-protecting. ⭐🎉🔥" />
+    <meta property="og:url" content="https://onecaptcha.us.kg" />
+    <meta property="og:image" content="https://raw.githubusercontent.com/Dev-Huang1/One-Captcha/main/assets/One-Captcha-Banner.png" />
+    <meta property="og:keywords" content="Captcha, Privacy, Secure, One Captcha, Free, Open Source, Web, Robot" />
+    <meta property="og:image:width" content="1920" />
+    <meta property="og:image:height" content="1080" />
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             loadNews();
         });
 
 function loadNews() {
-    fetch('posts/posts.json')
+    fetch('assets/posts.json')
         .then(response => response.json())
         .then(articles => {
             const newsGrid = document.getElementById('newsGrid');
@@ -212,7 +217,7 @@ function createNewsCard(article) {
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         }
 
-        .why-tech-art {
+        .why-one-captcha {
             background-color: #fff;
             color: 222224;
             padding: 50px 20px;
@@ -641,34 +646,35 @@ function createNewsCard(article) {
     </style>
 </head>   
 <body>
-    <!--<div id="captcha-container" class="captcha-container">
-        <img src="assets/images/logo/Tech-Art-Cloud-Logo.png" width="84" margin-buttom="20px">
-        <div class="cf-turnstile" data-sitekey="0x4AAAAAAAfuEfC_OCoYQaNL" data-callback="onTurnstileSuccess"></div>
-    </div>-->
+    <div id="captcha-container" class="captcha-container">
+        <img src="assets/logo/One-Captcha-Logo.png" width="84" margin-buttom="20px">
+        <div id="one-captcha" data-callback="onCaptchaSuccess"></div>
+    </div>
     
     <div id="original-content" class="">
         <header class="header">
             <div class="logo">
-                <img src="assets/images/logo/Tech-Art-Cloud-Logo.png">
-                <span>Tech-Art | Cloud</span>
+                <img src="assets/logo/One-Captcha-Logo.png">
+                <span>One Captcha</span>
             </div>
             <nav class="nav">
                 <div class="dropdown">
-                    <span>Browse</span>
+                    <span>Studio</span>
                     <div class="dropdown-content">
-                        <a href="#">Learn about cloud services</a>
+                        <a href="https://xyehr.cn/about">About us</a>
+                        <a href="https://xyehr.cn/contact-us">Contact us</a>
+                        <a href="https://xyehr.cn/join-us">Join us</a>
                     </div>
                 </div>
                 <div class="dropdown">
-                    <span>Product</span>
+                    <span>Resources</span>
                     <div class="dropdown-content">
-                        <a href="#">View All Products (5+)</a>
-                        <a href="">One Translate</a>
-                        <a href="https://captcha.xyehr.cn/demo/v3-db">One Captcha</a>
-                        <a href="https://pass.xyehr.cn">One Pass Box</a>
+                        <a href="https://docs.xyehr.cn/docs/one-captcha">Docs</a>
+                        <a href="https://xyehr.cn/archive">Blog</a>
+                        <a href="https://docs.xyehr.cn/docs/one-captcha/more/privacy">Privacy</a>
+                        <a href="https://docs.xyehr.cn/docs/one-captcha/more/terms">Terms</a>
                     </div>
                 </div>
-                <a href="https://help.xyehr.cn">Help</a>
                 <a href="mailto:support@xyehr.cn">Contact Support</a>
             </nav>
             <div class="mobile-nav">
@@ -678,76 +684,79 @@ function createNewsCard(article) {
         </header>
     
         <div class="mobile-menu">
-            <a href="#">Browse</a>
-            <a href="#">Product</a>
-            <a href="help.xyehr.cn">Help</a>
-            <a href="mailto:support@xyehr.cn">Contact Support</a>
+            <a href="https://docs.xyehr.cn/docs/one-captcha">Docs</a>
+            <a href="https://xyehr.cn/archive">Blog</a>
+            <a href="https://docs.xyehr.cn/docs/one-captcha/more/privacy">Privacy</a>
+            <a href="https://docs.xyehr.cn/docs/one-captcha/more/terms">Terms</a>
             <a href="#" class="contacts-btn">Contacts</a>
         </div>
     
         <section class="hero">
     <div class="hero-content">
-        <h1>Tech-Art Cloud</h1>
-        <p>A new cloud platform that provides scalable infrastructure and development tools for building and enhancing digital services and applications.</p>
-        <p>Developed by Tech-Art, one of the teams in smart product and service manufacturing technology.</p>
+        <h1>One Captcha</h1>
+        <p>Use One Captcha to protect their websites and online services from spam and abuse. One Captcha respects the privacy of its users and uses end-to-end encryption.</p>
         <div class="hero-buttons">
-            <a href="#" class="btn btn-1">Explore our services</a>
-            <a href="#" class="btn btn-2">Join us</a>
+            <a href="https://xyehr.cn/blog/one-captcha" class="btn btn-1">Get Started</a>
+            <a href="https://onecaptcha.us.kg/demo" class="btn btn-2">Try Demo</a>
         </div>
     </div>
 </section>
 
 <section class="features">
     <div class="feature-card">
-        <img src="assets/images/icon/square-dashed.svg" alt="Icon 1" class="feature-card-icon">
-        <h3>Serverless computing</h3>
-        <p>Enable rapid growth and efficient operation without server maintenance</p>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="feature-card-icon">
+             <path d="M256 0c4.6 0 9.2 1 13.4 2.9L457.7 82.8c22 9.3 38.4 31 38.3 57.2-.5 99.2-41.3 280.7-213.6 363.2-16.7 8-36.1 8-52.8 0C57.3 420.7 16.5 239.2 16 140c-.1-26.2 16.3-47.9 38.3-57.2L242.7 2.9C246.8 1 251.4 0 256 0zm0 66.8V444.8C394 378 431.1 230.1 432 141.4L256 66.8z"/>
+        </svg>
+        <h3>GDPR Compliant</h3>
+        <p>One Captcha complies with GDPR regulations and does not collect any data. You can also view our code.</p>
     </div>
     <div class="feature-card">
         <img src="assets/images/icon/cubes.svg" alt="Icon 2" class="feature-card-icon">
-        <h3>Many services</h3>
-        <p>5+ services and products are running</p>
+        <h3>Mobile Friendly</h3>
+        <p>Our Captcha is mobile friendly</p>
     </div>
     <div class="feature-card">
         <img src="assets/images/icon/terminal-line.svg" alt="Icon 3" class="feature-card-icon">
-        <h3>Developer Tools</h3>
-        <p>Tools for testing projects</p>
-    </div>
-    <div class="feature-card">
-        <img src="assets/images/icon/lock.svg" alt="Icon 4" class="feature-card-icon">
-        <h3>Security</h3>
-        <p>Tools for managing project security</p>
-    </div>
-    <div class="feature-card">
-        <img src="assets/images/icon/briefcase.svg" alt="Icon 4" class="feature-card-icon">
-        <h3>Business Tools</h3>
-        <p>Tools to visualize your organization and your customers</p>
-    </div>
-    <div class="feature-card">
-        <img src="assets/images/icon/flag2.svg" alt="Icon 4" class="feature-card-icon">
-        <h3>Innovation</h3>
-        <p>We innovate and develop new features and services</p>
+        <h3>End-to-End Encryption</h3>
+        <p>We use only strong encryption to protect your internet connection. This means we use encryption to protect all your web traffic</p>
     </div>
 </section>
 
-    <section class="why-tech-art">
+    <section class="why-one-captcha">
         <div class="container2">
-            <h3 class="section-title2">Why Tech-Art</h3>
+            <h3 class="section-title2">Why One Captcha?</h3>
             <div class="features2">
                 <div class="feature-item">
-                    <img src="assets/images/icon/support.svg" alt="Icon 1" class="feature-icon">
-                    <h3 class="feature-title">High Performance</h3>
-                    <p class="feature-description">Tech-Art ensures quick response times and seamless user experiences, delivering solutions with unparalleled speed and efficiency.</p>
+                    <svg class="feature-icon" width="800px" height="800px" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7.5 6C7.5 6.82843 6.82843 7.5 6 7.5C5.17157 7.5 4.5 6.82843 4.5 6C4.5 5.17157 5.17157 4.5 6 4.5C6.82843 4.5 7.5 5.17157 7.5 6Z" fill="#fff"/>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M4 1C2.34315 1 1 2.34315 1 4V8C1 9.65685 2.34315 11 4 11H20C21.6569 11 23 9.65685 23 8V4C23 2.34315 21.6569 1 20 1H4ZM3 4C3 3.44772 3.44772 3 4 3H20C20.5523 3 21 3.44772 21 4V8C21 8.55228 20.5523 9 20 9H4C3.44772 9 3 8.55228 3 8V4Z" fill="#fff"/>
+                        <path d="M6 19.5C6.82843 19.5 7.5 18.8284 7.5 18C7.5 17.1716 6.82843 16.5 6 16.5C5.17157 16.5 4.5 17.1716 4.5 18C4.5 18.8284 5.17157 19.5 6 19.5Z" fill="#fff"/>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M4 13C2.34315 13 1 14.3431 1 16V20C1 21.6569 2.34315 23 4 23H20C21.6569 23 23 21.6569 23 20V16C23 14.3431 21.6569 13 20 13H4ZM3 16C3 15.4477 3.44772 15 4 15H20C20.5523 15 21 15.4477 21 16V20C21 20.5523 20.5523 21 20 21H4C3.44772 21 3 20.5523 3 20V16Z" fill="#fff"/>
+                    </svg>
+                    <h3 class="feature-title">Defense Robots</h3>
+                    <p class="feature-description">Use our smart algorithms and analytics to easily and quickly determine if a user is human.</p>
                 </div>
                 <div class="feature-item">
-                    <img src="assets/images/icon/economy.svg" alt="Icon 2" class="feature-icon">
-                    <h3 class="feature-title">Efficiency & Innovation</h3>
-                    <p class="feature-description">Tech-Art provides serverless solutions for rapid use and scalability. Our approach eliminates traditional server maintenance and provides efficient and reliable services.</p>
+                    <svg width="48px" height="48px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="feature-icon">
+<path d="M7 10.0288C7.47142 10 8.05259 10 8.8 10H15.2C15.9474 10 16.5286 10 17 10.0288M7 10.0288C6.41168 10.0647 5.99429 10.1455 5.63803 10.327C5.07354 10.6146 4.6146 11.0735 4.32698 11.638C4 12.2798 4 13.1198 4 14.8V16.2C4 17.8802 4 18.7202 4.32698 19.362C4.6146 19.9265 5.07354 20.3854 5.63803 20.673C6.27976 21 7.11984 21 8.8 21H15.2C16.8802 21 17.7202 21 18.362 20.673C18.9265 20.3854 19.3854 19.9265 19.673 19.362C20 18.7202 20 17.8802 20 16.2V14.8C20 13.1198 20 12.2798 19.673 11.638C19.3854 11.0735 18.9265 10.6146 18.362 10.327C18.0057 10.1455 17.5883 10.0647 17 10.0288M7 10.0288V8C7 5.23858 9.23858 3 12 3C14.7614 3 17 5.23858 17 8V10.0288" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+                    <h3 class="feature-title">Protecting the privacy of users</h3>
+                    <p class="feature-description">One Captcha is privacy-focused and fully GDPR compliant. We do not store your users' personal data.</p>
                 </div>
                 <div class="feature-item">
-                    <img src="assets/images/icon/locked-cloud.svg" alt="Icon 3" class="feature-icon">
-                    <h3 class="feature-title">Security & Privacy</h3>
-                    <p class="feature-description">Tech-Art Cloud platform complies with GDPR, CCPA, LGPD, Russian Privacy Law and Australian Privacy Principles Law.</p>
+                    <svg class="feature-icon" width="800px" height="800px" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg" class="feature-icon">
+<circle cx="12" cy="12" r="5" stroke="#fff" stroke-width="1.5"/>
+<path d="M12 2V4" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M12 20V22" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M4 12L2 12" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M22 12L20 12" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M19.7778 4.22266L17.5558 6.25424" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M4.22217 4.22266L6.44418 6.25424" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M6.44434 17.5557L4.22211 19.7779" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M19.7778 19.7773L17.5558 17.5551" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
+                    <h3 class="feature-title">Improve user experience</h3>
+                    <p class="feature-description">Just drag the slider to the corresponding position to quickly complete the verification.</p>
                 </div>
             </div>
         </div>
