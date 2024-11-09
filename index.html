@@ -47,17 +47,7 @@ function createNewsCard(article) {
 }
     </script>
     <style>
-        @import url('/assets/font/open-sans.css');
-
-        @font-face {
-            font-family: 'ECA-M';
-            src: url('assets/font/ECA-Medium.ttf') format('truetype');
-        }
-
-        @font-face {
-            font-family: 'ECA-L';
-            src: url('assets/font/ECA-Light.ttf') format('truetype');
-        }
+        @import url('https://cdn.xyehr.cn/source/ECA.css');
         
         body {
             margin: 0;
@@ -157,6 +147,7 @@ function createNewsCard(article) {
             padding: 80px 65px;
             display: flex;
             align-items: center;
+            width: 500px;
         }
         
         .hero-content {
@@ -167,13 +158,13 @@ function createNewsCard(article) {
             font-size: 46px;
             margin-bottom: 20px;
             font-weight: bold;
-            color: #222224;
+            color: #fff;
         }
         
         .hero p {
             font-size: 18px;
             margin-bottom: 30px;
-            color: #222224;
+            color: #fff;
             font-family: "ECA-L";
         }
         
@@ -232,7 +223,7 @@ function createNewsCard(article) {
         .section-title2 {
             font-size: 28px;
             margin-bottom: 20px;
-            color: #222224;
+            color: #fff;
         }
         
         .features2 {
@@ -706,12 +697,16 @@ function createNewsCard(article) {
         <p>One Captcha complies with GDPR regulations and does not collect any data. You can also view our code.</p>
     </div>
     <div class="feature-card">
-        <img src="assets/images/icon/cubes.svg" alt="Icon 2" class="feature-card-icon">
+        <svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="feature-card-icon">
+                            <path d="M10 12.1667L11.2308 13.5L14 10.5M9.2 21H14.8C15.9201 21 16.4802 21 16.908 20.782C17.2843 20.5903 17.5903 20.2843 17.782 19.908C18 19.4802 18 18.9201 18 17.8V6.2C18 5.0799 18 4.51984 17.782 4.09202C17.5903 3.71569 17.2843 3.40973 16.908 3.21799C16.4802 3 15.9201 3 14.8 3H9.2C8.0799 3 7.51984 3 7.09202 3.21799C6.71569 3.40973 6.40973 3.71569 6.21799 4.09202C6 4.51984 6 5.07989 6 6.2V17.8C6 18.9201 6 19.4802 6.21799 19.908C6.40973 20.2843 6.71569 20.5903 7.09202 20.782C7.51984 21 8.07989 21 9.2 21Z" stroke="#0066ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
         <h3>Mobile Friendly</h3>
         <p>Our Captcha is mobile friendly</p>
     </div>
     <div class="feature-card">
-        <img src="assets/images/icon/terminal-line.svg" alt="Icon 3" class="feature-card-icon">
+        <svg width="48px" height="48px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="feature-card-icon">
+                            <path d="M7 10.0288C7.47142 10 8.05259 10 8.8 10H15.2C15.9474 10 16.5286 10 17 10.0288M7 10.0288C6.41168 10.0647 5.99429 10.1455 5.63803 10.327C5.07354 10.6146 4.6146 11.0735 4.32698 11.638C4 12.2798 4 13.1198 4 14.8V16.2C4 17.8802 4 18.7202 4.32698 19.362C4.6146 19.9265 5.07354 20.3854 5.63803 20.673C6.27976 21 7.11984 21 8.8 21H15.2C16.8802 21 17.7202 21 18.362 20.673C18.9265 20.3854 19.3854 19.9265 19.673 19.362C20 18.7202 20 17.8802 20 16.2V14.8C20 13.1198 20 12.2798 19.673 11.638C19.3854 11.0735 18.9265 10.6146 18.362 10.327C18.0057 10.1455 17.5883 10.0647 17 10.0288M7 10.0288V8C7 5.23858 9.23858 3 12 3C14.7614 3 17 5.23858 17 8V10.0288" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
         <h3>End-to-End Encryption</h3>
         <p>We use only strong encryption to protect your internet connection. This means we use encryption to protect all your web traffic</p>
     </div>
