@@ -515,7 +515,7 @@ function OneCaptchaInit() {
         }
     });
 
-function showSliderCaptcha() {
+    function showSliderCaptcha() {
     currentImage = images[Math.floor(Math.random() * images.length)];
     puzzleImage.src = `https://onecaptcha.us.kg/assets/v3/${currentImage}`;
 
@@ -523,7 +523,7 @@ function showSliderCaptcha() {
         const pieceSize = 50;
         const maxX = puzzleImage.width - pieceSize;
         const maxY = puzzleImage.height - pieceSize;
-        const pieceX = Math.floor(Math.random() * (maxX - 50) + 50);
+        const pieceX = Math.floor(Math.random() * (maxX - 50) + 50); 
         const pieceY = Math.floor(Math.random() * maxY);
 
         // 确保拼图块元素存在
@@ -556,31 +556,6 @@ function showSliderCaptcha() {
         puzzleHole.style.zIndex = '999'; // 确保拼图洞在拼图块下面
         document.getElementById('puzzle-container').appendChild(puzzleHole);
 
-        // 创建canvas用于绘制
-        const canvas = document.createElement('canvas');
-        canvas.width = puzzleImage.width;
-        canvas.height = puzzleImage.height;
-        const ctx = canvas.getContext('2d');
-
-        // 绘制背景图像到canvas
-        ctx.drawImage(puzzleImage, 0, 0);
-
-        // 在draw函数中绘制
-        const shapeChoice = Math.random() > 0.5 ? 'circle' : 'square';
-
-        const drawingPromise = shapeChoice === 'circle'
-            ? drawConcentricCircles(ctx, ctx.canvas.width / 4)
-            : drawConcentricSquares(ctx, ctx.canvas.width / 4);
-
-        // 绘制完成后将base64图像传递给各个元素
-        drawingPromise.then(base64Image => {
-            puzzlePiece.style.backgroundImage = `url(${base64Image})`;
-            puzzleHole.style.backgroundImage = `url(${base64Image})`;
-            puzzleHole.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
-            puzzleHole.style.backgroundSize = `${puzzleImage.width}px ${puzzleImage.height}px`;
-            puzzleImage.src = base64Image; // 将图像传递给 puzzle-image
-        });
-
         piecePosition = pieceX;
         sliderCaptcha.style.display = 'block';
         resetSlider();
@@ -594,39 +569,6 @@ function showSliderCaptcha() {
     };
 }
 
-function drawConcentricSquares(ctx, maxSize) {
-    return new Promise((resolve) => {
-        const levels = 12;  
-        for (let i = 0; i < levels; i++) {
-            const size = maxSize - (i * maxSize / levels);
-            ctx.strokeStyle = `rgba(${Math.random() * 180},${Math.random() * 180},${Math.random() * 180},0.3)`;
-            ctx.lineWidth = 1;
-            ctx.strokeRect(ctx.canvas.width / 2 - size / 2, ctx.canvas.height / 2 - size / 2, size, size);
-        }
-        // 返回生成的base64图像
-        const base64Image = ctx.canvas.toDataURL('image/png');
-        resolve(base64Image);
-    });
-}
-
-function drawConcentricCircles(ctx, maxRadius) {
-    return new Promise((resolve) => {
-        const levels = 12;  
-        for (let i = 0; i < levels; i++) {
-            const radius = maxRadius - (i * maxRadius / levels);
-            ctx.strokeStyle = `rgba(${Math.random() * 180},${Math.random() * 180},${Math.random() * 180},0.3)`;
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.arc(ctx.canvas.width / 2, ctx.canvas.height / 2, radius, 0, Math.PI * 2);
-            ctx.stroke();
-        }
-        // 返回生成的base64图像
-        const base64Image = ctx.canvas.toDataURL('image/png');
-        resolve(base64Image);
-    });
-}
-
-        
     function startDragging(e) {
         e.preventDefault();
         isDragging = true;
