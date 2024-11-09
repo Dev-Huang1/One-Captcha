@@ -738,9 +738,10 @@ function createNewsCard(article) {
         </section>
 
 <section class="features">
+    <h3 class="section-title2" style="color: #0066ff;">All Features</h3>
     <div class="feature-card">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="feature-card-icon" color="#0066ff">
-             <path d="M256 0c4.6 0 9.2 1 13.4 2.9L457.7 82.8c22 9.3 38.4 31 38.3 57.2-.5 99.2-41.3 280.7-213.6 363.2-16.7 8-36.1 8-52.8 0C57.3 420.7 16.5 239.2 16 140c-.1-26.2 16.3-47.9 38.3-57.2L242.7 2.9C246.8 1 251.4 0 256 0zm0 66.8V444.8C394 378 431.1 230.1 432 141.4L256 66.8z"/>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="feature-card-icon">
+             <path d="M256 0c4.6 0 9.2 1 13.4 2.9L457.7 82.8c22 9.3 38.4 31 38.3 57.2-.5 99.2-41.3 280.7-213.6 363.2-16.7 8-36.1 8-52.8 0C57.3 420.7 16.5 239.2 16 140c-.1-26.2 16.3-47.9 38.3-57.2L242.7 2.9C246.8 1 251.4 0 256 0zm0 66.8V444.8C394 378 431.1 230.1 432 141.4L256 66.8z" stroke="#0066ff"/>
         </svg>
         <h3>GDPR Compliant</h3>
         <p>One Captcha complies with GDPR regulations and does not collect any data. You can also view our code.</p>
@@ -769,28 +770,6 @@ function createNewsCard(article) {
             <p class="footer-text">&copy; Tech-Art Cloud 2024</p>
         </footer>
     </div>
-    <!--<script>
-        function generateRandomString(length) {
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789#%@*&';
-            let result = '';
-            for (let i = 0; i < length; i++) {
-                result += characters.charAt(Math.floor(Math.random() * characters.length));
-            }
-            return result;
-        }
-
-        function onTurnstileSuccess(token) {  
-            const randomString = generateRandomString(300);
-            const newUrl = window.location.href.split('?')[0] + '?cf-turnstile-code=' + randomString;
-            window.history.replaceState(null, null, newUrl);
-                
-            setTimeout(function() {
-                window.history.replaceState(null, null, window.location.pathname);
-                document.getElementById('captcha-container').classList.add('hidden');
-                document.getElementById('original-content').classList.remove('hidden');
-            }, 1869);
-        }
-    </script>-->
 
     <script>
     function isElementInViewport(el) {
