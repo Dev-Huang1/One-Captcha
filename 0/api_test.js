@@ -618,6 +618,7 @@ function OneCaptchaInit() {
     }, 300);
 
     setTimeout(() => {
+        sliderCaptcha.style.transition = 'opacity 0.4s ease';
         sliderCaptcha.style.opacity = '0';
         setTimeout(() => {
             sliderCaptcha.style.display = 'none';
@@ -627,6 +628,7 @@ function OneCaptchaInit() {
     verifyCheckbox.style.display = 'none';
     document.addEventListener('visibilitychange', handleVisibilityChange);
 }
+
 
 
     function resetSlider() {
