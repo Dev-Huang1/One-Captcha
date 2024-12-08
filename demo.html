@@ -34,7 +34,7 @@
     // 比较 token 和 cookieToken 是否相同
     const hashedToken = await hashToken(token); // 对传入的token进行哈希
     if (hashedToken === cookieToken) {
-       console.log("Success")
+        alert("Success")；
     } else {
         alert('Token does not match the cookie.');
     }
