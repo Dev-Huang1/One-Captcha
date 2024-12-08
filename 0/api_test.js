@@ -603,6 +603,7 @@ function OneCaptchaInit() {
     function showSuccessMessage() {
     const spinner = document.getElementById('loading-spinner');
     const checkMark = document.getElementById('check-mark');
+
     spinner.style.opacity = '0';
     document.getElementById('captcha-label').style.display = 'none';
     document.getElementById('success-message').textContent = translations[detectLanguage()].successMessage;
@@ -619,7 +620,8 @@ function OneCaptchaInit() {
 
     setTimeout(() => {
         sliderCaptcha.style.transition = 'opacity 0.4s ease';
-        sliderCaptcha.style.opacity = '0';
+        sliderCaptcha.style.opacity = '0'
+
         setTimeout(() => {
             sliderCaptcha.style.display = 'none';
         }, 400);
@@ -628,6 +630,7 @@ function OneCaptchaInit() {
     verifyCheckbox.style.display = 'none';
     document.addEventListener('visibilitychange', handleVisibilityChange);
 }
+
 
     function resetSlider() {
         sliderHandle.style.left = '0';
