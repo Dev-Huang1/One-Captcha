@@ -506,25 +506,24 @@ function OneCaptchaInit() {
     }
 });
 
-    verifyCheckbox.addEventListener('change', async function() {
-    if (this.checked) {
-        this.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
-        this.style.transform = 'scale(0)';
-        this.style.opacity = '0';
-    
+    verifyCheckbox.addEventListener('change', () => {
+    if (verifyCheckbox.checked) {
+        verifyCheckbox.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+        verifyCheckbox.style.transform = 'scale(0)';
+        verifyCheckbox.style.opacity = '0';
+
         setTimeout(() => {
-            this.style.display = 'none';
-            const spinner = document.getElementById('loading-spinner');
-            spinner.style.display = 'inline-block';
+            verifyCheckbox.style.display = 'none';
+            sliderCaptcha.style.opacity = '0';
+            sliderCaptcha.style.display = 'block';
+
             setTimeout(() => {
-                spinner.style.opacity = '1';
-                    sliderCaptcha.style.opacity = '0';
-                    sliderCaptcha.style.display = 'block';
-                    showSliderCaptcha();
-                });
-            }, 300);
-        }
-    });
+                sliderCaptcha.style.opacity = '1';
+                showSliderCaptcha();
+            }, 50);
+        }, 300);
+    }
+});
 
     function showSliderCaptcha() {
     currentImage = images[Math.floor(Math.random() * images.length)];
@@ -659,7 +658,6 @@ function OneCaptchaInit() {
     document.addEventListener('visibilitychange', handleVisibilityChange);
 }
 
-
     function resetSlider() {
         sliderHandle.style.left = '0';
         sliderTrack.style.width = '0';
@@ -752,7 +750,8 @@ function OneCaptchaInit() {
     sliderCaptcha.style.display = 'none';
     resetSlider();
     document.removeEventListener('visibilitychange', handleVisibilityChange);
-}
+    }
+
     function generateToken() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let token = '';
