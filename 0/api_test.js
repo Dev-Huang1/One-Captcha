@@ -627,7 +627,7 @@ function OneCaptchaInit() {
 
     verifyCheckbox.style.display = 'none';
     document.addEventListener('visibilitychange', handleVisibilityChange);
-    }
+}
 
     function resetSlider() {
         sliderHandle.style.left = '0';
