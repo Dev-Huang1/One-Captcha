@@ -647,6 +647,14 @@ function OneCaptchaInit() {
                 checkMark.style.transform = 'scale(1)';
             }, 50);  
         }, 300);
+
+        setTimeout(() => {
+            sliderCaptcha.style.opacity = '0';
+            setTimeout(() => {
+                sliderCaptcha.style.display = 'none';
+                resetCaptcha();
+            }, 400);
+        }, 1000);
     }
 
     function resetSlider() {
@@ -730,18 +738,18 @@ function OneCaptchaInit() {
     }
 
     function resetCaptcha() {
-        verifyCheckbox.checked = false;
-        verifyCheckbox.style.display = 'inline-block';
-        verifyCheckbox.style.opacity = '1';
-        verifyCheckbox.style.transform = 'scale(1)';
-        document.getElementById('captcha-label').style.display = 'inline-block';
-        document.getElementById('check-mark').style.display = 'none';
-        document.getElementById('success-message').style.display = 'none';
-        sliderCaptcha.style.display = 'none';
-        resetSlider();
-        // changeImageAndPosition();
-        document.removeEventListener('visibilitychange', handleVisibilityChange);
-    }
+    verifyCheckbox.checked = false;
+    verifyCheckbox.style.display = 'inline-block';
+    verifyCheckbox.style.opacity = '1';
+    verifyCheckbox.style.transform = 'scale(1)';
+    document.getElementById('captcha-label').style.display = 'inline-block';
+    document.getElementById('check-mark').style.display = 'none';
+    document.getElementById('success-message').style.display = 'none';
+    sliderCaptcha.style.opacity = '0';
+    sliderCaptcha.style.display = 'none';
+    resetSlider();
+    document.removeEventListener('visibilitychange', handleVisibilityChange);
+}
 
     function generateToken() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
