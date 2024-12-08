@@ -539,14 +539,14 @@ function OneCaptchaInit() {
         piecePosition = pieceX;
         resetSlider();
 
-        setTimeout(() => {
-            sliderCaptcha.style.opacity = '1';
-        }, 50);
+        sliderCaptcha.style.transition = 'opacity 0.4s ease';
+        sliderCaptcha.style.opacity = '1';
     };
 
     sliderCaptcha.style.opacity = '0';
     sliderCaptcha.style.display = 'block';
 }
+
 
 
     function startDragging(e) {
@@ -627,9 +627,7 @@ function OneCaptchaInit() {
 
     verifyCheckbox.style.display = 'none';
     document.addEventListener('visibilitychange', handleVisibilityChange);
-}
-
-
+    }
 
     function resetSlider() {
         sliderHandle.style.left = '0';
