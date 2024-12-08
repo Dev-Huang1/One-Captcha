@@ -94,6 +94,7 @@ function OneCaptchaInit() {
         overflow: hidden;
         padding: 15px;
         font-family: Arial, sans-serif;
+        transition: opacity 0.4s ease;
     }
     #slider-captcha-footer {
         display: flex;
@@ -365,6 +366,7 @@ function OneCaptchaInit() {
     const errorMessage = document.getElementById('error-message');
     const headerText = document.getElementById('slider-captcha-header-text');
     const smallHeaderText = document.getElementById('slider-captcha-header-text2');
+    const body = document.body;
 
     const images = ['image1.jpeg', 'image2.jpeg', 'image3.jpg', 'img018.png', 'img072.jpg', 'img102.jpeg', 'img181.jpeg', 'img193.jpeg', 'img273.jpeg', 'img372.jpeg', 'img392.jpeg', 'img398.jpeg', 'img462.jpg', 'img482.jpeg', 'img492.jpeg', 'img592.jpg', 'img638.jpg', 'img639.jpeg', 'img639.jpg', 'img648.jpg', 'img657.jpeg', 'img857.jpeg', 'img928.jpeg'];
     let currentImage;
@@ -489,6 +491,21 @@ function OneCaptchaInit() {
         document.getElementById('slider-captcha-header-text2').textContent = translations[language].smallHeaderText;
     }
 
+    body.addEventListener('click', (event) => {
+    if (!sliderCaptcha.contains(event.target) && event.target !== verifyCheckbox) {
+        // 渐变隐藏 slider-captcha
+        sliderCaptcha.style.opacity = '0';
+        setTimeout(() => {
+            sliderCaptcha.style.display = 'none';
+
+            // 恢复 checkbox
+            verifyCheckbox.style.display = 'inline-block';
+            verifyCheckbox.style.opacity = '1';
+            verifyCheckbox.style.transform = 'scale(1)';
+        }, 400);
+    }
+});
+
     verifyCheckbox.addEventListener('change', async function() {
     if (this.checked) {
         this.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
@@ -501,12 +518,6 @@ function OneCaptchaInit() {
             spinner.style.display = 'inline-block';
             setTimeout(() => {
                 spinner.style.opacity = '1';
-                /* checkIPRateLimit().then(isAllowed => {
-                    if (!isAllowed) {
-                        this.checked = false;
-                        showRateLimitWarning();
-                        return;
-                    } */
                     sliderCaptcha.style.opacity = '0';
                     sliderCaptcha.style.display = 'block';
                     showSliderCaptcha();
