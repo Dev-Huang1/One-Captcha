@@ -618,14 +618,12 @@ function OneCaptchaInit() {
         }, 50);
     }, 300);
 
-    setTimeout(() => {
         sliderCaptcha.style.transition = 'opacity 0.4s ease';
         sliderCaptcha.style.opacity = '0' // 0
 
         setTimeout(() => {
             sliderCaptcha.style.display = 'none';
         }, 400);
-    }, 1000);
 
     verifyCheckbox.style.display = 'none';
     document.addEventListener('visibilitychange', handleVisibilityChange);
