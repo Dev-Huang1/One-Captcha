@@ -503,30 +503,16 @@ function OneCaptchaInit() {
             spinner.style.display = 'inline-block';
             spinner.style.opacity = '1';
 
-            sliderCaptcha.style.opacity = '0';
-            sliderCaptcha.style.display = 'block';
-
-            setTimeout(() => {
-                sliderCaptcha.style.opacity = '1';
-                showSliderCaptcha();
-            }, 50);
+            showSliderCaptcha();
         }, 300);
     }
 });
-
 
     function showSliderCaptcha() {
     currentImage = images[Math.floor(Math.random() * images.length)];
     puzzleImage.src = `https://onecaptcha.us.kg/assets/v3/${currentImage}`;
 
     puzzleImage.onload = () => {
-        sliderCaptcha.style.opacity = '0';
-        sliderCaptcha.style.display = 'block';
-
-        setTimeout(() => {
-            sliderCaptcha.style.opacity = '1';
-        }, 50);
-
         const pieceSize = 50;
         const maxX = puzzleImage.width - pieceSize;
         const maxY = puzzleImage.height - pieceSize;
@@ -554,10 +540,12 @@ function OneCaptchaInit() {
         resetSlider();
 
         setTimeout(() => {
-            puzzlePiece.style.display = 'block';
-            puzzleHole.style.display = 'block';
-        }, 100);
+            sliderCaptcha.style.opacity = '1';
+        }, 50);
     };
+
+    sliderCaptcha.style.opacity = '0';
+    sliderCaptcha.style.display = 'block';
 }
 
 
@@ -639,6 +627,8 @@ function OneCaptchaInit() {
     verifyCheckbox.style.display = 'none';
     document.addEventListener('visibilitychange', handleVisibilityChange);
 }
+
+
     function resetSlider() {
         sliderHandle.style.left = '0';
         sliderTrack.style.width = '0';
