@@ -588,7 +588,7 @@ function OneCaptchaInit() {
             if (isHumanLikeMovement()) {
                 showSuccessMessage();
                 OneCaptchaCallback();
-                sliderCaptcha.style.display = 'none';
+                // sliderCaptcha.style.display = 'none';
                 document.addEventListener('visibilitychange', handleVisibilityChange);
             } else {
                 document.getElementById('error-message').style.display = 'block';
@@ -620,7 +620,7 @@ function OneCaptchaInit() {
 
     setTimeout(() => {
         sliderCaptcha.style.transition = 'opacity 0.4s ease';
-        sliderCaptcha.style.opacity = '1' // 0
+        sliderCaptcha.style.opacity = '0' // 0
 
         setTimeout(() => {
             sliderCaptcha.style.display = 'none';
