@@ -514,24 +514,24 @@ function OneCaptchaInit() {
     }
 });
 
+
     function showSliderCaptcha() {
     currentImage = images[Math.floor(Math.random() * images.length)];
     puzzleImage.src = `https://onecaptcha.us.kg/assets/v3/${currentImage}`;
 
     puzzleImage.onload = () => {
+        sliderCaptcha.style.opacity = '0';
+        sliderCaptcha.style.display = 'block';
+
+        setTimeout(() => {
+            sliderCaptcha.style.opacity = '1';
+        }, 50);
+
         const pieceSize = 50;
         const maxX = puzzleImage.width - pieceSize;
         const maxY = puzzleImage.height - pieceSize;
-        const pieceX = Math.floor(Math.random() * (maxX - 50) + 50); 
+        const pieceX = Math.floor(Math.random() * (maxX - 50) + 50);
         const pieceY = Math.floor(Math.random() * maxY);
-
-        // 确保拼图块元素存在
-        if (!document.getElementById('puzzle-piece')) {
-            const newPuzzlePiece = document.createElement('div');
-            newPuzzlePiece.id = 'puzzle-piece';
-            document.getElementById('puzzle-container').appendChild(newPuzzlePiece);
-            puzzlePiece = newPuzzlePiece;
-        }
 
         puzzlePiece.style.left = '0px';
         puzzlePiece.style.top = `${pieceY}px`;
@@ -539,34 +539,27 @@ function OneCaptchaInit() {
         puzzlePiece.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
         puzzlePiece.style.backgroundSize = `${puzzleImage.width}px ${puzzleImage.height}px`;
         puzzlePiece.style.display = 'block';
-        puzzlePiece.style.zIndex = '1000'; // 确保拼图块在最上层
 
-        // 移除旧的拼图洞
         const oldPuzzleHole = document.getElementById('puzzle-hole');
-        if (oldPuzzleHole) {
-            oldPuzzleHole.remove();
-        }
+        if (oldPuzzleHole) oldPuzzleHole.remove();
 
         const puzzleHole = document.createElement('div');
         puzzleHole.id = 'puzzle-hole';
         puzzleHole.style.left = `${pieceX}px`;
         puzzleHole.style.top = `${pieceY}px`;
         puzzleHole.style.display = 'block';
-        puzzleHole.style.zIndex = '999'; // 确保拼图洞在拼图块下面
         document.getElementById('puzzle-container').appendChild(puzzleHole);
 
         piecePosition = pieceX;
-        sliderCaptcha.style.display = 'block';
         resetSlider();
 
-        // 确保所有元素都正确显示
         setTimeout(() => {
             puzzlePiece.style.display = 'block';
             puzzleHole.style.display = 'block';
-            sliderCaptcha.style.opacity = '1';
         }, 100);
     };
 }
+
 
     function startDragging(e) {
         e.preventDefault();
@@ -645,8 +638,7 @@ function OneCaptchaInit() {
 
     verifyCheckbox.style.display = 'none';
     document.addEventListener('visibilitychange', handleVisibilityChange);
-    }
-
+}
     function resetSlider() {
         sliderHandle.style.left = '0';
         sliderTrack.style.width = '0';
@@ -740,6 +732,7 @@ function OneCaptchaInit() {
     resetSlider();
     document.removeEventListener('visibilitychange', handleVisibilityChange);
 }
+
 
     function generateToken() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
