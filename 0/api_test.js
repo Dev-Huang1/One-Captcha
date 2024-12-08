@@ -491,21 +491,6 @@ function OneCaptchaInit() {
         document.getElementById('slider-captcha-header-text2').textContent = translations[language].smallHeaderText;
     }
 
-    body.addEventListener('click', (event) => {
-    if (!sliderCaptcha.contains(event.target) && event.target !== verifyCheckbox) {
-        // 渐变隐藏 slider-captcha
-        sliderCaptcha.style.opacity = '0';
-        setTimeout(() => {
-            sliderCaptcha.style.display = 'none';
-
-            // 恢复 checkbox
-            verifyCheckbox.style.display = 'inline-block';
-            verifyCheckbox.style.opacity = '1';
-            verifyCheckbox.style.transform = 'scale(1)';
-        }, 400);
-    }
-});
-
     verifyCheckbox.addEventListener('change', () => {
     if (verifyCheckbox.checked) {
         verifyCheckbox.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
@@ -514,6 +499,10 @@ function OneCaptchaInit() {
 
         setTimeout(() => {
             verifyCheckbox.style.display = 'none';
+            const spinner = document.getElementById('loading-spinner');
+            spinner.style.display = 'inline-block';
+            spinner.style.opacity = '1';
+
             sliderCaptcha.style.opacity = '0';
             sliderCaptcha.style.display = 'block';
 
@@ -658,6 +647,10 @@ function OneCaptchaInit() {
     document.addEventListener('visibilitychange', handleVisibilityChange);
 }
 
+    verifyCheckbox.style.display = 'none';
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+}
+
     function resetSlider() {
         sliderHandle.style.left = '0';
         sliderTrack.style.width = '0';
@@ -750,7 +743,7 @@ function OneCaptchaInit() {
     sliderCaptcha.style.display = 'none';
     resetSlider();
     document.removeEventListener('visibilitychange', handleVisibilityChange);
-    }
+}
 
     function generateToken() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
