@@ -632,30 +632,33 @@ function OneCaptchaInit() {
     }
 
     function showSuccessMessage() {
-        const spinner = document.getElementById('loading-spinner');
-        const checkMark = document.getElementById('check-mark');
-        spinner.style.opacity = '0'; // Fade out the spinner
-        document.getElementById('captcha-label').style.display = 'none';
-        document.getElementById('success-message').textContent = translations[detectLanguage()].successMessage;
-        document.getElementById('success-message').style.display = 'inline-block';
-    
-        setTimeout(() => {
-            spinner.style.display = 'none';
-            checkMark.style.display = 'inline-block';
-            setTimeout(() => {
-                checkMark.style.opacity = '1';
-                checkMark.style.transform = 'scale(1)';
-            }, 50);  
-        }, 300);
+    const spinner = document.getElementById('loading-spinner');
+    const checkMark = document.getElementById('check-mark');
+    spinner.style.opacity = '0';
+    document.getElementById('captcha-label').style.display = 'none';
+    document.getElementById('success-message').textContent = translations[detectLanguage()].successMessage;
+    document.getElementById('success-message').style.display = 'inline-block';
 
+    setTimeout(() => {
+        spinner.style.display = 'none';
+        checkMark.style.display = 'inline-block';
         setTimeout(() => {
-            sliderCaptcha.style.opacity = '0';
-            setTimeout(() => {
-                sliderCaptcha.style.display = 'none';
-                resetCaptcha();
-            }, 400);
-        }, 1000);
-    }
+            checkMark.style.opacity = '1';
+            checkMark.style.transform = 'scale(1)';
+        }, 50);
+    }, 300);
+
+    setTimeout(() => {
+        sliderCaptcha.style.opacity = '0';
+        setTimeout(() => {
+            sliderCaptcha.style.display = 'none';
+        }, 400);
+    }, 1000);
+
+    verifyCheckbox.style.display = 'none';
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+}
+
 
     function resetSlider() {
         sliderHandle.style.left = '0';
@@ -750,7 +753,6 @@ function OneCaptchaInit() {
     resetSlider();
     document.removeEventListener('visibilitychange', handleVisibilityChange);
 }
-
     function generateToken() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let token = '';
