@@ -620,7 +620,7 @@ function OneCaptchaInit() {
 
     setTimeout(() => {
         sliderCaptcha.style.transition = 'opacity 0.4s ease';
-        sliderCaptcha.style.opacity = '0'
+        sliderCaptcha.style.opacity = '1' // 0
 
         setTimeout(() => {
             sliderCaptcha.style.display = 'none';
