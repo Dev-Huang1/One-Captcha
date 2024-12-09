@@ -526,6 +526,7 @@ function OneCaptchaInit() {
         puzzlePiece.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
         puzzlePiece.style.backgroundSize = `${puzzleImage.width}px ${puzzleImage.height}px`;
         puzzlePiece.style.display = 'block';
+        puzzlePiece.style.zIndex = '1000';
 
         const oldPuzzleHole = document.getElementById('puzzle-hole');
         if (oldPuzzleHole) oldPuzzleHole.remove();
@@ -535,7 +536,6 @@ function OneCaptchaInit() {
         puzzleHole.style.left = `${pieceX}px`;
         puzzleHole.style.top = `${pieceY}px`;
         puzzleHole.style.display = 'block';
-        puzzlePiece.style.zIndex = '1000';
         document.getElementById('puzzle-container').appendChild(puzzleHole);
 
         piecePosition = pieceX;
