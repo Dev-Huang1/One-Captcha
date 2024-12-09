@@ -535,6 +535,7 @@ function OneCaptchaInit() {
         puzzleHole.style.left = `${pieceX}px`;
         puzzleHole.style.top = `${pieceY}px`;
         puzzleHole.style.display = 'block';
+        puzzlePiece.style.zIndex = '1000';
         document.getElementById('puzzle-container').appendChild(puzzleHole);
 
         piecePosition = pieceX;
