@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hide div on outside click</title>
+    <style>
+        #myDiv {
+            width: 200px;
+            height: 200px;
+            background-color: lightblue;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div id="myDiv">Click outside this box to hide it</div>
+
+    <script>
+        document.addEventListener('click', function(event) {
+            var div = document.getElementById('myDiv');
+            var isClickInside = div.contains(event.target);
+
+            if (!isClickInside) {
+                div.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
