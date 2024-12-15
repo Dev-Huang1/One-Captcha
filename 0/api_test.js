@@ -524,6 +524,7 @@ function OneCaptchaInit() {
 });
 
 
+
     function showSliderCaptcha() {
     currentImage = images[Math.floor(Math.random() * images.length)];
     puzzleImage.src = `https://onecaptcha.us.kg/assets/v3/${currentImage}`;
@@ -739,7 +740,8 @@ function OneCaptchaInit() {
     sliderCaptcha.style.display = 'none';
     resetSlider();
     document.removeEventListener('visibilitychange', handleVisibilityChange);
-    }
+}
+
 
 
     function generateToken() {
