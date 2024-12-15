@@ -493,34 +493,34 @@ function OneCaptchaInit() {
     }
 
     verifyCheckbox.addEventListener('change', () => {
-        if (verifyCheckbox.checked) {
-            verifyCheckbox.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
-            verifyCheckbox.style.transform = 'scale(0)';
-            verifyCheckbox.style.opacity = '0';
+    if (verifyCheckbox.checked) {
+        verifyCheckbox.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+        verifyCheckbox.style.transform = 'scale(0)';
+        verifyCheckbox.style.opacity = '0';
 
-            setTimeout(() => {
-                verifyCheckbox.style.display = 'none';
-                const spinner = document.getElementById('loading-spinner');
-                spinner.style.display = 'inline-block';
-                spinner.style.opacity = '1';
+        setTimeout(() => {
+            verifyCheckbox.style.display = 'none';
+            const spinner = document.getElementById('loading-spinner');
+            spinner.style.display = 'inline-block';
+            spinner.style.opacity = '1';
 
-                showSliderCaptcha();
-            }, 300);
-        }
-    });
+            showSliderCaptcha();
+        }, 300);
+    }
+});
 
         document.addEventListener('click', function(event) {
-        var isClickInside = sliderCaptcha.contains(event.target) || verifyCheckbox.contains(event.target);
+            var isClickInside = sliderCaptcha.contains(event.target);
 
-        if (!isClickInside) {
-            sliderCaptcha.style.transition = 'opacity 0.4s ease';
-            sliderCaptcha.style.opacity = '0';
+            if (!isClickInside) {
+                sliderCaptcha.style.transition = 'opacity 0.4s ease';
+                sliderCaptcha.style.opacity = '0'
 
-            setTimeout(() => {
-                sliderCaptcha.style.display = 'none';
-            }, 400);
-        }
-    });
+                setTimeout(() => {
+                    sliderCaptcha.style.display = 'none';
+                }, 400);
+            }
+        });
 
     function showSliderCaptcha() {
     currentImage = images[Math.floor(Math.random() * images.length)];
