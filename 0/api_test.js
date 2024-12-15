@@ -510,17 +510,19 @@ function OneCaptchaInit() {
 });
 
         document.addEventListener('click', function(event) {
-            var isClickInside = sliderCaptcha.contains(event.target);
+    if (!sliderCaptcha.contains(event.target) && event.target !== verifyCheckbox) {
+        sliderCaptcha.style.transition = 'opacity 0.4s ease';
+        sliderCaptcha.style.opacity = '0';
 
-            if (!isClickInside) {
-                sliderCaptcha.style.transition = 'opacity 0.4s ease';
-                sliderCaptcha.style.opacity = '0'
+        setTimeout(() => {
+            sliderCaptcha.style.display = 'none';
+            verifyCheckbox.style.display = 'inline-block';
+            verifyCheckbox.style.opacity = '1';
+            verifyCheckbox.style.transform = 'scale(1)';
+        }, 400);
+    }
+});
 
-                setTimeout(() => {
-                    sliderCaptcha.style.display = 'none';
-                }, 400);
-            }
-        });
 
     function showSliderCaptcha() {
     currentImage = images[Math.floor(Math.random() * images.length)];
@@ -737,7 +739,7 @@ function OneCaptchaInit() {
     sliderCaptcha.style.display = 'none';
     resetSlider();
     document.removeEventListener('visibilitychange', handleVisibilityChange);
-}
+    }
 
 
     function generateToken() {
