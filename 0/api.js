@@ -94,6 +94,7 @@ function OneCaptchaInit() {
         overflow: hidden;
         padding: 15px;
         font-family: Arial, sans-serif;
+        transition: opacity 0.4s ease;
     }
     #slider-captcha-footer {
         display: flex;
@@ -301,6 +302,7 @@ function OneCaptchaInit() {
          }
     </style>
     <div id="captcha-container">
+        <noscript>Please enable JavaScript to use our features</noscript>
         <div id="verify-section">
             <input type="checkbox" id="verify-checkbox">
             <label for="verify-checkbox" class="custom-checkbox"></label>
@@ -365,6 +367,7 @@ function OneCaptchaInit() {
     const errorMessage = document.getElementById('error-message');
     const headerText = document.getElementById('slider-captcha-header-text');
     const smallHeaderText = document.getElementById('slider-captcha-header-text2');
+    const body = document.body;
 
     const images = ['image1.jpeg', 'image2.jpeg', 'image3.jpg', 'img018.png', 'img072.jpg', 'img102.jpeg', 'img181.jpeg', 'img193.jpeg', 'img273.jpeg', 'img372.jpeg', 'img392.jpeg', 'img398.jpeg', 'img462.jpg', 'img482.jpeg', 'img492.jpeg', 'img592.jpg', 'img638.jpg', 'img639.jpeg', 'img639.jpg', 'img648.jpg', 'img657.jpeg', 'img857.jpeg', 'img928.jpeg'];
     let currentImage;
@@ -489,31 +492,37 @@ function OneCaptchaInit() {
         document.getElementById('slider-captcha-header-text2').textContent = translations[language].smallHeaderText;
     }
 
-    verifyCheckbox.addEventListener('change', async function() {
-    if (this.checked) {
-        this.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
-        this.style.transform = 'scale(0)';
-        this.style.opacity = '0';
-    
+    verifyCheckbox.addEventListener('change', () => {
+    if (verifyCheckbox.checked) {
+        verifyCheckbox.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+        verifyCheckbox.style.transform = 'scale(0)';
+        verifyCheckbox.style.opacity = '0';
+
         setTimeout(() => {
-            this.style.display = 'none';
+            verifyCheckbox.style.display = 'none';
             const spinner = document.getElementById('loading-spinner');
             spinner.style.display = 'inline-block';
-            setTimeout(() => {
-                spinner.style.opacity = '1';
-                /* checkIPRateLimit().then(isAllowed => {
-                    if (!isAllowed) {
-                        this.checked = false;
-                        showRateLimitWarning();
-                        return;
-                    } */
-                    sliderCaptcha.style.opacity = '0';
-                    sliderCaptcha.style.display = 'block';
-                    showSliderCaptcha();
-                });
-            }, 300);
-        }
-    });
+            spinner.style.opacity = '1';
+
+            showSliderCaptcha();
+        }, 300);
+    }
+});
+
+        document.addEventListener('click', function(event) {
+    if (!sliderCaptcha.contains(event.target) && event.target !== verifyCheckbox) {
+        sliderCaptcha.style.transition = 'opacity 0.4s ease';
+        sliderCaptcha.style.opacity = '0';
+
+        setTimeout(() => {
+            sliderCaptcha.style.display = 'none';
+            verifyCheckbox.style.display = 'inline-block';
+            verifyCheckbox.style.opacity = '1';
+            verifyCheckbox.style.transform = 'scale(1)';
+        }, 400);
+    }
+});
+
 
     function showSliderCaptcha() {
     currentImage = images[Math.floor(Math.random() * images.length)];
@@ -523,16 +532,8 @@ function OneCaptchaInit() {
         const pieceSize = 50;
         const maxX = puzzleImage.width - pieceSize;
         const maxY = puzzleImage.height - pieceSize;
-        const pieceX = Math.floor(Math.random() * (maxX - 50) + 50); 
+        const pieceX = Math.floor(Math.random() * (maxX - 50) + 50);
         const pieceY = Math.floor(Math.random() * maxY);
-
-        // 确保拼图块元素存在
-        if (!document.getElementById('puzzle-piece')) {
-            const newPuzzlePiece = document.createElement('div');
-            newPuzzlePiece.id = 'puzzle-piece';
-            document.getElementById('puzzle-container').appendChild(newPuzzlePiece);
-            puzzlePiece = newPuzzlePiece;
-        }
 
         puzzlePiece.style.left = '0px';
         puzzlePiece.style.top = `${pieceY}px`;
@@ -540,34 +541,30 @@ function OneCaptchaInit() {
         puzzlePiece.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
         puzzlePiece.style.backgroundSize = `${puzzleImage.width}px ${puzzleImage.height}px`;
         puzzlePiece.style.display = 'block';
-        puzzlePiece.style.zIndex = '1000'; // 确保拼图块在最上层
+        puzzlePiece.style.zIndex = '1000';
 
-        // 移除旧的拼图洞
         const oldPuzzleHole = document.getElementById('puzzle-hole');
-        if (oldPuzzleHole) {
-            oldPuzzleHole.remove();
-        }
+        if (oldPuzzleHole) oldPuzzleHole.remove();
 
         const puzzleHole = document.createElement('div');
         puzzleHole.id = 'puzzle-hole';
         puzzleHole.style.left = `${pieceX}px`;
         puzzleHole.style.top = `${pieceY}px`;
         puzzleHole.style.display = 'block';
-        puzzleHole.style.zIndex = '999'; // 确保拼图洞在拼图块下面
         document.getElementById('puzzle-container').appendChild(puzzleHole);
 
         piecePosition = pieceX;
-        sliderCaptcha.style.display = 'block';
         resetSlider();
 
-        // 确保所有元素都正确显示
-        setTimeout(() => {
-            puzzlePiece.style.display = 'block';
-            puzzleHole.style.display = 'block';
-            sliderCaptcha.style.opacity = '1';
-        }, 100);
+        sliderCaptcha.style.transition = 'opacity 0.4s ease';
+        sliderCaptcha.style.opacity = '1';
     };
+
+    sliderCaptcha.style.opacity = '0';
+    sliderCaptcha.style.display = 'block';
 }
+
+
 
     function startDragging(e) {
         e.preventDefault();
@@ -608,7 +605,7 @@ function OneCaptchaInit() {
             if (isHumanLikeMovement()) {
                 showSuccessMessage();
                 OneCaptchaCallback();
-                sliderCaptcha.style.display = 'none';
+                // sliderCaptcha.style.display = 'none';
                 document.addEventListener('visibilitychange', handleVisibilityChange);
             } else {
                 document.getElementById('error-message').style.display = 'block';
@@ -621,22 +618,34 @@ function OneCaptchaInit() {
     }
 
     function showSuccessMessage() {
-        const spinner = document.getElementById('loading-spinner');
-        const checkMark = document.getElementById('check-mark');
-        spinner.style.opacity = '0'; // Fade out the spinner
-        document.getElementById('captcha-label').style.display = 'none';
-        document.getElementById('success-message').textContent = translations[detectLanguage()].successMessage;
-        document.getElementById('success-message').style.display = 'inline-block';
-    
+    const spinner = document.getElementById('loading-spinner');
+    const checkMark = document.getElementById('check-mark');
+
+    spinner.style.opacity = '0';
+    document.getElementById('captcha-label').style.display = 'none';
+    document.getElementById('success-message').textContent = translations[detectLanguage()].successMessage;
+    document.getElementById('success-message').style.display = 'inline-block';
+
+    setTimeout(() => {
+        spinner.style.display = 'none';
+        checkMark.style.display = 'inline-block';
         setTimeout(() => {
-            spinner.style.display = 'none';
-            checkMark.style.display = 'inline-block';
-            setTimeout(() => {
-                checkMark.style.opacity = '1';
-                checkMark.style.transform = 'scale(1)';
-            }, 50);  
-        }, 300);
-    }
+            checkMark.style.opacity = '1';
+            checkMark.style.transform = 'scale(1)';
+        }, 50);
+    }, 300);
+
+        sliderCaptcha.style.transition = 'opacity 0.4s ease';
+        sliderCaptcha.style.opacity = '0'
+
+        setTimeout(() => {
+            sliderCaptcha.style.display = 'none';
+        }, 400);
+
+    verifyCheckbox.style.display = 'none';
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+}
+
 
     function resetSlider() {
         sliderHandle.style.left = '0';
@@ -719,18 +728,19 @@ function OneCaptchaInit() {
     }
 
     function resetCaptcha() {
-        verifyCheckbox.checked = false;
-        verifyCheckbox.style.display = 'inline-block';
-        verifyCheckbox.style.opacity = '1';
-        verifyCheckbox.style.transform = 'scale(1)';
-        document.getElementById('captcha-label').style.display = 'inline-block';
-        document.getElementById('check-mark').style.display = 'none';
-        document.getElementById('success-message').style.display = 'none';
-        sliderCaptcha.style.display = 'none';
-        resetSlider();
-        // changeImageAndPosition();
-        document.removeEventListener('visibilitychange', handleVisibilityChange);
-    }
+    verifyCheckbox.checked = false;
+    verifyCheckbox.style.display = 'inline-block';
+    verifyCheckbox.style.opacity = '1';
+    verifyCheckbox.style.transform = 'scale(1)';
+    document.getElementById('captcha-label').style.display = 'inline-block';
+    document.getElementById('check-mark').style.display = 'none';
+    document.getElementById('success-message').style.display = 'none';
+    sliderCaptcha.style.opacity = '0';
+    sliderCaptcha.style.display = 'none';
+    resetSlider();
+    document.removeEventListener('visibilitychange', handleVisibilityChange);
+}
+
 
     function generateToken() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
