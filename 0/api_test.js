@@ -509,6 +509,19 @@ function OneCaptchaInit() {
     }
 });
 
+        document.addEventListener('click', function(event) {
+            var isClickInside = sliderCaptcha.contains(event.target);
+
+            if (!isClickInside) {
+                sliderCaptcha.style.transition = 'opacity 0.4s ease';
+                sliderCaptcha.style.opacity = '0'
+
+                setTimeout(() => {
+                    sliderCaptcha.style.display = 'none';
+                }, 400);
+            }
+        });
+
     function showSliderCaptcha() {
     currentImage = images[Math.floor(Math.random() * images.length)];
     puzzleImage.src = `https://onecaptcha.us.kg/assets/v3/${currentImage}`;
@@ -621,7 +634,7 @@ function OneCaptchaInit() {
     }, 300);
 
         sliderCaptcha.style.transition = 'opacity 0.4s ease';
-        sliderCaptcha.style.opacity = '0' // 0
+        sliderCaptcha.style.opacity = '0'
 
         setTimeout(() => {
             sliderCaptcha.style.display = 'none';
