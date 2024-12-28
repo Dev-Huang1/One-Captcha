@@ -3,7 +3,7 @@ function OneCaptchaInit() {
     document.getElementById('one-captcha').innerHTML = `
         <style>
         #captcha-container {
-            all: unset;
+            /*all: unset;*/
             width: 260px;
             height: 40px;
             border: 1px solid #ccc;
