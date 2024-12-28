@@ -140,16 +140,14 @@
         </div>
 
         <div class="state">
-            <div id="state1"></div>
-            <div id="state2"></div>
+            <div id="state-text"></div>
         </div>
 
         <script>
             function state(count, count2) {
                 const state1 = getRandomDigits(count);
                 const state2 = getRandomDigits(count2);
-                document.getElementById('state1').textContent = state1 + ":";
-                document.getElementById('state2').textContent = state2;
+                document.getElementById('state-text').textContent = state1 + ":" + state2;
             }
 
             state(18, 8)
