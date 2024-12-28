@@ -356,17 +356,17 @@ function OneCaptchaInit() {
 </div>
     `;
     
-    const verifyCheckbox = document.getElementById('verify-checkbox');
-    const sliderCaptcha = document.getElementById('slider-captcha');
-    const puzzleImage = document.getElementById('puzzle-image');
-    const puzzlePiece = document.getElementById('puzzle-piece');
-    const sliderHandle = document.getElementById('slider-handle');
-    const sliderTrack = document.getElementById('slider-track');
-    const retryButton = document.getElementById('retry-button');
-    const successMessage = document.getElementById('success-message');
-    const errorMessage = document.getElementById('error-message');
-    const headerText = document.getElementById('slider-captcha-header-text');
-    const smallHeaderText = document.getElementById('slider-captcha-header-text2');
+    const verifyCheckbox = oneCaptchaRoot.getElementById('verify-checkbox');
+    const sliderCaptcha = oneCaptchaRoot.getElementById('slider-captcha');
+    const puzzleImage = oneCaptchaRoot.getElementById('puzzle-image');
+    const puzzlePiece = oneCaptchaRoot.getElementById('puzzle-piece');
+    const sliderHandle = oneCaptchaRoot.getElementById('slider-handle');
+    const sliderTrack = oneCaptchaRoot.getElementById('slider-track');
+    const retryButton = oneCaptchaRoot.getElementById('retry-button');
+    const successMessage = oneCaptchaRoot.getElementById('success-message');
+    const errorMessage = oneCaptchaRoot.getElementById('error-message');
+    const headerText = oneCaptchaRoot.getElementById('slider-captcha-header-text');
+    const smallHeaderText = oneCaptchaRoot.getElementById('slider-captcha-header-text2');
     const body = document.body;
 
     const images = ['image1.jpeg', 'image2.jpeg', 'image3.jpg', 'img018.png', 'img072.jpg', 'img102.jpeg', 'img181.jpeg', 'img193.jpeg', 'img273.jpeg', 'img372.jpeg', 'img392.jpeg', 'img398.jpeg', 'img462.jpg', 'img482.jpeg', 'img492.jpeg', 'img592.jpg', 'img638.jpg', 'img639.jpeg', 'img639.jpg', 'img648.jpg', 'img657.jpeg', 'img857.jpeg', 'img928.jpeg'];
