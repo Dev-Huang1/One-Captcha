@@ -346,7 +346,7 @@ function OneCaptchaInit() {
     <div id="slider-captcha-footer">
         <div id="powered-by">
             <img src="https://onecaptcha.us.kg/assets/logo/logo.svg" alt="One Captcha Logo">
-            Powered by Tech-Art
+            One Captcha
         </div>
         <div id="slider-captcha-actions">
             <a href="https://onecaptcha.us.kg/"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23888888'%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3Cpath d='M11 17h2v-6h-2v6zm1-15C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM11 9h2V7h-2v2z'/%3E%3C/svg%3E" alt="About"></a>
