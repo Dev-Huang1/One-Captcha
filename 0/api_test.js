@@ -1,6 +1,6 @@
 (function() {
 function OneCaptchaInit() {
-    const oneCaptchaRoot document.getElementById('one-captcha').attachShadow({ mode: 'open' });
+    const oneCaptchaRoot = document.getElementById('one-captcha').attachShadow({ mode: 'open' });
         oneCaptchaRoot.innerHTML = `
         <style>
         #captcha-container {
