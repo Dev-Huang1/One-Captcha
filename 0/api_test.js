@@ -4,20 +4,20 @@ function OneCaptchaInit() {
         oneCaptchaRoot.innerHTML = `
         <style>
         #one-captcha #captcha-container {
-            width: 260px;
-            height: 40px;
-            border: 1px solid #ccc;
-            padding: 20px;
+            width: 260px !important;
+            height: 40px !important;
+            border: 1px solid #ccc !important;
+            padding: 20px !important;
             /* margin: 50px 0; */
-            text-align: left;
-            box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.08);
-            border-radius: 3px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-family: Arial, sans-serif;
-            background-color: rgb(249, 249, 249);
-            color: #000000;
+            text-align: left !important;
+            box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.08) !important;
+            border-radius: 3px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            font-family: Arial, sans-serif !important;
+            background-color: rgb(249, 249, 249) !important;
+            color: #000000 !important;
         }
         #one-captcha #verify-section {
             display: flex;
