@@ -3,7 +3,7 @@ function OneCaptchaInit() {
     const oneCaptchaRoot = document.getElementById('one-captcha');
         oneCaptchaRoot.innerHTML = `
         <style>
-        #captcha-container {
+        #one-captcha #captcha-container {
             width: 260px;
             height: 40px;
             border: 1px solid #ccc;
@@ -19,11 +19,11 @@ function OneCaptchaInit() {
             background-color: rgb(249, 249, 249);
             color: #000000;
         }
-        #verify-section {
+        #one-captcha #verify-section {
             display: flex;
             align-items: center;
         }
-        #verify-checkbox {
+        #one-captcha #verify-checkbox {
             margin-right: 14px;
             width: 20px;
             height: 20px;
@@ -38,17 +38,17 @@ function OneCaptchaInit() {
             background: #fff;
             position: relative;
         }
-        #verify-checkbox:checked {
+        #one-captcha #verify-checkbox:checked {
             background-color: #fff;
         }
-        #verify-checkbox:checked::before {
+        #one-captcha #verify-checkbox:checked::before {
             transform: translate(-50%, -50%) scale(1.2);
         }
-        #captcha-label {
+        #one-captcha #captcha-label {
             /* margin-right: 20px; */
             max-width: 125px;
         }
-        #brand {
+        #one-captcha #brand {
             font-weight: bold;
             font-size: 14px;
             display: flex;
@@ -57,30 +57,30 @@ function OneCaptchaInit() {
             position: relative;
             margin-top: 23.5px;
         }
-        #brand img {
+        #one-captcha #brand img {
             width: 25px;
             position: absolute;
             right: 0;
             top: -26px;
         }
-        .privacy-terms-links {
+        #one-captcha .privacy-terms-links {
             display: flex;
             align-items: center;
         }
-        .privacy-terms-links a {
+        #one-captcha .privacy-terms-links a {
             text-decoration: none;
             align-items: flex-end;
             font-size: 11px;
             color: #aaaaaa;
             margin: 0 0px;
         }
-        .privacy-terms-links a:hover {
+        #one-captcha .privacy-terms-links a:hover {
             color: #a9a9a9;
         }
-        .privacy-terms-links p {
+        #one-captcha .privacy-terms-links p {
             margin: 0 3px;
         }
-        #slider-captcha {
+        #one-captcha #slider-captcha {
         display: none;
         position: fixed;
         top: 50%;
@@ -96,7 +96,7 @@ function OneCaptchaInit() {
         font-family: Arial, sans-serif;
         transition: opacity 0.4s ease;
     }
-    #slider-captcha-footer {
+    #one-captcha #slider-captcha-footer {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -105,7 +105,7 @@ function OneCaptchaInit() {
         border-top: 1px solid #e0e0e0;
     }
 
-    #slider-captcha-header {
+    #one-captcha #slider-captcha-header {
     height: 65px;
     background-color: #0066ff;
     color: #fff;
@@ -114,54 +114,54 @@ function OneCaptchaInit() {
     margin-bottom: 17px;
 }
 
-    #slider-captcha-header-subtext {
+    #one-captcha #slider-captcha-header-subtext {
         font-size: 13px;
     }
 
-    #slider-captcha-actions a {
+    #one-captcha #slider-captcha-actions a {
         text-decoration: none;
         display: inline-block;
     }
 
-    #powered-by {
+    #one-captcha #powered-by {
         display: flex;
         align-items: center;
         font-size: 12px;
         color: #888;
     }
 
-    #powered-by img {
+    #one-captcha #powered-by img {
         width: 16px;
         height: 16px;
         margin-right: 5px;
     }
 
-    #slider-captcha-actions {
+    #one-captcha #slider-captcha-actions {
         display: flex;
         align-items: center;
     }
 
-    #slider-captcha-actions img {
+    #one-captcha #slider-captcha-actions img {
         width: 16px;
         height: 16px;
         margin-left: 10px;
         cursor: pointer;
     }
     
-        #puzzle-container {
+        #one-captcha #puzzle-container {
             width: 100%;
             height: 200px;
             position: relative;
             overflow: hidden;
             margin-bottom: 20px;
         }
-        #puzzle-image {
+        #one-captcha #puzzle-image {
             width: 100%;
             height: 100%;
             object-fit: cover;
             border-radius: 4px;
         }
-        #slider {
+        #one-captcha #slider {
             width: 100%;
             height: 40px;
             background-color: #f0f0f0;
@@ -169,7 +169,7 @@ function OneCaptchaInit() {
             cursor: pointer;
             border-radius: 20px;
         }
-        #slider-handle {
+        #one-captcha #slider-handle {
             width: 40px;
             height: 40px;
             background-color: #0066ff;
@@ -183,13 +183,13 @@ function OneCaptchaInit() {
             align-items: center;
             color: white;
         }
-        #slider-track {
+        #one-captcha #slider-track {
             width: 0;
             height: 100%;
             background-color: #e0e0e0;
             border-radius: 20px;
         }
-        #puzzle-piece {
+        #one-captcha #puzzle-piece {
             position: absolute;
             width: 50px;
             height: 50px;
@@ -197,7 +197,7 @@ function OneCaptchaInit() {
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
             border-radius: 10px;
         }
-        #puzzle-hole {
+        #one-captcha #puzzle-hole {
             position: absolute;
             width: 50px;
             height: 50px;
@@ -205,25 +205,25 @@ function OneCaptchaInit() {
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.8) inset;
             border-radius: 10px;
         }
-        #puzzle-piece, #puzzle-hole {
+        #one-captcha #puzzle-piece, #puzzle-hole {
             pointer-events: none;
             will-change: transform;
         }
 
-        #success-message {
+        #one-captcha #success-message {
             display: none;
             color: #000000;
             text-align: center;
         }
 
-        #error-message {
+        #one-captcha #error-message {
             display: none;
             color: red;
             text-align: center;
             margin-top: 16px;
         }
         
-        #check-mark {
+        #one-captcha #check-mark {
             display: none;
             width: 35px;
             height: 35px;
@@ -233,7 +233,7 @@ function OneCaptchaInit() {
             transform: scale(0.8);
         }
 
-        #loading-spinner {
+        #one-captcha #loading-spinner {
             margin-right: 15px;
             display: none;
             border: 3px solid #f3f3f3;
@@ -251,51 +251,51 @@ function OneCaptchaInit() {
             100% { transform: rotate(360deg); }
         }
         @media (prefers-color-scheme: dark) {
-            #captcha-container {
+            #one-captcha #captcha-container {
                 border-color: #444;
                 background-color: rgb(54, 54, 54);
                 color: #ffffff;
             }
 
-            #verify-checkbox {
+            #one-captcha #verify-checkbox {
                 background: rgb(48, 48, 48);
                 outline: 2px solid rgb(110, 110, 110);
             }
         
-            #slider-captcha {
+            #one-captcha #slider-captcha {
             background-color: #2c2c2c;
             border-color: #444;
         }
 
-        #slider-captcha-footer {
+        #one-captcha #slider-captcha-footer {
             border-top-color: #444;
         }
 
-        #powered-by {
+        #one-captcha #powered-by {
             color: #aaa;
         }
         
-            #slider {
+            #one-captcha #slider {
                 background-color: #444;
             }
         
-            #slider-handle {
+            #one-captcha #slider-handle {
                 background-color: #0066ff;
             }
         
-            .privacy-terms-links a {
+            #one-captcha .privacy-terms-links a {
                 color: #888;
             }
         
-            .privacy-terms-links a:hover {
+            #one-captcha .privacy-terms-links a:hover {
                 color: #bbb;
             }
         
-            #success-message {
+            #one-captcha #success-message {
                 color: #fff;
             }
 
-            #loading-spinner {
+            #one-captcha #loading-spinner {
                 border: 3px solid #4B4B4B;
                 border-top: 3px solid #0066ff;
             }
