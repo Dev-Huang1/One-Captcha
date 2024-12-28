@@ -4,17 +4,7 @@ function OneCaptchaInit() {
 function injectStyles() {
     const style = document.createElement('style');
     style.textContent = `
-        
-    `;
-    document.head.appendChild(style);
-}
-injectStyles();
-
-
-    const oneCaptchaRoot = document.getElementById('one-captcha');
-        oneCaptchaRoot.innerHTML = `
-        <style>
-        #one-captcha #captcha-container {
+                #one-captcha #captcha-container {
             width: 260px;
             height: 40px;
             border: 1px solid #ccc;
@@ -311,7 +301,14 @@ injectStyles();
                 border-top: 3px solid #0066ff;
             }
          }
-    </style>
+    `;
+    document.head.appendChild(style);
+}
+injectStyles();
+
+
+    const oneCaptchaRoot = document.getElementById('one-captcha');
+        oneCaptchaRoot.innerHTML = `
     <div id="captcha-container">
         <noscript>Please enable JavaScript to use our features</noscript>
         <div id="verify-section">
