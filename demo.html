@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="0/api_test.js"></script>
+    <script src="assets/RandomDigits.js"></script>
     <title>Demo</title>
     <style>
         body {
@@ -131,6 +132,19 @@
                 Powered by One Captcha
             </div>
         </div>
+
+        <div id="state"></div>:<div id="state2"></div>
+
+        <script>
+            function state(count, count2) {
+                const state1 = RandomDigits(count);
+                const state2 = RandomDigits(count2);
+                document.getElementById('state').textContent = state1;
+                document.getElementById('state2').textContent = state2;
+            }
+
+            state(18, 8)
+        </script>
     </div>
 </body>
 </html>
