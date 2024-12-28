@@ -3,43 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>One Captcha Demo</title>
-    <script src="https://onecaptcha.us.kg/0/api_test.js"></script>
+    <title>Demo</title>
+    <script src="0/api_test.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('https://images.unsplash.com/photo-1584643248873-c17c7547a799?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .logo {
+            color: black;
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: red;
+        }
+
+        .title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .message {
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #666;
+            font-size: 13px;
+        }
+
+        .help-link {
+            color: #4285f4;
+            text-decoration: none;
+        }
+
+        .help-link:hover {
+            text-decoration: underline;
+        }
+
+        .captcha-info {
+            color: #999;
+            font-size: 12px;
+        }
+    </style>
 </head>
 <body>
-    <div id="one-captcha" data-callback="CaptchaSuccess"></div>
-    
-    <script>
-        async function CaptchaSuccess(token) {
-    // 获取名为 'OneCaptchaToken' 的 cookie 值
-    function getTokenCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-    }
+    <div class="card">
+        <div class="logo"><span>Y</span>andex</div>
+        
+        <div class="title">
+            Confirm that you're sending requests, not a robot
+        </div>
+        
+        <div class="message">
+            We're sorry, but the requests from your device appear to be automated.
+        </div>
 
-    // 获取 OneCaptchaToken 的 cookie
-    const cookieToken = getTokenCookie('OneCaptchaToken');
+        <div id="one-captcha" data-lang="en"></div>
 
-    // 哈希化 token
-    async function hashToken(token) {
-        const encoder = new TextEncoder();
-        const dataBuffer = encoder.encode(token);
-        const hashBuffer = await crypto.subtle.digest('SHA-512', dataBuffer);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        return hashHex;
-    }
-
-    // 比较 token 和 cookieToken 是否相同
-    const hashedToken = await hashToken(token); // 对传入的token进行哈希
-    if (hashedToken === cookieToken) {
-        alert('Success')；
-    } else {
-        alert('Token does not match the cookie.');
-    }
-}
-
-    </script>
+        <div class="footer">
+            <div>
+                Having problems? Please use the <a href="#" class="help-link">feedback form</a>
+            </div>
+            <div class="captcha-info">
+                SmartCaptcha by Yandex Cloud
+            </div>
+        </div>
+    </div>
 </body>
 </html>
