@@ -1,9 +1,9 @@
 (function() {
 function OneCaptchaInit() {
-    document.getElementById('one-captcha').innerHTML = `
+    const oneCaptchaRoot document.getElementById('one-captcha').attachShadow({ mode: 'open' });
+        oneCaptchaRoot.innerHTML = `
         <style>
         #captcha-container {
-            all: unset;
             width: 260px;
             height: 40px;
             border: 1px solid #ccc;
