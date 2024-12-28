@@ -81,7 +81,7 @@
             font-size: 12px;
         }
 
-        #state1, #state2 {
+        .state {
             margin-top: 35px;
             font-size: 12px;
             color: #999;
@@ -139,13 +139,17 @@
             </div>
         </div>
 
-        <div id="state"></div>:<div id="state2"></div>
+        <div class="state">
+            <div id="state1"></div>
+            :
+            <div id="state2"></div>
+        </div>
 
         <script>
             function state(count, count2) {
                 const state1 = getRandomDigits(count);
                 const state2 = getRandomDigits(count2);
-                document.getElementById('state').textContent = state1;
+                document.getElementById('state1').textContent = state1;
                 document.getElementById('state2').textContent = state2;
             }
 
