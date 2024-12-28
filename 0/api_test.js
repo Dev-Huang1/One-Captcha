@@ -1,5 +1,16 @@
 (function() {
 function OneCaptchaInit() {
+
+function injectStyles() {
+    const style = document.createElement('style');
+    style.textContent = `
+        
+    `;
+    document.head.appendChild(style);
+}
+injectStyles();
+
+
     const oneCaptchaRoot = document.getElementById('one-captcha');
         oneCaptchaRoot.innerHTML = `
         <style>
