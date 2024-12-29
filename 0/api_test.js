@@ -536,6 +536,8 @@ function OneCaptchaInit() {
     function positionSliderCaptcha() {
     const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
     if (isMobile) return;
+    const captchaContainer = document.getElementById('captcha-container');
+    const containerRect = captchaContainer.getBoundingClientRect();
 
     const verifyCheckbox = document.getElementById('verify-checkbox');
     const sliderCaptcha = document.getElementById('slider-captcha');
@@ -568,8 +570,8 @@ function OneCaptchaInit() {
             const order = ['left-top', 'left-bottom', 'right-top', 'right-bottom'];
             return order.indexOf(a.name) - order.indexOf(b.name);
         })[0];
-        sliderCaptcha.style.left = `${bestPosition.x}px`;
-        sliderCaptcha.style.top = `${bestPosition.y}px`;
+        sliderCaptcha.style.left = `${bestPosition.x - containerRect.left}px`;
+        sliderCaptcha.style.top = `${bestPosition.y - containerRect.top}px`;
         sliderCaptcha.style.position = 'absolute';
         sliderCaptcha.style.display = 'block';
     } else {
