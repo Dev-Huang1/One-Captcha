@@ -545,7 +545,7 @@ function OneCaptchaInit() {
     const checkboxRect = verifyCheckbox.getBoundingClientRect();
     const bodyRect = document.body.getBoundingClientRect();
     const sliderWidth = 285;
-    const sliderHeight = 100;
+    const sliderHeight = 350;
 
     const positions = [
         { name: 'left-top', x: checkboxRect.left - sliderWidth, y: checkboxRect.top - sliderHeight },
