@@ -523,6 +523,47 @@ function OneCaptchaInit() {
     }
 });
 
+    function positionSliderCaptcha() {
+    const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
+    if (isMobile) return;
+
+    const verifyCheckbox = document.getElementById('verify-checkbox');
+    const sliderCaptcha = document.getElementById('slider-captcha');
+
+    if (!verifyCheckbox || !sliderCaptcha) return;
+
+    const checkboxRect = verifyCheckbox.getBoundingClientRect();
+    const bodyRect = document.body.getBoundingClientRect();
+    const sliderWidth = 285;
+    const sliderHeight = 100;
+
+    const positions = [
+        { name: 'left-top', x: checkboxRect.left - sliderWidth, y: checkboxRect.top - sliderHeight },
+        { name: 'left-bottom', x: checkboxRect.left - sliderWidth, y: checkboxRect.bottom },
+        { name: 'right-top', x: checkboxRect.right, y: checkboxRect.top - sliderHeight },
+        { name: 'right-bottom', x: checkboxRect.right, y: checkboxRect.bottom },
+    ];
+
+    const validPositions = positions.filter(pos => {
+        return (
+            pos.x >= bodyRect.left &&
+            pos.y >= bodyRect.top &&
+            pos.x + sliderWidth <= bodyRect.right &&
+            pos.y + sliderHeight <= bodyRect.bottom
+        );
+    });
+
+    if (validPositions.length > 0) {
+        const bestPosition = validPositions.sort((a, b) => a.name.localeCompare(b.name))[0];
+        sliderCaptcha.style.left = `${bestPosition.x}px`;
+        sliderCaptcha.style.top = `${bestPosition.y}px`;
+        sliderCaptcha.style.position = 'absolute';
+        sliderCaptcha.style.display = 'block';
+    } else {
+        console.error('No valid position for slider-captcha.');
+    }
+}
+
 
     function showSliderCaptcha() {
     currentImage = images[Math.floor(Math.random() * images.length)];
@@ -535,6 +576,7 @@ function OneCaptchaInit() {
         const pieceX = Math.floor(Math.random() * (maxX - 50) + 50);
         const pieceY = Math.floor(Math.random() * maxY);
 
+        positionSliderCaptcha();
         puzzlePiece.style.left = '0px';
         puzzlePiece.style.top = `${pieceY}px`;
         puzzlePiece.style.backgroundImage = `url(https://onecaptcha.us.kg/assets/v3/${currentImage})`;
