@@ -521,7 +521,7 @@ function OneCaptchaInit() {
             verifyCheckbox.style.transform = 'scale(1)';
         }, 400);
     }
-})；
+});
 
 
     function showSliderCaptcha() {
