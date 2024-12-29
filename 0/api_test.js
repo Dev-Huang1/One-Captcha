@@ -565,6 +565,9 @@ function OneCaptchaInit() {
     } else {
         console.error('No valid position for slider-captcha.');
     }
+    
+    console.log("Checkbox Rect:", checkboxRect);
+    console.log("Valid Positions:", validPositions);
 }
 
 
