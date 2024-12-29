@@ -532,8 +532,6 @@ function OneCaptchaInit() {
 
     if (!verifyCheckbox || !sliderCaptcha) return;
 
-    sliderCaptcha.style.display = 'block';
-
     const checkboxRect = verifyCheckbox.getBoundingClientRect();
     const bodyRect = document.body.getBoundingClientRect();
     const sliderWidth = 285;
@@ -556,7 +554,10 @@ function OneCaptchaInit() {
     });
 
     if (validPositions.length > 0) {
-        const bestPosition = validPositions.sort((a, b) => a.name.localeCompare(b.name))[0];
+        const bestPosition = validPositions.sort((a, b) => {
+            const order = ['left-top', 'left-bottom', 'right-top', 'right-bottom'];
+            return order.indexOf(a.name) - order.indexOf(b.name);
+        })[0];
         sliderCaptcha.style.left = `${bestPosition.x}px`;
         sliderCaptcha.style.top = `${bestPosition.y}px`;
         sliderCaptcha.style.position = 'absolute';
