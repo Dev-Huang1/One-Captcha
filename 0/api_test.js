@@ -82,7 +82,10 @@ function OneCaptchaInit() {
         }
         #slider-captcha {
         display: none;
-        position: absolute;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         width: 285px;
         background-color: #fff;
         border: 1px solid #ccc;
@@ -241,19 +244,6 @@ function OneCaptchaInit() {
             opacity: 0;
             transition: opacity 0.3s ease-in-out;
             animation: spin 1s linear infinite;
-        }
-
-        @media screen and (max-width: 768px) {
-            #slider-captcha {
-                display: block;
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                width: 285px;
-                height: auto;
-                z-index: 1000;
-            }
         }
         
         @keyframes spin {
@@ -531,56 +521,7 @@ function OneCaptchaInit() {
             verifyCheckbox.style.transform = 'scale(1)';
         }, 400);
     }
-});
-
-    function positionSliderCaptcha() {
-    const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
-    if (isMobile) return;
-    const captchaContainer = document.getElementById('captcha-container');
-    const containerRect = captchaContainer.getBoundingClientRect();
-
-    const verifyCheckbox = document.getElementById('verify-checkbox');
-    const sliderCaptcha = document.getElementById('slider-captcha');
-
-    if (!verifyCheckbox || !sliderCaptcha) return;
-
-    const checkboxRect = verifyCheckbox.getBoundingClientRect();
-    const bodyRect = document.body.getBoundingClientRect();
-    const sliderWidth = 285;
-    const sliderHeight = 350;
-
-    const positions = [
-        { name: 'left-top', x: checkboxRect.left - sliderWidth, y: checkboxRect.top - sliderHeight },
-        { name: 'left-bottom', x: checkboxRect.left - sliderWidth, y: checkboxRect.bottom },
-        { name: 'right-top', x: checkboxRect.right, y: checkboxRect.top - sliderHeight },
-        { name: 'right-bottom', x: checkboxRect.right, y: checkboxRect.bottom },
-    ];
-
-    const validPositions = positions.filter(pos => {
-        return (
-            pos.x >= bodyRect.left &&
-            pos.y >= bodyRect.top &&
-            pos.x + sliderWidth <= bodyRect.right &&
-            pos.y + sliderHeight <= bodyRect.bottom
-        );
-    });
-
-    if (validPositions.length > 0) {
-        const bestPosition = validPositions.sort((a, b) => {
-            const order = ['left-top', 'left-bottom', 'right-top', 'right-bottom'];
-            return order.indexOf(a.name) - order.indexOf(b.name);
-        })[0];
-        sliderCaptcha.style.left = `${bestPosition.x - containerRect.left}px`;
-        sliderCaptcha.style.top = `${bestPosition.y - containerRect.top}px`;
-        sliderCaptcha.style.position = 'absolute';
-        sliderCaptcha.style.display = 'block';
-    } else {
-        console.error('No valid position for slider-captcha.');
-    }
-    
-    console.log("Checkbox Rect:", checkboxRect);
-    console.log("Valid Positions:", validPositions);
-}
+})；
 
 
     function showSliderCaptcha() {
@@ -594,7 +535,6 @@ function OneCaptchaInit() {
         const pieceX = Math.floor(Math.random() * (maxX - 50) + 50);
         const pieceY = Math.floor(Math.random() * maxY);
 
-        positionSliderCaptcha();
         puzzlePiece.style.left = '0px';
         puzzlePiece.style.top = `${pieceY}px`;
         puzzlePiece.style.backgroundImage = `url(https://onecaptcha.us.kg/assets/v3/${currentImage})`;
