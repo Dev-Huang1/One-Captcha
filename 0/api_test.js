@@ -82,10 +82,7 @@ function OneCaptchaInit() {
         }
         #slider-captcha {
         display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        position: absolute;
         width: 285px;
         background-color: #fff;
         border: 1px solid #ccc;
@@ -244,6 +241,19 @@ function OneCaptchaInit() {
             opacity: 0;
             transition: opacity 0.3s ease-in-out;
             animation: spin 1s linear infinite;
+        }
+
+        @media screen and (max-width: 768px) {
+            #slider-captcha {
+                display: block;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 285px;
+                height: auto;
+                z-index: 1000;
+            }
         }
         
         @keyframes spin {
