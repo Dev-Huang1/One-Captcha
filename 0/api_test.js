@@ -532,6 +532,8 @@ function OneCaptchaInit() {
 
     if (!verifyCheckbox || !sliderCaptcha) return;
 
+    sliderCaptcha.style.display = 'block';
+
     const checkboxRect = verifyCheckbox.getBoundingClientRect();
     const bodyRect = document.body.getBoundingClientRect();
     const sliderWidth = 285;
