@@ -464,7 +464,6 @@ function OneCaptchaInit() {
 
     const captchaElement = document.getElementById('one-captcha');
     const dataLang = captchaElement.getAttribute('data-lang');
-    const tokenTime = captchaElement.getAttribute('data-token-time');
 
     function detectLanguage() {
         if (dataLang) {
@@ -761,21 +760,23 @@ async function hashToken(token) {
     return hashHex;
 }
 
-function setCookie(name, value, seconds) {
+function setCookie(name, value, milliseconds) {
     let expires = "";
-    if (seconds) {
+    if (milliseconds) {
         const date = new Date();
-        date.setTime(date.getTime() + (seconds * 1000));
+        date.setTime(date.getTime() + milliseconds);
         expires = "; expires=" + date.toUTCString();
     }
     document.cookie = name + "=" + (value || "") + expires + "; path=/;";
 }
 
+
 async function OneCaptchaCallback() {
     const token = generateToken();
-    const hashedToken = await hashToken(token); // 先对token进行哈希
+    const hashedToken = await hashToken(token);
     var captchaElement = document.getElementById('one-captcha');
     var callbackFunctionName = captchaElement.getAttribute('data-callback');
+    var dataTime = captchaElement.getAttribute('data-time');
 
     setTimeout(() => {
         if (typeof window[callbackFunctionName] === 'function') {
@@ -785,7 +786,7 @@ async function OneCaptchaCallback() {
         }
     }, 500);
 
-    setCookie('OneCaptchaToken', hashedToken, tokenTime);
+    setCookie('OneCaptchaToken', hashedToken, dataTime);
 }
 
     applyTranslations(detectLanguage());
