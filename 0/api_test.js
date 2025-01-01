@@ -464,6 +464,7 @@ function OneCaptchaInit() {
 
     const captchaElement = document.getElementById('one-captcha');
     const dataLang = captchaElement.getAttribute('data-lang');
+    const tokenTime = captchaElement.getAttribute('data-token-time');
 
     function detectLanguage() {
         if (dataLang) {
@@ -784,7 +785,7 @@ async function OneCaptchaCallback() {
         }
     }, 500);
 
-    setCookie('OneCaptchaToken', hashedToken, 150);
+    setCookie('OneCaptchaToken', hashedToken, tokenTime);
 }
 
     applyTranslations(detectLanguage());
