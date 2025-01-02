@@ -8,7 +8,6 @@ function OneCaptchaInit() {
             height: 40px;
             border: 1px solid #ccc;
             padding: 20px;
-            /* margin: 50px 0; */
             text-align: left;
             box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.08);
             border-radius: 3px;
