@@ -378,7 +378,7 @@ function OneCaptchaInit() {
 
     fetch('https://onecaptcha.us.kg/0/translation.json')
     .then(response => response.json())
-    .then(data => {})
+    .then(data => {
 
     /*const translations = {
         en: {
@@ -492,6 +492,8 @@ function OneCaptchaInit() {
         document.getElementById('slider-captcha-header-text').textContent = translations[language].headerText;
         document.getElementById('slider-captcha-header-text2').textContent = translations[language].smallHeaderText;
     }
+
+    })
 
     verifyCheckbox.addEventListener('change', () => {
     if (verifyCheckbox.checked) {
