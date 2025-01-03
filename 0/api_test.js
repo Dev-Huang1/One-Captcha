@@ -380,7 +380,7 @@ function OneCaptchaInit() {
     .then(response => response.json())
 
 
-    const translations = {
+    /*const translations = {
         en: {
             captchaLabel: "I'm not a robot",
             verifyingText: "Verifying...",
@@ -461,7 +461,7 @@ function OneCaptchaInit() {
             headerText: "보안 문자를 작성해 주세요",
             smallHeaderText: "오류가 발생하면 재시도 버튼을 클릭하세요",
         },
-    };
+    };*/
 
     const captchaElement = document.getElementById('one-captcha');
     const dataLang = captchaElement.getAttribute('data-lang');
