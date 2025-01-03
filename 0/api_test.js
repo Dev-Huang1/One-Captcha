@@ -376,9 +376,9 @@ function OneCaptchaInit() {
     let startTime;
     let leaveTimer;
 
-    fetch('./translation.json')
+    fetch('/translation.json')
     .then(response => response.json())
-
+    .then(data => {})
 
     /*const translations = {
         en: {
