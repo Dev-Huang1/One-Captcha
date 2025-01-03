@@ -459,6 +459,10 @@ function OneCaptchaInit() {
         },
     };
 
+const script = document.createElement('script');
+script.src = 'translation.js';
+script.onload = () => {
+
     const captchaElement = document.getElementById('one-captcha');
     const dataLang = captchaElement.getAttribute('data-lang');
 
@@ -488,6 +492,10 @@ function OneCaptchaInit() {
         document.getElementById('slider-captcha-header-text').textContent = translations[language].headerText;
         document.getElementById('slider-captcha-header-text2').textContent = translations[language].smallHeaderText;
     }
+
+};
+document.head.appendChild(script);
+
 
     verifyCheckbox.addEventListener('change', () => {
     if (verifyCheckbox.checked) {
