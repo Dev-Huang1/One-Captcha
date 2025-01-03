@@ -44,7 +44,6 @@ function OneCaptchaInit() {
             transform: translate(-50%, -50%) scale(1.2);
         }
         #captcha-label {
-            /* margin-right: 20px; */
             max-width: 125px;
         }
         #brand {
@@ -376,6 +375,10 @@ function OneCaptchaInit() {
     let movements = [];
     let startTime;
     let leaveTimer;
+
+    fetch('./translation.json')
+    .then(response => response.json())
+
 
     const translations = {
         en: {
