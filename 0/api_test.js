@@ -457,11 +457,17 @@ function OneCaptchaInit() {
             headerText: "보안 문자를 작성해 주세요",
             smallHeaderText: "오류가 발생하면 재시도 버튼을 클릭하세요",
         },
+        ru: {
+            captchaLabel: "Я не робот",
+            verifyingText: "Проверка...",
+            privacyLink: "Конф",
+            docsLink: "Документ",
+            successMessage: "Проверка OK",
+            errorMessage: "Проверка не прошла, повторите",
+            headerText: "Пожалуйста, заполните CAPTCHA",
+            smallHeaderText: "В случае возникновения ошибки нажмите кнопку «Повторить».",
+        },
     };
-
-const script = document.createElement('script');
-script.src = 'translation.js';
-script.onload = () => {
 
     const captchaElement = document.getElementById('one-captcha');
     const dataLang = captchaElement.getAttribute('data-lang');
@@ -480,6 +486,7 @@ script.onload = () => {
         else if (userLang.startsWith('de')) return 'de';
         else if (userLang.startsWith('ja')) return 'ja';
         else if (userLang.startsWith('kr')) return 'kr';
+        else if (userLang.startsWith('ru')) return 'ru';
         else return userLang.includes('zh') ? 'zh' : 'en';
     }
 
@@ -492,10 +499,6 @@ script.onload = () => {
         document.getElementById('slider-captcha-header-text').textContent = translations[language].headerText;
         document.getElementById('slider-captcha-header-text2').textContent = translations[language].smallHeaderText;
     }
-
-};
-document.head.appendChild(script);
-
 
     verifyCheckbox.addEventListener('change', () => {
     if (verifyCheckbox.checked) {
