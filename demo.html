@@ -197,22 +197,6 @@
             function error() {
                  alert("Network error")
             }
-        
-          function isOldBrowser() {
-    const isModernBrowser = () => {
-        return 'fetch' in window && 'Promise' in window && 'assign' in Object && 'includes' in Array.prototype;
-    };
-
-
-    const userAgent = navigator.userAgent.toLowerCase();
-    const isOldBrowserByUA = /msie|trident|edge\/(1|12)/.test(userAgent);
-
-    return !isModernBrowser() || isOldBrowserByUA;
-}
-
-if (isOldBrowser()) {
-    alert("您的浏览器可能过时，某些功能可能无法正常使用。请考虑升级浏览器。");
-}
 
         </script>
     </div>
