@@ -761,7 +761,7 @@ function checkNetworkStatus() {
         })
         .catch(() => {
             if (wasOnline !== false) {
-                ;
+                OneCaptchaErrorRecoveryCallback();
                 wasOnline = false;
             }
         });
