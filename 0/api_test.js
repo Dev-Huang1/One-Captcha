@@ -749,14 +749,13 @@ function OneCaptchaInit() {
     document.removeEventListener('visibilitychange', handleVisibilityChange);
 }
 
-setInterval(() => {
-    if (!navigator.onLine) {
-        console.log("网络连接中断");
-    }
-}, 500);
+function checkNetworkStatus() {
+    fetch("https://www.google.com/favicon.ico", { method: "HEAD" })
+        .then(() => console.log("网络连接正常"))
+        .catch(() => console.log("网络连接中断"));
+}
 
-window.addEventListener('online', () => console.log("网络连接恢复"));
-window.addEventListener('offline', () => console.log("网络连接中断"));
+setInterval(checkNetworkStatus, 100);
 
     function generateToken() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
