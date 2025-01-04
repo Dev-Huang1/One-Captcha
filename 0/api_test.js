@@ -749,6 +749,25 @@ function OneCaptchaInit() {
     document.removeEventListener('visibilitychange', handleVisibilityChange);
 }
 
+function isOldBrowser() {
+    const isModernBrowser = () => {
+        return 'fetch' in window && 'Promise' in window && 'assign' in Object && 'includes' in Array.prototype;
+    };
+
+    const userAgent = navigator.userAgent.toLowerCase();
+    const isOldBrowserByUA = /msie|trident|edge\/(1|12)/.test(userAgent);
+
+    return !isModernBrowser() || isOldBrowserByUA;
+}
+
+if (isOldBrowser()) {
+    var captchaElement = document.getElementById('one-captcha');
+    var oldBrowserCallbackFunctionName = captchaElement.getAttribute('data-unsupport-callback');
+    if (typeof window[oldBrowserCallbackFunctionName] === 'function') {
+        window[oldBrowserCallbackFunctionName]();
+    };
+}
+
 let wasOnline = null;
 
 function checkNetworkStatus() {
