@@ -749,13 +749,26 @@ function OneCaptchaInit() {
     document.removeEventListener('visibilitychange', handleVisibilityChange);
 }
 
+let wasOnline = null;
+
 function checkNetworkStatus() {
     fetch("https://onecaptcha.us.kg/0/api.js", { method: "HEAD" })
-        .then(() => console.log("网络连接正常"))
-        .catch(() => console.log("网络连接中断"));
+        .then(() => {
+            if (wasOnline !== true) {
+                console.log("网络连接正常");
+                wasOnline = true;
+            }
+        })
+        .catch(() => {
+            if (wasOnline !== false) {
+                console.log("网络连接中断");
+                wasOnline = false;
+            }
+        });
 }
 
-setInterval(checkNetworkStatus, 100);
+setInterval(checkNetworkStatus, 200);
+
 
     function generateToken() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
