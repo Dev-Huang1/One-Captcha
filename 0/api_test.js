@@ -749,18 +749,14 @@ function OneCaptchaInit() {
     document.removeEventListener('visibilitychange', handleVisibilityChange);
 }
 
-function updateOnlineStatus() {
+setInterval(() => {
     if (!navigator.onLine) {
-        console.log("Offline");
+        console.log("网络连接中断");
     }
-}
+}, 500);
 
-
-updateOnlineStatus();
-
-window.addEventListener('online', () => console.log("Online"));
-window.addEventListener('offline', updateOnlineStatus);
-
+window.addEventListener('online', () => console.log("网络连接恢复"));
+window.addEventListener('offline', () => console.log("网络连接中断"));
 
     function generateToken() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
