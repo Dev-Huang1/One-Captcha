@@ -798,6 +798,15 @@ function setCookie(name, value, milliseconds) {
     document.cookie = name + "=" + (value || "") + expires + "; path=/;";
 }
 
+function OneCaptchaErrorCallback() {
+    var captchaElement = document.getElementById('one-captcha');
+    var errorCallbackFunctionName = captchaElement.getAttribute('error-callback');
+    if (typeof window[errorCallbackFunctionName] === 'function') {
+        window[errorCallbackFunctionName]();
+    } else {
+        console.error("Error Callback function not found.");
+    };
+};
 
 async function OneCaptchaCallback() {
     const token = generateToken();
