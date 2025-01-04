@@ -755,15 +755,13 @@ function checkNetworkStatus() {
     fetch("https://onecaptcha.us.kg/0/api.js", { method: "HEAD" })
         .then(() => {
             if (wasOnline !== true) {
-                setTimeout(() => {
-                    OneCaptchaErrorCallback();
-                }, 1000)
+                OneCaptchaErrorRecoveryCallback();
                 wasOnline = true;
             }
         })
         .catch(() => {
             if (wasOnline !== false) {
-                OneCaptchaErrorRecoveryCallback();
+                OneCaptchaErrorCallback();
                 wasOnline = false;
             }
         });
