@@ -170,7 +170,7 @@
             Please complete our CAPTCHA to verify that you are not a robot.
         </div>
 
-        <div id="one-captcha" data-lang="en" data-time="600000"></div>
+        <div id="one-captcha" data-lang="en" data-time="600000" error-callback="error"></div>
 
         <div class="footer">
             <div>
@@ -193,6 +193,10 @@
             }
 
             state(18, 8)
+
+            function error() {
+                 alert("Network error")
+            }
         
           function isOldBrowser() {
     const isModernBrowser = () => {
