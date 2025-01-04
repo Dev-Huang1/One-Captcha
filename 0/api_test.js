@@ -750,7 +750,7 @@ function OneCaptchaInit() {
 }
 
 function checkNetworkStatus() {
-    fetch("https://www.google.com/favicon.ico", { method: "HEAD" })
+    fetch("https://onecaptcha.us.kg/0/api.js", { method: "HEAD" })
         .then(() => console.log("网络连接正常"))
         .catch(() => console.log("网络连接中断"));
 }
