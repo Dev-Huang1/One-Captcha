@@ -755,13 +755,13 @@ function checkNetworkStatus() {
     fetch("https://onecaptcha.us.kg/0/api.js", { method: "HEAD" })
         .then(() => {
             if (wasOnline !== true) {
-                console.log("网络连接正常");
+                OneCaptchaErrorCallback();
                 wasOnline = true;
             }
         })
         .catch(() => {
             if (wasOnline !== false) {
-                console.log("网络连接中断");
+                ;
                 wasOnline = false;
             }
         });
@@ -805,6 +805,16 @@ function OneCaptchaErrorCallback() {
         window[errorCallbackFunctionName]();
     } else {
         console.error("Error Callback function not found.");
+    };
+};
+
+function OneCaptchaErrorRecoveryCallback() {
+    var captchaElement = document.getElementById('one-captcha');
+    var errorRecoveryCallbackFunctionName = captchaElement.getAttribute('error-recovery-callback');
+    if (typeof window[errorRecoveryCallbackFunctionName] === 'function') {
+        window[errorRecoveryCallbackFunctionName]();
+    } else {
+        console.error("Error Recovery Callback function not found.");
     };
 };
 
