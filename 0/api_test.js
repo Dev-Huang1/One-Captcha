@@ -749,6 +749,18 @@ function OneCaptchaInit() {
     document.removeEventListener('visibilitychange', handleVisibilityChange);
 }
 
+function updateOnlineStatus() {
+    if (!navigator.onLine) {
+        console.log("Offline");
+    }
+}
+
+
+updateOnlineStatus();
+
+window.addEventListener('online', () => console.log("Online"));
+window.addEventListener('offline', updateOnlineStatus);
+
 
     function generateToken() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
