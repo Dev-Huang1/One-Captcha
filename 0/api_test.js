@@ -761,7 +761,7 @@ function isOldBrowser() {
 }
 
 if (isOldBrowser()) {
-    var captchaElement = document.getElementById('one-captcha');
+    // var captchaElement = document.getElementById('one-captcha');
     var oldBrowserCallbackFunctionName = captchaElement.getAttribute('data-unsupport-callback');
     if (typeof window[oldBrowserCallbackFunctionName] === 'function') {
         window[oldBrowserCallbackFunctionName]();
@@ -818,7 +818,7 @@ function setCookie(name, value, milliseconds) {
 }
 
 function OneCaptchaErrorCallback() {
-    var captchaElement = document.getElementById('one-captcha');
+    // var captchaElement = document.getElementById('one-captcha');
     var errorCallbackFunctionName = captchaElement.getAttribute('error-callback');
     if (typeof window[errorCallbackFunctionName] === 'function') {
         window[errorCallbackFunctionName]();
@@ -828,7 +828,7 @@ function OneCaptchaErrorCallback() {
 };
 
 function OneCaptchaErrorRecoveryCallback() {
-    var captchaElement = document.getElementById('one-captcha');
+    // var captchaElement = document.getElementById('one-captcha');
     var errorRecoveryCallbackFunctionName = captchaElement.getAttribute('error-recovery-callback');
     if (typeof window[errorRecoveryCallbackFunctionName] === 'function') {
         window[errorRecoveryCallbackFunctionName]();
@@ -840,7 +840,7 @@ function OneCaptchaErrorRecoveryCallback() {
 async function OneCaptchaCallback() {
     const token = generateToken();
     const hashedToken = await hashToken(token);
-    var captchaElement = document.getElementById('one-captcha');
+    // var captchaElement = document.getElementById('one-captcha');
     var callbackFunctionName = captchaElement.getAttribute('data-callback');
     var dataTime = captchaElement.getAttribute('data-time');
 
