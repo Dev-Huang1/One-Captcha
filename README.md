@@ -68,12 +68,11 @@
 
 ## Help
 
-[Captcha demo](https://onecaptcha.us.kg/demo/v3-db) | [Docs](https://docs.xyehr.cn/docs/one-captcha) | [Report problem](mailto:evan.huang000@proton.me)
+[Captcha demo](https://onecaptcha.us.kg/demo) | [Docs](https://docs.xyehr.cn/docs/one-captcha) | [Report problem](mailto:evan.huang000@proton.me)
 
 ### Contact me
 
 **If you have any questions or suggestions, please contact me by emailing me to ask an issue or submit a request.**
 
 **E-mail:**
-**evan.huang000@outlook.com**
 **evan.huang000@proton.me**
