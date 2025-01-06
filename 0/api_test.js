@@ -706,6 +706,7 @@ function OneCaptchaInit() {
 }
     function changeImageAndPosition() {
         const puzzleHole = document.getElementById('puzzle-hole');
+        errorMessage.style.display = "none";
         if (puzzleHole) {
             puzzleHole.remove();
         }
