@@ -366,7 +366,7 @@ function OneCaptchaInit() {
     const headerText = document.getElementById('slider-captcha-header-text');
     const smallHeaderText = document.getElementById('slider-captcha-header-subtext');
 
-    const images = ['image1.jpeg', 'image2.jpeg', 'image3.jpg', 'img018.png', 'img072.jpg', 'img102.jpeg', 'img181.jpeg', 'img193.jpeg', 'img273.jpeg', 'img372.jpeg', 'img392.jpeg', 'img398.jpeg', 'img462.jpg', 'img482.jpeg', 'img492.jpeg', 'img592.jpg', 'img638.jpg', 'img639.jpeg', 'img639.jpg', 'img648.jpg', 'img657.jpeg', 'img857.jpeg', 'img928.jpeg', '1236.jpg', '1243.jpg', '1443.jpg', '2136.jpg', '3316.jpg', '3976.jpg', '4213.jpg', '4516.jpg', '4616.jpg', '6497.jpg', '7645.jpg', '7840.jpg', '9463.jpg', '9467.jpg'];
+    const images = ['image1.jpeg', 'image2.jpeg', 'image3.jpg', 'img072.jpg', 'img102.jpeg', 'img181.jpeg', 'img193.jpeg', 'img273.jpeg', 'img372.jpeg', 'img392.jpeg', 'img398.jpeg', 'img462.jpg', 'img482.jpeg', 'img492.jpeg', 'img592.jpg', 'img638.jpg', 'img639.jpeg', 'img639.jpg', 'img648.jpg', 'img657.jpeg', 'img857.jpeg', 'img928.jpeg', '1236.jpg', '1243.jpg', '1443.jpg', '2136.jpg', '3316.jpg', '3976.jpg', '4213.jpg', '4516.jpg', '4616.jpg', '6497.jpg', '7645.jpg', '7840.jpg', '9463.jpg', '9467.jpg'];
     let currentImage;
     let piecePosition;
     let isDragging = false;
