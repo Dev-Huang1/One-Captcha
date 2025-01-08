@@ -305,7 +305,6 @@ function OneCaptchaInit() {
             <input type="checkbox" id="verify-checkbox">
             <label for="verify-checkbox" class="custom-checkbox"></label>
             <div id="loading-spinner"></div>
-            <!--<img id="check-mark" src="assets/check-mark.svg" alt="Check Mark" style="display: none;">-->
             <svg id="check-mark" style="display: none;" xmlns="http://www.w3.org/2000/svg" height="24px"
             viewBox="0 -960 960 960" width="24px" fill="#4CAF50">
             <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
@@ -492,7 +491,6 @@ function OneCaptchaInit() {
 
     function applyTranslations(language) {
         document.getElementById('captcha-label').textContent = translations[language].captchaLabel;
-        //document.getElementById('retry-button').textContent = translations[language].retryButton;
         document.getElementById('privacy-link').textContent = translations[language].privacyLink;
         document.getElementById('docs-link').textContent = translations[language].docsLink;
         document.getElementById('error-message').textContent = translations[language].errorMessage;
