@@ -313,7 +313,7 @@ function OneCaptchaInit() {
             <span id="success-message" style="display: none;">Success</span>
         </div>
         <div id="brand">
-            <a href="https://github.com/Dev-Huang1/One-Captcha"><img src="https://onecaptcha.us.kg/assets/logo/logo.svg" alt="One Captcha Logo"></a>
+            <a href="https://github.com/Dev-Huang1/One-Captcha"><img src="../assets/logo/logo.svg" alt="One Captcha Logo"></a>
             One Captcha
             <div class="privacy-terms-links">
                 <a href="https://docs.xyehr.cn/docs/one-captcha/more/privacy" id="privacy-link">Privacy</a><p>·</p><a href="https://docs.xyehr.cn/docs/one-captcha" id="docs-link">Docs</a>
@@ -470,7 +470,7 @@ function OneCaptchaInit() {
             captchaLabel: "Nie jestem robotem",
             verifyingText: "Weryfikowanie...",
             privacyLink: "prywatność",
-            docsLink: "dokument",
+            docsLink: "doc",
             successMessage: "Weryfikacja OK",
             errorMessage: "Weryfikacja nie OK, próbuj znów",
             headerText: "Proszę wypełnić CAPTCHA",
