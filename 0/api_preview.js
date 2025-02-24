@@ -342,7 +342,7 @@ function OneCaptchaInit() {
     </div>
     <div id="slider-captcha-footer">
         <div id="powered-by">
-            <img src="https://onecaptcha.us.kg/assets/logo/logo.svg" alt="One Captcha Logo">
+            <img src="../assets/logo/logo.svg" alt="One Captcha Logo">
             One Captcha
         </div>
         <div id="slider-captcha-actions">
@@ -543,7 +543,7 @@ function OneCaptchaInit() {
 
     function showSliderCaptcha() {
     currentImage = images[Math.floor(Math.random() * images.length)];
-    puzzleImage.src = `https://onecaptcha.us.kg/assets/v3/${currentImage}`;
+    puzzleImage.src = `../assets/v3/${currentImage}`;
 
     puzzleImage.onload = () => {
         const pieceSize = 50;
