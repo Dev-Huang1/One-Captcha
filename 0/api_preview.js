@@ -466,6 +466,16 @@ function OneCaptchaInit() {
             headerText: "Пожалуйста, заполните CAPTCHA",
             smallHeaderText: "В случае возникновения ошибки нажмите кнопку «Повторить».",
         },
+        pl: {
+            captchaLabel: "Nie jestem robotem",
+            verifyingText: "Weryfikowanie...",
+            privacyLink: "prywatność",
+            docsLink: "dokument",
+            successMessage: "Weryfikacja OK",
+            errorMessage: "Weryfikacja nie OK, próbuj znów",
+            headerText: "Proszę wypełnić CAPTCHA",
+            smallHeaderText: "Jeśli wystąpi błąd, kliknij przycisk Ponów",
+        },
     };
 
     const captchaElement = document.getElementById('one-captcha');
@@ -486,6 +496,7 @@ function OneCaptchaInit() {
         else if (userLang.startsWith('ja')) return 'ja';
         else if (userLang.startsWith('kr')) return 'kr';
         else if (userLang.startsWith('ru')) return 'ru';
+        else if (userLang.startsWith('pl')) return 'pl';
         else return userLang.includes('zh') ? 'zh' : 'en';
     }
 
