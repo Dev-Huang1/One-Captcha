@@ -554,7 +554,7 @@ function OneCaptchaInit() {
 
         puzzlePiece.style.left = '0px';
         puzzlePiece.style.top = `${pieceY}px`;
-        puzzlePiece.style.backgroundImage = `url(https://onecaptcha.us.kg/assets/v3/${currentImage})`;
+        puzzlePiece.style.backgroundImage = `url(../assets/v3/${currentImage})`;
         puzzlePiece.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
         puzzlePiece.style.backgroundSize = `${puzzleImage.width}px ${puzzleImage.height}px`;
         puzzlePiece.style.display = 'block';
