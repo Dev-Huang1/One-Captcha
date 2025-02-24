@@ -305,7 +305,6 @@ function OneCaptchaInit() {
             <input type="checkbox" id="verify-checkbox">
             <label for="verify-checkbox" class="custom-checkbox"></label>
             <div id="loading-spinner"></div>
-            <!--<img id="check-mark" src="assets/check-mark.svg" alt="Check Mark" style="display: none;">-->
             <svg id="check-mark" style="display: none;" xmlns="http://www.w3.org/2000/svg" height="24px"
             viewBox="0 -960 960 960" width="24px" fill="#4CAF50">
             <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
@@ -314,7 +313,7 @@ function OneCaptchaInit() {
             <span id="success-message" style="display: none;">Success</span>
         </div>
         <div id="brand">
-            <a href="https://github.com/Dev-Huang1/One-Captcha"><img src="https://onecaptcha.us.kg/assets/logo/logo.svg" alt="One Captcha Logo"></a>
+            <a href="https://github.com/Dev-Huang1/One-Captcha"><img src="../assets/logo/logo.svg" alt="One Captcha Logo"></a>
             One Captcha
             <div class="privacy-terms-links">
                 <a href="https://docs.xyehr.cn/docs/one-captcha/more/privacy" id="privacy-link">Privacy</a><p>·</p><a href="https://docs.xyehr.cn/docs/one-captcha" id="docs-link">Docs</a>
@@ -343,7 +342,7 @@ function OneCaptchaInit() {
     </div>
     <div id="slider-captcha-footer">
         <div id="powered-by">
-            <img src="https://onecaptcha.us.kg/assets/logo/logo.svg" alt="One Captcha Logo">
+            <img src="../assets/logo/logo.svg" alt="One Captcha Logo">
             One Captcha
         </div>
         <div id="slider-captcha-actions">
@@ -366,7 +365,7 @@ function OneCaptchaInit() {
     const headerText = document.getElementById('slider-captcha-header-text');
     const smallHeaderText = document.getElementById('slider-captcha-header-subtext');
 
-    const images = ['image1.jpeg', 'image2.jpeg', 'image3.jpg', 'img018.png', 'img072.jpg', 'img102.jpeg', 'img181.jpeg', 'img193.jpeg', 'img273.jpeg', 'img372.jpeg', 'img392.jpeg', 'img398.jpeg', 'img462.jpg', 'img482.jpeg', 'img492.jpeg', 'img592.jpg', 'img638.jpg', 'img639.jpeg', 'img639.jpg', 'img648.jpg', 'img657.jpeg', 'img857.jpeg', 'img928.jpeg'];
+    const images = ['image1.jpeg', 'image2.jpeg', 'image3.jpg', 'img072.jpg', 'img102.jpeg', 'img181.jpeg', 'img193.jpeg', 'img273.jpeg', 'img372.jpeg', 'img392.jpeg', 'img398.jpeg', 'img462.jpg', 'img482.jpeg', 'img492.jpeg', 'img592.jpg', 'img638.jpg', 'img639.jpeg', 'img639.jpg', 'img648.jpg', 'img657.jpeg', 'img857.jpeg', 'img928.jpeg', '1236.jpg', '1243.jpg', '1443.jpg', '2136.jpg', '3316.jpg', '3976.jpg', '4213.jpg', '4516.jpg', '4616.jpg', '6497.jpg', '7645.jpg', '7840.jpg', '9463.jpg', '9467.jpg'];
     let currentImage;
     let piecePosition;
     let isDragging = false;
@@ -467,6 +466,16 @@ function OneCaptchaInit() {
             headerText: "Пожалуйста, заполните CAPTCHA",
             smallHeaderText: "В случае возникновения ошибки нажмите кнопку «Повторить».",
         },
+        pl: {
+            captchaLabel: "Nie jestem robotem",
+            verifyingText: "Weryfikowanie...",
+            privacyLink: "prywatność",
+            docsLink: "doc",
+            successMessage: "Weryfikacja OK",
+            errorMessage: "Weryfikacja nie OK, próbuj znów",
+            headerText: "Proszę wypełnić CAPTCHA",
+            smallHeaderText: "Jeśli wystąpi błąd, kliknij przycisk Ponów",
+        },
     };
 
     const captchaElement = document.getElementById('one-captcha');
@@ -487,12 +496,12 @@ function OneCaptchaInit() {
         else if (userLang.startsWith('ja')) return 'ja';
         else if (userLang.startsWith('kr')) return 'kr';
         else if (userLang.startsWith('ru')) return 'ru';
+        else if (userLang.startsWith('pl')) return 'pl';
         else return userLang.includes('zh') ? 'zh' : 'en';
     }
 
     function applyTranslations(language) {
         document.getElementById('captcha-label').textContent = translations[language].captchaLabel;
-        //document.getElementById('retry-button').textContent = translations[language].retryButton;
         document.getElementById('privacy-link').textContent = translations[language].privacyLink;
         document.getElementById('docs-link').textContent = translations[language].docsLink;
         document.getElementById('error-message').textContent = translations[language].errorMessage;
@@ -534,7 +543,7 @@ function OneCaptchaInit() {
 
     function showSliderCaptcha() {
     currentImage = images[Math.floor(Math.random() * images.length)];
-    puzzleImage.src = `https://onecaptcha.us.kg/assets/v3/${currentImage}`;
+    puzzleImage.src = `../assets/v3/${currentImage}`;
 
     puzzleImage.onload = () => {
         const pieceSize = 50;
@@ -545,7 +554,7 @@ function OneCaptchaInit() {
 
         puzzlePiece.style.left = '0px';
         puzzlePiece.style.top = `${pieceY}px`;
-        puzzlePiece.style.backgroundImage = `url(https://onecaptcha.us.kg/assets/v3/${currentImage})`;
+        puzzlePiece.style.backgroundImage = `url(../assets/v3/${currentImage})`;
         puzzlePiece.style.backgroundPosition = `-${pieceX}px -${pieceY}px`;
         puzzlePiece.style.backgroundSize = `${puzzleImage.width}px ${puzzleImage.height}px`;
         puzzlePiece.style.display = 'block';
@@ -613,7 +622,6 @@ function OneCaptchaInit() {
             if (isHumanLikeMovement()) {
                 showSuccessMessage();
                 OneCaptchaCallback();
-                // sliderCaptcha.style.display = 'none';
                 document.addEventListener('visibilitychange', handleVisibilityChange);
             } else {
                 document.getElementById('error-message').style.display = 'block';
@@ -667,19 +675,16 @@ function OneCaptchaInit() {
     const speeds = [];
     let prevSpeed = null;
     
-    // 计算每次移动的速度
     for (let i = 1; i < movements.length; i++) {
         const dx = movements[i].x - movements[i-1].x;
         const dt = movements[i].time - movements[i-1].time;
-        if (dt <= 0) continue; // 忽略无效的时间间隔
+        if (dt <= 0) continue;
         const speed = Math.abs(dx / dt);
         speeds.push(speed);
     }
 
-    // 如果速度计算不到
     if (speeds.length < 2) return false;
 
-    // 计算速度的平均值和标准差
     const meanSpeed = speeds.reduce((sum, s) => sum + s, 0) / speeds.length;
     const variance = speeds.reduce((sum, s) => sum + Math.pow(s - meanSpeed, 2), 0) / speeds.length;
     const stdDeviation = Math.sqrt(variance);
@@ -690,12 +695,11 @@ function OneCaptchaInit() {
         return true;
     }
 
-    // 计算速度的加速度
     let prevAcceleration = null;
     for (let i = 1; i < speeds.length; i++) {
         const acceleration = speeds[i] - speeds[i-1];
         if (prevAcceleration !== null) {
-            if (Math.abs(acceleration - prevAcceleration) > 0.2) { // 可调整
+            if (Math.abs(acceleration - prevAcceleration) > 0.2) {
                 return true;
             }
         }
@@ -712,8 +716,18 @@ function OneCaptchaInit() {
         showSliderCaptcha();
     }
 
+    function retryImageAndPosition() {
+        const puzzleHole = document.getElementById('puzzle-hole');
+        errorMessage.style.display = "none";
+        if (puzzleHole) {
+            puzzleHole.remove();
+        }
+        showSliderCaptcha();
+    }
+
+
     retryButton.addEventListener('click', function() {
-        changeImageAndPosition();
+        retryImageAndPosition();
     });
 
     sliderHandle.addEventListener('mousedown', startDragging);
@@ -761,7 +775,7 @@ function isOldBrowser() {
 }
 
 if (isOldBrowser()) {
-    var captchaElement = document.getElementById('one-captcha');
+    // var captchaElement = document.getElementById('one-captcha');
     var oldBrowserCallbackFunctionName = captchaElement.getAttribute('data-unsupport-callback');
     if (typeof window[oldBrowserCallbackFunctionName] === 'function') {
         window[oldBrowserCallbackFunctionName]();
@@ -771,7 +785,7 @@ if (isOldBrowser()) {
 let wasOnline = null;
 
 function checkNetworkStatus() {
-    fetch("https://onecaptcha.us.kg/0/api.js", { method: "HEAD" })
+    fetch("/api.js", { method: "HEAD" })
         .then(() => {
             if (wasOnline !== true) {
                 OneCaptchaErrorRecoveryCallback();
@@ -818,7 +832,7 @@ function setCookie(name, value, milliseconds) {
 }
 
 function OneCaptchaErrorCallback() {
-    var captchaElement = document.getElementById('one-captcha');
+    // var captchaElement = document.getElementById('one-captcha');
     var errorCallbackFunctionName = captchaElement.getAttribute('error-callback');
     if (typeof window[errorCallbackFunctionName] === 'function') {
         window[errorCallbackFunctionName]();
@@ -828,7 +842,7 @@ function OneCaptchaErrorCallback() {
 };
 
 function OneCaptchaErrorRecoveryCallback() {
-    var captchaElement = document.getElementById('one-captcha');
+    // var captchaElement = document.getElementById('one-captcha');
     var errorRecoveryCallbackFunctionName = captchaElement.getAttribute('error-recovery-callback');
     if (typeof window[errorRecoveryCallbackFunctionName] === 'function') {
         window[errorRecoveryCallbackFunctionName]();
@@ -840,7 +854,7 @@ function OneCaptchaErrorRecoveryCallback() {
 async function OneCaptchaCallback() {
     const token = generateToken();
     const hashedToken = await hashToken(token);
-    var captchaElement = document.getElementById('one-captcha');
+    // var captchaElement = document.getElementById('one-captcha');
     var callbackFunctionName = captchaElement.getAttribute('data-callback');
     var dataTime = captchaElement.getAttribute('data-time');
 
