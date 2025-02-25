@@ -170,7 +170,7 @@
             Please complete our CAPTCHA to verify that you are not a robot.
         </div>
 
-        <div id="one-captcha" data-lang="pl" data-time="600000" error-callback="error"></div>
+        <div id="one-captcha" data-lang="en" data-time="600000" error-callback="error" data-callback="callback"></div>
 
         <div class="footer">
             <div>
@@ -197,6 +197,10 @@
             function error() {
                  alert("Network error")
             }
+
+             function callback(){
+                  alert("Callback")
+             }
         </script>
     </div>
 </body>
