@@ -1,0 +1,41 @@
+name: Notify via Discord
+
+on:
+  # 当有人 star 仓库时
+  watch:
+    types: [started]
+  # 当有人 fork 仓库时
+  fork:
+  # 当有新的 issue 时
+  issues:
+    types: [opened]
+  # 当有新的 pull request 时
+  pull_request:
+    types: [opened]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Send Discord Notification
+        uses: appleboy/discord-action@master
+        with:
+          webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
+          webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+          message: |
+            ${{ github.actor }}: 
+            ${
+              github.event_name == 'watch' && 'starred the One-Captcha!' ||
+              github.event_name == 'fork' && 'forked the One-Captcha!' ||
+              github.event_name == 'issues' && format(
+                'created an issue on One-Captcha!\n**Title:** {0}\n**Body:** {1}',
+                github.event.issue.title,
+                github.event.issue.body
+              ) ||
+              github.event_name == 'pull_request' && format(
+                'created a pull request on One-Captcha!\n**Title:** {0}\n**Body:** {1}',
+                github.event.pull_request.title,
+                github.event.pull_request.body
+              )
+            }
