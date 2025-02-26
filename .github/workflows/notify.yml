@@ -20,10 +20,9 @@ jobs:
           webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
           webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
           message: |
-            ${{ github.actor }}: 
             ${{ 
-              github.event_name == 'watch' && 'starred the One-Captcha!' || 
-              github.event_name == 'fork' && 'forked the One-Captcha!' || 
-              github.event_name == 'issues' && format('created an issue on One-Captcha!\n**Title:** {0}\n**Body:** {1}', github.event.issue.title, github.event.issue.body) || 
-              github.event_name == 'pull_request' && format('created a pull request on One-Captcha!\n**Title:** {0}\n**Body:** {1}', github.event.pull_request.title, github.event.pull_request.body)
+              github.event_name == 'watch' && '${{ github.actor }} starred the One-Captcha!' || 
+              github.event_name == 'fork' && '${{ github.actor }} forked the One-Captcha!' || 
+              github.event_name == 'issues' && format('${{ github.actor }} created an issue on One-Captcha!**Title:** {0}**Body:** {1}', github.event.issue.title, github.event.issue.body) || 
+              github.event_name == 'pull_request' && format('${{ github.actor }} created a pull request on One-Captcha!**Title:** {0}**Body:** {1}', github.event.pull_request.title, github.event.pull_request.body)
             }}
