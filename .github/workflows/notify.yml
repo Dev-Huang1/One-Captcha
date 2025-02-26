@@ -23,6 +23,6 @@ jobs:
             ${{ 
               github.event_name == 'watch' && format('{0} starred the One-Captcha!', github.actor) || 
               github.event_name == 'fork' && format('{0} forked the One-Captcha!', github.actor) || 
-              github.event_name == 'issues' && format('{0} created an issue on One-Captcha: **Title:** {1}', github.actor, github.event.issue.title) || 
-              github.event_name == 'pull_request' && format('{0} created a pull request on One-Captcha: **Title:** {1}', github.actor, github.event.pull_request.title)
+              github.event_name == 'issues' && format('{0} created an issue on One-Captcha. **Title:** {1}', github.actor, github.event.issue.title) || 
+              github.event_name == 'pull_request' && format('{0} created a pull request on One-Captcha. **Title:** {1}', github.actor, github.event.pull_request.title)
             }}
