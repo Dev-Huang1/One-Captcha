@@ -1,4 +1,4 @@
-<div align="center"> 
+<div align="center">
 
 ![Banner](assets/One-Captcha-Banner.png)
 
