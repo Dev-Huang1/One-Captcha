@@ -785,7 +785,7 @@ if (isOldBrowser()) {
 let wasOnline = null;
 
 function checkNetworkStatus() {
-    fetch("/api.js", { method: "HEAD" })
+    fetch("/0/api.js", { method: "HEAD" })
         .then(() => {
             if (wasOnline !== true) {
                 OneCaptchaErrorRecoveryCallback();
